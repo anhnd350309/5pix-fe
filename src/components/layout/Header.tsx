@@ -19,100 +19,95 @@ const Header = () => {
   return (
     <>
       <header
-        className={` top-0 z-30 w-full bg-transparent transition-all ${
-          scrollActive ? ' pt-0 shadow-md' : ' pt-4'
-        }`}
-        // style={{ height: '400px' }} // Adjust the height as needed
+        className={` top-0 z-30 w-full bg-transparent transition-all ${scrollActive ? ' pt-0 shadow-md' : ' pt-4'
+          }`}
+      // style={{ height: '400px' }} // Adjust the height as needed
       >
         {/* <div className="absolute top-0 left-0 w-full h-full bg-cover bg-center -z-10" style={{ backgroundImage: "url('/assets/images/BG.png')" }}></div> */}
         <nav className='container mx-auto grid grid-flow-col px-8 py-3 sm:py-4 xl:px-16 relative z-10'>
           <div className='col-start-1 col-end-2 flex items-center'>
-        <Image
-          className='h-8 w-auto'
-          src='/assets/images/Logo.svg'
-          alt='Logo'
-          height={30}
-          width={100}
-        />
+            <Image
+              className='h-8 w-auto'
+              src='/assets/images/Logo.svg'
+              alt='Logo'
+              height={30}
+              width={100}
+            />
           </div>
           <ul className='col-start-4 col-end-8 hidden items-center text-white lg:flex'>
-        <LinkScroll
-          activeClass='active'
-          to='about'
-          spy
-          smooth
-          duration={1000}
-          onSetActive={() => {
-            setActiveLink('about')
-          }}
-          className={`animation-hover mx-2 inline-block cursor-pointer px-4 py-2 relative${
-            activeLink === 'about'
-          ? ' animation-active text-template-orange-500 '
-          : ' a text-white hover:text-template-orange-500'
-          }`}
-        >
-          Trang chủ
-        </LinkScroll>
-        <LinkScroll
-          activeClass='active'
-          to='feature'
-          spy
-          smooth
-          duration={1000}
-          onSetActive={() => {
-            setActiveLink('feature')
-          }}
-          className={`animation-hover mx-2 inline-block cursor-pointer px-4 py-2 relative${
-            activeLink === 'feature'
-          ? ' animation-active text-template-orange-500 '
-          : ' text-white hover:text-template-orange-500 '
-          }`}
-        >
-          Danh sách sự kiện
-        </LinkScroll>
-        <LinkScroll
-          activeClass='active'
-          to='pricing'
-          spy
-          smooth
-          duration={1000}
-          onSetActive={() => {
-            setActiveLink('pricing')
-          }}
-          className={`animation-hover mx-2 inline-block cursor-pointer px-4 py-2 relative${
-            activeLink === 'pricing'
-          ? ' animation-active text-template-orange-500 '
-          : ' text-white hover:text-template-orange-500 '
-          }`}
-        >
-          Về 5PIX
-        </LinkScroll>
-        <LinkScroll
-          activeClass='active'
-          to='preview'
-          spy
-          smooth
-          duration={1000}
-          onSetActive={() => {
-            setActiveLink('preview')
-          }}
-          className={`animation-hover mx-2 inline-block cursor-pointer px-4 py-2 relative${
-            activeLink === 'preview'
-          ? ' animation-active text-template-orange-500 '
-          : ' text-white hover:text-template-orange-500 '
-          }`}
-        >
-          Liên Hệ
-        </LinkScroll>
+            <LinkScroll
+              activeClass='active'
+              to='about'
+              spy
+              smooth
+              duration={1000}
+              onSetActive={() => {
+                setActiveLink('about')
+              }}
+              className={`animation-hover mx-2 inline-block cursor-pointer px-4 py-2 relative${activeLink === 'about'
+                ? ' animation-active text-template-orange-500 '
+                : ' a text-white hover:text-template-orange-500'
+                }`}
+            >
+              Trang chủ
+            </LinkScroll>
+            <LinkScroll
+              activeClass='active'
+              to='feature'
+              spy
+              smooth
+              duration={1000}
+              onSetActive={() => {
+                setActiveLink('feature')
+              }}
+              className={`animation-hover mx-2 inline-block cursor-pointer px-4 py-2 relative${activeLink === 'feature'
+                ? ' animation-active text-template-orange-500 '
+                : ' text-white hover:text-template-orange-500 '
+                }`}
+            >
+              Danh sách sự kiện
+            </LinkScroll>
+            <LinkScroll
+              activeClass='active'
+              to='pricing'
+              spy
+              smooth
+              duration={1000}
+              onSetActive={() => {
+                setActiveLink('pricing')
+              }}
+              className={`animation-hover mx-2 inline-block cursor-pointer px-4 py-2 relative${activeLink === 'pricing'
+                ? ' animation-active text-template-orange-500 '
+                : ' text-white hover:text-template-orange-500 '
+                }`}
+            >
+              Về 5PIX
+            </LinkScroll>
+            <LinkScroll
+              activeClass='active'
+              to='preview'
+              spy
+              smooth
+              duration={1000}
+              onSetActive={() => {
+                setActiveLink('preview')
+              }}
+              className={`animation-hover mx-2 inline-block cursor-pointer px-4 py-2 relative${activeLink === 'preview'
+                ? ' animation-active text-template-orange-500 '
+                : ' text-white hover:text-template-orange-500 '
+                }`}
+            >
+              Liên Hệ
+            </LinkScroll>
           </ul>
           <div className='col-start-10 col-end-12 flex items-center justify-end font-medium'>
-        <Link
-          href='/auth/login'
-          className='mx-2 capitalize tracking-wide text-white transition-all hover:text-template-orange-500 sm:mx-4'
-        >
-          Sign In
-        </Link>
-        <ButtonOutline onClick={() => signOut()}>Sign Out</ButtonOutline>
+            <Link
+              href='/auth/login'
+              className='mx-2 capitalize tracking-wide text-white transition-all hover:text-template-orange-500 sm:mx-4'
+            >
+              Sign In
+            </Link>
+            <ButtonOutline onClick={() => signOut()}>Sign Out</ButtonOutline>
           </div>
         </nav>
       </header>
@@ -130,11 +125,10 @@ const Header = () => {
               onSetActive={() => {
                 setActiveLink('about')
               }}
-              className={`mx-1 flex flex-col items-center border-t-2 px-3 py-2 text-xs transition-all sm:mx-2 sm:px-4 ${
-                activeLink === 'about'
-                  ? '  border-template-orange-500 text-template-orange-500'
-                  : ' border-transparent'
-              }`}
+              className={`mx-1 flex flex-col items-center border-t-2 px-3 py-2 text-xs transition-all sm:mx-2 sm:px-4 ${activeLink === 'about'
+                ? '  border-template-orange-500 text-template-orange-500'
+                : ' border-transparent'
+                }`}
             >
               <svg
                 className='h-6 w-6'
@@ -161,11 +155,10 @@ const Header = () => {
               onSetActive={() => {
                 setActiveLink('feature')
               }}
-              className={`mx-1 flex flex-col items-center border-t-2 px-3 py-2 text-xs transition-all sm:mx-2 sm:px-4 ${
-                activeLink === 'feature'
-                  ? '  border-template-orange-500 text-template-orange-500'
-                  : ' border-transparent '
-              }`}
+              className={`mx-1 flex flex-col items-center border-t-2 px-3 py-2 text-xs transition-all sm:mx-2 sm:px-4 ${activeLink === 'feature'
+                ? '  border-template-orange-500 text-template-orange-500'
+                : ' border-transparent '
+                }`}
             >
               <svg
                 className='h-6 w-6'
@@ -192,11 +185,10 @@ const Header = () => {
               onSetActive={() => {
                 setActiveLink('pricing')
               }}
-              className={`mx-1 flex flex-col items-center border-t-2 px-3 py-2 text-xs transition-all sm:mx-2 sm:px-4 ${
-                activeLink === 'pricing'
-                  ? '  border-template-orange-500 text-template-orange-500'
-                  : ' border-transparent '
-              }`}
+              className={`mx-1 flex flex-col items-center border-t-2 px-3 py-2 text-xs transition-all sm:mx-2 sm:px-4 ${activeLink === 'pricing'
+                ? '  border-template-orange-500 text-template-orange-500'
+                : ' border-transparent '
+                }`}
             >
               <svg
                 className='h-6 w-6'
@@ -223,11 +215,10 @@ const Header = () => {
               onSetActive={() => {
                 setActiveLink('preview')
               }}
-              className={`mx-1 flex flex-col items-center border-t-2 px-3 py-2 text-xs transition-all sm:mx-2 sm:px-4 ${
-                activeLink === 'preview'
-                  ? '  border-template-orange-500 text-template-orange-500'
-                  : ' border-transparent '
-              }`}
+              className={`mx-1 flex flex-col items-center border-t-2 px-3 py-2 text-xs transition-all sm:mx-2 sm:px-4 ${activeLink === 'preview'
+                ? '  border-template-orange-500 text-template-orange-500'
+                : ' border-transparent '
+                }`}
             >
               <svg
                 className='h-6 w-6'

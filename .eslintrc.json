@@ -97,6 +97,17 @@
   "overrides": [
     // Configuration for TypeScript files
     {
+      "files": ["**/*.ts?(x)"],
+      "parser": "@typescript-eslint/parser"
+    },
+    {
+      "files": ["**/*.js?(x)"],
+      "parserOptions": {
+        "sourceType": "module",
+        "ecmaVersion": 2015
+      }
+    },
+    {
       "files": ["**/*.test.tsx", "**/*.test.ts"]
     },
     {

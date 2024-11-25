@@ -11,5 +11,10 @@
     // "source.addMissingImports",
     "source.fixAll.eslint"
   ],
-  "cSpell.words": ["reduxjs"]
+  "cSpell.words": [
+    "reduxjs"
+  ],
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  }
 }
