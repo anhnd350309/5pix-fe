@@ -23,7 +23,7 @@ const Home = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
       <SEOHead title='5PIX' />
       <Layout>
         <Hero />
-        <Feature />
+        {/*<Feature />*/}
         {/* <Pricing /> */}
       </Layout>
     </>

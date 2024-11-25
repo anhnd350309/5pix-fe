@@ -2,7 +2,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import Image from "next/image"
 export default function EventCard() {
   return (
-    <Card className="max-w-[350px] max-h-[225px]">
+    <Card className="">
       <CardHeader>
         <Image src="/assets/images/event.png" alt="TA NANG TRAIL CHALLENGE 2025" width={600} height={400} className="rounded-t-lg" />
       </CardHeader>
