@@ -1,0 +1,1377 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "5PIX BACKEND",
+    "description": "\n        Base frame with FastAPI micro framework + Postgresql\n            - Login/Register with JWT\n            - Permission\n            - CRUD User\n            - Unit testing with Pytest\n            - Dockerize\n        ",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/healthcheck": {
+      "get": {
+        "tags": ["health-check"],
+        "summary": "Get",
+        "operationId": "get_healthcheck_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseSchemaBase"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/base": {
+      "post": {
+        "tags": ["Base"],
+        "summary": "Upload To Get Cdn",
+        "description": "API Upload image to S3 and return image CDN",
+        "operationId": "upload_to_get_cdn_base_post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_upload_to_get_cdn_base_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataResponse_ImageCdn_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": ["Login"],
+        "summary": "Login Access Token",
+        "operationId": "login_access_token_login_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataResponse_Token_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/register": {
+      "post": {
+        "tags": ["Register"],
+        "summary": "Register",
+        "operationId": "register_register_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserRegisterRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataResponse_UserItemResponse_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get",
+        "description": "API Get list User",
+        "operationId": "get_users_get",
+        "parameters": [
+          {
+            "required": false,
+            "schema": {
+              "title": "Page Size",
+              "exclusiveMaximum": 1001,
+              "exclusiveMinimum": 0,
+              "type": "integer",
+              "default": 10
+            },
+            "name": "page_size",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Page",
+              "exclusiveMinimum": 0,
+              "type": "integer",
+              "default": 1
+            },
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Sort By",
+              "type": "string",
+              "default": "id"
+            },
+            "name": "sort_by",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Order",
+              "type": "string",
+              "default": "desc"
+            },
+            "name": "order",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Page_UserItemResponse_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      },
+      "post": {
+        "tags": ["User"],
+        "summary": "Create",
+        "description": "API Create User",
+        "operationId": "create_users_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataResponse_UserItemResponse_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/users/me": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Detail Me",
+        "description": "API get detail current User",
+        "operationId": "detail_me_users_me_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataResponse_UserItemResponse_"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      },
+      "put": {
+        "tags": ["User"],
+        "summary": "Update Me",
+        "description": "API Update current User",
+        "operationId": "update_me_users_me_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdateMeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataResponse_UserItemResponse_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Detail",
+        "description": "API get Detail User",
+        "operationId": "detail_users__user_id__get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "User Id",
+              "type": "integer"
+            },
+            "name": "user_id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataResponse_UserItemResponse_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      },
+      "put": {
+        "tags": ["User"],
+        "summary": "Update",
+        "description": "API update User",
+        "operationId": "update_users__user_id__put",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "User Id",
+              "type": "integer"
+            },
+            "name": "user_id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataResponse_UserItemResponse_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/albums": {
+      "get": {
+        "tags": ["Album"],
+        "summary": "Get",
+        "description": "API Get list Album",
+        "operationId": "get_albums_get",
+        "parameters": [
+          {
+            "required": false,
+            "schema": {
+              "title": "Highlight",
+              "type": "boolean",
+              "default": false
+            },
+            "name": "highlight",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Page Size",
+              "exclusiveMaximum": 1001,
+              "exclusiveMinimum": 0,
+              "type": "integer",
+              "default": 10
+            },
+            "name": "page_size",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Page",
+              "exclusiveMinimum": 0,
+              "type": "integer",
+              "default": 1
+            },
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Sort By",
+              "type": "string",
+              "default": "id"
+            },
+            "name": "sort_by",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Order",
+              "type": "string",
+              "default": "desc"
+            },
+            "name": "order",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Page_AlbumItemResponse_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Album"],
+        "summary": "Create",
+        "description": "API Create Album",
+        "operationId": "create_albums_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlbumCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataResponse_AlbumItemResponse_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/albums/{album_id}": {
+      "put": {
+        "tags": ["Album"],
+        "summary": "Update",
+        "description": "API update Album",
+        "operationId": "update_albums__album_id__put",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Album Id",
+              "type": "integer"
+            },
+            "name": "album_id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlbumUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataResponse_AlbumItemResponse_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/albums/{album_id}/process-image": {
+      "put": {
+        "tags": ["Album"],
+        "summary": "Update",
+        "description": "API start process read image from file and Upload to S3",
+        "operationId": "update_albums__album_id__process_image_put",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Album Id",
+              "type": "integer"
+            },
+            "name": "album_id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataResponse_str_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/album-images": {
+      "get": {
+        "tags": ["Images"],
+        "summary": "Search",
+        "description": "API Search Album Image",
+        "operationId": "search_album_images_get",
+        "parameters": [
+          {
+            "required": false,
+            "schema": {
+              "title": "Album Id",
+              "type": "integer",
+              "default": 1
+            },
+            "name": "album_id",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/ImageSearchType"
+                }
+              ],
+              "default": "all"
+            },
+            "name": "search_type",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Bib Number",
+              "type": "string"
+            },
+            "name": "bib_number",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Page Size",
+              "exclusiveMaximum": 1001,
+              "exclusiveMinimum": 0,
+              "type": "integer",
+              "default": 10
+            },
+            "name": "page_size",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Page",
+              "exclusiveMinimum": 0,
+              "type": "integer",
+              "default": 1
+            },
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Sort By",
+              "type": "string",
+              "default": "id"
+            },
+            "name": "sort_by",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Order",
+              "type": "string",
+              "default": "desc"
+            },
+            "name": "order",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Page_AlbumImageItemResponse_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AlbumCreateRequest": {
+        "title": "AlbumCreateRequest",
+        "required": ["album_name", "album_image_url", "event_date", "is_highlight"],
+        "type": "object",
+        "properties": {
+          "album_name": {
+            "title": "Album Name",
+            "type": "string"
+          },
+          "album_image_url": {
+            "title": "Album Image Url",
+            "type": "string"
+          },
+          "event_date": {
+            "title": "Event Date",
+            "type": "string",
+            "format": "date"
+          },
+          "is_highlight": {
+            "title": "Is Highlight",
+            "type": "integer"
+          }
+        }
+      },
+      "AlbumImageItemResponse": {
+        "title": "AlbumImageItemResponse",
+        "required": [
+          "id",
+          "image_name",
+          "s3_image_url",
+          "cdn_image_url",
+          "image_metadata",
+          "created_at",
+          "updated_at"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "integer"
+          },
+          "image_name": {
+            "title": "Image Name",
+            "type": "string"
+          },
+          "s3_image_url": {
+            "title": "S3 Image Url",
+            "type": "string"
+          },
+          "cdn_image_url": {
+            "title": "Cdn Image Url",
+            "type": "string"
+          },
+          "image_metadata": {
+            "title": "Image Metadata",
+            "type": "string"
+          },
+          "created_at": {
+            "title": "Created At",
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "title": "Updated At",
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "AlbumItemResponse": {
+        "title": "AlbumItemResponse",
+        "required": [
+          "album_name",
+          "id",
+          "album_image_url",
+          "event_date",
+          "is_highlight",
+          "created_at",
+          "updated_at"
+        ],
+        "type": "object",
+        "properties": {
+          "album_name": {
+            "title": "Album Name",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "integer"
+          },
+          "album_image_url": {
+            "title": "Album Image Url",
+            "type": "string"
+          },
+          "event_date": {
+            "title": "Event Date",
+            "type": "string",
+            "format": "date-time"
+          },
+          "is_highlight": {
+            "title": "Is Highlight",
+            "type": "integer"
+          },
+          "created_at": {
+            "title": "Created At",
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "title": "Updated At",
+            "type": "string",
+            "format": "date-time"
+          },
+          "total_image": {
+            "title": "Total Image",
+            "type": "integer",
+            "default": 0
+          }
+        }
+      },
+      "AlbumUpdateRequest": {
+        "title": "AlbumUpdateRequest",
+        "type": "object",
+        "properties": {
+          "album_name": {
+            "title": "Album Name",
+            "type": "string"
+          },
+          "album_image_url": {
+            "title": "Album Image Url",
+            "type": "string"
+          },
+          "event_date": {
+            "title": "Event Date",
+            "type": "string",
+            "format": "date"
+          },
+          "is_highlight": {
+            "title": "Is Highlight",
+            "type": "integer"
+          }
+        }
+      },
+      "Body_upload_to_get_cdn_base_post": {
+        "title": "Body_upload_to_get_cdn_base_post",
+        "required": ["file"],
+        "type": "object",
+        "properties": {
+          "file": {
+            "title": "File",
+            "type": "string",
+            "format": "binary"
+          }
+        }
+      },
+      "DataResponse_AlbumItemResponse_": {
+        "title": "DataResponse[AlbumItemResponse]",
+        "type": "object",
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "string",
+            "default": ""
+          },
+          "message": {
+            "title": "Message",
+            "type": "string",
+            "default": ""
+          },
+          "data": {
+            "$ref": "#/components/schemas/AlbumItemResponse"
+          }
+        }
+      },
+      "DataResponse_ImageCdn_": {
+        "title": "DataResponse[ImageCdn]",
+        "type": "object",
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "string",
+            "default": ""
+          },
+          "message": {
+            "title": "Message",
+            "type": "string",
+            "default": ""
+          },
+          "data": {
+            "$ref": "#/components/schemas/ImageCdn"
+          }
+        }
+      },
+      "DataResponse_Token_": {
+        "title": "DataResponse[Token]",
+        "type": "object",
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "string",
+            "default": ""
+          },
+          "message": {
+            "title": "Message",
+            "type": "string",
+            "default": ""
+          },
+          "data": {
+            "$ref": "#/components/schemas/Token"
+          }
+        }
+      },
+      "DataResponse_UserItemResponse_": {
+        "title": "DataResponse[UserItemResponse]",
+        "type": "object",
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "string",
+            "default": ""
+          },
+          "message": {
+            "title": "Message",
+            "type": "string",
+            "default": ""
+          },
+          "data": {
+            "$ref": "#/components/schemas/UserItemResponse"
+          }
+        }
+      },
+      "DataResponse_str_": {
+        "title": "DataResponse[str]",
+        "type": "object",
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "string",
+            "default": ""
+          },
+          "message": {
+            "title": "Message",
+            "type": "string",
+            "default": ""
+          },
+          "data": {
+            "title": "Data",
+            "type": "string"
+          }
+        }
+      },
+      "HTTPValidationError": {
+        "title": "HTTPValidationError",
+        "type": "object",
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            }
+          }
+        }
+      },
+      "ImageCdn": {
+        "title": "ImageCdn",
+        "required": ["cdn_url", "url"],
+        "type": "object",
+        "properties": {
+          "cdn_url": {
+            "title": "Cdn Url",
+            "type": "string"
+          },
+          "url": {
+            "title": "Url",
+            "type": "string"
+          }
+        }
+      },
+      "ImageSearchType": {
+        "title": "ImageSearchType",
+        "enum": ["all", "metadata", "index_face"],
+        "description": "An enumeration."
+      },
+      "LoginRequest": {
+        "title": "LoginRequest",
+        "type": "object",
+        "properties": {
+          "username": {
+            "title": "Username",
+            "type": "string",
+            "format": "email",
+            "default": "long.dh@teko.vn"
+          },
+          "password": {
+            "title": "Password",
+            "type": "string",
+            "default": "secret123"
+          }
+        }
+      },
+      "MetadataSchema": {
+        "title": "MetadataSchema",
+        "required": ["current_page", "page_size", "total_items"],
+        "type": "object",
+        "properties": {
+          "current_page": {
+            "title": "Current Page",
+            "type": "integer"
+          },
+          "page_size": {
+            "title": "Page Size",
+            "type": "integer"
+          },
+          "total_items": {
+            "title": "Total Items",
+            "type": "integer"
+          }
+        }
+      },
+      "Page_AlbumImageItemResponse_": {
+        "title": "Page[AlbumImageItemResponse]",
+        "required": ["data", "metadata"],
+        "type": "object",
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "string",
+            "default": ""
+          },
+          "message": {
+            "title": "Message",
+            "type": "string",
+            "default": ""
+          },
+          "data": {
+            "title": "Data",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AlbumImageItemResponse"
+            }
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/MetadataSchema"
+          }
+        }
+      },
+      "Page_AlbumItemResponse_": {
+        "title": "Page[AlbumItemResponse]",
+        "required": ["data", "metadata"],
+        "type": "object",
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "string",
+            "default": ""
+          },
+          "message": {
+            "title": "Message",
+            "type": "string",
+            "default": ""
+          },
+          "data": {
+            "title": "Data",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AlbumItemResponse"
+            }
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/MetadataSchema"
+          }
+        }
+      },
+      "Page_UserItemResponse_": {
+        "title": "Page[UserItemResponse]",
+        "required": ["data", "metadata"],
+        "type": "object",
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "string",
+            "default": ""
+          },
+          "message": {
+            "title": "Message",
+            "type": "string",
+            "default": ""
+          },
+          "data": {
+            "title": "Data",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserItemResponse"
+            }
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/MetadataSchema"
+          }
+        }
+      },
+      "ResponseSchemaBase": {
+        "title": "ResponseSchemaBase",
+        "type": "object",
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "string",
+            "default": ""
+          },
+          "message": {
+            "title": "Message",
+            "type": "string",
+            "default": ""
+          }
+        }
+      },
+      "Token": {
+        "title": "Token",
+        "required": ["access_token"],
+        "type": "object",
+        "properties": {
+          "access_token": {
+            "title": "Access Token",
+            "type": "string"
+          },
+          "token_type": {
+            "title": "Token Type",
+            "type": "string",
+            "default": "bearer"
+          }
+        }
+      },
+      "UserCreateRequest": {
+        "title": "UserCreateRequest",
+        "required": ["email", "password"],
+        "type": "object",
+        "properties": {
+          "full_name": {
+            "title": "Full Name",
+            "type": "string"
+          },
+          "email": {
+            "title": "Email",
+            "type": "string",
+            "format": "email"
+          },
+          "is_active": {
+            "title": "Is Active",
+            "type": "boolean",
+            "default": true
+          },
+          "password": {
+            "title": "Password",
+            "type": "string"
+          },
+          "role": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/UserRole"
+              }
+            ],
+            "default": "guest"
+          }
+        }
+      },
+      "UserItemResponse": {
+        "title": "UserItemResponse",
+        "required": ["full_name", "email", "is_active", "id", "role"],
+        "type": "object",
+        "properties": {
+          "full_name": {
+            "title": "Full Name",
+            "type": "string"
+          },
+          "email": {
+            "title": "Email",
+            "type": "string",
+            "format": "email"
+          },
+          "is_active": {
+            "title": "Is Active",
+            "type": "boolean"
+          },
+          "id": {
+            "title": "Id",
+            "type": "integer"
+          },
+          "role": {
+            "title": "Role",
+            "type": "string"
+          },
+          "last_login": {
+            "title": "Last Login",
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "UserRegisterRequest": {
+        "title": "UserRegisterRequest",
+        "required": ["full_name", "email", "password"],
+        "type": "object",
+        "properties": {
+          "full_name": {
+            "title": "Full Name",
+            "type": "string"
+          },
+          "email": {
+            "title": "Email",
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "title": "Password",
+            "type": "string"
+          },
+          "role": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/UserRole"
+              }
+            ],
+            "default": "guest"
+          }
+        }
+      },
+      "UserRole": {
+        "title": "UserRole",
+        "enum": ["admin", "guest"],
+        "description": "An enumeration."
+      },
+      "UserUpdateMeRequest": {
+        "title": "UserUpdateMeRequest",
+        "type": "object",
+        "properties": {
+          "full_name": {
+            "title": "Full Name",
+            "type": "string"
+          },
+          "email": {
+            "title": "Email",
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "title": "Password",
+            "type": "string"
+          }
+        }
+      },
+      "UserUpdateRequest": {
+        "title": "UserUpdateRequest",
+        "type": "object",
+        "properties": {
+          "full_name": {
+            "title": "Full Name",
+            "type": "string"
+          },
+          "email": {
+            "title": "Email",
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "title": "Password",
+            "type": "string"
+          },
+          "is_active": {
+            "title": "Is Active",
+            "type": "boolean",
+            "default": true
+          },
+          "role": {
+            "$ref": "#/components/schemas/UserRole"
+          }
+        }
+      },
+      "ValidationError": {
+        "title": "ValidationError",
+        "required": ["loc", "msg", "type"],
+        "type": "object",
+        "properties": {
+          "loc": {
+            "title": "Location",
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            }
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "Authorization": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}
