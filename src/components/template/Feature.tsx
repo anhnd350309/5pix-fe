@@ -42,7 +42,7 @@ const Feature = () => {
             </h3>
             <p className='my-2 text-template-black-500'>
               {t(
-                'You can explore the features that we provide with fun and have their own functions each feature.'
+                'You can explore the features that we provide with fun and have their own functions each feature.',
               )}
             </p>
             <ul className='ml-8 list-inside self-start text-template-black-500'>

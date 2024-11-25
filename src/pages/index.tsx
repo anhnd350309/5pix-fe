@@ -3,9 +3,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 import Layout from 'components/layout/Layout'
 import SEOHead from 'components/seo'
-import Feature from 'components/template/Feature'
 import Hero from 'components/template/Hero'
-import Pricing from 'components/template/Pricing'
 
 type Props = {
   // Add custom props here
@@ -23,7 +21,7 @@ const Home = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
       <SEOHead title='5PIX' />
       <Layout>
         <Hero />
-        {/*<Feature />*/}
+        {/* <Feature /> */}
         {/* <Pricing /> */}
       </Layout>
     </>

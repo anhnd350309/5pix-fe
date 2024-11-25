@@ -17,9 +17,13 @@ import {
   useQuery
 } from '@tanstack/react-query'
 import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
   MutationFunction,
   QueryFunction,
   QueryKey,
+  UndefinedInitialDataOptions,
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
@@ -64,7 +68,7 @@ export const getGetUsersGetQueryKey = (params?: GetUsersGetParams,) => {
     }
 
     
-export const getGetUsersGetQueryOptions = <TData = Awaited<ReturnType<typeof getUsersGet>>, TError = AxiosError<HTTPValidationError>>(params?: GetUsersGetParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getUsersGet>>, TError, TData>, axios?: AxiosRequestConfig}
+export const getGetUsersGetQueryOptions = <TData = Awaited<ReturnType<typeof getUsersGet>>, TError = AxiosError<HTTPValidationError>>(params?: GetUsersGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsersGet>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
 
 const {query: queryOptions, axios: axiosOptions} = options ?? {};
@@ -79,25 +83,49 @@ const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getUsersGet>>, TError, TData> & { queryKey: QueryKey }
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getUsersGet>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
 }
 
 export type GetUsersGetQueryResult = NonNullable<Awaited<ReturnType<typeof getUsersGet>>>
 export type GetUsersGetQueryError = AxiosError<HTTPValidationError>
 
 
+export function useGetUsersGet<TData = Awaited<ReturnType<typeof getUsersGet>>, TError = AxiosError<HTTPValidationError>>(
+ params: undefined |  GetUsersGetParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsersGet>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUsersGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, axios?: AxiosRequestConfig}
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetUsersGet<TData = Awaited<ReturnType<typeof getUsersGet>>, TError = AxiosError<HTTPValidationError>>(
+ params?: GetUsersGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsersGet>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUsersGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, axios?: AxiosRequestConfig}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetUsersGet<TData = Awaited<ReturnType<typeof getUsersGet>>, TError = AxiosError<HTTPValidationError>>(
+ params?: GetUsersGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsersGet>>, TError, TData>>, axios?: AxiosRequestConfig}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get
  */
 
 export function useGetUsersGet<TData = Awaited<ReturnType<typeof getUsersGet>>, TError = AxiosError<HTTPValidationError>>(
- params?: GetUsersGetParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getUsersGet>>, TError, TData>, axios?: AxiosRequestConfig}
+ params?: GetUsersGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsersGet>>, TError, TData>>, axios?: AxiosRequestConfig}
 
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
 
   const queryOptions = getGetUsersGetQueryOptions(params,options)
 
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
 
   query.queryKey = queryOptions.queryKey ;
 
@@ -180,7 +208,7 @@ export const getDetailMeUsersMeGetQueryKey = () => {
     }
 
     
-export const getDetailMeUsersMeGetQueryOptions = <TData = Awaited<ReturnType<typeof detailMeUsersMeGet>>, TError = AxiosError<unknown>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof detailMeUsersMeGet>>, TError, TData>, axios?: AxiosRequestConfig}
+export const getDetailMeUsersMeGetQueryOptions = <TData = Awaited<ReturnType<typeof detailMeUsersMeGet>>, TError = AxiosError<unknown>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailMeUsersMeGet>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
 
 const {query: queryOptions, axios: axiosOptions} = options ?? {};
@@ -195,25 +223,49 @@ const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof detailMeUsersMeGet>>, TError, TData> & { queryKey: QueryKey }
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof detailMeUsersMeGet>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
 }
 
 export type DetailMeUsersMeGetQueryResult = NonNullable<Awaited<ReturnType<typeof detailMeUsersMeGet>>>
 export type DetailMeUsersMeGetQueryError = AxiosError<unknown>
 
 
+export function useDetailMeUsersMeGet<TData = Awaited<ReturnType<typeof detailMeUsersMeGet>>, TError = AxiosError<unknown>>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailMeUsersMeGet>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof detailMeUsersMeGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, axios?: AxiosRequestConfig}
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useDetailMeUsersMeGet<TData = Awaited<ReturnType<typeof detailMeUsersMeGet>>, TError = AxiosError<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailMeUsersMeGet>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof detailMeUsersMeGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, axios?: AxiosRequestConfig}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useDetailMeUsersMeGet<TData = Awaited<ReturnType<typeof detailMeUsersMeGet>>, TError = AxiosError<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailMeUsersMeGet>>, TError, TData>>, axios?: AxiosRequestConfig}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Detail Me
  */
 
 export function useDetailMeUsersMeGet<TData = Awaited<ReturnType<typeof detailMeUsersMeGet>>, TError = AxiosError<unknown>>(
-  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof detailMeUsersMeGet>>, TError, TData>, axios?: AxiosRequestConfig}
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailMeUsersMeGet>>, TError, TData>>, axios?: AxiosRequestConfig}
 
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
 
   const queryOptions = getDetailMeUsersMeGetQueryOptions(options)
 
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
 
   query.queryKey = queryOptions.queryKey ;
 
@@ -296,7 +348,7 @@ export const getDetailUsersUserIdGetQueryKey = (userId: number,) => {
     }
 
     
-export const getDetailUsersUserIdGetQueryOptions = <TData = Awaited<ReturnType<typeof detailUsersUserIdGet>>, TError = AxiosError<HTTPValidationError>>(userId: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof detailUsersUserIdGet>>, TError, TData>, axios?: AxiosRequestConfig}
+export const getDetailUsersUserIdGetQueryOptions = <TData = Awaited<ReturnType<typeof detailUsersUserIdGet>>, TError = AxiosError<HTTPValidationError>>(userId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailUsersUserIdGet>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
 
 const {query: queryOptions, axios: axiosOptions} = options ?? {};
@@ -311,25 +363,49 @@ const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, enabled: !!(userId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof detailUsersUserIdGet>>, TError, TData> & { queryKey: QueryKey }
+   return  { queryKey, queryFn, enabled: !!(userId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof detailUsersUserIdGet>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
 }
 
 export type DetailUsersUserIdGetQueryResult = NonNullable<Awaited<ReturnType<typeof detailUsersUserIdGet>>>
 export type DetailUsersUserIdGetQueryError = AxiosError<HTTPValidationError>
 
 
+export function useDetailUsersUserIdGet<TData = Awaited<ReturnType<typeof detailUsersUserIdGet>>, TError = AxiosError<HTTPValidationError>>(
+ userId: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailUsersUserIdGet>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof detailUsersUserIdGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, axios?: AxiosRequestConfig}
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useDetailUsersUserIdGet<TData = Awaited<ReturnType<typeof detailUsersUserIdGet>>, TError = AxiosError<HTTPValidationError>>(
+ userId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailUsersUserIdGet>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof detailUsersUserIdGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, axios?: AxiosRequestConfig}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useDetailUsersUserIdGet<TData = Awaited<ReturnType<typeof detailUsersUserIdGet>>, TError = AxiosError<HTTPValidationError>>(
+ userId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailUsersUserIdGet>>, TError, TData>>, axios?: AxiosRequestConfig}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Detail
  */
 
 export function useDetailUsersUserIdGet<TData = Awaited<ReturnType<typeof detailUsersUserIdGet>>, TError = AxiosError<HTTPValidationError>>(
- userId: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof detailUsersUserIdGet>>, TError, TData>, axios?: AxiosRequestConfig}
+ userId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailUsersUserIdGet>>, TError, TData>>, axios?: AxiosRequestConfig}
 
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
 
   const queryOptions = getDetailUsersUserIdGetQueryOptions(userId,options)
 
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
 
   query.queryKey = queryOptions.queryKey ;
 

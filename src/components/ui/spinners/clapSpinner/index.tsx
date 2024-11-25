@@ -95,7 +95,7 @@ const getBalls = ({
         y={x}
         key={i.toString()}
         index={i}
-      />
+      />,
     )
   }
   return balls

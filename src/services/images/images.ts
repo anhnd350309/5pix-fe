@@ -16,8 +16,12 @@ import {
   useQuery
 } from '@tanstack/react-query'
 import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
   QueryFunction,
   QueryKey,
+  UndefinedInitialDataOptions,
   UseQueryOptions,
   UseQueryResult
 } from '@tanstack/react-query'
@@ -56,7 +60,7 @@ export const getSearchAlbumImagesGetQueryKey = (params?: SearchAlbumImagesGetPar
     }
 
     
-export const getSearchAlbumImagesGetQueryOptions = <TData = Awaited<ReturnType<typeof searchAlbumImagesGet>>, TError = AxiosError<HTTPValidationError>>(params?: SearchAlbumImagesGetParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof searchAlbumImagesGet>>, TError, TData>, axios?: AxiosRequestConfig}
+export const getSearchAlbumImagesGetQueryOptions = <TData = Awaited<ReturnType<typeof searchAlbumImagesGet>>, TError = AxiosError<HTTPValidationError>>(params?: SearchAlbumImagesGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof searchAlbumImagesGet>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
 
 const {query: queryOptions, axios: axiosOptions} = options ?? {};
@@ -71,25 +75,49 @@ const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof searchAlbumImagesGet>>, TError, TData> & { queryKey: QueryKey }
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof searchAlbumImagesGet>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
 }
 
 export type SearchAlbumImagesGetQueryResult = NonNullable<Awaited<ReturnType<typeof searchAlbumImagesGet>>>
 export type SearchAlbumImagesGetQueryError = AxiosError<HTTPValidationError>
 
 
+export function useSearchAlbumImagesGet<TData = Awaited<ReturnType<typeof searchAlbumImagesGet>>, TError = AxiosError<HTTPValidationError>>(
+ params: undefined |  SearchAlbumImagesGetParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof searchAlbumImagesGet>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof searchAlbumImagesGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, axios?: AxiosRequestConfig}
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useSearchAlbumImagesGet<TData = Awaited<ReturnType<typeof searchAlbumImagesGet>>, TError = AxiosError<HTTPValidationError>>(
+ params?: SearchAlbumImagesGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof searchAlbumImagesGet>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof searchAlbumImagesGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, axios?: AxiosRequestConfig}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useSearchAlbumImagesGet<TData = Awaited<ReturnType<typeof searchAlbumImagesGet>>, TError = AxiosError<HTTPValidationError>>(
+ params?: SearchAlbumImagesGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof searchAlbumImagesGet>>, TError, TData>>, axios?: AxiosRequestConfig}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Search
  */
 
 export function useSearchAlbumImagesGet<TData = Awaited<ReturnType<typeof searchAlbumImagesGet>>, TError = AxiosError<HTTPValidationError>>(
- params?: SearchAlbumImagesGetParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof searchAlbumImagesGet>>, TError, TData>, axios?: AxiosRequestConfig}
+ params?: SearchAlbumImagesGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof searchAlbumImagesGet>>, TError, TData>>, axios?: AxiosRequestConfig}
 
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
 
   const queryOptions = getSearchAlbumImagesGetQueryOptions(params,options)
 
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
 
   query.queryKey = queryOptions.queryKey ;
 

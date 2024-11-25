@@ -34,7 +34,7 @@ const Pricing = () => {
               className='mx-auto my-2 w-10/12 text-center leading-normal sm:w-7/12 lg:w-6/12'
             >
               {t(
-                'Let choose the package that is best for you and explore it happily and cheerfully.'
+                'Let choose the package that is best for you and explore it happily and cheerfully.',
               )}
             </motion.p>
           </ScrollAnimationWrapper>

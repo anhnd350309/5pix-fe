@@ -1,19 +1,28 @@
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
-import Image from "next/image"
-export default function EventCard() {
+import Image from 'next/image'
+
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
+
+const EventCard = () => {
   return (
-    <Card className="">
+    <Card className=''>
       <CardHeader>
-        <Image src="/assets/images/event.png" alt="TA NANG TRAIL CHALLENGE 2025" width={600} height={400} className="rounded-t-lg" />
+        <Image
+          src='/assets/images/event.png'
+          alt='TA NANG TRAIL CHALLENGE 2025'
+          width={600}
+          height={400}
+          className='rounded-t-lg'
+        />
       </CardHeader>
       <CardContent>
-        <CardTitle className="truncate whitespace-nowrap overflow-hidden text-ellipsis">TA NANG TRAIL CHALLENGE 2025 - LEAD YOUR JOURNEY</CardTitle>
+        <CardTitle className='text-ellipsis truncate whitespace-nowrap overflow-hidden'>
+          TA NANG TRAIL CHALLENGE 2025 - LEAD YOUR JOURNEY
+        </CardTitle>
         <CardDescription>
-
           <div className='flex items-center gap-4'>
             <div className='flex items-center'>
               <Image
-                className='h-4 w-4'
+                className='w-4 h-4'
                 src='/assets/icons/template/date.svg'
                 alt='twitter'
                 height={30}
@@ -23,7 +32,7 @@ export default function EventCard() {
             </div>
             <div className='flex items-center'>
               <Image
-                className='h-4 w-4'
+                className='w-4 h-4'
                 src='/assets/icons/template/image.svg'
                 alt='twitter'
                 height={30}
@@ -34,5 +43,8 @@ export default function EventCard() {
           </div>
         </CardDescription>
       </CardContent>
-    </Card>);
+    </Card>
+  )
 }
+
+export default EventCard

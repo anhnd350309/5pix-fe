@@ -35,13 +35,13 @@ const createAnimation = (loaderName: string, frames: string, suffix: string): st
 const right = createAnimation(
   'RingSpinner',
   '0% {transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg)} 100% {transform: rotateX(180deg) rotateY(360deg) rotateZ(360deg)}',
-  'right'
+  'right',
 )
 
 const left = createAnimation(
   'RingSpinner',
   '0% {transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg)} 100% {transform: rotateX(360deg) rotateY(180deg) rotateZ(360deg)}',
-  'left'
+  'left',
 )
 
 const RingSpinner = ({

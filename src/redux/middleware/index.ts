@@ -8,7 +8,7 @@ import {
 } from '@reduxjs/toolkit'
 
 const isPayloadErrorMessage = (
-  payload: unknown
+  payload: unknown,
 ): payload is {
   data: {
     error: string

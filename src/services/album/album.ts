@@ -17,9 +17,13 @@ import {
   useQuery
 } from '@tanstack/react-query'
 import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
   MutationFunction,
   QueryFunction,
   QueryKey,
+  UndefinedInitialDataOptions,
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
@@ -64,7 +68,7 @@ export const getGetAlbumsGetQueryKey = (params?: GetAlbumsGetParams,) => {
     }
 
     
-export const getGetAlbumsGetQueryOptions = <TData = Awaited<ReturnType<typeof getAlbumsGet>>, TError = AxiosError<HTTPValidationError>>(params?: GetAlbumsGetParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getAlbumsGet>>, TError, TData>, axios?: AxiosRequestConfig}
+export const getGetAlbumsGetQueryOptions = <TData = Awaited<ReturnType<typeof getAlbumsGet>>, TError = AxiosError<HTTPValidationError>>(params?: GetAlbumsGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAlbumsGet>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
 
 const {query: queryOptions, axios: axiosOptions} = options ?? {};
@@ -79,25 +83,49 @@ const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAlbumsGet>>, TError, TData> & { queryKey: QueryKey }
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAlbumsGet>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
 }
 
 export type GetAlbumsGetQueryResult = NonNullable<Awaited<ReturnType<typeof getAlbumsGet>>>
 export type GetAlbumsGetQueryError = AxiosError<HTTPValidationError>
 
 
+export function useGetAlbumsGet<TData = Awaited<ReturnType<typeof getAlbumsGet>>, TError = AxiosError<HTTPValidationError>>(
+ params: undefined |  GetAlbumsGetParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAlbumsGet>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAlbumsGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, axios?: AxiosRequestConfig}
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetAlbumsGet<TData = Awaited<ReturnType<typeof getAlbumsGet>>, TError = AxiosError<HTTPValidationError>>(
+ params?: GetAlbumsGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAlbumsGet>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAlbumsGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, axios?: AxiosRequestConfig}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetAlbumsGet<TData = Awaited<ReturnType<typeof getAlbumsGet>>, TError = AxiosError<HTTPValidationError>>(
+ params?: GetAlbumsGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAlbumsGet>>, TError, TData>>, axios?: AxiosRequestConfig}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get
  */
 
 export function useGetAlbumsGet<TData = Awaited<ReturnType<typeof getAlbumsGet>>, TError = AxiosError<HTTPValidationError>>(
- params?: GetAlbumsGetParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getAlbumsGet>>, TError, TData>, axios?: AxiosRequestConfig}
+ params?: GetAlbumsGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAlbumsGet>>, TError, TData>>, axios?: AxiosRequestConfig}
 
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
 
   const queryOptions = getGetAlbumsGetQueryOptions(params,options)
 
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
 
   query.queryKey = queryOptions.queryKey ;
 
