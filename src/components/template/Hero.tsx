@@ -1,4 +1,3 @@
-import { Card } from 'antd'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
 
@@ -20,13 +19,13 @@ const Hero = () => {
   // const scrollAnimation = useMemo(() => getScrollAnimation(), [])
 
   return (
-    <div className='flex flex-col space-y-5 mx-16 mt-4 px-8 xl:px-16 center' id='about'>
+    <div className='flex flex-col space-y-5 mx-1 mt-4 px-8 xl:px-16 center sm:mx-16' id='about'>
       <div className='flex flex-col justify-center items-center space-y-5 row-start-2 sm:row-start-1'>
         <h1 className='font-bold text-3xl text-center text-white lg:text-4xl xl:text-5xl leading-normal'>
           {t('Nhiếp ảnh')}
           <br /> {t('mang lại trải nghiệm khác biệt')}
         </h1>
-        <div className='flex items-center gap-4 sm:gap-0 space-x-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 bg-white shadow p-2 rounded-full'>
+        <div className='flex flex-col sm:flex-row p-2 items-center space-y-4 sm:space-y-0 sm:space-x-4 sm:bg-white shadow rounded-full'>
           <Select>
             <SelectTrigger className='bg-white border-none rounded-full w-full text-center'>
               <span className='text-gray-700'>GIẢI CHẠY VIỆT NAM FAMILY MARATHON...</span>
@@ -37,11 +36,14 @@ const Hero = () => {
               <SelectItem value='3'>Option 3</SelectItem>
             </SelectContent>
           </Select>
-          <div className='flex flex-1'>
-            <div className='flex bg-white border-l-2 w-64'>
-              <Input placeholder='Nhập số BIB' className='!ml-0 border-none w-48 !important' />
+          <div className='flex flex-1 w-full sm:w-auto'>
+            <div className='flex bg-white w-full sm:w-64 border-l-2 rounded-full sm:rounded'>
+              <Input
+                placeholder='Nhập số BIB'
+                className='w-full sm:w-48 !ml-0 border-none !important'
+              />
             </div>
-            <Button className='flex items-center bg-blue-500 rounded-full w-[200px] text-white'>
+            <Button className='bg-blue-500 w-full sm:w-[200px] text-white flex items-center rounded-full'>
               Tìm ảnh
             </Button>
           </div>
@@ -71,9 +73,7 @@ const Hero = () => {
         <h2 className='m-4 font-bold text-3xl text-center'>Danh sách sự kiện</h2>
         <div className='gap-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'>
           {Array.from({ length: 12 }).map((_, index) => (
-            <Card key={index}>
-              <EventCard />
-            </Card>
+            <EventCard key={index} />
           ))}
         </div>
         <div className='flex justify-center mt-4 border-blue-500'>
