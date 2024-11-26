@@ -12,32 +12,52 @@
         
  * OpenAPI spec version: 0.1.0
  */
-import {
-  faker
-} from '@faker-js/faker'
-import {
-  HttpResponse,
-  delay,
-  http
-} from 'msw'
-import type {
-  PageAlbumImageItemResponse
-} from '../../schemas'
+import { faker } from '@faker-js/faker'
+import { HttpResponse, delay, http } from 'msw'
+import type { PageAlbumImageItemResponse } from '../../schemas'
 
-export const getSearchAlbumImagesGetResponseMock = (overrideResponse: Partial< PageAlbumImageItemResponse > = {}): PageAlbumImageItemResponse => ({code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), data: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({cdn_image_url: faker.string.alpha(20), created_at: `${faker.date.past().toISOString().split('.')[0]}Z`, id: faker.number.int({min: undefined, max: undefined}), image_metadata: faker.string.alpha(20), image_name: faker.string.alpha(20), s3_image_url: faker.string.alpha(20), updated_at: `${faker.date.past().toISOString().split('.')[0]}Z`})), message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), metadata: {current_page: faker.number.int({min: undefined, max: undefined}), page_size: faker.number.int({min: undefined, max: undefined}), total_items: faker.number.int({min: undefined, max: undefined})}, ...overrideResponse})
+export const getSearchAlbumImagesGetResponseMock = (
+  overrideResponse: Partial<PageAlbumImageItemResponse> = {},
+): PageAlbumImageItemResponse => ({
+  code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+  data: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
+    cdn_image_url: faker.string.alpha(20),
+    created_at: `${faker.date.past().toISOString().split('.')[0]}Z`,
+    id: faker.number.int({ min: undefined, max: undefined }),
+    image_metadata: faker.string.alpha(20),
+    image_name: faker.string.alpha(20),
+    s3_image_url: faker.string.alpha(20),
+    updated_at: `${faker.date.past().toISOString().split('.')[0]}Z`,
+  })),
+  message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+  metadata: {
+    current_page: faker.number.int({ min: undefined, max: undefined }),
+    page_size: faker.number.int({ min: undefined, max: undefined }),
+    total_items: faker.number.int({ min: undefined, max: undefined }),
+  },
+  ...overrideResponse,
+})
 
+export const getSearchAlbumImagesGetMockHandler = (
+  overrideResponse?:
+    | PageAlbumImageItemResponse
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<PageAlbumImageItemResponse> | PageAlbumImageItemResponse),
+) => {
+  return http.get('*/album-images', async (info) => {
+    await delay(1000)
 
-export const getSearchAlbumImagesGetMockHandler = (overrideResponse?: PageAlbumImageItemResponse | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<PageAlbumImageItemResponse> | PageAlbumImageItemResponse)) => {
-  return http.get('*/album-images', async (info) => {await delay(1000);
-  
-    return new HttpResponse(JSON.stringify(overrideResponse !== undefined 
-            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse) 
-            : getSearchAlbumImagesGetResponseMock()),
-      { status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      })
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === 'function'
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getSearchAlbumImagesGetResponseMock(),
+      ),
+      { status: 200, headers: { 'Content-Type': 'application/json' } },
+    )
   })
 }
-export const getImagesMock = () => [
-  getSearchAlbumImagesGetMockHandler()
-]
+export const getImagesMock = () => [getSearchAlbumImagesGetMockHandler()]

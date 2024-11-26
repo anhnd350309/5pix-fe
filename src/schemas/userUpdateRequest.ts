@@ -12,12 +12,12 @@
         
  * OpenAPI spec version: 0.1.0
  */
-import type { UserRole } from './userRole';
+import type { UserRole } from './userRole'
 
 export interface UserUpdateRequest {
-  email?: string;
-  full_name?: string;
-  is_active?: boolean;
-  password?: string;
-  role?: UserRole;
+  email?: string
+  full_name?: string
+  is_active?: boolean
+  password?: string
+  role?: UserRole
 }

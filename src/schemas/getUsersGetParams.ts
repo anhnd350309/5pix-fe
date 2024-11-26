@@ -14,8 +14,8 @@
  */
 
 export type GetUsersGetParams = {
-page_size?: number;
-page?: number;
-sort_by?: string;
-order?: string;
-};
+  page_size?: number
+  page?: number
+  sort_by?: string
+  order?: string
+}

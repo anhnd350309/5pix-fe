@@ -12,32 +12,45 @@
         
  * OpenAPI spec version: 0.1.0
  */
-import {
-  faker
-} from '@faker-js/faker'
-import {
-  HttpResponse,
-  delay,
-  http
-} from 'msw'
-import type {
-  DataResponseToken
-} from '../../schemas'
+import { faker } from '@faker-js/faker'
+import { HttpResponse, delay, http } from 'msw'
+import type { DataResponseToken } from '../../schemas'
 
-export const getLoginAccessTokenLoginPostResponseMock = (overrideResponse: Partial< DataResponseToken > = {}): DataResponseToken => ({code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), data: faker.helpers.arrayElement([{access_token: faker.string.alpha(20), token_type: faker.helpers.arrayElement([faker.string.alpha(20), undefined])}, undefined]), message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), ...overrideResponse})
+export const getLoginAccessTokenLoginPostResponseMock = (
+  overrideResponse: Partial<DataResponseToken> = {},
+): DataResponseToken => ({
+  code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+  data: faker.helpers.arrayElement([
+    {
+      access_token: faker.string.alpha(20),
+      token_type: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+    },
+    undefined,
+  ]),
+  message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+  ...overrideResponse,
+})
 
+export const getLoginAccessTokenLoginPostMockHandler = (
+  overrideResponse?:
+    | DataResponseToken
+    | ((
+        info: Parameters<Parameters<typeof http.post>[1]>[0],
+      ) => Promise<DataResponseToken> | DataResponseToken),
+) => {
+  return http.post('*/login', async (info) => {
+    await delay(1000)
 
-export const getLoginAccessTokenLoginPostMockHandler = (overrideResponse?: DataResponseToken | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<DataResponseToken> | DataResponseToken)) => {
-  return http.post('*/login', async (info) => {await delay(1000);
-  
-    return new HttpResponse(JSON.stringify(overrideResponse !== undefined 
-            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse) 
-            : getLoginAccessTokenLoginPostResponseMock()),
-      { status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      })
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === 'function'
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getLoginAccessTokenLoginPostResponseMock(),
+      ),
+      { status: 200, headers: { 'Content-Type': 'application/json' } },
+    )
   })
 }
-export const getLoginMock = () => [
-  getLoginAccessTokenLoginPostMockHandler()
-]
+export const getLoginMock = () => [getLoginAccessTokenLoginPostMockHandler()]

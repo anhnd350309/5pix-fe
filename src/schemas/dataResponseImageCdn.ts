@@ -12,10 +12,10 @@
         
  * OpenAPI spec version: 0.1.0
  */
-import type { ImageCdn } from './imageCdn';
+import type { ImageCdn } from './imageCdn'
 
 export interface DataResponseImageCdn {
-  code?: string;
-  data?: ImageCdn;
-  message?: string;
+  code?: string
+  data?: ImageCdn
+  message?: string
 }

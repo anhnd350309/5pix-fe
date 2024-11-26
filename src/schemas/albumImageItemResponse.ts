@@ -14,11 +14,11 @@
  */
 
 export interface AlbumImageItemResponse {
-  cdn_image_url: string;
-  created_at: string;
-  id: number;
-  image_metadata: string;
-  image_name: string;
-  s3_image_url: string;
-  updated_at: string;
+  cdn_image_url: string
+  created_at: string
+  id: number
+  image_metadata: string
+  image_name: string
+  s3_image_url: string
+  updated_at: string
 }

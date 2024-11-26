@@ -19,7 +19,7 @@ const Hero = () => {
   // const scrollAnimation = useMemo(() => getScrollAnimation(), [])
 
   return (
-    <div className='flex flex-col space-y-5 mx-1 mt-4 px-8 xl:px-16 center sm:mx-16' id='about'>
+    <div className='flex flex-col space-y-5 mt-4 px-8 xl:px-16 center sm:mx-16' id='about'>
       <div className='flex flex-col justify-center items-center space-y-5 row-start-2 sm:row-start-1'>
         <h1 className='font-bold text-3xl text-center text-white lg:text-4xl xl:text-5xl leading-normal'>
           {t('Nhiếp ảnh')}

@@ -14,7 +14,7 @@
  */
 
 export interface DataResponseStr {
-  code?: string;
-  data?: string;
-  message?: string;
+  code?: string
+  data?: string
+  message?: string
 }

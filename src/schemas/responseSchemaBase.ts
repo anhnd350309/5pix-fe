@@ -14,6 +14,6 @@
  */
 
 export interface ResponseSchemaBase {
-  code?: string;
-  message?: string;
+  code?: string
+  message?: string
 }

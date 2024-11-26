@@ -1,4 +1,5 @@
-import type { SVGProps } from 'react';
+import type { SVGProps } from 'react'
+
 const SvgUser = (props: SVGProps<SVGSVGElement>) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
@@ -14,5 +15,5 @@ const SvgUser = (props: SVGProps<SVGSVGElement>) => (
       }}
     />
   </svg>
-);
-export default SvgUser;
+)
+export default SvgUser

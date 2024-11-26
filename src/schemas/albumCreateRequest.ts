@@ -14,8 +14,8 @@
  */
 
 export interface AlbumCreateRequest {
-  album_image_url: string;
-  album_name: string;
-  event_date: string;
-  is_highlight: number;
+  album_image_url: string
+  album_name: string
+  event_date: string
+  is_highlight: number
 }

@@ -2,7 +2,9 @@
   background: none repeat scroll 0 0 transparent;
   content: '';
   height: 2px;
-  transition: width 0.3s ease 0s, left 0.3s ease 0s;
+  transition:
+    width 0.3s ease 0s,
+    left 0.3s ease 0s;
   @apply absolute bottom-0 left-1/2 block w-0 bg-template-orange-500;
 }
 

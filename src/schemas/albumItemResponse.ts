@@ -14,12 +14,12 @@
  */
 
 export interface AlbumItemResponse {
-  album_image_url: string;
-  album_name: string;
-  created_at: string;
-  event_date: string;
-  id: number;
-  is_highlight: number;
-  total_image?: number;
-  updated_at: string;
+  album_image_url: string
+  album_name: string
+  created_at: string
+  event_date: string
+  id: number
+  is_highlight: number
+  total_image?: number
+  updated_at: string
 }

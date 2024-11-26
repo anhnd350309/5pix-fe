@@ -14,10 +14,10 @@
  */
 
 export interface UserItemResponse {
-  email: string;
-  full_name: string;
-  id: number;
-  is_active: boolean;
-  last_login?: string;
-  role: string;
+  email: string
+  full_name: string
+  id: number
+  is_active: boolean
+  last_login?: string
+  role: string
 }
