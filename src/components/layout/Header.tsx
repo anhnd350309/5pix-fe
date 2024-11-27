@@ -1,20 +1,16 @@
 import Image from 'next/image'
-import Link from 'next/link'
-import { signOut } from 'next-auth/react'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Link as LinkScroll } from 'react-scroll'
-
-import ButtonOutline from 'components/ui/button/ButtonOutline'
 
 const Header = () => {
   const [activeLink, setActiveLink] = useState<string>('')
-  const [scrollActive, setScrollActive] = useState<boolean>(false)
+  // const [scrollActive, setScrollActive] = useState<boolean>(false)
 
-  useEffect(() => {
-    window.addEventListener('scroll', () => {
-      setScrollActive(window.scrollY > 20)
-    })
-  }, [])
+  // useEffect(() => {
+  //   window.addEventListener('scroll', () => {
+  //     setScrollActive(window.scrollY > 20)
+  //   })
+  // }, [])
 
   return (
     <>
@@ -103,7 +99,7 @@ const Header = () => {
               Liên Hệ
             </LinkScroll>
           </ul>
-          <div className='col-start-10 col-end-12 flex items-center justify-end font-medium'>
+          {/* <div className='col-start-10 col-end-12 flex items-center justify-end font-medium'>
             <Link
               href='/auth/login'
               className='mx-2 capitalize tracking-wide text-white transition-all hover:text-template-orange-500 sm:mx-4'
@@ -111,7 +107,7 @@ const Header = () => {
               Sign In
             </Link>
             <ButtonOutline onClick={() => signOut()}>Sign Out</ButtonOutline>
-          </div>
+          </div> */}
         </nav>
       </header>
       {/* Mobile Navigation */}
