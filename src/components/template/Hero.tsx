@@ -54,7 +54,7 @@ const Hero = () => {
           opts={{
             align: 'start',
           }}
-          className='w-[100%]'
+          className='w-[90%]'
         >
           <CarouselContent>
             {Array.from({ length: 5 }).map((_, index) => (

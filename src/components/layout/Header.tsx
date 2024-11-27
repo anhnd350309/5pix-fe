@@ -19,9 +19,7 @@ const Header = () => {
   return (
     <>
       <header
-        className={` top-0 z-30 w-full bg-transparent transition-all ${
-          scrollActive ? ' pt-0 shadow-md' : ' pt-4'
-        }`}
+        className={` top-0 z-30 w-full bg-transparent transition-all pt-4`}
         // style={{ height: '400px' }} // Adjust the height as needed
       >
         {/* <div className="absolute top-0 left-0 w-full h-full bg-cover bg-center -z-10" style={{ backgroundImage: "url('/assets/images/BG.png')" }}></div> */}

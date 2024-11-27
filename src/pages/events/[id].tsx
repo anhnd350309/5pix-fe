@@ -12,7 +12,7 @@ const Event: React.FC = () => {
 
   return (
     <Layout>
-      <div className=' space-y-5 mx-1 mt-4 px-8 xl:px-16 center sm:mx-16'>
+      <div className='space-y-5 mx-1 mt-4 px-4 xl:px-16 center sm:mx-16'>
         <BannerEvent />
         <div className='gap-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5'>
           {Array.from({ length: 12 }).map((_, index) => (
