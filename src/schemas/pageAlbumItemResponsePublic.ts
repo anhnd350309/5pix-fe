@@ -12,14 +12,12 @@
         
  * OpenAPI spec version: 0.1.0
  */
+import type { AlbumItemResponsePublic } from './albumItemResponsePublic';
+import type { MetadataSchema } from './metadataSchema';
 
-export interface AlbumImageItemResponse {
-  cdn_image_url?: string;
-  created_at: string;
-  id: number;
-  image_metadata?: string;
-  image_name: string;
-  is_hide?: number;
-  s3_image_url?: string;
-  updated_at: string;
+export interface PageAlbumItemResponsePublic {
+  code?: string;
+  data: AlbumItemResponsePublic[];
+  message?: string;
+  metadata: MetadataSchema;
 }

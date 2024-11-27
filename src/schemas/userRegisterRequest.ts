@@ -12,11 +12,11 @@
         
  * OpenAPI spec version: 0.1.0
  */
-import type { UserRole } from './userRole'
+import type { UserRole } from './userRole';
 
 export interface UserRegisterRequest {
-  email: string
-  full_name: string
-  password: string
-  role?: UserRole
+  email: string;
+  full_name: string;
+  password: string;
+  role?: UserRole;
 }

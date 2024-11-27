@@ -14,9 +14,9 @@
  */
 
 export type GetAlbumsGetParams = {
-  highlight?: boolean
-  page_size?: number
-  page?: number
-  sort_by?: string
-  order?: string
-}
+highlight?: boolean;
+page_size?: number;
+page?: number;
+sort_by?: string;
+order?: string;
+};

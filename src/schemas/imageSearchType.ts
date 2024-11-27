@@ -16,11 +16,12 @@
 /**
  * An enumeration.
  */
-export type ImageSearchType = (typeof ImageSearchType)[keyof typeof ImageSearchType]
+export type ImageSearchType = typeof ImageSearchType[keyof typeof ImageSearchType];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ImageSearchType = {
   all: 'all',
   metadata: 'metadata',
   index_face: 'index_face',
-} as const
+} as const;

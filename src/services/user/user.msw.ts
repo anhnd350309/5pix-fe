@@ -12,279 +12,101 @@
         
  * OpenAPI spec version: 0.1.0
  */
-import { faker } from '@faker-js/faker'
-import { HttpResponse, delay, http } from 'msw'
-import type { DataResponseUserItemResponse, PageUserItemResponse } from '../../schemas'
+import {
+  faker
+} from '@faker-js/faker'
+import {
+  HttpResponse,
+  delay,
+  http
+} from 'msw'
+import type {
+  DataResponseUserItemResponse,
+  PageUserItemResponse
+} from '../../schemas'
 
-export const getGetUsersGetResponseMock = (
-  overrideResponse: Partial<PageUserItemResponse> = {},
-): PageUserItemResponse => ({
-  code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
-  data: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
-    email: faker.internet.email(),
-    full_name: faker.string.alpha(20),
-    id: faker.number.int({ min: undefined, max: undefined }),
-    is_active: faker.datatype.boolean(),
-    last_login: faker.helpers.arrayElement([
-      `${faker.date.past().toISOString().split('.')[0]}Z`,
-      undefined,
-    ]),
-    role: faker.string.alpha(20),
-  })),
-  message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
-  metadata: {
-    current_page: faker.number.int({ min: undefined, max: undefined }),
-    page_size: faker.number.int({ min: undefined, max: undefined }),
-    total_items: faker.number.int({ min: undefined, max: undefined }),
-  },
-  ...overrideResponse,
-})
+export const getGetUsersGetResponseMock = (overrideResponse: Partial< PageUserItemResponse > = {}): PageUserItemResponse => ({code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), data: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({email: faker.internet.email(), full_name: faker.string.alpha(20), id: faker.number.int({min: undefined, max: undefined}), is_active: faker.datatype.boolean(), last_login: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), role: faker.string.alpha(20)})), message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), metadata: {current_page: faker.number.int({min: undefined, max: undefined}), page_size: faker.number.int({min: undefined, max: undefined}), total_items: faker.number.int({min: undefined, max: undefined})}, ...overrideResponse})
 
-export const getCreateUsersPostResponseMock = (
-  overrideResponse: Partial<DataResponseUserItemResponse> = {},
-): DataResponseUserItemResponse => ({
-  code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
-  data: faker.helpers.arrayElement([
-    {
-      email: faker.internet.email(),
-      full_name: faker.string.alpha(20),
-      id: faker.number.int({ min: undefined, max: undefined }),
-      is_active: faker.datatype.boolean(),
-      last_login: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-      ]),
-      role: faker.string.alpha(20),
-    },
-    undefined,
-  ]),
-  message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
-  ...overrideResponse,
-})
+export const getCreateUsersPostResponseMock = (overrideResponse: Partial< DataResponseUserItemResponse > = {}): DataResponseUserItemResponse => ({code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), data: faker.helpers.arrayElement([{email: faker.internet.email(), full_name: faker.string.alpha(20), id: faker.number.int({min: undefined, max: undefined}), is_active: faker.datatype.boolean(), last_login: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), role: faker.string.alpha(20)}, undefined]), message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), ...overrideResponse})
 
-export const getDetailMeUsersMeGetResponseMock = (
-  overrideResponse: Partial<DataResponseUserItemResponse> = {},
-): DataResponseUserItemResponse => ({
-  code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
-  data: faker.helpers.arrayElement([
-    {
-      email: faker.internet.email(),
-      full_name: faker.string.alpha(20),
-      id: faker.number.int({ min: undefined, max: undefined }),
-      is_active: faker.datatype.boolean(),
-      last_login: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-      ]),
-      role: faker.string.alpha(20),
-    },
-    undefined,
-  ]),
-  message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
-  ...overrideResponse,
-})
+export const getDetailMeUsersMeGetResponseMock = (overrideResponse: Partial< DataResponseUserItemResponse > = {}): DataResponseUserItemResponse => ({code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), data: faker.helpers.arrayElement([{email: faker.internet.email(), full_name: faker.string.alpha(20), id: faker.number.int({min: undefined, max: undefined}), is_active: faker.datatype.boolean(), last_login: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), role: faker.string.alpha(20)}, undefined]), message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), ...overrideResponse})
 
-export const getUpdateMeUsersMePutResponseMock = (
-  overrideResponse: Partial<DataResponseUserItemResponse> = {},
-): DataResponseUserItemResponse => ({
-  code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
-  data: faker.helpers.arrayElement([
-    {
-      email: faker.internet.email(),
-      full_name: faker.string.alpha(20),
-      id: faker.number.int({ min: undefined, max: undefined }),
-      is_active: faker.datatype.boolean(),
-      last_login: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-      ]),
-      role: faker.string.alpha(20),
-    },
-    undefined,
-  ]),
-  message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
-  ...overrideResponse,
-})
+export const getUpdateMeUsersMePutResponseMock = (overrideResponse: Partial< DataResponseUserItemResponse > = {}): DataResponseUserItemResponse => ({code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), data: faker.helpers.arrayElement([{email: faker.internet.email(), full_name: faker.string.alpha(20), id: faker.number.int({min: undefined, max: undefined}), is_active: faker.datatype.boolean(), last_login: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), role: faker.string.alpha(20)}, undefined]), message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), ...overrideResponse})
 
-export const getDetailUsersUserIdGetResponseMock = (
-  overrideResponse: Partial<DataResponseUserItemResponse> = {},
-): DataResponseUserItemResponse => ({
-  code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
-  data: faker.helpers.arrayElement([
-    {
-      email: faker.internet.email(),
-      full_name: faker.string.alpha(20),
-      id: faker.number.int({ min: undefined, max: undefined }),
-      is_active: faker.datatype.boolean(),
-      last_login: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-      ]),
-      role: faker.string.alpha(20),
-    },
-    undefined,
-  ]),
-  message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
-  ...overrideResponse,
-})
+export const getDetailUsersUserIdGetResponseMock = (overrideResponse: Partial< DataResponseUserItemResponse > = {}): DataResponseUserItemResponse => ({code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), data: faker.helpers.arrayElement([{email: faker.internet.email(), full_name: faker.string.alpha(20), id: faker.number.int({min: undefined, max: undefined}), is_active: faker.datatype.boolean(), last_login: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), role: faker.string.alpha(20)}, undefined]), message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), ...overrideResponse})
 
-export const getUpdateUsersUserIdPutResponseMock = (
-  overrideResponse: Partial<DataResponseUserItemResponse> = {},
-): DataResponseUserItemResponse => ({
-  code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
-  data: faker.helpers.arrayElement([
-    {
-      email: faker.internet.email(),
-      full_name: faker.string.alpha(20),
-      id: faker.number.int({ min: undefined, max: undefined }),
-      is_active: faker.datatype.boolean(),
-      last_login: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-      ]),
-      role: faker.string.alpha(20),
-    },
-    undefined,
-  ]),
-  message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
-  ...overrideResponse,
-})
+export const getUpdateUsersUserIdPutResponseMock = (overrideResponse: Partial< DataResponseUserItemResponse > = {}): DataResponseUserItemResponse => ({code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), data: faker.helpers.arrayElement([{email: faker.internet.email(), full_name: faker.string.alpha(20), id: faker.number.int({min: undefined, max: undefined}), is_active: faker.datatype.boolean(), last_login: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), role: faker.string.alpha(20)}, undefined]), message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), ...overrideResponse})
 
-export const getGetUsersGetMockHandler = (
-  overrideResponse?:
-    | PageUserItemResponse
-    | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<PageUserItemResponse> | PageUserItemResponse),
-) => {
-  return http.get('*/users', async (info) => {
-    await delay(1000)
 
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === 'function'
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getGetUsersGetResponseMock(),
-      ),
-      { status: 200, headers: { 'Content-Type': 'application/json' } },
-    )
+export const getGetUsersGetMockHandler = (overrideResponse?: PageUserItemResponse | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<PageUserItemResponse> | PageUserItemResponse)) => {
+  return http.get('*/users', async (info) => {await delay(1000);
+  
+    return new HttpResponse(JSON.stringify(overrideResponse !== undefined 
+            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse) 
+            : getGetUsersGetResponseMock()),
+      { status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      })
   })
 }
 
-export const getCreateUsersPostMockHandler = (
-  overrideResponse?:
-    | DataResponseUserItemResponse
-    | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
-      ) => Promise<DataResponseUserItemResponse> | DataResponseUserItemResponse),
-) => {
-  return http.post('*/users', async (info) => {
-    await delay(1000)
-
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === 'function'
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getCreateUsersPostResponseMock(),
-      ),
-      { status: 200, headers: { 'Content-Type': 'application/json' } },
-    )
+export const getCreateUsersPostMockHandler = (overrideResponse?: DataResponseUserItemResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<DataResponseUserItemResponse> | DataResponseUserItemResponse)) => {
+  return http.post('*/users', async (info) => {await delay(1000);
+  
+    return new HttpResponse(JSON.stringify(overrideResponse !== undefined 
+            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse) 
+            : getCreateUsersPostResponseMock()),
+      { status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      })
   })
 }
 
-export const getDetailMeUsersMeGetMockHandler = (
-  overrideResponse?:
-    | DataResponseUserItemResponse
-    | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<DataResponseUserItemResponse> | DataResponseUserItemResponse),
-) => {
-  return http.get('*/users/me', async (info) => {
-    await delay(1000)
-
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === 'function'
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getDetailMeUsersMeGetResponseMock(),
-      ),
-      { status: 200, headers: { 'Content-Type': 'application/json' } },
-    )
+export const getDetailMeUsersMeGetMockHandler = (overrideResponse?: DataResponseUserItemResponse | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<DataResponseUserItemResponse> | DataResponseUserItemResponse)) => {
+  return http.get('*/users/me', async (info) => {await delay(1000);
+  
+    return new HttpResponse(JSON.stringify(overrideResponse !== undefined 
+            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse) 
+            : getDetailMeUsersMeGetResponseMock()),
+      { status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      })
   })
 }
 
-export const getUpdateMeUsersMePutMockHandler = (
-  overrideResponse?:
-    | DataResponseUserItemResponse
-    | ((
-        info: Parameters<Parameters<typeof http.put>[1]>[0],
-      ) => Promise<DataResponseUserItemResponse> | DataResponseUserItemResponse),
-) => {
-  return http.put('*/users/me', async (info) => {
-    await delay(1000)
-
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === 'function'
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getUpdateMeUsersMePutResponseMock(),
-      ),
-      { status: 200, headers: { 'Content-Type': 'application/json' } },
-    )
+export const getUpdateMeUsersMePutMockHandler = (overrideResponse?: DataResponseUserItemResponse | ((info: Parameters<Parameters<typeof http.put>[1]>[0]) => Promise<DataResponseUserItemResponse> | DataResponseUserItemResponse)) => {
+  return http.put('*/users/me', async (info) => {await delay(1000);
+  
+    return new HttpResponse(JSON.stringify(overrideResponse !== undefined 
+            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse) 
+            : getUpdateMeUsersMePutResponseMock()),
+      { status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      })
   })
 }
 
-export const getDetailUsersUserIdGetMockHandler = (
-  overrideResponse?:
-    | DataResponseUserItemResponse
-    | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<DataResponseUserItemResponse> | DataResponseUserItemResponse),
-) => {
-  return http.get('*/users/:userId', async (info) => {
-    await delay(1000)
-
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === 'function'
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getDetailUsersUserIdGetResponseMock(),
-      ),
-      { status: 200, headers: { 'Content-Type': 'application/json' } },
-    )
+export const getDetailUsersUserIdGetMockHandler = (overrideResponse?: DataResponseUserItemResponse | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<DataResponseUserItemResponse> | DataResponseUserItemResponse)) => {
+  return http.get('*/users/:userId', async (info) => {await delay(1000);
+  
+    return new HttpResponse(JSON.stringify(overrideResponse !== undefined 
+            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse) 
+            : getDetailUsersUserIdGetResponseMock()),
+      { status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      })
   })
 }
 
-export const getUpdateUsersUserIdPutMockHandler = (
-  overrideResponse?:
-    | DataResponseUserItemResponse
-    | ((
-        info: Parameters<Parameters<typeof http.put>[1]>[0],
-      ) => Promise<DataResponseUserItemResponse> | DataResponseUserItemResponse),
-) => {
-  return http.put('*/users/:userId', async (info) => {
-    await delay(1000)
-
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === 'function'
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getUpdateUsersUserIdPutResponseMock(),
-      ),
-      { status: 200, headers: { 'Content-Type': 'application/json' } },
-    )
+export const getUpdateUsersUserIdPutMockHandler = (overrideResponse?: DataResponseUserItemResponse | ((info: Parameters<Parameters<typeof http.put>[1]>[0]) => Promise<DataResponseUserItemResponse> | DataResponseUserItemResponse)) => {
+  return http.put('*/users/:userId', async (info) => {await delay(1000);
+  
+    return new HttpResponse(JSON.stringify(overrideResponse !== undefined 
+            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse) 
+            : getUpdateUsersUserIdPutResponseMock()),
+      { status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      })
   })
 }
 export const getUserMock = () => [
@@ -293,5 +115,5 @@ export const getUserMock = () => [
   getDetailMeUsersMeGetMockHandler(),
   getUpdateMeUsersMePutMockHandler(),
   getDetailUsersUserIdGetMockHandler(),
-  getUpdateUsersUserIdPutMockHandler(),
+  getUpdateUsersUserIdPutMockHandler()
 ]

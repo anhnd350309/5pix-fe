@@ -12,12 +12,12 @@
         
  * OpenAPI spec version: 0.1.0
  */
-import type { UserItemResponse } from './userItemResponse'
-import type { MetadataSchema } from './metadataSchema'
+import type { UserItemResponse } from './userItemResponse';
+import type { MetadataSchema } from './metadataSchema';
 
 export interface PageUserItemResponse {
-  code?: string
-  data: UserItemResponse[]
-  message?: string
-  metadata: MetadataSchema
+  code?: string;
+  data: UserItemResponse[];
+  message?: string;
+  metadata: MetadataSchema;
 }

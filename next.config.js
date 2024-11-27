@@ -6,7 +6,13 @@ const nextConfig = {
   reactStrictMode: true,
   i18n,
   images: {
-    domains: ['source.unsplash.com', 'images.unsplash.com', 'preview.colorlib.com'],
+    domains: [
+      'source.unsplash.com',
+      'images.unsplash.com',
+      'preview.colorlib.com',
+      'music.youtube.com',
+      'encrypted-tbn0.gstatic.com',
+    ],
   },
 }
 

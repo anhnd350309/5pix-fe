@@ -12,42 +12,32 @@
         
  * OpenAPI spec version: 0.1.0
  */
-import { faker } from '@faker-js/faker'
-import { HttpResponse, delay, http } from 'msw'
-import type { DataResponseImageCdn } from '../../schemas'
+import {
+  faker
+} from '@faker-js/faker'
+import {
+  HttpResponse,
+  delay,
+  http
+} from 'msw'
+import type {
+  DataResponseImageCdn
+} from '../../schemas'
 
-export const getUploadToGetCdnBasePostResponseMock = (
-  overrideResponse: Partial<DataResponseImageCdn> = {},
-): DataResponseImageCdn => ({
-  code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
-  data: faker.helpers.arrayElement([
-    { cdn_url: faker.string.alpha(20), url: faker.string.alpha(20) },
-    undefined,
-  ]),
-  message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
-  ...overrideResponse,
-})
+export const getUploadToGetCdnBasePostResponseMock = (overrideResponse: Partial< DataResponseImageCdn > = {}): DataResponseImageCdn => ({code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), data: faker.helpers.arrayElement([{cdn_url: faker.string.alpha(20), url: faker.string.alpha(20)}, undefined]), message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), ...overrideResponse})
 
-export const getUploadToGetCdnBasePostMockHandler = (
-  overrideResponse?:
-    | DataResponseImageCdn
-    | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
-      ) => Promise<DataResponseImageCdn> | DataResponseImageCdn),
-) => {
-  return http.post('*/base', async (info) => {
-    await delay(1000)
 
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse !== undefined
-          ? typeof overrideResponse === 'function'
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getUploadToGetCdnBasePostResponseMock(),
-      ),
-      { status: 200, headers: { 'Content-Type': 'application/json' } },
-    )
+export const getUploadToGetCdnBasePostMockHandler = (overrideResponse?: DataResponseImageCdn | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<DataResponseImageCdn> | DataResponseImageCdn)) => {
+  return http.post('*/base', async (info) => {await delay(1000);
+  
+    return new HttpResponse(JSON.stringify(overrideResponse !== undefined 
+            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse) 
+            : getUploadToGetCdnBasePostResponseMock()),
+      { status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      })
   })
 }
-export const getBaseMock = () => [getUploadToGetCdnBasePostMockHandler()]
+export const getBaseMock = () => [
+  getUploadToGetCdnBasePostMockHandler()
+]

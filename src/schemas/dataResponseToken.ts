@@ -12,10 +12,10 @@
         
  * OpenAPI spec version: 0.1.0
  */
-import type { Token } from './token'
+import type { Token } from './token';
 
 export interface DataResponseToken {
-  code?: string
-  data?: Token
-  message?: string
+  code?: string;
+  data?: Token;
+  message?: string;
 }

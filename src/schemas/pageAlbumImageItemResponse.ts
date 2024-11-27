@@ -12,12 +12,12 @@
         
  * OpenAPI spec version: 0.1.0
  */
-import type { AlbumImageItemResponse } from './albumImageItemResponse'
-import type { MetadataSchema } from './metadataSchema'
+import type { AlbumImageItemResponse } from './albumImageItemResponse';
+import type { MetadataSchema } from './metadataSchema';
 
 export interface PageAlbumImageItemResponse {
-  code?: string
-  data: AlbumImageItemResponse[]
-  message?: string
-  metadata: MetadataSchema
+  code?: string;
+  data: AlbumImageItemResponse[];
+  message?: string;
+  metadata: MetadataSchema;
 }

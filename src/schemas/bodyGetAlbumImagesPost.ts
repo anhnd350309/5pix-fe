@@ -13,13 +13,6 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export interface AlbumImageItemResponse {
-  cdn_image_url?: string;
-  created_at: string;
-  id: number;
-  image_metadata?: string;
-  image_name: string;
-  is_hide?: number;
-  s3_image_url?: string;
-  updated_at: string;
+export interface BodyGetAlbumImagesPost {
+  avatar_file?: Blob;
 }

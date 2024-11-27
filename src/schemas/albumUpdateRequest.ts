@@ -14,8 +14,11 @@
  */
 
 export interface AlbumUpdateRequest {
-  album_image_url?: string
-  album_name?: string
-  event_date?: string
-  is_highlight?: number
+  album_image_url?: string;
+  album_name?: string;
+  event_date?: string;
+  is_find_all_image?: number;
+  is_find_by_face?: number;
+  is_find_by_metadata?: number;
+  is_highlight?: number;
 }

@@ -12,10 +12,10 @@
         
  * OpenAPI spec version: 0.1.0
  */
-import type { UserItemResponse } from './userItemResponse'
+import type { UserItemResponse } from './userItemResponse';
 
 export interface DataResponseUserItemResponse {
-  code?: string
-  data?: UserItemResponse
-  message?: string
+  code?: string;
+  data?: UserItemResponse;
+  message?: string;
 }

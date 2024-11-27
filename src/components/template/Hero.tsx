@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
 
@@ -11,12 +12,26 @@ import {
 } from '@/components/ui/carousel'
 import { Input } from '@/components/ui/input'
 import { Select, SelectTrigger, SelectContent, SelectItem } from '@/components/ui/select'
+import { GetPubAlbumsGetParams } from '@/schemas'
+import { useGetPubAlbumsGet } from '@/services/public-album/public-album'
 
+import { ListEvents } from '../event/ListEvents'
 import EventCard from '../shared/EventCard'
 
 const Hero = () => {
   const { t } = useTranslation('common')
-  // const scrollAnimation = useMemo(() => getScrollAnimation(), [])
+
+  const params2: GetPubAlbumsGetParams = {
+    page: 1,
+    page_size: 1,
+    highlight: true,
+  }
+  const { data: data2, error: error2, isLoading: isLoading2 } = useGetPubAlbumsGet(params2)
+
+  if (isLoading2) return <div>Loading...</div>
+  if (error2) return <div>Error</div>
+
+  const eventHighlights = data2?.data.data
 
   return (
     <div className='flex flex-col space-y-5 mt-4 px-8 xl:px-16 center sm:mx-16' id='about'>
@@ -57,10 +72,18 @@ const Hero = () => {
           className='w-[90%]'
         >
           <CarouselContent>
-            {Array.from({ length: 5 }).map((_, index) => (
-              <CarouselItem key={index} className='md:basis-1/1 lg:basis-1/3'>
+            {eventHighlights?.map((event) => (
+              <CarouselItem key={event.id} className='md:basis-1/1 lg:basis-1/3'>
                 <div className='p-1'>
-                  <EventCard />
+                  <Link href={`/events/${event.id}`} prefetch>
+                    <EventCard
+                      key={event.id}
+                      title={event.album_name}
+                      date={event.event_date}
+                      imageCount={event.total_image ?? 0}
+                      imageUrl={event.album_image_url}
+                    />
+                  </Link>
                 </div>
               </CarouselItem>
             ))}
@@ -69,19 +92,7 @@ const Hero = () => {
           <CarouselNext />
         </Carousel>
       </div>
-      <div className=''>
-        <h2 className='m-4 font-bold text-3xl text-center'>Danh sách sự kiện</h2>
-        <div className='gap-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'>
-          {Array.from({ length: 12 }).map((_, index) => (
-            <EventCard key={index} />
-          ))}
-        </div>
-        <div className='flex justify-center mt-4 border-blue-500'>
-          <Button className='bg-transparent hover:bg-blue-500 mb-8 border border-blue-500 rounded-full text-blue-500 hover:text-white'>
-            Xem thêm
-          </Button>
-        </div>
-      </div>
+      <ListEvents />
     </div>
   )
 }

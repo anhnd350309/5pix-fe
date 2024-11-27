@@ -14,7 +14,7 @@
  */
 
 export interface MetadataSchema {
-  current_page: number
-  page_size: number
-  total_items: number
+  current_page: number;
+  page_size: number;
+  total_items: number;
 }

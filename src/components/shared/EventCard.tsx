@@ -2,13 +2,20 @@ import Image from 'next/image'
 
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
 
-const EventCard = () => {
+interface EventCardProps {
+  title?: string
+  date?: string
+  imageCount?: number
+  imageUrl?: string
+}
+
+const EventCard: React.FC<EventCardProps> = ({ title, date, imageCount, imageUrl }) => {
   return (
     <Card className=''>
       <CardHeader>
         <Image
-          src='/assets/images/event.png'
-          alt='TA NANG TRAIL CHALLENGE 2025'
+          src={imageUrl || '/assets/images/event.png'}
+          alt={title || 'event'}
           width={600}
           height={400}
           className='rounded-t-lg'
@@ -16,7 +23,7 @@ const EventCard = () => {
       </CardHeader>
       <CardContent>
         <CardTitle className='text-ellipsis truncate whitespace-nowrap overflow-hidden'>
-          TA NANG TRAIL CHALLENGE 2025 - LEAD YOUR JOURNEY
+          {title}
         </CardTitle>
         <CardDescription>
           <div className='flex items-center gap-4'>
@@ -24,21 +31,21 @@ const EventCard = () => {
               <Image
                 className='w-4 h-4'
                 src='/assets/icons/template/date.svg'
-                alt='twitter'
+                alt='date'
                 height={30}
                 width={30}
               />
-              <span className='pl-1'>10/05/2024</span>
+              <span className='pl-1'>{new Date(date || '').toLocaleDateString('en-GB')}</span>
             </div>
             <div className='flex items-center'>
               <Image
                 className='w-4 h-4'
                 src='/assets/icons/template/image.svg'
-                alt='twitter'
+                alt='image count'
                 height={30}
                 width={30}
               />
-              <span className='pl-1'>50.000 Ảnh</span>
+              <span className='pl-1'>{imageCount} Ảnh</span>
             </div>
           </div>
         </CardDescription>

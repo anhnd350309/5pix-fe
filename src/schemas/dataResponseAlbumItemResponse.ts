@@ -12,10 +12,10 @@
         
  * OpenAPI spec version: 0.1.0
  */
-import type { AlbumItemResponse } from './albumItemResponse'
+import type { AlbumItemResponse } from './albumItemResponse';
 
 export interface DataResponseAlbumItemResponse {
-  code?: string
-  data?: AlbumItemResponse
-  message?: string
+  code?: string;
+  data?: AlbumItemResponse;
+  message?: string;
 }

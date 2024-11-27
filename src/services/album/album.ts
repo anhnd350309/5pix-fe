@@ -12,7 +12,10 @@
         
  * OpenAPI spec version: 0.1.0
  */
-import { useMutation, useQuery } from '@tanstack/react-query'
+import {
+  useMutation,
+  useQuery
+} from '@tanstack/react-query'
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -24,10 +27,14 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult,
+  UseQueryResult
 } from '@tanstack/react-query'
 import axios from 'axios'
-import type { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
+import type {
+  AxiosError,
+  AxiosRequestConfig,
+  AxiosResponse
+} from 'axios'
 import type {
   AlbumCreateRequest,
   AlbumUpdateRequest,
@@ -35,331 +42,346 @@ import type {
   DataResponseStr,
   GetAlbumsGetParams,
   HTTPValidationError,
-  PageAlbumItemResponse,
+  PageAlbumItemResponse
 } from '../../schemas'
+
+
 
 /**
  * API Get list Album
  * @summary Get
  */
 export const getAlbumsGet = (
-  params?: GetAlbumsGetParams,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<PageAlbumItemResponse>> => {
-  return axios.get(`http://54.254.67.146:8000/albums`, {
+    params?: GetAlbumsGetParams, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<PageAlbumItemResponse>> => {
+    
+    return axios.get(
+      `http://54.254.67.146:8000/albums`,{
     ...options,
-    params: { ...params, ...options?.params },
-  })
-}
+        params: {...params, ...options?.params},}
+    );
+  }
 
-export const getGetAlbumsGetQueryKey = (params?: GetAlbumsGetParams) => {
-  return [`http://54.254.67.146:8000/albums`, ...(params ? [params] : [])] as const
-}
 
-export const getGetAlbumsGetQueryOptions = <
-  TData = Awaited<ReturnType<typeof getAlbumsGet>>,
-  TError = AxiosError<HTTPValidationError>,
->(
-  params?: GetAlbumsGetParams,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAlbumsGet>>, TError, TData>>
-    axios?: AxiosRequestConfig
-  },
+export const getGetAlbumsGetQueryKey = (params?: GetAlbumsGetParams,) => {
+    return [`http://54.254.67.146:8000/albums`, ...(params ? [params]: [])] as const;
+    }
+
+    
+export const getGetAlbumsGetQueryOptions = <TData = Awaited<ReturnType<typeof getAlbumsGet>>, TError = AxiosError<HTTPValidationError>>(params?: GetAlbumsGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAlbumsGet>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
 
-  const queryKey = queryOptions?.queryKey ?? getGetAlbumsGetQueryKey(params)
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof getAlbumsGet>>> = ({ signal }) =>
-    getAlbumsGet(params, { signal, ...axiosOptions })
+  const queryKey =  queryOptions?.queryKey ?? getGetAlbumsGetQueryKey(params);
 
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof getAlbumsGet>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData> }
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAlbumsGet>>> = ({ signal }) => getAlbumsGet(params, { signal, ...axiosOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAlbumsGet>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
 }
 
 export type GetAlbumsGetQueryResult = NonNullable<Awaited<ReturnType<typeof getAlbumsGet>>>
 export type GetAlbumsGetQueryError = AxiosError<HTTPValidationError>
 
-export function useGetAlbumsGet<
-  TData = Awaited<ReturnType<typeof getAlbumsGet>>,
-  TError = AxiosError<HTTPValidationError>,
->(
-  params: undefined | GetAlbumsGetParams,
-  options: {
-    query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAlbumsGet>>, TError, TData>> &
-      Pick<
-        DefinedInitialDataOptions<Awaited<ReturnType<typeof getAlbumsGet>>, TError, TData>,
-        'initialData'
-      >
-    axios?: AxiosRequestConfig
-  },
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetAlbumsGet<
-  TData = Awaited<ReturnType<typeof getAlbumsGet>>,
-  TError = AxiosError<HTTPValidationError>,
->(
-  params?: GetAlbumsGetParams,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAlbumsGet>>, TError, TData>> &
-      Pick<
-        UndefinedInitialDataOptions<Awaited<ReturnType<typeof getAlbumsGet>>, TError, TData>,
-        'initialData'
-      >
-    axios?: AxiosRequestConfig
-  },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetAlbumsGet<
-  TData = Awaited<ReturnType<typeof getAlbumsGet>>,
-  TError = AxiosError<HTTPValidationError>,
->(
-  params?: GetAlbumsGetParams,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAlbumsGet>>, TError, TData>>
-    axios?: AxiosRequestConfig
-  },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+
+export function useGetAlbumsGet<TData = Awaited<ReturnType<typeof getAlbumsGet>>, TError = AxiosError<HTTPValidationError>>(
+ params: undefined |  GetAlbumsGetParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAlbumsGet>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAlbumsGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, axios?: AxiosRequestConfig}
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetAlbumsGet<TData = Awaited<ReturnType<typeof getAlbumsGet>>, TError = AxiosError<HTTPValidationError>>(
+ params?: GetAlbumsGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAlbumsGet>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAlbumsGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, axios?: AxiosRequestConfig}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetAlbumsGet<TData = Awaited<ReturnType<typeof getAlbumsGet>>, TError = AxiosError<HTTPValidationError>>(
+ params?: GetAlbumsGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAlbumsGet>>, TError, TData>>, axios?: AxiosRequestConfig}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get
  */
 
-export function useGetAlbumsGet<
-  TData = Awaited<ReturnType<typeof getAlbumsGet>>,
-  TError = AxiosError<HTTPValidationError>,
->(
-  params?: GetAlbumsGetParams,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAlbumsGet>>, TError, TData>>
-    axios?: AxiosRequestConfig
-  },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
-  const queryOptions = getGetAlbumsGetQueryOptions(params, options)
+export function useGetAlbumsGet<TData = Awaited<ReturnType<typeof getAlbumsGet>>, TError = AxiosError<HTTPValidationError>>(
+ params?: GetAlbumsGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAlbumsGet>>, TError, TData>>, axios?: AxiosRequestConfig}
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>
-  }
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
 
-  query.queryKey = queryOptions.queryKey
+  const queryOptions = getGetAlbumsGetQueryOptions(params,options)
 
-  return query
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
 }
+
+
 
 /**
  * API Create Album
  * @summary Create
  */
 export const createAlbumsPost = (
-  albumCreateRequest: AlbumCreateRequest,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<DataResponseAlbumItemResponse>> => {
-  return axios.post(`http://54.254.67.146:8000/albums`, albumCreateRequest, options)
-}
-
-export const getCreateAlbumsPostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof createAlbumsPost>>,
-    TError,
-    { data: AlbumCreateRequest },
-    TContext
-  >
-  axios?: AxiosRequestConfig
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof createAlbumsPost>>,
-  TError,
-  { data: AlbumCreateRequest },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof createAlbumsPost>>,
-    { data: AlbumCreateRequest }
-  > = (props) => {
-    const { data } = props ?? {}
-
-    return createAlbumsPost(data, axiosOptions)
+    albumCreateRequest: AlbumCreateRequest, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<DataResponseAlbumItemResponse>> => {
+    
+    return axios.post(
+      `http://54.254.67.146:8000/albums`,
+      albumCreateRequest,options
+    );
   }
 
-  return { mutationFn, ...mutationOptions }
-}
 
-export type CreateAlbumsPostMutationResult = NonNullable<
-  Awaited<ReturnType<typeof createAlbumsPost>>
->
-export type CreateAlbumsPostMutationBody = AlbumCreateRequest
-export type CreateAlbumsPostMutationError = AxiosError<HTTPValidationError>
 
-/**
+export const getCreateAlbumsPostMutationOptions = <TError = AxiosError<HTTPValidationError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createAlbumsPost>>, TError,{data: AlbumCreateRequest}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof createAlbumsPost>>, TError,{data: AlbumCreateRequest}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createAlbumsPost>>, {data: AlbumCreateRequest}> = (props) => {
+          const {data} = props ?? {};
+
+          return  createAlbumsPost(data,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateAlbumsPostMutationResult = NonNullable<Awaited<ReturnType<typeof createAlbumsPost>>>
+    export type CreateAlbumsPostMutationBody = AlbumCreateRequest
+    export type CreateAlbumsPostMutationError = AxiosError<HTTPValidationError>
+
+    /**
  * @summary Create
  */
-export const useCreateAlbumsPost = <
-  TError = AxiosError<HTTPValidationError>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof createAlbumsPost>>,
-    TError,
-    { data: AlbumCreateRequest },
-    TContext
-  >
-  axios?: AxiosRequestConfig
-}): UseMutationResult<
-  Awaited<ReturnType<typeof createAlbumsPost>>,
-  TError,
-  { data: AlbumCreateRequest },
-  TContext
-> => {
-  const mutationOptions = getCreateAlbumsPostMutationOptions(options)
+export const useCreateAlbumsPost = <TError = AxiosError<HTTPValidationError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createAlbumsPost>>, TError,{data: AlbumCreateRequest}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof createAlbumsPost>>,
+        TError,
+        {data: AlbumCreateRequest},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions)
+      const mutationOptions = getCreateAlbumsPostMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
+ * API Detail Album
+ * @summary Detail
+ */
+export const detailAlbumsAlbumIdGet = (
+    albumId: number, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<DataResponseAlbumItemResponse>> => {
+    
+    return axios.get(
+      `http://54.254.67.146:8000/albums/${albumId}`,options
+    );
+  }
+
+
+export const getDetailAlbumsAlbumIdGetQueryKey = (albumId: number,) => {
+    return [`http://54.254.67.146:8000/albums/${albumId}`] as const;
+    }
+
+    
+export const getDetailAlbumsAlbumIdGetQueryOptions = <TData = Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>, TError = AxiosError<HTTPValidationError>>(albumId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>, TError, TData>>, axios?: AxiosRequestConfig}
+) => {
+
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getDetailAlbumsAlbumIdGetQueryKey(albumId);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>> = ({ signal }) => detailAlbumsAlbumIdGet(albumId, { signal, ...axiosOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(albumId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
 }
+
+export type DetailAlbumsAlbumIdGetQueryResult = NonNullable<Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>>
+export type DetailAlbumsAlbumIdGetQueryError = AxiosError<HTTPValidationError>
+
+
+export function useDetailAlbumsAlbumIdGet<TData = Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>, TError = AxiosError<HTTPValidationError>>(
+ albumId: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, axios?: AxiosRequestConfig}
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useDetailAlbumsAlbumIdGet<TData = Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>, TError = AxiosError<HTTPValidationError>>(
+ albumId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, axios?: AxiosRequestConfig}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useDetailAlbumsAlbumIdGet<TData = Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>, TError = AxiosError<HTTPValidationError>>(
+ albumId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>, TError, TData>>, axios?: AxiosRequestConfig}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+/**
+ * @summary Detail
+ */
+
+export function useDetailAlbumsAlbumIdGet<TData = Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>, TError = AxiosError<HTTPValidationError>>(
+ albumId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>, TError, TData>>, axios?: AxiosRequestConfig}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+
+  const queryOptions = getDetailAlbumsAlbumIdGetQueryOptions(albumId,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
 /**
  * API update Album
  * @summary Update
  */
 export const updateAlbumsAlbumIdPut = (
-  albumId: number,
-  albumUpdateRequest: AlbumUpdateRequest,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<DataResponseAlbumItemResponse>> => {
-  return axios.put(`http://54.254.67.146:8000/albums/${albumId}`, albumUpdateRequest, options)
-}
-
-export const getUpdateAlbumsAlbumIdPutMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof updateAlbumsAlbumIdPut>>,
-    TError,
-    { albumId: number; data: AlbumUpdateRequest },
-    TContext
-  >
-  axios?: AxiosRequestConfig
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof updateAlbumsAlbumIdPut>>,
-  TError,
-  { albumId: number; data: AlbumUpdateRequest },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof updateAlbumsAlbumIdPut>>,
-    { albumId: number; data: AlbumUpdateRequest }
-  > = (props) => {
-    const { albumId, data } = props ?? {}
-
-    return updateAlbumsAlbumIdPut(albumId, data, axiosOptions)
+    albumId: number,
+    albumUpdateRequest: AlbumUpdateRequest, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<DataResponseAlbumItemResponse>> => {
+    
+    return axios.put(
+      `http://54.254.67.146:8000/albums/${albumId}`,
+      albumUpdateRequest,options
+    );
   }
 
-  return { mutationFn, ...mutationOptions }
-}
 
-export type UpdateAlbumsAlbumIdPutMutationResult = NonNullable<
-  Awaited<ReturnType<typeof updateAlbumsAlbumIdPut>>
->
-export type UpdateAlbumsAlbumIdPutMutationBody = AlbumUpdateRequest
-export type UpdateAlbumsAlbumIdPutMutationError = AxiosError<HTTPValidationError>
 
-/**
+export const getUpdateAlbumsAlbumIdPutMutationOptions = <TError = AxiosError<HTTPValidationError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateAlbumsAlbumIdPut>>, TError,{albumId: number;data: AlbumUpdateRequest}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof updateAlbumsAlbumIdPut>>, TError,{albumId: number;data: AlbumUpdateRequest}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateAlbumsAlbumIdPut>>, {albumId: number;data: AlbumUpdateRequest}> = (props) => {
+          const {albumId,data} = props ?? {};
+
+          return  updateAlbumsAlbumIdPut(albumId,data,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateAlbumsAlbumIdPutMutationResult = NonNullable<Awaited<ReturnType<typeof updateAlbumsAlbumIdPut>>>
+    export type UpdateAlbumsAlbumIdPutMutationBody = AlbumUpdateRequest
+    export type UpdateAlbumsAlbumIdPutMutationError = AxiosError<HTTPValidationError>
+
+    /**
  * @summary Update
  */
-export const useUpdateAlbumsAlbumIdPut = <
-  TError = AxiosError<HTTPValidationError>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof updateAlbumsAlbumIdPut>>,
-    TError,
-    { albumId: number; data: AlbumUpdateRequest },
-    TContext
-  >
-  axios?: AxiosRequestConfig
-}): UseMutationResult<
-  Awaited<ReturnType<typeof updateAlbumsAlbumIdPut>>,
-  TError,
-  { albumId: number; data: AlbumUpdateRequest },
-  TContext
-> => {
-  const mutationOptions = getUpdateAlbumsAlbumIdPutMutationOptions(options)
+export const useUpdateAlbumsAlbumIdPut = <TError = AxiosError<HTTPValidationError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateAlbumsAlbumIdPut>>, TError,{albumId: number;data: AlbumUpdateRequest}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof updateAlbumsAlbumIdPut>>,
+        TError,
+        {albumId: number;data: AlbumUpdateRequest},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions)
-}
-/**
+      const mutationOptions = getUpdateAlbumsAlbumIdPutMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * API start process read image from file and Upload to S3
- * @summary Update
+ * @summary Process Image
  */
-export const updateAlbumsAlbumIdProcessImagePut = (
-  albumId: number,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<DataResponseStr>> => {
-  return axios.put(`http://54.254.67.146:8000/albums/${albumId}/process-image`, undefined, options)
-}
-
-export const getUpdateAlbumsAlbumIdProcessImagePutMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof updateAlbumsAlbumIdProcessImagePut>>,
-    TError,
-    { albumId: number },
-    TContext
-  >
-  axios?: AxiosRequestConfig
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof updateAlbumsAlbumIdProcessImagePut>>,
-  TError,
-  { albumId: number },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof updateAlbumsAlbumIdProcessImagePut>>,
-    { albumId: number }
-  > = (props) => {
-    const { albumId } = props ?? {}
-
-    return updateAlbumsAlbumIdProcessImagePut(albumId, axiosOptions)
+export const processImageAlbumsAlbumIdProcessImagePut = (
+    albumId: number, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<DataResponseStr>> => {
+    
+    return axios.put(
+      `http://54.254.67.146:8000/albums/${albumId}/process-image`,undefined,options
+    );
   }
 
-  return { mutationFn, ...mutationOptions }
-}
 
-export type UpdateAlbumsAlbumIdProcessImagePutMutationResult = NonNullable<
-  Awaited<ReturnType<typeof updateAlbumsAlbumIdProcessImagePut>>
->
 
-export type UpdateAlbumsAlbumIdProcessImagePutMutationError = AxiosError<HTTPValidationError>
+export const getProcessImageAlbumsAlbumIdProcessImagePutMutationOptions = <TError = AxiosError<HTTPValidationError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof processImageAlbumsAlbumIdProcessImagePut>>, TError,{albumId: number}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof processImageAlbumsAlbumIdProcessImagePut>>, TError,{albumId: number}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
-/**
- * @summary Update
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof processImageAlbumsAlbumIdProcessImagePut>>, {albumId: number}> = (props) => {
+          const {albumId} = props ?? {};
+
+          return  processImageAlbumsAlbumIdProcessImagePut(albumId,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type ProcessImageAlbumsAlbumIdProcessImagePutMutationResult = NonNullable<Awaited<ReturnType<typeof processImageAlbumsAlbumIdProcessImagePut>>>
+    
+    export type ProcessImageAlbumsAlbumIdProcessImagePutMutationError = AxiosError<HTTPValidationError>
+
+    /**
+ * @summary Process Image
  */
-export const useUpdateAlbumsAlbumIdProcessImagePut = <
-  TError = AxiosError<HTTPValidationError>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof updateAlbumsAlbumIdProcessImagePut>>,
-    TError,
-    { albumId: number },
-    TContext
-  >
-  axios?: AxiosRequestConfig
-}): UseMutationResult<
-  Awaited<ReturnType<typeof updateAlbumsAlbumIdProcessImagePut>>,
-  TError,
-  { albumId: number },
-  TContext
-> => {
-  const mutationOptions = getUpdateAlbumsAlbumIdProcessImagePutMutationOptions(options)
+export const useProcessImageAlbumsAlbumIdProcessImagePut = <TError = AxiosError<HTTPValidationError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof processImageAlbumsAlbumIdProcessImagePut>>, TError,{albumId: number}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof processImageAlbumsAlbumIdProcessImagePut>>,
+        TError,
+        {albumId: number},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions)
-}
+      const mutationOptions = getProcessImageAlbumsAlbumIdProcessImagePutMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    

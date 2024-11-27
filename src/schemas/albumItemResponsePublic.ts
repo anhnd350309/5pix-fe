@@ -13,13 +13,11 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export interface AlbumImageItemResponse {
-  cdn_image_url?: string;
-  created_at: string;
+export interface AlbumItemResponsePublic {
+  album_image_url: string;
+  album_name: string;
+  event_date: string;
   id: number;
-  image_metadata?: string;
-  image_name: string;
-  is_hide?: number;
-  s3_image_url?: string;
-  updated_at: string;
+  is_highlight: number;
+  total_image?: number;
 }

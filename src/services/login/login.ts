@@ -12,80 +12,80 @@
         
  * OpenAPI spec version: 0.1.0
  */
-import { useMutation } from '@tanstack/react-query'
-import type { MutationFunction, UseMutationOptions, UseMutationResult } from '@tanstack/react-query'
+import {
+  useMutation
+} from '@tanstack/react-query'
+import type {
+  MutationFunction,
+  UseMutationOptions,
+  UseMutationResult
+} from '@tanstack/react-query'
 import axios from 'axios'
-import type { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
-import type { DataResponseToken, HTTPValidationError, LoginRequest } from '../../schemas'
+import type {
+  AxiosError,
+  AxiosRequestConfig,
+  AxiosResponse
+} from 'axios'
+import type {
+  DataResponseToken,
+  HTTPValidationError,
+  LoginRequest
+} from '../../schemas'
+
+
 
 /**
  * @summary Login Access Token
  */
 export const loginAccessTokenLoginPost = (
-  loginRequest: LoginRequest,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<DataResponseToken>> => {
-  return axios.post(`http://54.254.67.146:8000/login`, loginRequest, options)
-}
-
-export const getLoginAccessTokenLoginPostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof loginAccessTokenLoginPost>>,
-    TError,
-    { data: LoginRequest },
-    TContext
-  >
-  axios?: AxiosRequestConfig
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof loginAccessTokenLoginPost>>,
-  TError,
-  { data: LoginRequest },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof loginAccessTokenLoginPost>>,
-    { data: LoginRequest }
-  > = (props) => {
-    const { data } = props ?? {}
-
-    return loginAccessTokenLoginPost(data, axiosOptions)
+    loginRequest: LoginRequest, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<DataResponseToken>> => {
+    
+    return axios.post(
+      `http://54.254.67.146:8000/login`,
+      loginRequest,options
+    );
   }
 
-  return { mutationFn, ...mutationOptions }
-}
 
-export type LoginAccessTokenLoginPostMutationResult = NonNullable<
-  Awaited<ReturnType<typeof loginAccessTokenLoginPost>>
->
-export type LoginAccessTokenLoginPostMutationBody = LoginRequest
-export type LoginAccessTokenLoginPostMutationError = AxiosError<HTTPValidationError>
 
-/**
+export const getLoginAccessTokenLoginPostMutationOptions = <TError = AxiosError<HTTPValidationError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof loginAccessTokenLoginPost>>, TError,{data: LoginRequest}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof loginAccessTokenLoginPost>>, TError,{data: LoginRequest}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof loginAccessTokenLoginPost>>, {data: LoginRequest}> = (props) => {
+          const {data} = props ?? {};
+
+          return  loginAccessTokenLoginPost(data,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type LoginAccessTokenLoginPostMutationResult = NonNullable<Awaited<ReturnType<typeof loginAccessTokenLoginPost>>>
+    export type LoginAccessTokenLoginPostMutationBody = LoginRequest
+    export type LoginAccessTokenLoginPostMutationError = AxiosError<HTTPValidationError>
+
+    /**
  * @summary Login Access Token
  */
-export const useLoginAccessTokenLoginPost = <
-  TError = AxiosError<HTTPValidationError>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof loginAccessTokenLoginPost>>,
-    TError,
-    { data: LoginRequest },
-    TContext
-  >
-  axios?: AxiosRequestConfig
-}): UseMutationResult<
-  Awaited<ReturnType<typeof loginAccessTokenLoginPost>>,
-  TError,
-  { data: LoginRequest },
-  TContext
-> => {
-  const mutationOptions = getLoginAccessTokenLoginPostMutationOptions(options)
+export const useLoginAccessTokenLoginPost = <TError = AxiosError<HTTPValidationError>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof loginAccessTokenLoginPost>>, TError,{data: LoginRequest}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof loginAccessTokenLoginPost>>,
+        TError,
+        {data: LoginRequest},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions)
-}
+      const mutationOptions = getLoginAccessTokenLoginPostMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
