@@ -21,10 +21,13 @@ import {
   http
 } from 'msw'
 import type {
+  DataResponseAlbumItemResponsePublic,
   PageAlbumItemResponsePublic
 } from '../../schemas'
 
 export const getGetPubAlbumsGetResponseMock = (overrideResponse: Partial< PageAlbumItemResponsePublic > = {}): PageAlbumItemResponsePublic => ({code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), data: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({album_image_url: faker.string.alpha(20), album_name: faker.string.alpha(20), event_date: `${faker.date.past().toISOString().split('.')[0]}Z`, id: faker.number.int({min: undefined, max: undefined}), is_highlight: faker.number.int({min: undefined, max: undefined}), total_image: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined])})), message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), metadata: {current_page: faker.number.int({min: undefined, max: undefined}), page_size: faker.number.int({min: undefined, max: undefined}), total_items: faker.number.int({min: undefined, max: undefined})}, ...overrideResponse})
+
+export const getDetailPubAlbumsAlbumIdGetResponseMock = (overrideResponse: Partial< DataResponseAlbumItemResponsePublic > = {}): DataResponseAlbumItemResponsePublic => ({code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), data: faker.helpers.arrayElement([{album_image_url: faker.string.alpha(20), album_name: faker.string.alpha(20), event_date: `${faker.date.past().toISOString().split('.')[0]}Z`, id: faker.number.int({min: undefined, max: undefined}), is_highlight: faker.number.int({min: undefined, max: undefined}), total_image: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined])}, undefined]), message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), ...overrideResponse})
 
 
 export const getGetPubAlbumsGetMockHandler = (overrideResponse?: PageAlbumItemResponsePublic | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<PageAlbumItemResponsePublic> | PageAlbumItemResponsePublic)) => {
@@ -38,6 +41,19 @@ export const getGetPubAlbumsGetMockHandler = (overrideResponse?: PageAlbumItemRe
       })
   })
 }
+
+export const getDetailPubAlbumsAlbumIdGetMockHandler = (overrideResponse?: DataResponseAlbumItemResponsePublic | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<DataResponseAlbumItemResponsePublic> | DataResponseAlbumItemResponsePublic)) => {
+  return http.get('*/pub/albums/:albumId', async (info) => {await delay(1000);
+  
+    return new HttpResponse(JSON.stringify(overrideResponse !== undefined 
+            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse) 
+            : getDetailPubAlbumsAlbumIdGetResponseMock()),
+      { status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      })
+  })
+}
 export const getPublicAlbumMock = () => [
-  getGetPubAlbumsGetMockHandler()
+  getGetPubAlbumsGetMockHandler(),
+  getDetailPubAlbumsAlbumIdGetMockHandler()
 ]

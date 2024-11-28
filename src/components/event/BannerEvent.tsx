@@ -2,34 +2,35 @@ import Image from 'next/image'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { AlbumItemResponsePublic } from '@/schemas'
 
 import SvgDate from '../icons/icons/Date'
 import SvgImage from '../icons/icons/Image'
 import SvgSearch from '../icons/icons/Search'
 
-export const BannerEvent: React.FC = () => {
+export interface BannerEventProps {
+  event: AlbumItemResponsePublic
+}
+export const BannerEvent: React.FC<BannerEventProps> = ({
+  event: { album_image_url, album_name, event_date, total_image },
+}) => {
   return (
     <div className='flex flex-col items-start mb-20 bg-gradient-to-r rounded-lg text-white max-w-4xl mx-auto gap-8'>
       {/* Banner */}
       <div className='flex items-center gap-4 w-full'>
         <div className='relative flex-1 w-full max-w-sm aspect-video'>
-          <Image
-            src='/assets/images/event.png'
-            alt='Tà Năng Trail Challenge 2025'
-            fill
-            className='rounded-md object-cover'
-          />
+          <Image src={album_image_url} alt={album_name} fill className='rounded-md object-cover' />
         </div>
         <div className='flex flex-1 flex-col gap-2'>
-          <h1 className='text-xl sm:text-2xl font-bold'>Tà Năng Trail Challenge 2025</h1>
+          <h1 className='text-xl sm:text-2xl font-bold'>{album_name}</h1>
           <div className='items-center gap-6 text-gray-300 sm:flex'>
             <div className='flex items-center gap-1'>
               <SvgDate width={16} />
-              <span>10 Jun 2023</span>
+              <span>{event_date}</span>
             </div>
             <div className='flex items-center gap-1'>
               <SvgImage width={16} />
-              <span>50.000 Ảnh</span>
+              <span>{total_image?.toLocaleString()} Ảnh</span>
             </div>
           </div>
         </div>

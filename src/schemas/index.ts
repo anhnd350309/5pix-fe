@@ -23,6 +23,7 @@ export * from './bodyGetAlbumImagesPost';
 export * from './bodySearchPubImagesPost';
 export * from './bodyUploadToGetCdnBasePost';
 export * from './dataResponseAlbumItemResponse';
+export * from './dataResponseAlbumItemResponsePublic';
 export * from './dataResponseImageCdn';
 export * from './dataResponseStr';
 export * from './dataResponseToken';
