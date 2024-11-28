@@ -14,7 +14,7 @@ const EventCard: React.FC<EventCardProps> = ({ title, date, imageCount, imageUrl
     <Card className=''>
       <CardHeader>
         <Image
-          src={imageUrl || '/assets/images/event.png'}
+          src='/assets/images/event.png'
           alt={title || 'event'}
           width={600}
           height={400}
