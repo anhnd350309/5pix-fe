@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import React, { useState } from 'react'
 import { Link as LinkScroll } from 'react-scroll'
 
@@ -21,49 +22,44 @@ const Header = () => {
         {/* <div className="absolute top-0 left-0 w-full h-full bg-cover bg-center -z-10" style={{ backgroundImage: "url('/assets/images/BG.png')" }}></div> */}
         <nav className='container mx-auto grid grid-flow-col px-8 py-3 sm:py-4 xl:px-16 relative z-10'>
           <div className='col-start-1 col-end-2 flex items-center'>
-            <Image
-              className='h-8 w-auto'
-              src='/assets/images/Logo.svg'
-              alt='Logo'
-              height={30}
-              width={100}
-            />
+            <Link href='/'>
+              <Image
+                className='h-8 w-auto'
+                src='/assets/images/Logo.svg'
+                alt='Logo'
+                height={30}
+                width={100}
+              />
+            </Link>
           </div>
           <ul className='col-start-4 col-end-8 hidden items-center text-white lg:flex'>
-            <LinkScroll
-              activeClass='active'
-              to='about'
-              spy
-              smooth
-              duration={1000}
-              onSetActive={() => {
-                setActiveLink('about')
-              }}
+            <Link
+              href='/'
+              prefetch
               className={`animation-hover mx-2 inline-block cursor-pointer px-4 py-2 relative${
                 activeLink === 'about'
                   ? ' animation-active text-template-orange-500 '
                   : ' a text-white hover:text-template-orange-500'
               }`}
+              onClick={() => {
+                setActiveLink('about')
+              }}
             >
               Trang chủ
-            </LinkScroll>
-            <LinkScroll
-              activeClass='active'
-              to='feature'
-              spy
-              smooth
-              duration={1000}
-              onSetActive={() => {
-                setActiveLink('feature')
-              }}
+            </Link>
+            <Link
+              href='/'
               className={`animation-hover mx-2 inline-block cursor-pointer px-4 py-2 relative${
                 activeLink === 'feature'
                   ? ' animation-active text-template-orange-500 '
                   : ' text-white hover:text-template-orange-500 '
               }`}
+              onClick={() => {
+                setActiveLink('feature')
+              }}
             >
               Danh sách sự kiện
-            </LinkScroll>
+            </Link>
             <LinkScroll
               activeClass='active'
               to='pricing'

@@ -12,6 +12,7 @@ const nextConfig = {
       'preview.colorlib.com',
       'music.youtube.com',
       'encrypted-tbn0.gstatic.com',
+      'rjp-v2-prod.s3.ap-southeast-1.amazonaws.com',
     ],
   },
 }

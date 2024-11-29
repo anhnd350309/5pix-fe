@@ -79,6 +79,10 @@
         "semi": false,
         "tabWidth": 2,
         "printWidth": 100
+      },
+      "error",
+      {
+        "endOfLine": "auto"
       }
     ],
     // eslint-plugin-@next
