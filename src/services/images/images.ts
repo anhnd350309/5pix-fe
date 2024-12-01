@@ -51,7 +51,7 @@ if(bodyGetAlbumImagesPost.avatar_file !== undefined) {
 
     
     return axios.post(
-      `http://54.254.67.146:8000/album-images`,
+      `https://dapi.5pix.org/album-images`,
       formData,{
     ...options,
         params: {...params, ...options?.params},}
@@ -108,7 +108,7 @@ export const setHideAlbumImagesHideImagePost = (
  ): Promise<AxiosResponse<DataResponseStr>> => {
     
     return axios.post(
-      `http://54.254.67.146:8000/album-images/hide-image`,undefined,{
+      `https://dapi.5pix.org/album-images/hide-image`,undefined,{
     ...options,
         params: {...params, ...options?.params},}
     );

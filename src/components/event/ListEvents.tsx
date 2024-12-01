@@ -1,59 +1,59 @@
-import { Spin } from 'antd';
-import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { Spin } from 'antd'
+import Link from 'next/link'
+import { useState, useEffect } from 'react'
 
-import { Button } from '@/components/ui/button';
-import { AlbumItemResponsePublic, GetPubAlbumsGetParams } from '@/schemas';
-import { getPubAlbumsGet } from '@/services/public-album/public-album';
+import { Button } from '@/components/ui/button'
+import { AlbumItemResponsePublic, GetPubAlbumsGetParams } from '@/schemas'
+import { getPubAlbumsGet } from '@/services/public-album/public-album'
 
-import EventCard from '../shared/EventCard';
+import EventCard from '../shared/EventCard'
 
 export const ListEvents: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [loadedEvents, setLoadedEvents] = useState<AlbumItemResponsePublic[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isLoadingMore, setIsLoadingMore] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [totalEvents, setTotalEvents] = useState<number | null>(null);
+  const [currentPage, setCurrentPage] = useState(1)
+  const [loadedEvents, setLoadedEvents] = useState<AlbumItemResponsePublic[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [isLoadingMore, setIsLoadingMore] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [totalEvents, setTotalEvents] = useState<number | null>(null)
 
   const params: GetPubAlbumsGetParams = {
     page: currentPage,
     page_size: 9,
-  };
+  }
 
   useEffect(() => {
     const fetchEvents = async () => {
-      if (currentPage === 1) setIsLoading(true);
-      setError(null);
+      if (currentPage === 1) setIsLoading(true)
+      setError(null)
 
       try {
-        const response = await getPubAlbumsGet(params);
-        const newEvents = response.data.data;
-        setLoadedEvents((prevEvents) => [...prevEvents, ...newEvents]);
-        setTotalEvents(response.data.metadata.total_items);
+        const response = await getPubAlbumsGet(params)
+        const newEvents = response.data.data
+        setLoadedEvents((prevEvents) => [...prevEvents, ...newEvents])
+        setTotalEvents(response.data.metadata.total_items)
       } catch (err: any) {
-        setError(err.message || 'Something went wrong');
+        setError(err.message || 'Something went wrong')
       } finally {
-        setIsLoading(false);
-        setIsLoadingMore(false);
+        setIsLoading(false)
+        setIsLoadingMore(false)
       }
-    };
+    }
 
-    fetchEvents();
-  }, [currentPage]);
+    fetchEvents()
+  }, [currentPage])
 
-  if (isLoading && currentPage === 1) return <Spin />;
-  if (error) return <div>Error: {error}</div>;
+  if (isLoading && currentPage === 1) return <Spin />
+  if (error) return <div>Error: {error}</div>
 
   const handleLoadMore = () => {
-    setIsLoadingMore(true);
-    setCurrentPage((prevPage) => prevPage + 1);
-  };
+    setIsLoadingMore(true)
+    setCurrentPage((prevPage) => prevPage + 1)
+  }
   return (
     <div className=''>
       <div className='gap-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'>
         {loadedEvents?.map((event) => (
-          <Link href={`/events/${event.id}`} key={event.id} prefetch>
+          <Link href={`/events/${event.id}`} key={event.id}>
             <EventCard
               key={event.id}
               title={event.album_name}

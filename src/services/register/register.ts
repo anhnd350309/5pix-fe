@@ -42,7 +42,7 @@ export const registerRegisterPost = (
  ): Promise<AxiosResponse<DataResponseUserItemResponse>> => {
     
     return axios.post(
-      `http://54.254.67.146:8000/register`,
+      `https://dapi.5pix.org/register`,
       userRegisterRequest,options
     );
   }

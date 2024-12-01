@@ -56,7 +56,7 @@ export const getAlbumsGet = (
  ): Promise<AxiosResponse<PageAlbumItemResponse>> => {
     
     return axios.get(
-      `http://54.254.67.146:8000/albums`,{
+      `https://dapi.5pix.org/albums`,{
     ...options,
         params: {...params, ...options?.params},}
     );
@@ -64,7 +64,7 @@ export const getAlbumsGet = (
 
 
 export const getGetAlbumsGetQueryKey = (params?: GetAlbumsGetParams,) => {
-    return [`http://54.254.67.146:8000/albums`, ...(params ? [params]: [])] as const;
+    return [`https://dapi.5pix.org/albums`, ...(params ? [params]: [])] as const;
     }
 
     
@@ -143,7 +143,7 @@ export const createAlbumsPost = (
  ): Promise<AxiosResponse<DataResponseAlbumItemResponse>> => {
     
     return axios.post(
-      `http://54.254.67.146:8000/albums`,
+      `https://dapi.5pix.org/albums`,
       albumCreateRequest,options
     );
   }
@@ -198,13 +198,13 @@ export const detailAlbumsAlbumIdGet = (
  ): Promise<AxiosResponse<DataResponseAlbumItemResponse>> => {
     
     return axios.get(
-      `http://54.254.67.146:8000/albums/${albumId}`,options
+      `https://dapi.5pix.org/albums/${albumId}`,options
     );
   }
 
 
 export const getDetailAlbumsAlbumIdGetQueryKey = (albumId: number,) => {
-    return [`http://54.254.67.146:8000/albums/${albumId}`] as const;
+    return [`https://dapi.5pix.org/albums/${albumId}`] as const;
     }
 
     
@@ -284,7 +284,7 @@ export const updateAlbumsAlbumIdPut = (
  ): Promise<AxiosResponse<DataResponseAlbumItemResponse>> => {
     
     return axios.put(
-      `http://54.254.67.146:8000/albums/${albumId}`,
+      `https://dapi.5pix.org/albums/${albumId}`,
       albumUpdateRequest,options
     );
   }
@@ -339,7 +339,7 @@ export const processImageAlbumsAlbumIdProcessImagePut = (
  ): Promise<AxiosResponse<DataResponseStr>> => {
     
     return axios.put(
-      `http://54.254.67.146:8000/albums/${albumId}/process-image`,undefined,options
+      `https://dapi.5pix.org/albums/${albumId}/process-image`,undefined,options
     );
   }
 

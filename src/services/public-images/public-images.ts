@@ -49,7 +49,7 @@ if(bodySearchPubImagesPost.avatar_file !== undefined) {
 
     
     return axios.post(
-      `http://54.254.67.146:8000/pub/images`,
+      `https://dapi.5pix.org/pub/images`,
       formData,{
     ...options,
         params: {...params, ...options?.params},}

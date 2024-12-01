@@ -45,13 +45,13 @@ export const getHealthcheckGet = (
  ): Promise<AxiosResponse<ResponseSchemaBase>> => {
     
     return axios.get(
-      `http://54.254.67.146:8000/healthcheck`,options
+      `https://dapi.5pix.org/healthcheck`,options
     );
   }
 
 
 export const getGetHealthcheckGetQueryKey = () => {
-    return [`http://54.254.67.146:8000/healthcheck`] as const;
+    return [`https://dapi.5pix.org/healthcheck`] as const;
     }
 
     

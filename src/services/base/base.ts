@@ -45,7 +45,7 @@ formData.append('file', bodyUploadToGetCdnBasePost.file)
 
     
     return axios.post(
-      `http://54.254.67.146:8000/base`,
+      `https://dapi.5pix.org/base`,
       formData,options
     );
   }

@@ -1,57 +1,62 @@
-import Link from 'next/link';
-import { useTranslation } from 'next-i18next';
+import Link from 'next/link'
+import { useTranslation } from 'next-i18next'
 import React, { useEffect, useState } from 'react'
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui/button'
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from '@/components/ui/carousel';
-import { Dialog, DialogTrigger, DialogContent, DialogHeader } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Select, SelectTrigger, SelectContent, SelectItem } from '@/components/ui/select';
-import { GetPubAlbumsGetParams } from '@/schemas';
+} from '@/components/ui/carousel'
+import { Dialog, DialogTrigger, DialogContent, DialogHeader } from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { Select, SelectTrigger, SelectContent, SelectItem } from '@/components/ui/select'
+import { AlbumItemResponsePublic, GetPubAlbumsGetParams } from '@/schemas'
 import { getPubAlbumsGet } from '@/services/public-album/public-album'
 
-import { ListEvents } from '../event/ListEvents';
-import EventCard from '../shared/EventCard';
+import { ListEvents } from '../event/ListEvents'
+import EventCard from '../shared/EventCard'
 
 const Hero = () => {
-  const { t } = useTranslation('common');
-  const [eventHighlights, setEventHighlights] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { t } = useTranslation('common')
+  const [eventHighlights, setEventHighlights] = useState<AlbumItemResponsePublic[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   useEffect(() => {
-    console.log('Component mounted: slide');
-  }, []);
+    console.log('Component mounted: slide')
+  }, [])
   const params: GetPubAlbumsGetParams = {
     page: 1,
     page_size: 10,
     highlight: true,
-  };
+  }
 
   useEffect(() => {
     const fetchEventHighlights = async () => {
-      setIsLoading(true);
+      setIsLoading(true)
       try {
-        const response = await getPubAlbumsGet(params);
-        setEventHighlights(response.data.data || []);
-        setError(null);
+        const response = await getPubAlbumsGet(params)
+        setEventHighlights(response.data.data || [])
+        setError(null)
       } catch (err: any) {
-        setError(err.message || 'Something went wrong');
+        setError(err.message || 'Something went wrong')
       } finally {
-        setIsLoading(false);
+        setIsLoading(false)
       }
-    };
+    }
 
-    fetchEventHighlights();
-  }, []);
+    fetchEventHighlights()
+  }, [])
 
-  if (isLoading) return <div>{t('loading')}</div>;
-  if (error) return <div>{t('error')}: {error}</div>;
+  if (isLoading) return <div>{t('loading')}</div>
+  if (error)
+    return (
+      <div>
+        {t('error')}: {error}
+      </div>
+    )
   return (
     <div className='flex flex-col space-y-5 mt-4 px-8 xl:px-16 center sm:mx-16' id='about'>
       <div className='flex flex-col justify-center items-center space-y-5 row-start-2 sm:row-start-1'>
@@ -59,8 +64,7 @@ const Hero = () => {
           {t('Nhiếp ảnh')}
           <br /> {t('mang lại trải nghiệm khác biệt')}
         </h1>
-        <div
-          className='flex flex-col sm:flex-row p-2 items-center space-y-4 sm:space-y-0 sm:space-x-4 sm:bg-white shadow rounded-full'>
+        <div className='flex flex-col sm:flex-row p-2 items-center space-y-4 sm:space-y-0 sm:space-x-4 sm:bg-white shadow rounded-full'>
           <Select>
             <SelectTrigger className='bg-white border-none rounded-full w-full text-center'>
               <span className='text-gray-700'>GIẢI CHẠY VIỆT NAM FAMILY MARATHON...</span>
@@ -156,7 +160,7 @@ const Hero = () => {
             {eventHighlights?.map((event) => (
               <CarouselItem key={event.id} className='md:basis-1/1 lg:basis-1/3'>
                 <div className='p-1'>
-                  <Link href={`/events/${event.id}`} prefetch>
+                  <Link href={`/events/${event.id}`}>
                     <EventCard
                       key={event.id}
                       title={event.album_name}

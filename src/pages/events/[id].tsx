@@ -1,16 +1,34 @@
 import { Spin } from 'antd'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { use, useEffect } from 'react'
 
 import { BannerEvent } from '@/components/event/BannerEvent'
 import Layout from '@/components/layout/Layout'
 import { useDetailPubAlbumsAlbumIdGet } from '@/services/public-album/public-album'
+import { useSearchPubImagesPost } from '@/services/public-images/public-images'
 
 const Event: React.FC = () => {
   const router = useRouter()
   const { id } = router.query
   const { data, error, isLoading } = useDetailPubAlbumsAlbumIdGet(Number(id))
+  const { mutate, data: imagesData, error: imagesError } = useSearchPubImagesPost()
+  useEffect(() => {
+    if (id) {
+      console.log('id', id)
+      mutate({
+        data: {},
+        params: {
+          album_id: Number(id),
+          search_type: 'all',
+          page: 1,
+          page_size: 100,
+          sort_by: 'id',
+          order: 'desc',
+        },
+      })
+    }
+  }, [id, mutate])
   if (isLoading) return <Spin />
   if (error) return <div>Error</div>
   const event = data?.data.data

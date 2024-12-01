@@ -56,7 +56,7 @@ export const getUsersGet = (
  ): Promise<AxiosResponse<PageUserItemResponse>> => {
     
     return axios.get(
-      `http://54.254.67.146:8000/users`,{
+      `https://dapi.5pix.org/users`,{
     ...options,
         params: {...params, ...options?.params},}
     );
@@ -64,7 +64,7 @@ export const getUsersGet = (
 
 
 export const getGetUsersGetQueryKey = (params?: GetUsersGetParams,) => {
-    return [`http://54.254.67.146:8000/users`, ...(params ? [params]: [])] as const;
+    return [`https://dapi.5pix.org/users`, ...(params ? [params]: [])] as const;
     }
 
     
@@ -143,7 +143,7 @@ export const createUsersPost = (
  ): Promise<AxiosResponse<DataResponseUserItemResponse>> => {
     
     return axios.post(
-      `http://54.254.67.146:8000/users`,
+      `https://dapi.5pix.org/users`,
       userCreateRequest,options
     );
   }
@@ -198,13 +198,13 @@ export const detailMeUsersMeGet = (
  ): Promise<AxiosResponse<DataResponseUserItemResponse>> => {
     
     return axios.get(
-      `http://54.254.67.146:8000/users/me`,options
+      `https://dapi.5pix.org/users/me`,options
     );
   }
 
 
 export const getDetailMeUsersMeGetQueryKey = () => {
-    return [`http://54.254.67.146:8000/users/me`] as const;
+    return [`https://dapi.5pix.org/users/me`] as const;
     }
 
     
@@ -283,7 +283,7 @@ export const updateMeUsersMePut = (
  ): Promise<AxiosResponse<DataResponseUserItemResponse>> => {
     
     return axios.put(
-      `http://54.254.67.146:8000/users/me`,
+      `https://dapi.5pix.org/users/me`,
       userUpdateMeRequest,options
     );
   }
@@ -338,13 +338,13 @@ export const detailUsersUserIdGet = (
  ): Promise<AxiosResponse<DataResponseUserItemResponse>> => {
     
     return axios.get(
-      `http://54.254.67.146:8000/users/${userId}`,options
+      `https://dapi.5pix.org/users/${userId}`,options
     );
   }
 
 
 export const getDetailUsersUserIdGetQueryKey = (userId: number,) => {
-    return [`http://54.254.67.146:8000/users/${userId}`] as const;
+    return [`https://dapi.5pix.org/users/${userId}`] as const;
     }
 
     
@@ -424,7 +424,7 @@ export const updateUsersUserIdPut = (
  ): Promise<AxiosResponse<DataResponseUserItemResponse>> => {
     
     return axios.put(
-      `http://54.254.67.146:8000/users/${userId}`,
+      `https://dapi.5pix.org/users/${userId}`,
       userUpdateRequest,options
     );
   }
