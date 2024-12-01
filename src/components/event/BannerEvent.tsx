@@ -1,3 +1,4 @@
+import React, { useState } from 'react'
 import Image from 'next/image'
 
 import { Button } from '@/components/ui/button'
@@ -7,13 +8,58 @@ import { AlbumItemResponsePublic } from '@/schemas'
 import SvgDate from '../icons/icons/Date'
 import SvgImage from '../icons/icons/Image'
 import SvgSearch from '../icons/icons/Search'
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
+import UploadImageComponent from '@/components/common/UploadImageComponent'
+import { searchPubImagesPost } from '@/services/public-images/public-images'
 
 export interface BannerEventProps {
   event: AlbumItemResponsePublic
+  id: number | string
 }
-export const BannerEvent: React.FC<BannerEventProps> = ({
-  event: { album_image_url, album_name, event_date, total_image },
-}) => {
+
+export const BannerEvent: ({ event: { album_image_url, album_name, event_date, total_image }, id }: {
+  event: { album_image_url: any; album_name: any; event_date: any; total_image: any };
+  id: any
+}) => JSX.Element = ({ event: { album_image_url, album_name, event_date, total_image }, id, }) => {
+  const [bibNumber, setBibNumber] = useState<string>('')
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (file) {
+      setSelectedFile(file)
+    }
+  }
+
+  const handleSubmit = async () => {
+    if (!selectedFile && !bibNumber) {
+      alert('Please enter a BIB number or upload an image!')
+      return
+    }
+
+    const body = {
+      avatar_file: selectedFile,
+    }
+    const params = {
+      album_id: id,
+      bib_number: bibNumber,
+      search_type: 'all',
+      page_size: 100,
+      page: 1,
+      sort_by: 'id',
+      order: 'desc',
+    }
+
+    try {
+      const response = await searchPubImagesPost(body, params)
+      console.log('Search Results:', response.data)
+      alert('Search successful!')
+    } catch (error) {
+      console.error('Error:', error)
+      alert('An error occurred. Please try again.')
+    }
+  }
+
   return (
     <div className='flex flex-col items-start mb-20 bg-gradient-to-r rounded-lg text-white max-w-4xl mx-auto gap-8'>
       {/* Banner */}
@@ -42,16 +88,28 @@ export const BannerEvent: React.FC<BannerEventProps> = ({
           <div className='bg-white w-full sm:w-80 border-l-2 rounded-full'>
             <Input
               placeholder='Nhập số BIB'
+              value={bibNumber}
+              onChange={(e) => setBibNumber(e.target.value)} // Update BIB state
               className='w-full sm:w-64 !ml-0 border-none !important'
             />
           </div>
           <div className='flex w-full sm:w-auto gap-1'>
-            <Button className='bg-blue-500 w-3/4 sm:w-[200px] text-white flex items-center rounded-full'>
+            <Button
+              onClick={handleSubmit}
+              className='bg-blue-500 w-3/4 sm:w-[200px] text-white flex items-center rounded-full'
+            >
               <SvgSearch width={16} stroke='white' /> Tìm ảnh
             </Button>
-            <Button className='bg-blue-100 w-full sm:w-[220px] text-blue-600 flex items-center rounded-full'>
-              <SvgImage width={16} stroke='#2563EB' /> Tìm kiếm bằng hình ảnh
-            </Button>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button className='bg-blue-100 w-full sm:w-[220px] text-blue-600 flex items-center rounded-full'>
+                  <SvgImage width={16} stroke='#2563EB' /> Tìm kiếm bằng hình ảnh
+                </Button>
+              </DialogTrigger>
+              <DialogContent className='sm:max-w-[425px]'>
+                <UploadImageComponent onFileChange={handleFileChange} />
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
       </div>
