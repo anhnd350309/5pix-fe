@@ -7,6 +7,7 @@ import { BannerEvent } from '@/components/event/BannerEvent'
 import Layout from '@/components/layout/Layout'
 import { useDetailPubAlbumsAlbumIdGet } from '@/services/public-album/public-album'
 import { useSearchPubImagesPost } from '@/services/public-images/public-images'
+import { Blob } from 'buffer'
 
 const Event: React.FC = () => {
   const router = useRouter()
@@ -15,9 +16,10 @@ const Event: React.FC = () => {
   const { mutate, data: imagesData, error: imagesError } = useSearchPubImagesPost()
   useEffect(() => {
     if (id) {
-      console.log('id', id)
       mutate({
-        data: {},
+        data: {
+          avatar_file: '',
+        },
         params: {
           album_id: Number(id),
           search_type: 'all',
