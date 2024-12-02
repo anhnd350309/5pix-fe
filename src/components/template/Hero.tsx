@@ -135,18 +135,18 @@ const Hero = () => {
                 className='!ml-0 border-none w-full sm:w-48'
               />
             </div>
-            <Dialog>
-              <DialogTrigger asChild>
-                <img
-                  src='/assets/icons/template/search_by_image.svg'
-                  className='mr-2 w-auto'
-                  alt=''
-                />
-              </DialogTrigger>
-              <DialogContent className='sm:max-w-[425px]'>
-                <UploadImageComponent onFileChange={handleFileChange} />
-              </DialogContent>
-            </Dialog>
+            {/*<Dialog>*/}
+            {/*  <DialogTrigger asChild>*/}
+            {/*    <img*/}
+            {/*      src='/assets/icons/template/search_by_image.svg'*/}
+            {/*      className='mr-2 w-auto'*/}
+            {/*      alt=''*/}
+            {/*    />*/}
+            {/*  </DialogTrigger>*/}
+            {/*  <DialogContent className='sm:max-w-[700px]'>*/}
+            {/*    <UploadImageComponent onFileChange={handleFileChange} />*/}
+            {/*  </DialogContent>*/}
+            {/*</Dialog>*/}
             <Button
               className='flex items-center bg-blue-500 rounded-full w-full sm:w-[200px] text-white'
               onClick={handleSubmit}

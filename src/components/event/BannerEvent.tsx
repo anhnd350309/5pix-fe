@@ -27,12 +27,17 @@ export const BannerEvent: ({
 }) => JSX.Element = ({ event: { album_image_url, album_name, event_date, total_image }, id }) => {
   const [bibNumber, setBibNumber] = useState<string>('')
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
     if (file) {
       setSelectedFile(file)
     }
+  }
+
+  const handleDone = () => {
+    setIsDialogOpen(false)
   }
 
   const handleSubmit = async () => {
@@ -86,7 +91,6 @@ export const BannerEvent: ({
         </div>
       </div>
 
-      {/* Search Bar */}
       <div className='flex flex-col items-center space-y-4 sm:bg-white shadow p-2 rounded-full w-full'>
         <div className='flex sm:flex-row flex-col sm:justify-between gap-4 rounded-full w-full'>
           <div className='bg-white border-l-2 rounded-full w-full sm:w-80'>
@@ -104,14 +108,17 @@ export const BannerEvent: ({
             >
               <SvgSearch width={16} stroke='white' /> Tìm ảnh
             </Button>
-            <Dialog>
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>  {/* Điều khiển mở dialog */}
               <DialogTrigger asChild>
-                <Button className='flex items-center bg-blue-100 rounded-full w-full sm:w-[220px] text-blue-600'>
-                  <SvgImage width={16} stroke='#2563EB' /> Tìm kiếm bằng hình ảnh
+                <Button
+                  className="flex items-center bg-blue-100 rounded-full w-full sm:w-[220px] text-blue-600"
+                  onClick={() => setIsDialogOpen(true)}  // Mở dialog khi nhấn nút
+                >
+                  <SvgImage width={16} stroke="#2563EB" /> Tìm kiếm bằng hình ảnh
                 </Button>
               </DialogTrigger>
-              <DialogContent className='sm:max-w-[425px]'>
-                <UploadImageComponent onFileChange={handleFileChange} />
+              <DialogContent className="sm:max-w-[700px]">
+                <UploadImageComponent onFileChange={handleFileChange} onDone={handleDone} />
               </DialogContent>
             </Dialog>
           </div>

@@ -14,6 +14,7 @@ const Event: React.FC = () => {
   const { id } = router.query
   const { data, error, isLoading } = useDetailPubAlbumsAlbumIdGet(Number(id))
   const { mutate, data: imagesData, error: imagesError } = useSearchPubImagesPost()
+  const lstImages = imagesData?.data?.data
   useEffect(() => {
     if (id) {
       mutate({
@@ -40,11 +41,11 @@ const Event: React.FC = () => {
       <div className='space-y-5 mx-1 sm:mx-16 mt-4 px-4 xl:px-16 center'>
         <BannerEvent event={event} id={id} />
         <div className='gap-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5'>
-          {Array.from({ length: 12 }).map((_, index) => (
+          {lstImages?.map((image, index: number) => (
             <Image
-              src='/assets/images/DetailEvent.png'
+              src={image?.cdn_image_url || '/path/to/default/image.jpg'}
               key={index}
-              alt='TA NANG TRAIL CHALLENGE 2025'
+              alt={image?.image_name || 'image'}
               width={600}
               height={400}
             />
