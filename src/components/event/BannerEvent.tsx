@@ -11,16 +11,20 @@ import SvgSearch from '../icons/icons/Search'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import UploadImageComponent from '@/components/common/UploadImageComponent'
 import { searchPubImagesPost } from '@/services/public-images/public-images'
+import { ImageSearchType } from '@/services/5pixBackend'
 
 export interface BannerEventProps {
   event: AlbumItemResponsePublic
   id: number | string
 }
 
-export const BannerEvent: ({ event: { album_image_url, album_name, event_date, total_image }, id }: {
-  event: { album_image_url: any; album_name: any; event_date: any; total_image: any };
+export const BannerEvent: ({
+  event: { album_image_url, album_name, event_date, total_image },
+  id,
+}: {
+  event: { album_image_url: any; album_name: any; event_date: any; total_image?: any }
   id: any
-}) => JSX.Element = ({ event: { album_image_url, album_name, event_date, total_image }, id, }) => {
+}) => JSX.Element = ({ event: { album_image_url, album_name, event_date, total_image }, id }) => {
   const [bibNumber, setBibNumber] = useState<string>('')
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
 
@@ -38,12 +42,12 @@ export const BannerEvent: ({ event: { album_image_url, album_name, event_date, t
     }
 
     const body = {
-      avatar_file: selectedFile,
+      avatar_file: selectedFile || undefined,
     }
     const params = {
       album_id: id,
       bib_number: bibNumber,
-      search_type: 'all',
+      search_type: 'all' as ImageSearchType,
       page_size: 100,
       page: 1,
       sort_by: 'id',
@@ -61,15 +65,15 @@ export const BannerEvent: ({ event: { album_image_url, album_name, event_date, t
   }
 
   return (
-    <div className='flex flex-col items-start mb-20 bg-gradient-to-r rounded-lg text-white max-w-4xl mx-auto gap-8'>
+    <div className='flex flex-col items-start gap-8 bg-gradient-to-r mx-auto mb-20 rounded-lg max-w-4xl text-white'>
       {/* Banner */}
       <div className='flex items-center gap-4 w-full'>
         <div className='relative flex-1 w-full max-w-sm aspect-video'>
           <Image src={album_image_url} alt={album_name} fill className='rounded-md object-cover' />
         </div>
-        <div className='flex flex-1 flex-col gap-2'>
-          <h1 className='text-xl sm:text-2xl font-bold'>{album_name}</h1>
-          <div className='items-center gap-6 text-gray-300 sm:flex'>
+        <div className='flex flex-col flex-1 gap-2'>
+          <h1 className='font-bold text-xl sm:text-2xl'>{album_name}</h1>
+          <div className='sm:flex items-center gap-6 text-gray-300'>
             <div className='flex items-center gap-1'>
               <SvgDate width={16} />
               <span>{event_date}</span>
@@ -83,26 +87,26 @@ export const BannerEvent: ({ event: { album_image_url, album_name, event_date, t
       </div>
 
       {/* Search Bar */}
-      <div className='flex w-full flex-col p-2 items-center space-y-4 sm:bg-white shadow rounded-full'>
-        <div className='flex flex-col gap-4 sm:flex-row rounded-full w-full sm:justify-between'>
-          <div className='bg-white w-full sm:w-80 border-l-2 rounded-full'>
+      <div className='flex flex-col items-center space-y-4 sm:bg-white shadow p-2 rounded-full w-full'>
+        <div className='flex sm:flex-row flex-col sm:justify-between gap-4 rounded-full w-full'>
+          <div className='bg-white border-l-2 rounded-full w-full sm:w-80'>
             <Input
               placeholder='Nhập số BIB'
               value={bibNumber}
               onChange={(e) => setBibNumber(e.target.value)} // Update BIB state
-              className='w-full sm:w-64 !ml-0 border-none !important'
+              className='!ml-0 border-none w-full sm:w-64 !important'
             />
           </div>
-          <div className='flex w-full sm:w-auto gap-1'>
+          <div className='flex gap-1 w-full sm:w-auto'>
             <Button
               onClick={handleSubmit}
-              className='bg-blue-500 w-3/4 sm:w-[200px] text-white flex items-center rounded-full'
+              className='flex items-center bg-blue-500 rounded-full w-3/4 sm:w-[200px] text-white'
             >
               <SvgSearch width={16} stroke='white' /> Tìm ảnh
             </Button>
             <Dialog>
               <DialogTrigger asChild>
-                <Button className='bg-blue-100 w-full sm:w-[220px] text-blue-600 flex items-center rounded-full'>
+                <Button className='flex items-center bg-blue-100 rounded-full w-full sm:w-[220px] text-blue-600'>
                   <SvgImage width={16} stroke='#2563EB' /> Tìm kiếm bằng hình ảnh
                 </Button>
               </DialogTrigger>

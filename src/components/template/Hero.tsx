@@ -13,7 +13,12 @@ import {
 import { Dialog, DialogTrigger, DialogContent } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Select, SelectTrigger, SelectContent, SelectItem } from '@/components/ui/select'
-import { AlbumItemResponsePublic, GetPubAlbumsGetParams, PageAlbumImageItemResponsePublic } from '@/schemas'
+import {
+  AlbumItemResponsePublic,
+  GetPubAlbumsGetParams,
+  ImageSearchType,
+  PageAlbumImageItemResponsePublic,
+} from '@/schemas'
 import { getPubAlbumsGet } from '@/services/public-album/public-album'
 
 import { ListEvents } from '../event/ListEvents'
@@ -74,9 +79,9 @@ const Hero = () => {
       avatar_file: selectedFile,
     }
     const params = {
-      album_id: albumId,
+      album_id: parseInt(albumId),
       bib_number: bibNumber,
-      search_type: 'all',
+      search_type: ImageSearchType.all,
       page_size: 100,
       page: 1,
       sort_by: 'id',
@@ -103,16 +108,15 @@ const Hero = () => {
 
   const displayItems = searchResults?.data || eventHighlights
 
-
   return (
-    <div className='flex flex-col space-y-5 mt-4 px-8 xl:px-16 center sm:mx-16' id='about'>
+    <div className='flex flex-col space-y-5 sm:mx-16 mt-4 px-8 xl:px-16 center' id='about'>
       <div className='flex flex-col justify-center items-center space-y-5 row-start-2 sm:row-start-1'>
         <h1 className='font-bold text-3xl text-center text-white lg:text-4xl xl:text-5xl leading-normal'>
           {t('Nhiếp ảnh')}
           <br /> {t('mang lại trải nghiệm khác biệt')}
         </h1>
-        <div className='flex flex-col sm:flex-row p-2 items-center space-y-4 sm:space-y-0 sm:space-x-4 sm:bg-white shadow rounded-full'>
-          <Select onValueChange={(value) => setAlbumId(value)}>
+        <div className='flex sm:flex-row flex-col items-center sm:space-x-4 space-y-4 sm:space-y-0 sm:bg-white shadow p-2 rounded-full'>
+          <Select onValueChange={(value: string) => setAlbumId(value)}>
             <SelectTrigger className='bg-white border-none rounded-full w-full text-center'>
               <span className='text-gray-700'>GIẢI CHẠY VIỆT NAM FAMILY MARATHON...</span>
             </SelectTrigger>
@@ -123,12 +127,12 @@ const Hero = () => {
             </SelectContent>
           </Select>
           <div className='flex flex-1 w-full sm:w-auto'>
-            <div className='flex bg-white w-full sm:w-64 border-l-2 rounded-full sm:rounded'>
+            <div className='flex bg-white border-l-2 rounded-full sm:rounded w-full sm:w-64'>
               <Input
                 placeholder='Nhập số BIB'
                 value={bibNumber}
                 onChange={(e) => setBibNumber(e.target.value)}
-                className='w-full sm:w-48 !ml-0 border-none'
+                className='!ml-0 border-none w-full sm:w-48'
               />
             </div>
             <Dialog>
@@ -144,7 +148,7 @@ const Hero = () => {
               </DialogContent>
             </Dialog>
             <Button
-              className='bg-blue-500 w-full sm:w-[200px] text-white flex items-center rounded-full'
+              className='flex items-center bg-blue-500 rounded-full w-full sm:w-[200px] text-white'
               onClick={handleSubmit}
             >
               Tìm ảnh
