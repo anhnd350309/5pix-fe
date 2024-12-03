@@ -61,6 +61,12 @@ const Event: React.FC = () => {
 
     fetchEvents()
   }, [currentPage])
+  useEffect(() => {
+    if (imagesData) {
+      setLoadedImgs(imagesData?.data?.data || [])
+      setTotalEvents(imagesData?.data.metadata.total_items ?? null)
+    }
+  }, [imagesData])
   console.log('loadedImgs', loadedImgs)
   const handleLoadMore = () => {
     setIsLoadingMore(true)
