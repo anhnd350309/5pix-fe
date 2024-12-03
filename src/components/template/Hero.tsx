@@ -99,7 +99,13 @@ const Hero = () => {
     }
   }
 
-  if (isLoading) return <Spin />
+  if (isLoading) {
+    return (
+      <div className='flex justify-center items-center min-h-screen'>
+        <Spin />
+      </div>
+    )
+  }
   if (error) {
     router.push('/404') // Redirect to 404 page
     return null
