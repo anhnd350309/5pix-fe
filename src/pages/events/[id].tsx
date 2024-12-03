@@ -23,7 +23,8 @@ const Event: React.FC = () => {
   const [curLoading, setCurLoading] = useState(true)
   const [isLoadingMore, setIsLoadingMore] = useState(false)
   const { data, error, isLoading } = useDetailPubAlbumsAlbumIdGet(Number(id))
-  const { mutate, data: imagesData, error: imagesError } = useSearchPubImagesPost()
+  const { mutate, data: imagesData, error: imagesError, status } = useSearchPubImagesPost()
+  const isLoadingSearch = status === 'pending'
   const [loadedImgs, setLoadedImgs] = useState<AlbumImageItemResponsePublic[]>([])
   // setLoadedImgs(imagesData?.data?.data || [])
   const [totalEvents, setTotalEvents] = useState<number | null>(null)
@@ -70,7 +71,7 @@ const Event: React.FC = () => {
     setIsLoadingMore(true)
     setCurrentPage((prevPage) => prevPage + 1)
   }
-  if (isLoading) {
+  if (isLoading || curLoading) {
     return (
       <div className='flex justify-center items-center min-h-screen'>
         <Spin />
@@ -99,16 +100,22 @@ const Event: React.FC = () => {
             />
           ))}
         </div>
-        {loadedImgs.length < (totalEvents ?? 0) && (
-          <div className='flex justify-center mt-4 border-blue-500'>
-            <Button
-              onClick={handleLoadMore}
-              disabled={isLoadingMore}
-              className='bg-transparent hover:bg-blue-500 mb-8 border border-blue-500 rounded-full text-blue-500 hover:text-white flex items-center'
-            >
-              {isLoadingMore ? <Spin className='mr-2' /> : 'Xem thêm'}
-            </Button>
+        {isLoadingSearch ? (
+          <div className='flex justify-center items-center min-h-screen'>
+            <Spin />
           </div>
+        ) : (
+          loadedImgs.length < (totalEvents ?? 0) && (
+            <div className='flex justify-center mt-4 border-blue-500'>
+              <Button
+                onClick={handleLoadMore}
+                disabled={isLoadingMore}
+                className='bg-transparent hover:bg-blue-500 mb-8 border border-blue-500 rounded-full text-blue-500 hover:text-white flex items-center'
+              >
+                {isLoadingMore ? <Spin className='mr-2' /> : 'Xem thêm'}
+              </Button>
+            </div>
+          )
         )}
       </div>
     </Layout>

@@ -45,6 +45,7 @@ export const BannerEvent: ({
 
   const handleDone = () => {
     setIsDialogOpen(false)
+    handleSubmit()
   }
 
   const handleSubmit = async () => {
@@ -69,14 +70,10 @@ export const BannerEvent: ({
     try {
       if (body.avatar_file) {
         params.search_type = 'index_face'
-        setBibNumber('')
       } else if (bibNumber) {
         params.search_type = 'metadata'
-        setSelectedFile(null)
       } else {
         params.search_type = 'all'
-        setSelectedFile(null)
-        setBibNumber('')
       }
       mutate({
         data: {
@@ -84,6 +81,9 @@ export const BannerEvent: ({
         },
         params: params,
       })
+      setSelectedFile(null)
+      setBibNumber('')
+      // console.log('reset file', selectedFile)
       // const response = await searchPubImagesPost(body, params)
       // console.log('Search Results:', response.data)
       // alert('Search successful!')
