@@ -69,8 +69,10 @@ export const BannerEvent: ({
     try {
       if (body.avatar_file) {
         params.search_type = 'index_face'
+        setBibNumber('')
       } else {
         params.search_type = 'metadata'
+        setSelectedFile(null)
       }
       mutate({
         data: {
