@@ -11,14 +11,14 @@ interface EventCardProps {
 
 const EventCard: React.FC<EventCardProps> = ({ title, date, imageCount, imageUrl }) => {
   return (
-    <Card className=''>
+    <Card className='h-full'>
       <CardHeader>
         <Image
-          src='/assets/images/event.png'
+          src={imageUrl || '/assets/images/template/event.jpg'}
           alt={title || 'event'}
           width={600}
           height={400}
-          className='rounded-t-lg'
+          className='rounded-t-lg h-52 w-full object-cover'
         />
       </CardHeader>
       <CardContent>
