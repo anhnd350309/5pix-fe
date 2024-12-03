@@ -82,6 +82,17 @@ const Footer = () => {
               </Link>
             </div>
             <div className='mx-2 flex items-center justify-center rounded-full bg-template-white-500 p-2 shadow-md'>
+              <Link href='https://www.tiktok.com/@_whynotdanny_' target='_blank'>
+                <Image
+                  className='h-6 w-6'
+                  src='/assets/icons/template/tiktok.svg'
+                  alt='tiktok'
+                  height={30}
+                  width={30}
+                />
+              </Link>
+            </div>
+            <div className='mx-2 flex items-center justify-center rounded-full bg-template-white-500 p-2 shadow-md'>
               <Image
                 className='h-6 w-6'
                 src='/assets/icons/template/twitter.svg'
