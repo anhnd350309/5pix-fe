@@ -101,7 +101,7 @@ export const BannerEvent: ({
           <div className='sm:flex items-center gap-6 text-gray-300'>
             <div className='flex items-center gap-1'>
               <SvgDate width={16} />
-              <span>{event_date}</span>
+              <span>{new Date(event_date || '').toLocaleDateString('en-GB')}</span>
             </div>
             <div className='flex items-center gap-1'>
               <SvgImage width={16} />
