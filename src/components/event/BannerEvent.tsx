@@ -67,6 +67,11 @@ export const BannerEvent: ({
     }
 
     try {
+      if (body.avatar_file) {
+        params.search_type = 'index_face'
+      } else {
+        params.search_type = 'metadata'
+      }
       mutate({
         data: {
           avatar_file: body.avatar_file,
