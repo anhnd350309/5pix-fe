@@ -47,7 +47,7 @@ export const BannerEvent: ({
     }
 
     const body = {
-      avatar_file: selectedFile || undefined,
+      avatar_file: selectedFile || '',
     }
     const params = {
       album_id: id,
@@ -98,7 +98,7 @@ export const BannerEvent: ({
               placeholder='Nhập số BIB'
               value={bibNumber}
               onChange={(e) => setBibNumber(e.target.value)} // Update BIB state
-              className='!ml-0 border-none w-full sm:w-64 !important'
+              className='!ml-0 border-none w-full sm:w-64 !important text-black'
             />
           </div>
           <div className='flex gap-1 w-full sm:w-auto'>
@@ -108,16 +108,18 @@ export const BannerEvent: ({
             >
               <SvgSearch width={16} stroke='white' /> Tìm ảnh
             </Button>
-            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>  {/* Điều khiển mở dialog */}
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+              {' '}
+              {/* Điều khiển mở dialog */}
               <DialogTrigger asChild>
                 <Button
-                  className="flex items-center bg-blue-100 rounded-full w-full sm:w-[220px] text-blue-600"
-                  onClick={() => setIsDialogOpen(true)}  // Mở dialog khi nhấn nút
+                  className='flex items-center bg-blue-100 rounded-full w-full sm:w-[220px] text-blue-600'
+                  onClick={() => setIsDialogOpen(true)} // Mở dialog khi nhấn nút
                 >
-                  <SvgImage width={16} stroke="#2563EB" /> Tìm kiếm bằng hình ảnh
+                  <SvgImage width={16} stroke='#2563EB' /> Tìm kiếm bằng hình ảnh
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[700px]">
+              <DialogContent className='sm:max-w-[700px]'>
                 <UploadImageComponent onFileChange={handleFileChange} onDone={handleDone} />
               </DialogContent>
             </Dialog>
