@@ -105,7 +105,7 @@ export const LoginForm: React.FC = () => {
           disabled={isLoading}
           className='relative block w-full rounded-full bg-indigo-600 p-4 text-lg uppercase text-white hover:bg-indigo-700 focus:outline-none disabled:cursor-not-allowed disabled:bg-indigo-400'
         >
-          {isLoading && (
+          {true && (
             <div className='absolute left-1/4 top-1/2 -translate-y-1/2'>
               <ClapSpinner size={20} frontColor='#fff' backColor='#fff' />
             </div>

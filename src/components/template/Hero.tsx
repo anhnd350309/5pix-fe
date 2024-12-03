@@ -20,11 +20,12 @@ import {
   PageAlbumImageItemResponsePublic,
 } from '@/schemas'
 import { getPubAlbumsGet } from '@/services/public-album/public-album'
-
+import { useRouter } from 'next/router'
 import { ListEvents } from '../event/ListEvents'
 import EventCard from '../shared/EventCard'
 import UploadImageComponent from '@/components/common/UploadImageComponent'
 import { searchPubImagesPost } from '@/services/public-images/public-images'
+import { Spin } from 'antd'
 
 const Hero = () => {
   const { t } = useTranslation('common')
@@ -33,7 +34,7 @@ const Hero = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [eventHighlights, setEventHighlights] = useState<AlbumItemResponsePublic[]>([])
   const [searchResults, setSearchResults] = useState<PageAlbumImageItemResponsePublic | null>(null)
-
+  const router = useRouter()
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   useEffect(() => {
@@ -98,13 +99,11 @@ const Hero = () => {
     }
   }
 
-  if (isLoading) return <div>{t('loading')}</div>
-  if (error)
-    return (
-      <div>
-        {t('error')}: {error}
-      </div>
-    )
+  if (isLoading) return <Spin />
+  if (error) {
+    router.push('/404') // Redirect to 404 page
+    return null
+  }
 
   const displayItems = searchResults?.data || eventHighlights
 

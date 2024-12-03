@@ -33,7 +33,10 @@ const Event: React.FC = () => {
     }
   }, [id, mutate])
   if (isLoading) return <Spin />
-  if (error) return <div>Error</div>
+  if (error) {
+    router.push('/404') // Redirect to 404 page
+    return null
+  }
   const event = data?.data.data
   if (!event) return <div>Not found</div>
   return (
