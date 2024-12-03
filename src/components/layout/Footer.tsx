@@ -19,7 +19,7 @@ const Footer = () => {
           />
         </div>
         <div className='col-span-12 row-span-2 flex flex-col sm:col-span-2 sm:col-start-7 sm:col-end-10 gap-4'>
-          <p className='font-sans text-xl font-bold leading-7 tracking-[0.005em] text-left underline-offset-auto [text-decoration-skip-ink:none]'>
+          <p className='font-sans text-xl font-bold leading-7 tracking-[0.005em] text-left underline-offset-auto [text-decoration-skip-ink:none] text-white'>
             Contact
           </p>
           <ul className='text-template-black-500 gap-y-4 '>
@@ -66,7 +66,7 @@ const Footer = () => {
         </div>
 
         <div className='col-span-12 flex flex-col sm:col-span-3 sm:col-start-10 sm:col-end-13'>
-          <p className='font-sans text-xl font-bold leading-7 tracking-[0.005em] text-left underline-offset-auto [text-decoration-skip-ink:none]'>
+          <p className='font-sans text-xl font-bold leading-7 tracking-[0.005em] text-left underline-offset-auto [text-decoration-skip-ink:none] text-white'>
             Social media
           </p>
           <div className='-mx-2 mb-8 mt-2 flex w-full'>
