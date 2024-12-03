@@ -28,7 +28,6 @@ const Event: React.FC = () => {
   // setLoadedImgs(imagesData?.data?.data || [])
   const [totalEvents, setTotalEvents] = useState<number | null>(null)
   useEffect(() => {
-    console.log('start', id)
     const fetchEvents = async () => {
       if (currentPage === 1) setCurLoading(true)
       // setError(null)
@@ -47,7 +46,6 @@ const Event: React.FC = () => {
             order: 'desc',
           }
           const newImgs = await searchPubImagesPost(body, params)
-          console.log('newImgs', imagesData)
           setLoadedImgs((prevEvents) => [...prevEvents, ...newImgs.data.data])
           setTotalEvents(newImgs?.data.metadata.total_items ?? null)
         }
@@ -61,7 +59,6 @@ const Event: React.FC = () => {
     }
 
     fetchEvents()
-    console.log('currentPage', currentPage)
   }, [currentPage, id])
   useEffect(() => {
     if (imagesData) {
@@ -69,7 +66,6 @@ const Event: React.FC = () => {
       setTotalEvents(imagesData?.data.metadata.total_items ?? null)
     }
   }, [imagesData])
-  console.log('loadedImgs', loadedImgs)
   const handleLoadMore = () => {
     setIsLoadingMore(true)
     setCurrentPage((prevPage) => prevPage + 1)

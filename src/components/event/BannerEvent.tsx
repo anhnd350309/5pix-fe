@@ -48,10 +48,10 @@ export const BannerEvent: ({
   }
 
   const handleSubmit = async () => {
-    if (!selectedFile && !bibNumber) {
-      alert('Please enter a BIB number or upload an image!')
-      return
-    }
+    // if (!selectedFile && !bibNumber) {
+    //   alert('Please enter a BIB number or upload an image!')
+    //   return
+    // }
 
     const body = {
       avatar_file: selectedFile || '',
@@ -70,9 +70,13 @@ export const BannerEvent: ({
       if (body.avatar_file) {
         params.search_type = 'index_face'
         setBibNumber('')
-      } else {
+      } else if (bibNumber) {
         params.search_type = 'metadata'
         setSelectedFile(null)
+      } else {
+        params.search_type = 'all'
+        setSelectedFile(null)
+        setBibNumber('')
       }
       mutate({
         data: {
