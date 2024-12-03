@@ -28,6 +28,7 @@ const Event: React.FC = () => {
   // setLoadedImgs(imagesData?.data?.data || [])
   const [totalEvents, setTotalEvents] = useState<number | null>(null)
   useEffect(() => {
+    console.log('start', id)
     const fetchEvents = async () => {
       if (currentPage === 1) setCurLoading(true)
       // setError(null)
@@ -60,7 +61,8 @@ const Event: React.FC = () => {
     }
 
     fetchEvents()
-  }, [currentPage])
+    console.log('currentPage', currentPage)
+  }, [currentPage, id])
   useEffect(() => {
     if (imagesData) {
       setLoadedImgs(imagesData?.data?.data || [])
