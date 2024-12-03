@@ -11,9 +11,10 @@ interface ImageViewerProps {
   width: number
   height: number
   className?: string
+  extra: string
 }
 
-export function ImageViewer({ src, alt, width, height, className }: ImageViewerProps) {
+export function ImageViewer({ src, alt, width, height, className, extra }: ImageViewerProps) {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
@@ -26,10 +27,10 @@ export function ImageViewer({ src, alt, width, height, className }: ImageViewerP
       <DialogContent className='max-w-[95vw] max-h-[95vh] w-fit h-fit p-0'>
         <div className='relative'>
           <Image
-            src={src}
+            src={extra}
             alt={alt}
-            width={width * 2} // Doubled for higher resolution
-            height={height * 2} // Doubled for higher resolution
+            width={width} // Doubled for higher resolution
+            height={height} // Doubled for higher resolution
             className='rounded-lg'
           />
         </div>

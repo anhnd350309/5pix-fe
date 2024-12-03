@@ -8,6 +8,8 @@ import Layout from '@/components/layout/Layout'
 import { useDetailPubAlbumsAlbumIdGet } from '@/services/public-album/public-album'
 import { useSearchPubImagesPost } from '@/services/public-images/public-images'
 import { Blob } from 'buffer'
+import { ImageViewer } from '@/components/event/ImageViewer'
+import ImgViewer from '@/components/event/ImgViewer'
 
 const Event: React.FC = () => {
   const router = useRouter()
@@ -51,10 +53,11 @@ const Event: React.FC = () => {
         <BannerEvent event={event} id={id} />
         <div className='gap-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5'>
           {lstImages?.map((image, index: number) => (
-            <Image
-              src={image?.s3_image_url || 'assets/images/DetailEvent.png'}
+            <ImgViewer
+              src={image?.cdn_image_url || 'assets/images/DetailEvent.png'}
               key={index}
               alt={image?.image_name || 'image'}
+              extra={image?.s3_image_url || 'assets/images/DetailEvent.png'}
               width={600}
               height={400}
             />
