@@ -51,6 +51,8 @@ export default function ImageViewer({
           backgroundColor: 'black',
           padding: '0',
         }}
+        style={{ padding: '0' }}
+        modalRender={(modal) => <div className='custom-modal-content'>{modal}</div>}
       >
         <img
           src={extra}
@@ -63,6 +65,13 @@ export default function ImageViewer({
           </Button>
         </div>
       </Modal>
+      <style jsx global>{`
+        .custom-modal-content .ant-modal-content {
+          background-color: #333;
+          border-radius: 10px;
+          padding: 0 !important;
+        }
+      `}</style>
     </>
   )
 }

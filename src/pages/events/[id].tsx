@@ -8,7 +8,7 @@ import Layout from '@/components/layout/Layout'
 import { useDetailPubAlbumsAlbumIdGet } from '@/services/public-album/public-album'
 import { useSearchPubImagesPost } from '@/services/public-images/public-images'
 import { Blob } from 'buffer'
-import { ImageViewer } from '@/components/event/ImageViewer'
+// import { ImageViewer } from '@/components/event/ImageViewer'
 import ImgViewer from '@/components/event/ImgViewer'
 
 const Event: React.FC = () => {
@@ -50,8 +50,8 @@ const Event: React.FC = () => {
   return (
     <Layout>
       <div className='space-y-5 mx-1 sm:mx-16 mt-4 px-4 xl:px-16 center'>
-        <BannerEvent event={event} id={id} />
-        <div className='gap-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5'>
+        <BannerEvent event={event} id={id} mutate={mutate} />
+        <div className='gap-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6'>
           {lstImages?.map((image, index: number) => (
             <ImgViewer
               src={image?.cdn_image_url || 'assets/images/DetailEvent.png'}

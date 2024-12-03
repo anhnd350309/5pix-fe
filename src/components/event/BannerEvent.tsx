@@ -16,15 +16,22 @@ import { ImageSearchType } from '@/services/5pixBackend'
 export interface BannerEventProps {
   event: AlbumItemResponsePublic
   id: number | string
+  mutate?: any
 }
 
 export const BannerEvent: ({
   event: { album_image_url, album_name, event_date, total_image },
   id,
+  mutate,
 }: {
   event: { album_image_url: any; album_name: any; event_date: any; total_image?: any }
   id: any
-}) => JSX.Element = ({ event: { album_image_url, album_name, event_date, total_image }, id }) => {
+  mutate?: any
+}) => JSX.Element = ({
+  event: { album_image_url, album_name, event_date, total_image },
+  id,
+  mutate,
+}) => {
   const [bibNumber, setBibNumber] = useState<string>('')
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
@@ -60,12 +67,18 @@ export const BannerEvent: ({
     }
 
     try {
-      const response = await searchPubImagesPost(body, params)
-      console.log('Search Results:', response.data)
-      alert('Search successful!')
+      mutate({
+        data: {
+          avatar_file: body.avatar_file,
+        },
+        params: params,
+      })
+      // const response = await searchPubImagesPost(body, params)
+      // console.log('Search Results:', response.data)
+      // alert('Search successful!')
     } catch (error) {
-      console.error('Error:', error)
-      alert('An error occurred. Please try again.')
+      console.log('Error:', error)
+      alert('An error occurred. Please try again.{error}')
     }
   }
 
