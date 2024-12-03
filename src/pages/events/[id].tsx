@@ -52,7 +52,7 @@ const Event: React.FC = () => {
         <div className='gap-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5'>
           {lstImages?.map((image, index: number) => (
             <Image
-              src={image?.cdn_image_url || '/path/to/default/image.jpg'}
+              src={image?.s3_image_url || 'assets/images/DetailEvent.png'}
               key={index}
               alt={image?.image_name || 'image'}
               width={600}

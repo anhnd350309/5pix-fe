@@ -13,6 +13,7 @@ const nextConfig = {
       'music.youtube.com',
       'encrypted-tbn0.gstatic.com',
       'rjp-v2-prod.s3.ap-southeast-1.amazonaws.com',
+      '5pix-dev-original-image.s3.ap-southeast-1.amazonaws.com',
     ],
   },
 }
