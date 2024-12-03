@@ -17,20 +17,24 @@ export interface BannerEventProps {
   event: AlbumItemResponsePublic
   id: number | string
   mutate?: any
+  setShowTotal: any
 }
 
 export const BannerEvent: ({
   event: { album_image_url, album_name, event_date, total_image },
   id,
   mutate,
+  setShowTotal,
 }: {
   event: { album_image_url: any; album_name: any; event_date: any; total_image?: any }
   id: any
   mutate?: any
+  setShowTotal: any
 }) => JSX.Element = ({
   event: { album_image_url, album_name, event_date, total_image },
   id,
   mutate,
+  setShowTotal,
 }) => {
   const [bibNumber, setBibNumber] = useState<string>('')
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
@@ -70,10 +74,13 @@ export const BannerEvent: ({
     try {
       if (body.avatar_file) {
         params.search_type = 'index_face'
+        setShowTotal(true)
       } else if (bibNumber) {
         params.search_type = 'metadata'
+        setShowTotal(true)
       } else {
         params.search_type = 'all'
+        setShowTotal(false)
       }
       mutate({
         data: {

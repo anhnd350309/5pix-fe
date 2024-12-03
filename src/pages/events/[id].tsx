@@ -24,8 +24,10 @@ const Event: React.FC = () => {
   const [isLoadingMore, setIsLoadingMore] = useState(false)
   const { data, error, isLoading } = useDetailPubAlbumsAlbumIdGet(Number(id))
   const { mutate, data: imagesData, error: imagesError, status } = useSearchPubImagesPost()
+  const [showTotal, setShowTotal] = useState(false)
   const isLoadingSearch = status === 'pending'
   const [loadedImgs, setLoadedImgs] = useState<AlbumImageItemResponsePublic[]>([])
+  const [totalPages, setTotalPages] = useState(1)
   // setLoadedImgs(imagesData?.data?.data || [])
   const [totalEvents, setTotalEvents] = useState<number | null>(null)
   useEffect(() => {
@@ -47,8 +49,9 @@ const Event: React.FC = () => {
             order: 'desc',
           }
           const newImgs = await searchPubImagesPost(body, params)
-          setLoadedImgs((prevEvents) => [...prevEvents, ...newImgs.data.data])
+          setLoadedImgs(newImgs.data.data)
           setTotalEvents(newImgs?.data.metadata.total_items ?? null)
+          setTotalPages(Math.ceil(newImgs?.data.metadata.total_items / 100))
         }
       } catch (err: any) {
         // setError(err.message || 'Something went wrong')
@@ -67,9 +70,25 @@ const Event: React.FC = () => {
       setTotalEvents(imagesData?.data.metadata.total_items ?? null)
     }
   }, [imagesData])
-  const handleLoadMore = () => {
-    setIsLoadingMore(true)
-    setCurrentPage((prevPage) => prevPage + 1)
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1)
+      // handleLoadMore(currentPage - 1)
+    }
+  }
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prevPage) => prevPage + 1)
+      // handleLoadMore(currentPage + 1)
+    }
+  }
+  // const handleLoadMore = () => {
+  //   setIsLoadingMore(true)
+  //   setCurrentPage((prevPage) => prevPage + 1)
+  // }
+  const handleBackToPage1 = () => {
+    setCurrentPage(1)
   }
   if (isLoading || curLoading) {
     return (
@@ -87,18 +106,29 @@ const Event: React.FC = () => {
   return (
     <Layout>
       <div className='space-y-5 mx-1 sm:mx-16 mt-4 px-4 xl:px-16 center'>
-        <BannerEvent event={event} id={id} mutate={mutate} />
+        <BannerEvent event={event} id={id} mutate={mutate} setShowTotal={setShowTotal} />
+        {showTotal && loadedImgs.length > 0 && (
+          <span>
+            Tìm thấy {loadedImgs.length} ảnh của bạn, trong tổng số {event.total_image} ảnh
+          </span>
+        )}
         <div className='gap-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6'>
-          {loadedImgs?.map((image, index: number) => (
-            <ImgViewer
-              src={image?.cdn_image_url || 'assets/images/DetailEvent.png'}
-              key={index}
-              alt={image?.image_name || 'image'}
-              extra={image?.s3_image_url || 'assets/images/DetailEvent.png'}
-              width={600}
-              height={400}
-            />
-          ))}
+          {loadedImgs.length === 0 ? (
+            <span className='flex justify-center items-center w-[85vw]'>
+              Không tìm thấy hình ảnh nào của bạn
+            </span>
+          ) : (
+            loadedImgs?.map((image, index: number) => (
+              <ImgViewer
+                src={image?.cdn_image_url || 'assets/images/DetailEvent.png'}
+                key={index}
+                alt={image?.image_name || 'image'}
+                extra={image?.s3_image_url || 'assets/images/DetailEvent.png'}
+                width={600}
+                height={400}
+              />
+            ))
+          )}
         </div>
         {isLoadingSearch ? (
           <div className='flex justify-center items-center min-h-screen'>
@@ -106,14 +136,38 @@ const Event: React.FC = () => {
           </div>
         ) : (
           loadedImgs.length < (totalEvents ?? 0) && (
-            <div className='flex justify-center mt-4 border-blue-500'>
-              <Button
-                onClick={handleLoadMore}
-                disabled={isLoadingMore}
-                className='bg-transparent hover:bg-blue-500 mb-8 border border-blue-500 rounded-full text-blue-500 hover:text-white flex items-center'
-              >
-                {isLoadingMore ? <Spin className='mr-2' /> : 'Xem thêm'}
-              </Button>
+            <div className='grid grid-cols-1 sm:grid-cols-3 gap-1 sm:gap-4 mt-4'>
+              <div className='flex justify-center border-blue-500'>
+                <Button
+                  onClick={handleBackToPage1}
+                  disabled={currentPage === 1 || isLoadingMore}
+                  className='bg-transparent hover:bg-blue-500 mb-8 border border-blue-500 rounded-full text-blue-500 hover:text-white flex items-center'
+                >
+                  Back to Page 1
+                </Button>
+              </div>
+              <div className='flex justify-center border-blue-500'>
+                <Button
+                  onClick={handlePreviousPage}
+                  disabled={currentPage === 1 || isLoadingMore}
+                  className='bg-transparent hover:bg-blue-500 mb-8 border border-blue-500 rounded-full text-blue-500 hover:text-white flex items-center'
+                >
+                  Previous
+                </Button>
+
+                <Button
+                  onClick={handleNextPage}
+                  disabled={currentPage === totalPages || isLoadingMore}
+                  className='bg-transparent hover:bg-blue-500 mb-8 border border-blue-500 rounded-full text-blue-500 hover:text-white flex items-center'
+                >
+                  {isLoadingMore ? <Spin className='mr-2' /> : 'Next'}
+                </Button>
+              </div>
+              <div className='flex justify-center border-blue-500'>
+                <span className='mx-4'>
+                  Page {currentPage} of {totalPages}
+                </span>
+              </div>
             </div>
           )
         )}

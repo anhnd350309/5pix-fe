@@ -1,9 +1,13 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
 
 const Footer = () => {
   return (
-    <div className='bg-template-white-300 pb-10 pt-10'>
+    <div
+      className='bg-template-white-300 pb-10 pt-10'
+      style={{ backgroundImage: "url('/assets/images/BG.png')" }}
+    >
       <div className='container mx-auto grid w-full grid-flow-row grid-cols-3 grid-rows-4 gap-4 px-8 sm:grid-flow-col sm:grid-cols-12 sm:grid-rows-1 xl:px-16'>
         <div className='col-span-12 flex flex-col items-center sm:items-start sm:col-span-4 sm:col-end-6 '>
           <Image
@@ -22,13 +26,13 @@ const Footer = () => {
             <li className='font-sans text-base font-normal leading-6 tracking-[0.002em] text-left underline-offset-auto [text-decoration-skip-ink:none] mb-3'>
               <div className='flex items-center space-x-3'>
                 <Image
-                  className='h-6 w-6'
+                  className='h-6 w-6 text-white'
                   src='/assets/icons/template/phone.svg'
                   alt='phone'
                   height={30}
                   width={30}
                 />
-                <span className='text-sm'>0373 398 986</span>
+                <span className='text-sm text-white'>0373 398 986</span>
               </div>
             </li>
             <li className='font-sans text-base font-normal leading-6 tracking-[0.002em] text-left underline-offset-auto [text-decoration-skip-ink:none] mb-3'>
@@ -40,7 +44,7 @@ const Footer = () => {
                   height={30}
                   width={30}
                 />
-                <span className='text-sm'>info@5bib.com</span>
+                <span className='text-sm text-white'>danny@5bib.com</span>
               </div>
             </li>
             <li className='font-sans text-base font-normal leading-6 tracking-[0.002em] text-left underline-offset-auto [text-decoration-skip-ink:none] mb-3'>
@@ -52,7 +56,7 @@ const Footer = () => {
                   height={30}
                   width={30}
                 />
-                <span className='text-sm'>
+                <span className='text-sm text-white'>
                   Tầng 9, Hồ Gươm Plaza (tòa văn phòng), Số 102 Trần Phú, Quận Hà Đông, Thành Phố Hà
                   Nội , Việt Nam.
                 </span>
@@ -67,13 +71,15 @@ const Footer = () => {
           </p>
           <div className='-mx-2 mb-8 mt-2 flex w-full'>
             <div className='mx-2 flex items-center justify-center rounded-full bg-template-white-500 p-2 shadow-md'>
-              <Image
-                className='h-6 w-6'
-                src='/assets/icons/template/facebook.svg'
-                alt='facebook'
-                height={30}
-                width={30}
-              />
+              <Link href='https://www.facebook.com/profile.php?id=61569050554470' target='_blank'>
+                <Image
+                  className='h-6 w-6'
+                  src='/assets/icons/template/facebook.svg'
+                  alt='facebook'
+                  height={30}
+                  width={30}
+                />
+              </Link>
             </div>
             <div className='mx-2 flex items-center justify-center rounded-full bg-template-white-500 p-2 shadow-md'>
               <Image

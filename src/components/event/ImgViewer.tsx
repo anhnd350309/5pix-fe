@@ -68,22 +68,12 @@ export default function ImageViewer({
             padding: '16px 24px',
             borderBottom: '1px solid #f0f0f0',
             display: 'flex',
-            justifyContent: 'space-between',
+            justifyContent: 'center',
             alignItems: 'center',
             width: '80%',
           }}
           className='ejehhhe'
         >
-          <div>
-            <h2 style={{ margin: 0, fontSize: '16px', fontWeight: 'bold' }}>{alt}</h2>
-            <div style={{ color: '#888', fontSize: '14px' }}>
-              <span>Định dạng: </span>
-              {' | '}
-              <span>Dung lượng: </span>
-              {' | '}
-              <span>Kích thước: </span>
-            </div>
-          </div>
           <Button type='primary' icon={<DownloadOutlined />} href={extra} download={alt}>
             Tải về
           </Button>
