@@ -27,7 +27,14 @@ export default function ImageViewer({
     setIsModalOpen(false)
     setZoom(1) // Reset zoom when modal is closed
   }
-
+  const handleDownload = () => {
+    const link = document.createElement('a')
+    link.href = extra
+    link.setAttribute('download', alt || 'download')
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
   const zoomIn = () => setZoom((prevZoom) => Math.min(prevZoom + 0.2, 3)) // Max zoom level
   const zoomOut = () => setZoom((prevZoom) => Math.max(prevZoom - 0.2, 1)) // Min zoom level
 
@@ -50,7 +57,7 @@ export default function ImageViewer({
         onCancel={closeModal}
         footer={null}
         centered
-        width='80%'
+        width='100%'
         bodyStyle={{
           display: 'flex',
           flexDirection: 'column',
@@ -85,7 +92,7 @@ export default function ImageViewer({
           }}
           className='ejehhhe'
         >
-          <Button type='primary' icon={<DownloadOutlined />} href={extra} download={alt}>
+          <Button type='primary' icon={<DownloadOutlined />} onClick={handleDownload}>
             Tải về
           </Button>
         </div>
