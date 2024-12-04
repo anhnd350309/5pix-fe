@@ -1,6 +1,3 @@
-import { loginAccessTokenLoginPost } from '@/services/login/login'
-import { detailMeUsersMeGet } from '@/services/user/user'
-import { ac } from '@faker-js/faker/dist/airline-BLb3y-7w'
 import NextAuth, { AuthOptions, Session, User } from 'next-auth'
 import Auth0Provider from 'next-auth/providers/auth0'
 import CredentialsProvider from 'next-auth/providers/credentials'
@@ -8,7 +5,8 @@ import FacebookProvider from 'next-auth/providers/facebook'
 import GithubProvider from 'next-auth/providers/github'
 import GoogleProvider from 'next-auth/providers/google'
 import TwitterProvider from 'next-auth/providers/twitter'
-
+import { loginAccessTokenLoginPost } from '@/services/login/login'
+import { detailMeUsersMeGet } from '@/services/user/user'
 declare module 'next-auth' {
   interface Session {
     accessToken?: string
@@ -56,10 +54,14 @@ export const authOptions: AuthOptions = {
             username: credentials.email,
             password: credentials.password,
           })
-          const token = res.data.data?.access_token
+          const token = res?.data?.access_token
+          // how to save token to session here
+
           console.log(token)
           const userData = await detailMeUsersMeGet({
-            headers: { Authorization: `Bearer ${token}` },
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           })
           console.log(userData)
           const user = {

@@ -28,9 +28,9 @@ export const ListEvents: React.FC = () => {
 
       try {
         const response = await getPubAlbumsGet(params)
-        const newEvents = response.data.data
+        const newEvents = response.data
         setLoadedEvents((prevEvents) => [...prevEvents, ...newEvents])
-        setTotalEvents(response.data.metadata.total_items)
+        setTotalEvents(response.metadata.total_items)
       } catch (err: any) {
         setError(err.message || 'Something went wrong')
       } finally {

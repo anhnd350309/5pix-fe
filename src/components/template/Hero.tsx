@@ -51,7 +51,7 @@ const Hero = () => {
       setIsLoading(true)
       try {
         const response = await getPubAlbumsGet(params)
-        setEventHighlights(response.data.data || [])
+        setEventHighlights(response.data || [])
         setError(null)
       } catch (err: any) {
         setError(err.message || 'Something went wrong')
@@ -91,7 +91,7 @@ const Hero = () => {
 
     try {
       const response = await searchPubImagesPost(body, params)
-      setSearchResults(response.data) // Update state with search results
+      setSearchResults(response) // Update state with search results
       alert('Search successful!')
     } catch (error) {
       console.error('Error submitting form:', error)

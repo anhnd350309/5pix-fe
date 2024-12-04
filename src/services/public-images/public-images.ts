@@ -14,14 +14,13 @@
  */
 import { useMutation } from '@tanstack/react-query'
 import type { MutationFunction, UseMutationOptions, UseMutationResult } from '@tanstack/react-query'
-import axios from 'axios'
-import type { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
 import type {
   BodySearchPubImagesPost,
   HTTPValidationError,
   PageAlbumImageItemResponsePublic,
   SearchPubImagesPostParams,
 } from '../../schemas'
+import { defaultMutator } from '../../api/axiosInstance'
 
 /**
  * API Search Album Image
@@ -30,21 +29,25 @@ import type {
 export const searchPubImagesPost = (
   bodySearchPubImagesPost: BodySearchPubImagesPost,
   params?: SearchPubImagesPostParams,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<PageAlbumImageItemResponsePublic>> => {
+  signal?: AbortSignal,
+) => {
   const formData = new FormData()
   if (bodySearchPubImagesPost.avatar_file !== undefined) {
     formData.append('avatar_file', bodySearchPubImagesPost.avatar_file)
   }
 
-  return axios.post(`https://api.5pix.org/pub/images`, formData, {
-    ...options,
-    params: { ...params, ...options?.params },
+  return defaultMutator<PageAlbumImageItemResponsePublic>({
+    url: `https://dapi.5pix.org/pub/images`,
+    method: 'POST',
+    headers: { 'Content-Type': 'multipart/form-data' },
+    data: formData,
+    params,
+    signal,
   })
 }
 
 export const getSearchPubImagesPostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -53,14 +56,13 @@ export const getSearchPubImagesPostMutationOptions = <
     { data: BodySearchPubImagesPost; params?: SearchPubImagesPostParams },
     TContext
   >
-  axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof searchPubImagesPost>>,
   TError,
   { data: BodySearchPubImagesPost; params?: SearchPubImagesPostParams },
   TContext
 > => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
+  const { mutation: mutationOptions } = options ?? {}
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof searchPubImagesPost>>,
@@ -68,7 +70,7 @@ export const getSearchPubImagesPostMutationOptions = <
   > = (props) => {
     const { data, params } = props ?? {}
 
-    return searchPubImagesPost(data, params, axiosOptions)
+    return searchPubImagesPost(data, params)
   }
 
   return { mutationFn, ...mutationOptions }
@@ -78,29 +80,23 @@ export type SearchPubImagesPostMutationResult = NonNullable<
   Awaited<ReturnType<typeof searchPubImagesPost>>
 >
 export type SearchPubImagesPostMutationBody = BodySearchPubImagesPost
-export type SearchPubImagesPostMutationError = AxiosError<HTTPValidationError>
+export type SearchPubImagesPostMutationError = HTTPValidationError
 
 /**
  * @summary Search
  */
-export const useSearchPubImagesPost = <
-  TError = AxiosError<HTTPValidationError>,
-  TContext = unknown,
->(options?: {
+export const useSearchPubImagesPost = <TError = HTTPValidationError, TContext = unknown>(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof searchPubImagesPost>>,
     TError,
     { data: BodySearchPubImagesPost; params?: SearchPubImagesPostParams },
     TContext
   >
-  axios?: AxiosRequestConfig
 }): UseMutationResult<
   Awaited<ReturnType<typeof searchPubImagesPost>>,
   TError,
   { data: BodySearchPubImagesPost; params?: SearchPubImagesPostParams },
   TContext
 > => {
-  const mutationOptions = getSearchPubImagesPostMutationOptions(options)
-
   return useMutation(mutationOptions)
 }

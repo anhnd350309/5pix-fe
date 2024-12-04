@@ -48,9 +48,9 @@ const Event: React.FC = () => {
             order: 'desc',
           }
           const newImgs = await searchPubImagesPost(body, params)
-          setLoadedImgs(newImgs.data.data)
-          setTotalEvents(newImgs?.data.metadata.total_items ?? null)
-          setTotalPages(Math.ceil(newImgs?.data.metadata.total_items / 100))
+          setLoadedImgs(newImgs.data)
+          setTotalEvents(newImgs?.metadata.total_items ?? null)
+          setTotalPages(Math.ceil(newImgs?.metadata.total_items / 100))
         }
       } catch (err: any) {
         // setError(err.message || 'Something went wrong')
@@ -65,8 +65,8 @@ const Event: React.FC = () => {
   }, [currentPage, id])
   useEffect(() => {
     if (imagesData) {
-      setLoadedImgs(imagesData?.data?.data || [])
-      setTotalEvents(imagesData?.data.metadata.total_items ?? null)
+      setLoadedImgs(imagesData?.data || [])
+      setTotalEvents(imagesData.metadata.total_items ?? null)
     }
   }, [imagesData])
   const handlePreviousPage = () => {
@@ -100,7 +100,7 @@ const Event: React.FC = () => {
     router.push('/404') // Redirect to 404 page
     return null
   }
-  const event = data?.data.data
+  const event = data?.data
   if (!event) return <div>Not found</div>
   return (
     <Layout>
