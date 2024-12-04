@@ -128,7 +128,7 @@ export default function ImageViewer({
       </Modal>
       <style jsx global>{`
         .custom-modal-content .ant-modal-content {
-          background-color: #333;
+          background-color: transparent !important;
           border-radius: 10px;
           padding: 0 !important;
         }
