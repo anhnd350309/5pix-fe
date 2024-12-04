@@ -9,10 +9,10 @@
             - CRUD User
             - Unit testing with Pytest
             - Dockerize
-
+        
  * OpenAPI spec version: 0.1.0
  */
 
 export interface BodySearchPubImagesPost {
-  avatar_file?: Blob | string
+  avatar_file?: Blob
 }
