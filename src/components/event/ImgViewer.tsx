@@ -63,6 +63,17 @@ export default function ImageViewer({
         style={{ padding: '0' }}
         modalRender={(modal) => <div className='custom-modal-content'>{modal}</div>}
       >
+        <img
+          src={extra}
+          alt={alt}
+          style={{
+            transform: `scale(${zoom})`,
+            transition: 'transform 0.3s',
+            maxWidth: '100%',
+            maxHeight: '80vh',
+            objectFit: 'contain',
+          }}
+        />
         <div
           style={{
             padding: '16px 24px',
@@ -78,17 +89,6 @@ export default function ImageViewer({
             Tải về
           </Button>
         </div>
-        <img
-          src={extra}
-          alt={alt}
-          style={{
-            transform: `scale(${zoom})`,
-            transition: 'transform 0.3s',
-            maxWidth: '100%',
-            maxHeight: '80vh',
-            objectFit: 'contain',
-          }}
-        />
         <div
           style={{
             display: 'flex',
