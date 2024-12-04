@@ -63,28 +63,57 @@ export default function ImageViewer({
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: 'white',
+          backgroundColor: 'transparent',
           padding: '0',
         }}
-        closeIcon={<span style={{ fontSize: '18px', color: '#000000' }}>✕</span>}
+        closeIcon={<span style={{ fontSize: '18px', color: '#fff' }}>✕</span>}
         style={{ padding: '0' }}
         modalRender={(modal) => <div className='custom-modal-content'>{modal}</div>}
       >
-        <img
-          src={extra}
-          alt={alt}
-          style={{
-            transform: `scale(${zoom})`,
-            transition: 'transform 0.3s',
-            maxWidth: '100%',
-            maxHeight: '80vh',
-            objectFit: 'contain',
-          }}
-        />
+        <div className='relative'>
+          <img
+            src={extra}
+            alt={alt}
+            style={{
+              transform: `scale(${zoom})`,
+              transition: 'transform 0.3s',
+              maxWidth: '100%',
+              maxHeight: '80vh',
+              objectFit: 'contain',
+            }}
+          />
+          <div
+            style={{
+              transform: `scale(${zoom})`,
+              transition: 'transform 0.3s',
+              width: '100%',
+              position: 'absolute',
+              backgroundColor: '#10182880',
+              padding: '10px',
+              height: '50px',
+              bottom: '0',
+            }}
+          >
+            <div style={{ left: '46%', position: 'absolute' }}>
+              <Button
+                shape='circle'
+                icon={<ZoomOutOutlined />}
+                onClick={zoomOut}
+                disabled={zoom <= 1}
+                style={{ marginRight: '10px' }}
+              />
+              <Button
+                shape='circle'
+                icon={<ZoomInOutlined />}
+                onClick={zoomIn}
+                disabled={zoom >= 3}
+              />
+            </div>
+          </div>
+        </div>
         <div
           style={{
             padding: '16px 24px',
-            borderBottom: '1px solid #f0f0f0',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
@@ -95,23 +124,6 @@ export default function ImageViewer({
           <Button type='primary' icon={<DownloadOutlined />} onClick={handleDownload}>
             Tải về
           </Button>
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            padding: '10px',
-            borderTop: '1px solid #f0f0f0',
-          }}
-        >
-          <Button
-            shape='circle'
-            icon={<ZoomOutOutlined />}
-            onClick={zoomOut}
-            disabled={zoom <= 1}
-            style={{ marginRight: '10px' }}
-          />
-          <Button shape='circle' icon={<ZoomInOutlined />} onClick={zoomIn} disabled={zoom >= 3} />
         </div>
       </Modal>
       <style jsx global>{`
