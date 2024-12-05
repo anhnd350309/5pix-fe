@@ -98,5 +98,7 @@ export const useSearchPubImagesPost = <TError = HTTPValidationError, TContext = 
   { data: BodySearchPubImagesPost; params?: SearchPubImagesPostParams },
   TContext
 > => {
+  const mutationOptions = getSearchPubImagesPostMutationOptions(options)
+
   return useMutation(mutationOptions)
 }
