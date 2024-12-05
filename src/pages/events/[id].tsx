@@ -1,14 +1,11 @@
 import { Button, Spin } from 'antd'
-import Image from 'next/image'
 import { useRouter } from 'next/router'
-import React, { use, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { BannerEvent } from '@/components/event/BannerEvent'
 import Layout from '@/components/layout/Layout'
 import { useDetailPubAlbumsAlbumIdGet } from '@/services/public-album/public-album'
 import { searchPubImagesPost, useSearchPubImagesPost } from '@/services/public-images/public-images'
-import { Blob } from 'buffer'
-// import { ImageViewer } from '@/components/event/ImageViewer'
 import ImgViewer from '@/components/event/ImgViewer'
 import {
   AlbumImageItemResponsePublic,

@@ -11,7 +11,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           <Navbar />
         </div>
         <div className="bg-[#0A347D] flex-1 w-[calc(100%-200px)]">
-          <div className="bg-white h-full rounded-tl-2xl p-4">
+          <div className="bg-white h-full p-4">
             {children}
           </div>
         </div>
