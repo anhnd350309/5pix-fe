@@ -13,14 +13,17 @@ import ImgViewer from '@/components/event/ImgViewer'
 import {
   AlbumImageItemResponsePublic,
   BodySearchPubImagesPost,
+  ImageSearchType,
   SearchPubImagesPostParams,
 } from '@/schemas'
-
+import { useSearchParams } from 'next/navigation'
 const Event: React.FC = () => {
+  const searchParams = useSearchParams()
   const router = useRouter()
   const { id } = router.query
+  const bibNumber = searchParams.get('bib_number')
   const [currentPage, setCurrentPage] = useState(1)
-  const [curLoading, setCurLoading] = useState(true)
+  const [curLoading, setCurLoading] = useState(false)
   const [isLoadingMore, setIsLoadingMore] = useState(false)
   const { data, error, isLoading } = useDetailPubAlbumsAlbumIdGet(Number(id))
   const { mutate, data: imagesData, error: imagesError, isPending } = useSearchPubImagesPost()
@@ -31,33 +34,56 @@ const Event: React.FC = () => {
   const [totalEvents, setTotalEvents] = useState<number | null>(null)
   useEffect(() => {
     const fetchEvents = async () => {
-      if (currentPage === 1) setCurLoading(true)
-      // setError(null)
-
-      try {
+      if (bibNumber) {
         if (id) {
-          const body: BodySearchPubImagesPost = {
-            avatar_file: '',
-          }
-          const params: SearchPubImagesPostParams = {
+          console.log(bibNumber)
+          const params = {
             album_id: Number(id),
-            search_type: 'all',
-            page: currentPage,
+            bib_number: bibNumber,
+            search_type: 'metadata' as ImageSearchType,
             page_size: 100,
+            page: 1,
             sort_by: 'id',
             order: 'desc',
           }
-          const newImgs = await searchPubImagesPost(body, params)
-          setLoadedImgs(newImgs.data)
-          setTotalEvents(newImgs?.metadata.total_items ?? null)
-          setTotalPages(Math.ceil(newImgs?.metadata.total_items / 100))
+
+          setShowTotal(true)
+          mutate({
+            data: {
+              avatar_file: '',
+            },
+            params: params,
+          })
         }
-      } catch (err: any) {
-        // setError(err.message || 'Something went wrong')
-        console.log(err)
-      } finally {
-        setCurLoading(false)
-        setIsLoadingMore(false)
+      } else {
+        if (currentPage === 1) setCurLoading(true)
+        // setError(null)
+
+        try {
+          if (id) {
+            const body: BodySearchPubImagesPost = {
+              avatar_file: '',
+            }
+            const params: SearchPubImagesPostParams = {
+              album_id: Number(id),
+              search_type: 'all',
+              page: currentPage,
+              page_size: 100,
+              sort_by: 'id',
+              order: 'desc',
+            }
+            const newImgs = await searchPubImagesPost(body, params)
+            setLoadedImgs(newImgs.data)
+            setTotalEvents(newImgs?.metadata.total_items ?? null)
+            setTotalPages(Math.ceil(newImgs?.metadata.total_items / 100))
+          }
+        } catch (err: any) {
+          // setError(err.message || 'Something went wrong')
+          console.log(err)
+        } finally {
+          setCurLoading(false)
+          setIsLoadingMore(false)
+        }
       }
     }
 
@@ -104,7 +130,7 @@ const Event: React.FC = () => {
   if (!event) return <div>Not found</div>
   return (
     <Layout>
-      <div className='space-y-5 mx-1 sm:mx-16 mt-4 px-4 xl:px-16 center min-h-96'>
+      <div className='space-y-5 mx-1 sm:mx-16 mt-4 px-4 xl:px-16 center pb-[40px]'>
         <BannerEvent event={event} id={id} mutate={mutate} setShowTotal={setShowTotal} />
         {isPending ? (
           <Spin className='flex justify-center items-center h-24' />
@@ -115,7 +141,7 @@ const Event: React.FC = () => {
                 Tìm thấy {loadedImgs.length} ảnh của bạn, trong tổng số {event.total_image} ảnh
               </span>
             )}
-            <div className='gap-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6  min-h-[300px]'>
+            <div className='gap-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6  min-h-[300px] '>
               {loadedImgs.length === 0 ? (
                 <span className='flex justify-center items-center w-[85vw]'>
                   Không tìm thấy hình ảnh nào của bạn

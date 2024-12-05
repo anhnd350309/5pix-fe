@@ -38,7 +38,7 @@ export const LoginForm: React.FC = () => {
       }
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.log('Login hehehe: ', error)
+      console.log('Err: ', error)
     } finally {
       setIsLoading(false)
     }

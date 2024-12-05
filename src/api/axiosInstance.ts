@@ -18,20 +18,17 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   async (config: InternalAxiosRequestConfig) => {
     // Add an Authorization header or other custom logic
-    console.log('Headerrrrr:', config.headers)
     const session = await getSession()
     const token = session?.accessToken
-    console.log('Token o day ne:', session)
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
       // config.headers.Authorization = `Bearer ${token}`
     }
-    console.log('Requesteee:', config.headers)
     return config
   },
   (error) => {
     // Handle request errors
-    console.error('Request Erroreeee:', error)
+    console.error('Request Error:', error)
     return Promise.reject(error)
   },
 )
@@ -39,7 +36,6 @@ axiosInstance.interceptors.request.use(
 // Add response interceptor
 axiosInstance.interceptors.response.use(
   (response) => {
-    console.log('Responseeee:', response)
     return response
   },
   (error) => {

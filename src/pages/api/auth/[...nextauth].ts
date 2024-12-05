@@ -49,7 +49,6 @@ export const authOptions: AuthOptions = {
           if (!credentials) {
             return null
           }
-          console.log(credentials)
           const res = await loginAccessTokenLoginPost({
             username: credentials.email,
             password: credentials.password,
@@ -57,14 +56,12 @@ export const authOptions: AuthOptions = {
           const token = res?.data?.access_token
           // how to save token to session here
 
-          console.log(token)
           const userData = await detailMeUsersMeGet({
             baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || 'https://dapi.5pix.org',
             headers: {
               Authorization: `Bearer ${token}`,
             },
           })
-          console.log(userData)
           const user = {
             id: userData?.data?.data?.id?.toString() || '',
             name: userData?.data?.data?.full_name,
