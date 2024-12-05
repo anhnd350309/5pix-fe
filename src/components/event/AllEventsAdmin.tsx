@@ -6,6 +6,7 @@ import { getPubAlbumsGet } from '@/services/public-album/public-album'
 import Link from 'next/link'
 import EventCardAdmin from '@/components/shared/EvenCardAdmin'
 import EventCard from '@/components/shared/EventCard'
+import { getAlbumsGet } from '@/services/album/album'
 
 const AllEventsAdmin = () => {
   const [currentPage, setCurrentPage] = useState(1)
@@ -26,7 +27,7 @@ const AllEventsAdmin = () => {
       setError(null)
 
       try {
-        const response = await getPubAlbumsGet(params)
+        const response = await getAlbumsGet(params)
         const newEvents = response.data
         setLoadedEvents((prevEvents) => [...prevEvents, ...newEvents])
         setTotalEvents(response.metadata.total_items)
@@ -53,7 +54,7 @@ const AllEventsAdmin = () => {
       <Input size='large' placeholder='Mã sự kiện, tên sự kiện' prefix={<SearchOutlined />} />
       <div className='flex flex-col gap-4 py-4'>
         {loadedEvents?.map((event) => (
-          <Link href={`/events/${event.id}`} key={event.id}>
+          <Link href={`/admin/events/${event.id}`} key={event.id}>
             <EventCardAdmin
               key={event.id}
               title={event.album_name}
