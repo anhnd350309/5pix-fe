@@ -12,7 +12,9 @@
         
  * OpenAPI spec version: 0.1.0
  */
-import { useQuery } from '@tanstack/react-query'
+import {
+  useQuery
+} from '@tanstack/react-query'
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -21,237 +23,193 @@ import type {
   QueryKey,
   UndefinedInitialDataOptions,
   UseQueryOptions,
-  UseQueryResult,
+  UseQueryResult
 } from '@tanstack/react-query'
 import type {
   DataResponseAlbumItemResponsePublic,
   GetPubAlbumsGetParams,
   HTTPValidationError,
-  PageAlbumItemResponsePublic,
+  PageAlbumItemResponsePublic
 } from '../../schemas'
-import { defaultMutator } from '../../api/axiosInstance'
+import { defaultMutator } from '../../api/axiosInstance';
+
+
 
 /**
  * API Public Get list Album
 - highlight: bool = False (default) - Get list album highlight thì set True
  * @summary Get
  */
-export const getPubAlbumsGet = (params?: GetPubAlbumsGetParams, signal?: AbortSignal) => {
-  return defaultMutator<PageAlbumItemResponsePublic>({
-    url: `https://dapi.5pix.org/pub/albums`,
-    method: 'GET',
-    params,
-    signal,
-  })
-}
-
-export const getGetPubAlbumsGetQueryKey = (params?: GetPubAlbumsGetParams) => {
-  return [`https://api.5pix.org/pub/albums`, ...(params ? [params] : [])] as const
-}
-
-export const getGetPubAlbumsGetQueryOptions = <
-  TData = Awaited<ReturnType<typeof getPubAlbumsGet>>,
-  TError = HTTPValidationError,
->(
-  params?: GetPubAlbumsGetParams,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getPubAlbumsGet>>, TError, TData>>
-  },
+export const getPubAlbumsGet = (
+    params?: GetPubAlbumsGetParams,
+ signal?: AbortSignal
 ) => {
-  const { query: queryOptions } = options ?? {}
+      
+      
+      return defaultMutator<PageAlbumItemResponsePublic>(
+      {url: `/pub/albums`, method: 'GET',
+        params, signal
+    },
+      );
+    }
+  
 
-  const queryKey = queryOptions?.queryKey ?? getGetPubAlbumsGetQueryKey(params)
+export const getGetPubAlbumsGetQueryKey = (params?: GetPubAlbumsGetParams,) => {
+    return [`/pub/albums`, ...(params ? [params]: [])] as const;
+    }
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof getPubAlbumsGet>>> = ({ signal }) =>
-    getPubAlbumsGet(params, signal)
+    
+export const getGetPubAlbumsGetQueryOptions = <TData = Awaited<ReturnType<typeof getPubAlbumsGet>>, TError = HTTPValidationError>(params?: GetPubAlbumsGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPubAlbumsGet>>, TError, TData>>, }
+) => {
 
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof getPubAlbumsGet>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData> }
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetPubAlbumsGetQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPubAlbumsGet>>> = ({ signal }) => getPubAlbumsGet(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getPubAlbumsGet>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
 }
 
 export type GetPubAlbumsGetQueryResult = NonNullable<Awaited<ReturnType<typeof getPubAlbumsGet>>>
 export type GetPubAlbumsGetQueryError = HTTPValidationError
 
-export function useGetPubAlbumsGet<
-  TData = Awaited<ReturnType<typeof getPubAlbumsGet>>,
-  TError = HTTPValidationError,
->(
-  params: undefined | GetPubAlbumsGetParams,
-  options: {
-    query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getPubAlbumsGet>>, TError, TData>> &
-      Pick<
-        DefinedInitialDataOptions<Awaited<ReturnType<typeof getPubAlbumsGet>>, TError, TData>,
-        'initialData'
-      >
-  },
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetPubAlbumsGet<
-  TData = Awaited<ReturnType<typeof getPubAlbumsGet>>,
-  TError = HTTPValidationError,
->(
-  params?: GetPubAlbumsGetParams,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getPubAlbumsGet>>, TError, TData>> &
-      Pick<
-        UndefinedInitialDataOptions<Awaited<ReturnType<typeof getPubAlbumsGet>>, TError, TData>,
-        'initialData'
-      >
-  },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetPubAlbumsGet<
-  TData = Awaited<ReturnType<typeof getPubAlbumsGet>>,
-  TError = HTTPValidationError,
->(
-  params?: GetPubAlbumsGetParams,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getPubAlbumsGet>>, TError, TData>>
-  },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+
+export function useGetPubAlbumsGet<TData = Awaited<ReturnType<typeof getPubAlbumsGet>>, TError = HTTPValidationError>(
+ params: undefined |  GetPubAlbumsGetParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPubAlbumsGet>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getPubAlbumsGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetPubAlbumsGet<TData = Awaited<ReturnType<typeof getPubAlbumsGet>>, TError = HTTPValidationError>(
+ params?: GetPubAlbumsGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPubAlbumsGet>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getPubAlbumsGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetPubAlbumsGet<TData = Awaited<ReturnType<typeof getPubAlbumsGet>>, TError = HTTPValidationError>(
+ params?: GetPubAlbumsGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPubAlbumsGet>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get
  */
 
-export function useGetPubAlbumsGet<
-  TData = Awaited<ReturnType<typeof getPubAlbumsGet>>,
-  TError = HTTPValidationError,
->(
-  params?: GetPubAlbumsGetParams,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getPubAlbumsGet>>, TError, TData>>
-  },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
-  const queryOptions = getGetPubAlbumsGetQueryOptions(params, options)
+export function useGetPubAlbumsGet<TData = Awaited<ReturnType<typeof getPubAlbumsGet>>, TError = HTTPValidationError>(
+ params?: GetPubAlbumsGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPubAlbumsGet>>, TError, TData>>, }
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>
-  }
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
 
-  query.queryKey = queryOptions.queryKey
+  const queryOptions = getGetPubAlbumsGetQueryOptions(params,options)
 
-  return query
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
 }
+
+
 
 /**
  * API Detail Album
  * @summary Detail
  */
-export const detailPubAlbumsAlbumIdGet = (albumId: number, signal?: AbortSignal) => {
-  return defaultMutator<DataResponseAlbumItemResponsePublic>({
-    url: `https://dapi.5pix.org/pub/albums/${albumId}`,
-    method: 'GET',
-    signal,
-  })
-}
-
-export const getDetailPubAlbumsAlbumIdGetQueryKey = (albumId: number) => {
-  return [`https://api.5pix.org/pub/albums/${albumId}`] as const
-}
-
-export const getDetailPubAlbumsAlbumIdGetQueryOptions = <
-  TData = Awaited<ReturnType<typeof detailPubAlbumsAlbumIdGet>>,
-  TError = HTTPValidationError,
->(
-  albumId: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof detailPubAlbumsAlbumIdGet>>, TError, TData>
-    >
-  },
+export const detailPubAlbumsAlbumIdGet = (
+    albumId: number,
+ signal?: AbortSignal
 ) => {
-  const { query: queryOptions } = options ?? {}
+      
+      
+      return defaultMutator<DataResponseAlbumItemResponsePublic>(
+      {url: `/pub/albums/${albumId}`, method: 'GET', signal
+    },
+      );
+    }
+  
 
-  const queryKey = queryOptions?.queryKey ?? getDetailPubAlbumsAlbumIdGetQueryKey(albumId)
+export const getDetailPubAlbumsAlbumIdGetQueryKey = (albumId: number,) => {
+    return [`/pub/albums/${albumId}`] as const;
+    }
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof detailPubAlbumsAlbumIdGet>>> = ({
-    signal,
-  }) => detailPubAlbumsAlbumIdGet(albumId, signal)
+    
+export const getDetailPubAlbumsAlbumIdGetQueryOptions = <TData = Awaited<ReturnType<typeof detailPubAlbumsAlbumIdGet>>, TError = HTTPValidationError>(albumId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailPubAlbumsAlbumIdGet>>, TError, TData>>, }
+) => {
 
-  return { queryKey, queryFn, enabled: !!albumId, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof detailPubAlbumsAlbumIdGet>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData> }
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getDetailPubAlbumsAlbumIdGetQueryKey(albumId);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof detailPubAlbumsAlbumIdGet>>> = ({ signal }) => detailPubAlbumsAlbumIdGet(albumId, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(albumId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof detailPubAlbumsAlbumIdGet>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
 }
 
-export type DetailPubAlbumsAlbumIdGetQueryResult = NonNullable<
-  Awaited<ReturnType<typeof detailPubAlbumsAlbumIdGet>>
->
+export type DetailPubAlbumsAlbumIdGetQueryResult = NonNullable<Awaited<ReturnType<typeof detailPubAlbumsAlbumIdGet>>>
 export type DetailPubAlbumsAlbumIdGetQueryError = HTTPValidationError
 
-export function useDetailPubAlbumsAlbumIdGet<
-  TData = Awaited<ReturnType<typeof detailPubAlbumsAlbumIdGet>>,
-  TError = HTTPValidationError,
->(
-  albumId: number,
-  options: {
-    query: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof detailPubAlbumsAlbumIdGet>>, TError, TData>
-    > &
-      Pick<
+
+export function useDetailPubAlbumsAlbumIdGet<TData = Awaited<ReturnType<typeof detailPubAlbumsAlbumIdGet>>, TError = HTTPValidationError>(
+ albumId: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailPubAlbumsAlbumIdGet>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof detailPubAlbumsAlbumIdGet>>,
           TError,
           TData
-        >,
-        'initialData'
-      >
-  },
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useDetailPubAlbumsAlbumIdGet<
-  TData = Awaited<ReturnType<typeof detailPubAlbumsAlbumIdGet>>,
-  TError = HTTPValidationError,
->(
-  albumId: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof detailPubAlbumsAlbumIdGet>>, TError, TData>
-    > &
-      Pick<
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useDetailPubAlbumsAlbumIdGet<TData = Awaited<ReturnType<typeof detailPubAlbumsAlbumIdGet>>, TError = HTTPValidationError>(
+ albumId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailPubAlbumsAlbumIdGet>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof detailPubAlbumsAlbumIdGet>>,
           TError,
           TData
-        >,
-        'initialData'
-      >
-  },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useDetailPubAlbumsAlbumIdGet<
-  TData = Awaited<ReturnType<typeof detailPubAlbumsAlbumIdGet>>,
-  TError = HTTPValidationError,
->(
-  albumId: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof detailPubAlbumsAlbumIdGet>>, TError, TData>
-    >
-  },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useDetailPubAlbumsAlbumIdGet<TData = Awaited<ReturnType<typeof detailPubAlbumsAlbumIdGet>>, TError = HTTPValidationError>(
+ albumId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailPubAlbumsAlbumIdGet>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Detail
  */
 
-export function useDetailPubAlbumsAlbumIdGet<
-  TData = Awaited<ReturnType<typeof detailPubAlbumsAlbumIdGet>>,
-  TError = HTTPValidationError,
->(
-  albumId: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof detailPubAlbumsAlbumIdGet>>, TError, TData>
-    >
-  },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
-  const queryOptions = getDetailPubAlbumsAlbumIdGetQueryOptions(albumId, options)
+export function useDetailPubAlbumsAlbumIdGet<TData = Awaited<ReturnType<typeof detailPubAlbumsAlbumIdGet>>, TError = HTTPValidationError>(
+ albumId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailPubAlbumsAlbumIdGet>>, TError, TData>>, }
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>
-  }
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
 
-  query.queryKey = queryOptions.queryKey
+  const queryOptions = getDetailPubAlbumsAlbumIdGetQueryOptions(albumId,options)
 
-  return query
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
 }
+
+
+

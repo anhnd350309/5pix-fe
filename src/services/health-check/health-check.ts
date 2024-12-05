@@ -12,7 +12,9 @@
         
  * OpenAPI spec version: 0.1.0
  */
-import { useQuery } from '@tanstack/react-query'
+import {
+  useQuery
+} from '@tanstack/react-query'
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -21,94 +23,99 @@ import type {
   QueryKey,
   UndefinedInitialDataOptions,
   UseQueryOptions,
-  UseQueryResult,
+  UseQueryResult
 } from '@tanstack/react-query'
-import type { ResponseSchemaBase } from '../../schemas'
-import { defaultMutator } from '../../api/axiosInstance'
+import type {
+  ResponseSchemaBase
+} from '../../schemas'
+import { defaultMutator } from '../../api/axiosInstance';
+
+
 
 /**
  * @summary Get
  */
-export const getHealthcheckGet = (signal?: AbortSignal) => {
-  return defaultMutator<ResponseSchemaBase>({
-    url: `https://dapi.5pix.org/healthcheck`,
-    method: 'GET',
-    signal,
-  })
-}
+export const getHealthcheckGet = (
+    
+ signal?: AbortSignal
+) => {
+      
+      
+      return defaultMutator<ResponseSchemaBase>(
+      {url: `/healthcheck`, method: 'GET', signal
+    },
+      );
+    }
+  
 
 export const getGetHealthcheckGetQueryKey = () => {
-  return [`https://api.5pix.org/healthcheck`] as const
+    return [`/healthcheck`] as const;
+    }
+
+    
+export const getGetHealthcheckGetQueryOptions = <TData = Awaited<ReturnType<typeof getHealthcheckGet>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getHealthcheckGet>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetHealthcheckGetQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getHealthcheckGet>>> = ({ signal }) => getHealthcheckGet(signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getHealthcheckGet>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
 }
 
-export const getGetHealthcheckGetQueryOptions = <
-  TData = Awaited<ReturnType<typeof getHealthcheckGet>>,
-  TError = unknown,
->(options?: {
-  query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getHealthcheckGet>>, TError, TData>>
-}) => {
-  const { query: queryOptions } = options ?? {}
-
-  const queryKey = queryOptions?.queryKey ?? getGetHealthcheckGetQueryKey()
-
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof getHealthcheckGet>>> = ({ signal }) =>
-    getHealthcheckGet(signal)
-
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof getHealthcheckGet>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData> }
-}
-
-export type GetHealthcheckGetQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getHealthcheckGet>>
->
+export type GetHealthcheckGetQueryResult = NonNullable<Awaited<ReturnType<typeof getHealthcheckGet>>>
 export type GetHealthcheckGetQueryError = unknown
 
-export function useGetHealthcheckGet<
-  TData = Awaited<ReturnType<typeof getHealthcheckGet>>,
-  TError = unknown,
->(options: {
-  query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getHealthcheckGet>>, TError, TData>> &
-    Pick<
-      DefinedInitialDataOptions<Awaited<ReturnType<typeof getHealthcheckGet>>, TError, TData>,
-      'initialData'
-    >
-}): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetHealthcheckGet<
-  TData = Awaited<ReturnType<typeof getHealthcheckGet>>,
-  TError = unknown,
->(options?: {
-  query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getHealthcheckGet>>, TError, TData>> &
-    Pick<
-      UndefinedInitialDataOptions<Awaited<ReturnType<typeof getHealthcheckGet>>, TError, TData>,
-      'initialData'
-    >
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetHealthcheckGet<
-  TData = Awaited<ReturnType<typeof getHealthcheckGet>>,
-  TError = unknown,
->(options?: {
-  query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getHealthcheckGet>>, TError, TData>>
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+
+export function useGetHealthcheckGet<TData = Awaited<ReturnType<typeof getHealthcheckGet>>, TError = unknown>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getHealthcheckGet>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getHealthcheckGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetHealthcheckGet<TData = Awaited<ReturnType<typeof getHealthcheckGet>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getHealthcheckGet>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getHealthcheckGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetHealthcheckGet<TData = Awaited<ReturnType<typeof getHealthcheckGet>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getHealthcheckGet>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get
  */
 
-export function useGetHealthcheckGet<
-  TData = Awaited<ReturnType<typeof getHealthcheckGet>>,
-  TError = unknown,
->(options?: {
-  query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getHealthcheckGet>>, TError, TData>>
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+export function useGetHealthcheckGet<TData = Awaited<ReturnType<typeof getHealthcheckGet>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getHealthcheckGet>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+
   const queryOptions = getGetHealthcheckGetQueryOptions(options)
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>
-  }
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
 
-  query.queryKey = queryOptions.queryKey
+  query.queryKey = queryOptions.queryKey ;
 
-  return query
+  return query;
 }
+
+
+

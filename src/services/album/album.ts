@@ -12,7 +12,10 @@
         
  * OpenAPI spec version: 0.1.0
  */
-import { useMutation, useQuery } from '@tanstack/react-query'
+import {
+  useMutation,
+  useQuery
+} from '@tanstack/react-query'
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -24,7 +27,7 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult,
+  UseQueryResult
 } from '@tanstack/react-query'
 import type {
   AlbumCreateRequest,
@@ -33,442 +36,361 @@ import type {
   DataResponseStr,
   GetAlbumsGetParams,
   HTTPValidationError,
-  PageAlbumItemResponse,
+  PageAlbumItemResponse
 } from '../../schemas'
-import { defaultMutator } from '../../api/axiosInstance'
+import { defaultMutator } from '../../api/axiosInstance';
+
+
 
 /**
  * API Get list Album
  * @summary Get
  */
-export const getAlbumsGet = (params?: GetAlbumsGetParams, signal?: AbortSignal) => {
-  return defaultMutator<PageAlbumItemResponse>({
-    url: `https://dapi.5pix.org/albums`,
-    method: 'GET',
-    params,
-    signal,
-  })
-}
-
-export const getGetAlbumsGetQueryKey = (params?: GetAlbumsGetParams) => {
-  return [`https://api.5pix.org/albums`, ...(params ? [params] : [])] as const
-}
-
-export const getGetAlbumsGetQueryOptions = <
-  TData = Awaited<ReturnType<typeof getAlbumsGet>>,
-  TError = HTTPValidationError,
->(
-  params?: GetAlbumsGetParams,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAlbumsGet>>, TError, TData>>
-  },
+export const getAlbumsGet = (
+    params?: GetAlbumsGetParams,
+ signal?: AbortSignal
 ) => {
-  const { query: queryOptions } = options ?? {}
+      
+      
+      return defaultMutator<PageAlbumItemResponse>(
+      {url: `/albums`, method: 'GET',
+        params, signal
+    },
+      );
+    }
+  
 
-  const queryKey = queryOptions?.queryKey ?? getGetAlbumsGetQueryKey(params)
+export const getGetAlbumsGetQueryKey = (params?: GetAlbumsGetParams,) => {
+    return [`/albums`, ...(params ? [params]: [])] as const;
+    }
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof getAlbumsGet>>> = ({ signal }) =>
-    getAlbumsGet(params, signal)
+    
+export const getGetAlbumsGetQueryOptions = <TData = Awaited<ReturnType<typeof getAlbumsGet>>, TError = HTTPValidationError>(params?: GetAlbumsGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAlbumsGet>>, TError, TData>>, }
+) => {
 
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof getAlbumsGet>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData> }
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetAlbumsGetQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAlbumsGet>>> = ({ signal }) => getAlbumsGet(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAlbumsGet>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
 }
 
 export type GetAlbumsGetQueryResult = NonNullable<Awaited<ReturnType<typeof getAlbumsGet>>>
 export type GetAlbumsGetQueryError = HTTPValidationError
 
-export function useGetAlbumsGet<
-  TData = Awaited<ReturnType<typeof getAlbumsGet>>,
-  TError = HTTPValidationError,
->(
-  params: undefined | GetAlbumsGetParams,
-  options: {
-    query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAlbumsGet>>, TError, TData>> &
-      Pick<
-        DefinedInitialDataOptions<Awaited<ReturnType<typeof getAlbumsGet>>, TError, TData>,
-        'initialData'
-      >
-  },
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetAlbumsGet<
-  TData = Awaited<ReturnType<typeof getAlbumsGet>>,
-  TError = HTTPValidationError,
->(
-  params?: GetAlbumsGetParams,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAlbumsGet>>, TError, TData>> &
-      Pick<
-        UndefinedInitialDataOptions<Awaited<ReturnType<typeof getAlbumsGet>>, TError, TData>,
-        'initialData'
-      >
-  },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetAlbumsGet<
-  TData = Awaited<ReturnType<typeof getAlbumsGet>>,
-  TError = HTTPValidationError,
->(
-  params?: GetAlbumsGetParams,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAlbumsGet>>, TError, TData>>
-  },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+
+export function useGetAlbumsGet<TData = Awaited<ReturnType<typeof getAlbumsGet>>, TError = HTTPValidationError>(
+ params: undefined |  GetAlbumsGetParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAlbumsGet>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAlbumsGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetAlbumsGet<TData = Awaited<ReturnType<typeof getAlbumsGet>>, TError = HTTPValidationError>(
+ params?: GetAlbumsGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAlbumsGet>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAlbumsGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetAlbumsGet<TData = Awaited<ReturnType<typeof getAlbumsGet>>, TError = HTTPValidationError>(
+ params?: GetAlbumsGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAlbumsGet>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get
  */
 
-export function useGetAlbumsGet<
-  TData = Awaited<ReturnType<typeof getAlbumsGet>>,
-  TError = HTTPValidationError,
->(
-  params?: GetAlbumsGetParams,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAlbumsGet>>, TError, TData>>
-  },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
-  const queryOptions = getGetAlbumsGetQueryOptions(params, options)
+export function useGetAlbumsGet<TData = Awaited<ReturnType<typeof getAlbumsGet>>, TError = HTTPValidationError>(
+ params?: GetAlbumsGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAlbumsGet>>, TError, TData>>, }
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>
-  }
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
 
-  query.queryKey = queryOptions.queryKey
+  const queryOptions = getGetAlbumsGetQueryOptions(params,options)
 
-  return query
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
 }
+
+
 
 /**
  * API Create Album
  * @summary Create
  */
-export const createAlbumsPost = (albumCreateRequest: AlbumCreateRequest, signal?: AbortSignal) => {
-  return defaultMutator<DataResponseAlbumItemResponse>({
-    url: `https://dapi.5pix.org/albums`,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    data: albumCreateRequest,
-    signal,
-  })
-}
+export const createAlbumsPost = (
+    albumCreateRequest: AlbumCreateRequest,
+ signal?: AbortSignal
+) => {
+      
+      
+      return defaultMutator<DataResponseAlbumItemResponse>(
+      {url: `/albums`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: albumCreateRequest, signal
+    },
+      );
+    }
+  
 
-export const getCreateAlbumsPostMutationOptions = <
-  TError = HTTPValidationError,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof createAlbumsPost>>,
-    TError,
-    { data: AlbumCreateRequest },
-    TContext
-  >
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof createAlbumsPost>>,
-  TError,
-  { data: AlbumCreateRequest },
-  TContext
-> => {
-  const { mutation: mutationOptions } = options ?? {}
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof createAlbumsPost>>,
-    { data: AlbumCreateRequest }
-  > = (props) => {
-    const { data } = props ?? {}
+export const getCreateAlbumsPostMutationOptions = <TError = HTTPValidationError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createAlbumsPost>>, TError,{data: AlbumCreateRequest}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof createAlbumsPost>>, TError,{data: AlbumCreateRequest}, TContext> => {
+const {mutation: mutationOptions} = options ?? {};
 
-    return createAlbumsPost(data)
-  }
+      
 
-  return { mutationFn, ...mutationOptions }
-}
 
-export type CreateAlbumsPostMutationResult = NonNullable<
-  Awaited<ReturnType<typeof createAlbumsPost>>
->
-export type CreateAlbumsPostMutationBody = AlbumCreateRequest
-export type CreateAlbumsPostMutationError = HTTPValidationError
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createAlbumsPost>>, {data: AlbumCreateRequest}> = (props) => {
+          const {data} = props ?? {};
 
-/**
+          return  createAlbumsPost(data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateAlbumsPostMutationResult = NonNullable<Awaited<ReturnType<typeof createAlbumsPost>>>
+    export type CreateAlbumsPostMutationBody = AlbumCreateRequest
+    export type CreateAlbumsPostMutationError = HTTPValidationError
+
+    /**
  * @summary Create
  */
-export const useCreateAlbumsPost = <TError = HTTPValidationError, TContext = unknown>(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof createAlbumsPost>>,
-    TError,
-    { data: AlbumCreateRequest },
-    TContext
-  >
-}): UseMutationResult<
-  Awaited<ReturnType<typeof createAlbumsPost>>,
-  TError,
-  { data: AlbumCreateRequest },
-  TContext
-> => {
-  const mutationOptions = getCreateAlbumsPostMutationOptions(options)
+export const useCreateAlbumsPost = <TError = HTTPValidationError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createAlbumsPost>>, TError,{data: AlbumCreateRequest}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof createAlbumsPost>>,
+        TError,
+        {data: AlbumCreateRequest},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions)
-}
-/**
+      const mutationOptions = getCreateAlbumsPostMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * API Detail Album
  * @summary Detail
  */
-export const detailAlbumsAlbumIdGet = (albumId: number, signal?: AbortSignal) => {
-  return defaultMutator<DataResponseAlbumItemResponse>({
-    url: `https://dapi.5pix.org/albums/${albumId}`,
-    method: 'GET',
-    signal,
-  })
-}
-
-export const getDetailAlbumsAlbumIdGetQueryKey = (albumId: number) => {
-  return [`https://api.5pix.org/albums/${albumId}`] as const
-}
-
-export const getDetailAlbumsAlbumIdGetQueryOptions = <
-  TData = Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>,
-  TError = HTTPValidationError,
->(
-  albumId: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>, TError, TData>
-    >
-  },
+export const detailAlbumsAlbumIdGet = (
+    albumId: number,
+ signal?: AbortSignal
 ) => {
-  const { query: queryOptions } = options ?? {}
+      
+      
+      return defaultMutator<DataResponseAlbumItemResponse>(
+      {url: `/albums/${albumId}`, method: 'GET', signal
+    },
+      );
+    }
+  
 
-  const queryKey = queryOptions?.queryKey ?? getDetailAlbumsAlbumIdGetQueryKey(albumId)
+export const getDetailAlbumsAlbumIdGetQueryKey = (albumId: number,) => {
+    return [`/albums/${albumId}`] as const;
+    }
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>> = ({ signal }) =>
-    detailAlbumsAlbumIdGet(albumId, signal)
+    
+export const getDetailAlbumsAlbumIdGetQueryOptions = <TData = Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>, TError = HTTPValidationError>(albumId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>, TError, TData>>, }
+) => {
 
-  return { queryKey, queryFn, enabled: !!albumId, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData> }
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getDetailAlbumsAlbumIdGetQueryKey(albumId);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>> = ({ signal }) => detailAlbumsAlbumIdGet(albumId, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(albumId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
 }
 
-export type DetailAlbumsAlbumIdGetQueryResult = NonNullable<
-  Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>
->
+export type DetailAlbumsAlbumIdGetQueryResult = NonNullable<Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>>
 export type DetailAlbumsAlbumIdGetQueryError = HTTPValidationError
 
-export function useDetailAlbumsAlbumIdGet<
-  TData = Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>,
-  TError = HTTPValidationError,
->(
-  albumId: number,
-  options: {
-    query: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>, TError, TData>
-    > &
-      Pick<
+
+export function useDetailAlbumsAlbumIdGet<TData = Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>, TError = HTTPValidationError>(
+ albumId: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>,
           TError,
           TData
-        >,
-        'initialData'
-      >
-  },
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useDetailAlbumsAlbumIdGet<
-  TData = Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>,
-  TError = HTTPValidationError,
->(
-  albumId: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>, TError, TData>
-    > &
-      Pick<
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useDetailAlbumsAlbumIdGet<TData = Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>, TError = HTTPValidationError>(
+ albumId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>,
           TError,
           TData
-        >,
-        'initialData'
-      >
-  },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useDetailAlbumsAlbumIdGet<
-  TData = Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>,
-  TError = HTTPValidationError,
->(
-  albumId: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>, TError, TData>
-    >
-  },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useDetailAlbumsAlbumIdGet<TData = Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>, TError = HTTPValidationError>(
+ albumId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Detail
  */
 
-export function useDetailAlbumsAlbumIdGet<
-  TData = Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>,
-  TError = HTTPValidationError,
->(
-  albumId: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>, TError, TData>
-    >
-  },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
-  const queryOptions = getDetailAlbumsAlbumIdGetQueryOptions(albumId, options)
+export function useDetailAlbumsAlbumIdGet<TData = Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>, TError = HTTPValidationError>(
+ albumId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailAlbumsAlbumIdGet>>, TError, TData>>, }
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>
-  }
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
 
-  query.queryKey = queryOptions.queryKey
+  const queryOptions = getDetailAlbumsAlbumIdGetQueryOptions(albumId,options)
 
-  return query
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
 }
+
+
 
 /**
  * API update Album
  * @summary Update
  */
-export const updateAlbumsAlbumIdPut = (albumId: number, albumUpdateRequest: AlbumUpdateRequest) => {
-  return defaultMutator<DataResponseAlbumItemResponse>({
-    url: `https://dapi.5pix.org/albums/${albumId}`,
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    data: albumUpdateRequest,
-  })
-}
+export const updateAlbumsAlbumIdPut = (
+    albumId: number,
+    albumUpdateRequest: AlbumUpdateRequest,
+ ) => {
+      
+      
+      return defaultMutator<DataResponseAlbumItemResponse>(
+      {url: `/albums/${albumId}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: albumUpdateRequest
+    },
+      );
+    }
+  
 
-export const getUpdateAlbumsAlbumIdPutMutationOptions = <
-  TError = HTTPValidationError,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof updateAlbumsAlbumIdPut>>,
-    TError,
-    { albumId: number; data: AlbumUpdateRequest },
-    TContext
-  >
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof updateAlbumsAlbumIdPut>>,
-  TError,
-  { albumId: number; data: AlbumUpdateRequest },
-  TContext
-> => {
-  const { mutation: mutationOptions } = options ?? {}
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof updateAlbumsAlbumIdPut>>,
-    { albumId: number; data: AlbumUpdateRequest }
-  > = (props) => {
-    const { albumId, data } = props ?? {}
+export const getUpdateAlbumsAlbumIdPutMutationOptions = <TError = HTTPValidationError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateAlbumsAlbumIdPut>>, TError,{albumId: number;data: AlbumUpdateRequest}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof updateAlbumsAlbumIdPut>>, TError,{albumId: number;data: AlbumUpdateRequest}, TContext> => {
+const {mutation: mutationOptions} = options ?? {};
 
-    return updateAlbumsAlbumIdPut(albumId, data)
-  }
+      
 
-  return { mutationFn, ...mutationOptions }
-}
 
-export type UpdateAlbumsAlbumIdPutMutationResult = NonNullable<
-  Awaited<ReturnType<typeof updateAlbumsAlbumIdPut>>
->
-export type UpdateAlbumsAlbumIdPutMutationBody = AlbumUpdateRequest
-export type UpdateAlbumsAlbumIdPutMutationError = HTTPValidationError
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateAlbumsAlbumIdPut>>, {albumId: number;data: AlbumUpdateRequest}> = (props) => {
+          const {albumId,data} = props ?? {};
 
-/**
+          return  updateAlbumsAlbumIdPut(albumId,data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateAlbumsAlbumIdPutMutationResult = NonNullable<Awaited<ReturnType<typeof updateAlbumsAlbumIdPut>>>
+    export type UpdateAlbumsAlbumIdPutMutationBody = AlbumUpdateRequest
+    export type UpdateAlbumsAlbumIdPutMutationError = HTTPValidationError
+
+    /**
  * @summary Update
  */
-export const useUpdateAlbumsAlbumIdPut = <
-  TError = HTTPValidationError,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof updateAlbumsAlbumIdPut>>,
-    TError,
-    { albumId: number; data: AlbumUpdateRequest },
-    TContext
-  >
-}): UseMutationResult<
-  Awaited<ReturnType<typeof updateAlbumsAlbumIdPut>>,
-  TError,
-  { albumId: number; data: AlbumUpdateRequest },
-  TContext
-> => {
-  const mutationOptions = getUpdateAlbumsAlbumIdPutMutationOptions(options)
+export const useUpdateAlbumsAlbumIdPut = <TError = HTTPValidationError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateAlbumsAlbumIdPut>>, TError,{albumId: number;data: AlbumUpdateRequest}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof updateAlbumsAlbumIdPut>>,
+        TError,
+        {albumId: number;data: AlbumUpdateRequest},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions)
-}
-/**
+      const mutationOptions = getUpdateAlbumsAlbumIdPutMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * API start process read image from file and Upload to S3
  * @summary Process Image
  */
-export const processImageAlbumsAlbumIdProcessImagePut = (albumId: number) => {
-  return defaultMutator<DataResponseStr>({
-    url: `https://dapi.5pix.org/albums/${albumId}/process-image`,
-    method: 'PUT',
-  })
-}
+export const processImageAlbumsAlbumIdProcessImagePut = (
+    albumId: number,
+ ) => {
+      
+      
+      return defaultMutator<DataResponseStr>(
+      {url: `/albums/${albumId}/process-image`, method: 'PUT'
+    },
+      );
+    }
+  
 
-export const getProcessImageAlbumsAlbumIdProcessImagePutMutationOptions = <
-  TError = HTTPValidationError,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof processImageAlbumsAlbumIdProcessImagePut>>,
-    TError,
-    { albumId: number },
-    TContext
-  >
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof processImageAlbumsAlbumIdProcessImagePut>>,
-  TError,
-  { albumId: number },
-  TContext
-> => {
-  const { mutation: mutationOptions } = options ?? {}
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof processImageAlbumsAlbumIdProcessImagePut>>,
-    { albumId: number }
-  > = (props) => {
-    const { albumId } = props ?? {}
+export const getProcessImageAlbumsAlbumIdProcessImagePutMutationOptions = <TError = HTTPValidationError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof processImageAlbumsAlbumIdProcessImagePut>>, TError,{albumId: number}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof processImageAlbumsAlbumIdProcessImagePut>>, TError,{albumId: number}, TContext> => {
+const {mutation: mutationOptions} = options ?? {};
 
-    return processImageAlbumsAlbumIdProcessImagePut(albumId)
-  }
+      
 
-  return { mutationFn, ...mutationOptions }
-}
 
-export type ProcessImageAlbumsAlbumIdProcessImagePutMutationResult = NonNullable<
-  Awaited<ReturnType<typeof processImageAlbumsAlbumIdProcessImagePut>>
->
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof processImageAlbumsAlbumIdProcessImagePut>>, {albumId: number}> = (props) => {
+          const {albumId} = props ?? {};
 
-export type ProcessImageAlbumsAlbumIdProcessImagePutMutationError = HTTPValidationError
+          return  processImageAlbumsAlbumIdProcessImagePut(albumId,)
+        }
 
-/**
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type ProcessImageAlbumsAlbumIdProcessImagePutMutationResult = NonNullable<Awaited<ReturnType<typeof processImageAlbumsAlbumIdProcessImagePut>>>
+    
+    export type ProcessImageAlbumsAlbumIdProcessImagePutMutationError = HTTPValidationError
+
+    /**
  * @summary Process Image
  */
-export const useProcessImageAlbumsAlbumIdProcessImagePut = <
-  TError = HTTPValidationError,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof processImageAlbumsAlbumIdProcessImagePut>>,
-    TError,
-    { albumId: number },
-    TContext
-  >
-}): UseMutationResult<
-  Awaited<ReturnType<typeof processImageAlbumsAlbumIdProcessImagePut>>,
-  TError,
-  { albumId: number },
-  TContext
-> => {
-  const mutationOptions = getProcessImageAlbumsAlbumIdProcessImagePutMutationOptions(options)
+export const useProcessImageAlbumsAlbumIdProcessImagePut = <TError = HTTPValidationError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof processImageAlbumsAlbumIdProcessImagePut>>, TError,{albumId: number}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof processImageAlbumsAlbumIdProcessImagePut>>,
+        TError,
+        {albumId: number},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions)
-}
+      const mutationOptions = getProcessImageAlbumsAlbumIdProcessImagePutMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    

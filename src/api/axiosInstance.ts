@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 
 // Create a custom axios instance
 const axiosInstance = axios.create({
-  baseURL: 'https://dapi.5pix.org', // Replace with your base URL
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || 'https://dapi.5pix.org', // Replace with your base URL
   timeout: 10000, // Set timeout for requests
   headers: {
     'Content-Type': 'application/json',
