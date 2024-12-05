@@ -27,9 +27,9 @@ const AllEventsAdmin = () => {
 
       try {
         const response = await getPubAlbumsGet(params)
-        const newEvents = response.data.data
+        const newEvents = response.data
         setLoadedEvents((prevEvents) => [...prevEvents, ...newEvents])
-        setTotalEvents(response.data.metadata.total_items)
+        setTotalEvents(response.metadata.total_items)
       } catch (err: any) {
         setError(err.message || 'Something went wrong')
       } finally {
@@ -50,7 +50,7 @@ const AllEventsAdmin = () => {
   }
   return (
     <div>
-      <Input size="large" placeholder="Mã sự kiện, tên sự kiện" prefix={<SearchOutlined />} />
+      <Input size='large' placeholder='Mã sự kiện, tên sự kiện' prefix={<SearchOutlined />} />
       <div className='flex flex-col gap-4 py-4'>
         {loadedEvents?.map((event) => (
           <Link href={`/events/${event.id}`} key={event.id}>
@@ -65,7 +65,7 @@ const AllEventsAdmin = () => {
         ))}
       </div>
     </div>
-  );
+  )
 }
 
-export default AllEventsAdmin;
+export default AllEventsAdmin
