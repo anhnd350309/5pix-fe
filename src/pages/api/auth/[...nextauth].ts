@@ -59,6 +59,7 @@ export const authOptions: AuthOptions = {
 
           console.log(token)
           const userData = await detailMeUsersMeGet({
+            baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || 'https://dapi.5pix.org',
             headers: {
               Authorization: `Bearer ${token}`,
             },
