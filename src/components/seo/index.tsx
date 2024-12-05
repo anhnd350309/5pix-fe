@@ -5,9 +5,9 @@ import type { SEOProps } from 'types/seo.type'
 
 // Default value for some meta data
 const defaultMeta = {
-  title: 'LaslesVPN',
-  siteName: 'LaslesVPN',
-  description: 'Landing page VPN LaslesVPN Best VPN For Privacy, Country and Cheapest',
+  title: '5PIX',
+  siteName: '5PIX',
+  description: 'Nhiếp ảnh mang lại trải nghiệm khác biệt',
   // change base url of your web (without '/' at the end)
   url: 'http://localhost:9999',
   type: 'website',
@@ -15,7 +15,7 @@ const defaultMeta = {
   // change with url of your image (recommended dimension = 1.91:1)
   // used in twitter, facebook, etc. card when link copied in tweet/status
   image: 'http://localhost:9999/assets/card-image.png',
-  author: 'Lorem Ipsum',
+  author: 'Huhu',
 }
 
 // Favicons, other icons, and manifest definition
@@ -23,52 +23,47 @@ const favicons = [
   {
     rel: 'apple-touch-icon',
     sizes: '57x57',
-    href: '/favicon/apple-icon-57x57.png',
+    href: '/favicon/favicon.png',
   },
   {
     rel: 'apple-touch-icon',
     sizes: '60x60',
-    href: '/favicon/apple-icon-60x60.png',
+    href: '/favicon/favicon.png',
   },
   {
     rel: 'apple-touch-icon',
     sizes: '72x72',
-    href: '/favicon/apple-icon-72x72.png',
+    href: '/favicon/favicon.png',
   },
   {
     rel: 'apple-touch-icon',
     sizes: '76x76',
-    href: '/favicon/apple-icon-76x76.png',
+    href: '/favicon/favicon.png',
   },
   {
     rel: 'apple-touch-icon',
     sizes: '114x114',
-    href: '/favicon/apple-icon-114x114.png',
+    href: '/favicon/favicon.png',
   },
   {
     rel: 'apple-touch-icon',
     sizes: '120x120',
-    href: '/favicon/apple-icon-120x120.png',
+    href: '/favicon/favicon.png',
   },
   {
     rel: 'apple-touch-icon',
     sizes: '144x144',
-    href: '/favicon/apple-icon-144x144.png',
+    href: '/favicon/favicon.png',
   },
   {
     rel: 'apple-touch-icon',
     sizes: '152x152',
-    href: '/favicon/apple-icon-152x152.png',
+    href: '/favicon/favicon.png',
   },
   {
     rel: 'apple-touch-icon',
     sizes: '180x180',
-    href: '/favicon/apple-icon-180x180.png',
-  },
-  {
-    rel: 'mask-icon',
-    href: '/favicon/safari-pinned-tab.svg',
-    color: '#F59A9A',
+    href: '/favicon/favicon.png',
   },
   {
     rel: 'icon',
@@ -78,25 +73,25 @@ const favicons = [
     rel: 'icon',
     type: 'image/png',
     sizes: '16x16',
-    href: '/favicon/favicon-16x16.png',
+    href: '/favicon/favicon.png',
   },
   {
     rel: 'icon',
     type: 'image/png',
     sizes: '32x32',
-    href: '/favicon/favicon-32x32.png',
+    href: '/favicon/favicon.png',
   },
   {
     rel: 'icon',
     type: 'image/png',
     sizes: '96x96',
-    href: '/favicon/favicon-96x96.png',
+    href: '/favicon/favicon.png',
   },
   {
     rel: 'icon',
     type: 'image/png',
     sizes: '192x192',
-    href: '/favicon/android-icon-192x192.png',
+    href: '/favicon/favicon.png',
   },
   {
     rel: 'manifest',
@@ -164,7 +159,7 @@ const SEOHead = (props: SEOProps) => {
       ))}
       {/* Windows 8 app icon */}
       <meta name='msapplication-TileColor' content='#F53838' />
-      <meta name='msapplication-TileImage' content='/favicon/ms-icon-144x144.png' />
+      <meta name='msapplication-TileImage' content='/favicon/favicon.png' />
       {/* Accent color on supported browser */}
       <meta name='theme-color' content='#F53838' />
     </Head>
