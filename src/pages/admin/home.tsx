@@ -28,4 +28,5 @@ const Home = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
 }
 
 // Home.requireAuth = true
-export default withAuth(Home)
+// export default withAuth(Home)
+export default Home
