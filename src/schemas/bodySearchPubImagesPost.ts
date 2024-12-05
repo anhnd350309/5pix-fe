@@ -9,7 +9,7 @@
             - CRUD User
             - Unit testing with Pytest
             - Dockerize
-        
+
  * OpenAPI spec version: 0.1.0
  */
 
