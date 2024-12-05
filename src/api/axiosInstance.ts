@@ -1,7 +1,8 @@
 // src/api/axiosInstance.ts
 import { ro } from '@faker-js/faker/.'
+import { w } from '@faker-js/faker/dist/airline-BLb3y-7w'
 import axios, { AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios'
-import { getSession } from 'next-auth/react'
+import { getSession, signOut } from 'next-auth/react'
 import { useRouter } from 'next/router'
 
 // Create a custom axios instance
@@ -39,12 +40,12 @@ axiosInstance.interceptors.response.use(
     return response
   },
   (error) => {
-    const router = useRouter()
     // Handle response errors, e.g., token expiration
-    if (error.response?.status === 401) {
+    if (error.response?.status === 403) {
       console.error('Unauthorized! Redirecting to login...')
       // Add logout logic or redirect to login
-      router.push('/auth/login')
+      // signOut({ callbackUrl: '/auth/login' })
+      window.location.href = '/auth/login'
     }
     return Promise.reject(error)
   },
