@@ -12,7 +12,13 @@ import {
 } from '@/components/ui/carousel'
 import { Dialog, DialogTrigger, DialogContent } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
-import { Select, SelectTrigger, SelectContent, SelectItem } from '@/components/ui/select'
+import {
+  Select,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  SelectValue,
+} from '@/components/ui/select'
 import {
   AlbumItemResponsePublic,
   GetPubAlbumsGetParams,
@@ -26,13 +32,16 @@ import EventCard from '../shared/EventCard'
 import UploadImageComponent from '@/components/common/UploadImageComponent'
 import { searchPubImagesPost } from '@/services/public-images/public-images'
 import { Spin } from 'antd'
+import { ro } from '@faker-js/faker/.'
+import { al } from '@faker-js/faker/dist/airline-BLb3y-7w'
 
 const Hero = () => {
   const { t } = useTranslation('common')
-  const [albumId, setAlbumId] = useState('1') // Default to the first option
+  const [albumId, setAlbumId] = useState('') // Default to the first option
   const [bibNumber, setBibNumber] = useState('')
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [eventHighlights, setEventHighlights] = useState<AlbumItemResponsePublic[]>([])
+  const [events, setEvents] = useState<AlbumItemResponsePublic[]>([])
   const [searchResults, setSearchResults] = useState<PageAlbumImageItemResponsePublic | null>(null)
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(true)
@@ -42,16 +51,31 @@ const Hero = () => {
   }, [])
   const params: GetPubAlbumsGetParams = {
     page: 1,
-    page_size: 10,
-    highlight: true,
+    page_size: 1000,
+    highlight: false,
   }
 
   useEffect(() => {
-    const fetchEventHighlights = async () => {
+    // const fetchEventHighlights = async () => {
+    //   setIsLoading(true)
+    //   try {
+    //     const response = await getPubAlbumsGet(params)
+    //     setEventHighlights(response.data || [])
+    //     setError(null)
+    //   } catch (err: any) {
+    //     setError(err.message || 'Something went wrong')
+    //   } finally {
+    //     setIsLoading(false)
+    //   }
+    // }
+    const fetchALlEvents = async () => {
       setIsLoading(true)
       try {
         const response = await getPubAlbumsGet(params)
-        setEventHighlights(response.data.data || [])
+        setEvents(response.data || [])
+        // filter highlight events
+        const highlightEvents = response.data?.filter((event) => event.is_highlight)
+        setEventHighlights(highlightEvents || [])
         setError(null)
       } catch (err: any) {
         setError(err.message || 'Something went wrong')
@@ -59,8 +83,7 @@ const Hero = () => {
         setIsLoading(false)
       }
     }
-
-    fetchEventHighlights()
+    fetchALlEvents()
   }, [])
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -71,32 +94,41 @@ const Hero = () => {
   }
 
   const handleSubmit = async () => {
-    if (!selectedFile) {
-      alert('Please upload an image!')
+    if (!albumId) {
+      alert('Please select an event!')
       return
     }
+    if (!bibNumber) {
+      router.push(`/events/${albumId}`)
+      return
+    }
+    router.push(`/events/${albumId}?bib_number=${bibNumber}`)
+    // if (!selectedFile) {
+    //   alert('Please upload an image!')
+    //   return
+    // }
 
-    const body = {
-      avatar_file: selectedFile,
-    }
-    const params = {
-      album_id: parseInt(albumId),
-      bib_number: bibNumber,
-      search_type: ImageSearchType.all,
-      page_size: 100,
-      page: 1,
-      sort_by: 'id',
-      order: 'desc',
-    }
+    // const body = {
+    //   avatar_file: selectedFile,
+    // }
+    // const params = {
+    //   album_id: parseInt(albumId),
+    //   bib_number: bibNumber,
+    //   search_type: ImageSearchType.all,
+    //   page_size: 100,
+    //   page: 1,
+    //   sort_by: 'id',
+    //   order: 'desc',
+    // }
 
-    try {
-      const response = await searchPubImagesPost(body, params)
-      setSearchResults(response.data) // Update state with search results
-      alert('Search successful!')
-    } catch (error) {
-      console.error('Error submitting form:', error)
-      alert('An error occurred. Please try again.')
-    }
+    // try {
+    //   const response = await searchPubImagesPost(body, params)
+    //   setSearchResults(response) // Update state with search results
+    //   alert('Search successful!')
+    // } catch (error) {
+    //   console.error('Error submitting form:', error)
+    //   alert('An error occurred. Please try again.')
+    // }
   }
 
   if (isLoading) {
@@ -122,13 +154,19 @@ const Hero = () => {
         </h1>
         <div className='flex sm:flex-row flex-col items-center sm:space-x-4 space-y-4 sm:space-y-0 sm:bg-white shadow p-2 rounded-full'>
           <Select onValueChange={(value: string) => setAlbumId(value)}>
-            <SelectTrigger className='bg-white border-none rounded-full w-full text-center'>
-              <span className='text-gray-700'>GIẢI CHẠY VIỆT NAM FAMILY MARATHON...</span>
+            <SelectTrigger className='bg-white border-none rounded-full text-center !w-[300px]'>
+              <SelectValue placeholder='Tìm kiếm giải chạy' />
+              {/* <span className='text-gray-700'>Tìm kiếm giải chạy</span> */}
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value='1'>Option 1</SelectItem>
+              {events.map((event) => (
+                <SelectItem key={event.id} value={event.id.toString()}>
+                  {event.album_name}
+                </SelectItem>
+              ))}
+              {/* <SelectItem value='1'>Option 1</SelectItem>
               <SelectItem value='2'>Option 2</SelectItem>
-              <SelectItem value='3'>Option 3</SelectItem>
+              <SelectItem value='3'>Option 3</SelectItem> */}
             </SelectContent>
           </Select>
           <div className='flex flex-1 w-full sm:w-auto'>

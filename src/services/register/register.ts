@@ -20,17 +20,12 @@ import type {
   UseMutationOptions,
   UseMutationResult
 } from '@tanstack/react-query'
-import axios from 'axios'
-import type {
-  AxiosError,
-  AxiosRequestConfig,
-  AxiosResponse
-} from 'axios'
 import type {
   DataResponseUserItemResponse,
   HTTPValidationError,
   UserRegisterRequest
 } from '../../schemas'
+import { defaultMutator } from '../../api/axiosInstance';
 
 
 
@@ -38,21 +33,25 @@ import type {
  * @summary Register
  */
 export const registerRegisterPost = (
-    userRegisterRequest: UserRegisterRequest, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<DataResponseUserItemResponse>> => {
-    
-    return axios.post(
-      `https://api.5pix.org/register`,
-      userRegisterRequest,options
-    );
-  }
+    userRegisterRequest: UserRegisterRequest,
+ signal?: AbortSignal
+) => {
+      
+      
+      return defaultMutator<DataResponseUserItemResponse>(
+      {url: `/register`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: userRegisterRequest, signal
+    },
+      );
+    }
+  
 
 
-
-export const getRegisterRegisterPostMutationOptions = <TError = AxiosError<HTTPValidationError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof registerRegisterPost>>, TError,{data: UserRegisterRequest}, TContext>, axios?: AxiosRequestConfig}
+export const getRegisterRegisterPostMutationOptions = <TError = HTTPValidationError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof registerRegisterPost>>, TError,{data: UserRegisterRequest}, TContext>, }
 ): UseMutationOptions<Awaited<ReturnType<typeof registerRegisterPost>>, TError,{data: UserRegisterRequest}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+const {mutation: mutationOptions} = options ?? {};
 
       
 
@@ -60,7 +59,7 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof registerRegisterPost>>, {data: UserRegisterRequest}> = (props) => {
           const {data} = props ?? {};
 
-          return  registerRegisterPost(data,axiosOptions)
+          return  registerRegisterPost(data,)
         }
 
         
@@ -70,13 +69,13 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
     export type RegisterRegisterPostMutationResult = NonNullable<Awaited<ReturnType<typeof registerRegisterPost>>>
     export type RegisterRegisterPostMutationBody = UserRegisterRequest
-    export type RegisterRegisterPostMutationError = AxiosError<HTTPValidationError>
+    export type RegisterRegisterPostMutationError = HTTPValidationError
 
     /**
  * @summary Register
  */
-export const useRegisterRegisterPost = <TError = AxiosError<HTTPValidationError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof registerRegisterPost>>, TError,{data: UserRegisterRequest}, TContext>, axios?: AxiosRequestConfig}
+export const useRegisterRegisterPost = <TError = HTTPValidationError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof registerRegisterPost>>, TError,{data: UserRegisterRequest}, TContext>, }
 ): UseMutationResult<
         Awaited<ReturnType<typeof registerRegisterPost>>,
         TError,

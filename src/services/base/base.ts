@@ -20,17 +20,12 @@ import type {
   UseMutationOptions,
   UseMutationResult
 } from '@tanstack/react-query'
-import axios from 'axios'
-import type {
-  AxiosError,
-  AxiosRequestConfig,
-  AxiosResponse
-} from 'axios'
 import type {
   BodyUploadToGetCdnBasePost,
   DataResponseImageCdn,
   HTTPValidationError
 } from '../../schemas'
+import { defaultMutator } from '../../api/axiosInstance';
 
 
 
@@ -39,23 +34,27 @@ import type {
  * @summary Upload To Get Cdn
  */
 export const uploadToGetCdnBasePost = (
-    bodyUploadToGetCdnBasePost: BodyUploadToGetCdnBasePost, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<DataResponseImageCdn>> => {const formData = new FormData();
+    bodyUploadToGetCdnBasePost: BodyUploadToGetCdnBasePost,
+ signal?: AbortSignal
+) => {
+      
+      const formData = new FormData();
 formData.append('file', bodyUploadToGetCdnBasePost.file)
 
-    
-    return axios.post(
-      `https://api.5pix.org/base`,
-      formData,options
-    );
-  }
+      return defaultMutator<DataResponseImageCdn>(
+      {url: `/base`, method: 'POST',
+      headers: {'Content-Type': 'multipart/form-data', },
+       data: formData, signal
+    },
+      );
+    }
+  
 
 
-
-export const getUploadToGetCdnBasePostMutationOptions = <TError = AxiosError<HTTPValidationError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof uploadToGetCdnBasePost>>, TError,{data: BodyUploadToGetCdnBasePost}, TContext>, axios?: AxiosRequestConfig}
+export const getUploadToGetCdnBasePostMutationOptions = <TError = HTTPValidationError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof uploadToGetCdnBasePost>>, TError,{data: BodyUploadToGetCdnBasePost}, TContext>, }
 ): UseMutationOptions<Awaited<ReturnType<typeof uploadToGetCdnBasePost>>, TError,{data: BodyUploadToGetCdnBasePost}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+const {mutation: mutationOptions} = options ?? {};
 
       
 
@@ -63,7 +62,7 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof uploadToGetCdnBasePost>>, {data: BodyUploadToGetCdnBasePost}> = (props) => {
           const {data} = props ?? {};
 
-          return  uploadToGetCdnBasePost(data,axiosOptions)
+          return  uploadToGetCdnBasePost(data,)
         }
 
         
@@ -73,13 +72,13 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
     export type UploadToGetCdnBasePostMutationResult = NonNullable<Awaited<ReturnType<typeof uploadToGetCdnBasePost>>>
     export type UploadToGetCdnBasePostMutationBody = BodyUploadToGetCdnBasePost
-    export type UploadToGetCdnBasePostMutationError = AxiosError<HTTPValidationError>
+    export type UploadToGetCdnBasePostMutationError = HTTPValidationError
 
     /**
  * @summary Upload To Get Cdn
  */
-export const useUploadToGetCdnBasePost = <TError = AxiosError<HTTPValidationError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof uploadToGetCdnBasePost>>, TError,{data: BodyUploadToGetCdnBasePost}, TContext>, axios?: AxiosRequestConfig}
+export const useUploadToGetCdnBasePost = <TError = HTTPValidationError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof uploadToGetCdnBasePost>>, TError,{data: BodyUploadToGetCdnBasePost}, TContext>, }
 ): UseMutationResult<
         Awaited<ReturnType<typeof uploadToGetCdnBasePost>>,
         TError,

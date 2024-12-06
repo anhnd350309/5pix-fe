@@ -20,12 +20,6 @@ import type {
   UseMutationOptions,
   UseMutationResult
 } from '@tanstack/react-query'
-import axios from 'axios'
-import type {
-  AxiosError,
-  AxiosRequestConfig,
-  AxiosResponse
-} from 'axios'
 import type {
   BodyGetAlbumImagesPost,
   DataResponseStr,
@@ -34,6 +28,7 @@ import type {
   PageAlbumImageItemResponse,
   SetHideAlbumImagesHideImagePostParams
 } from '../../schemas'
+import { defaultMutator } from '../../api/axiosInstance';
 
 
 
@@ -43,27 +38,30 @@ import type {
  */
 export const getAlbumImagesPost = (
     bodyGetAlbumImagesPost: BodyGetAlbumImagesPost,
-    params?: GetAlbumImagesPostParams, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<PageAlbumImageItemResponse>> => {const formData = new FormData();
+    params?: GetAlbumImagesPostParams,
+ signal?: AbortSignal
+) => {
+      
+      const formData = new FormData();
 if(bodyGetAlbumImagesPost.avatar_file !== undefined) {
  formData.append('avatar_file', bodyGetAlbumImagesPost.avatar_file)
  }
 
-    
-    return axios.post(
-      `https://api.5pix.org/album-images`,
-      formData,{
-    ...options,
-        params: {...params, ...options?.params},}
-    );
-  }
+      return defaultMutator<PageAlbumImageItemResponse>(
+      {url: `/album-images`, method: 'POST',
+      headers: {'Content-Type': 'multipart/form-data', },
+       data: formData,
+        params, signal
+    },
+      );
+    }
+  
 
 
-
-export const getGetAlbumImagesPostMutationOptions = <TError = AxiosError<HTTPValidationError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof getAlbumImagesPost>>, TError,{data: BodyGetAlbumImagesPost;params?: GetAlbumImagesPostParams}, TContext>, axios?: AxiosRequestConfig}
+export const getGetAlbumImagesPostMutationOptions = <TError = HTTPValidationError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof getAlbumImagesPost>>, TError,{data: BodyGetAlbumImagesPost;params?: GetAlbumImagesPostParams}, TContext>, }
 ): UseMutationOptions<Awaited<ReturnType<typeof getAlbumImagesPost>>, TError,{data: BodyGetAlbumImagesPost;params?: GetAlbumImagesPostParams}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+const {mutation: mutationOptions} = options ?? {};
 
       
 
@@ -71,7 +69,7 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof getAlbumImagesPost>>, {data: BodyGetAlbumImagesPost;params?: GetAlbumImagesPostParams}> = (props) => {
           const {data,params} = props ?? {};
 
-          return  getAlbumImagesPost(data,params,axiosOptions)
+          return  getAlbumImagesPost(data,params,)
         }
 
         
@@ -81,13 +79,13 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
     export type GetAlbumImagesPostMutationResult = NonNullable<Awaited<ReturnType<typeof getAlbumImagesPost>>>
     export type GetAlbumImagesPostMutationBody = BodyGetAlbumImagesPost
-    export type GetAlbumImagesPostMutationError = AxiosError<HTTPValidationError>
+    export type GetAlbumImagesPostMutationError = HTTPValidationError
 
     /**
  * @summary Get
  */
-export const useGetAlbumImagesPost = <TError = AxiosError<HTTPValidationError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof getAlbumImagesPost>>, TError,{data: BodyGetAlbumImagesPost;params?: GetAlbumImagesPostParams}, TContext>, axios?: AxiosRequestConfig}
+export const useGetAlbumImagesPost = <TError = HTTPValidationError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof getAlbumImagesPost>>, TError,{data: BodyGetAlbumImagesPost;params?: GetAlbumImagesPostParams}, TContext>, }
 ): UseMutationResult<
         Awaited<ReturnType<typeof getAlbumImagesPost>>,
         TError,
@@ -104,22 +102,24 @@ export const useGetAlbumImagesPost = <TError = AxiosError<HTTPValidationError>,
  * @summary Set Hide
  */
 export const setHideAlbumImagesHideImagePost = (
-    params?: SetHideAlbumImagesHideImagePostParams, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<DataResponseStr>> => {
-    
-    return axios.post(
-      `https://api.5pix.org/album-images/hide-image`,undefined,{
-    ...options,
-        params: {...params, ...options?.params},}
-    );
-  }
+    params?: SetHideAlbumImagesHideImagePostParams,
+ signal?: AbortSignal
+) => {
+      
+      
+      return defaultMutator<DataResponseStr>(
+      {url: `/album-images/hide-image`, method: 'POST',
+        params, signal
+    },
+      );
+    }
+  
 
 
-
-export const getSetHideAlbumImagesHideImagePostMutationOptions = <TError = AxiosError<HTTPValidationError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof setHideAlbumImagesHideImagePost>>, TError,{params?: SetHideAlbumImagesHideImagePostParams}, TContext>, axios?: AxiosRequestConfig}
+export const getSetHideAlbumImagesHideImagePostMutationOptions = <TError = HTTPValidationError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof setHideAlbumImagesHideImagePost>>, TError,{params?: SetHideAlbumImagesHideImagePostParams}, TContext>, }
 ): UseMutationOptions<Awaited<ReturnType<typeof setHideAlbumImagesHideImagePost>>, TError,{params?: SetHideAlbumImagesHideImagePostParams}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+const {mutation: mutationOptions} = options ?? {};
 
       
 
@@ -127,7 +127,7 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof setHideAlbumImagesHideImagePost>>, {params?: SetHideAlbumImagesHideImagePostParams}> = (props) => {
           const {params} = props ?? {};
 
-          return  setHideAlbumImagesHideImagePost(params,axiosOptions)
+          return  setHideAlbumImagesHideImagePost(params,)
         }
 
         
@@ -137,13 +137,13 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
     export type SetHideAlbumImagesHideImagePostMutationResult = NonNullable<Awaited<ReturnType<typeof setHideAlbumImagesHideImagePost>>>
     
-    export type SetHideAlbumImagesHideImagePostMutationError = AxiosError<HTTPValidationError>
+    export type SetHideAlbumImagesHideImagePostMutationError = HTTPValidationError
 
     /**
  * @summary Set Hide
  */
-export const useSetHideAlbumImagesHideImagePost = <TError = AxiosError<HTTPValidationError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof setHideAlbumImagesHideImagePost>>, TError,{params?: SetHideAlbumImagesHideImagePostParams}, TContext>, axios?: AxiosRequestConfig}
+export const useSetHideAlbumImagesHideImagePost = <TError = HTTPValidationError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof setHideAlbumImagesHideImagePost>>, TError,{params?: SetHideAlbumImagesHideImagePostParams}, TContext>, }
 ): UseMutationResult<
         Awaited<ReturnType<typeof setHideAlbumImagesHideImagePost>>,
         TError,

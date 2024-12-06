@@ -8,8 +8,13 @@ export default defineConfig({
       target: './src/services', // Thư mục nơi mã nguồn sẽ được tạo
       client: 'react-query', // Sử dụng React Query (có thể là axios hoặc fetch nếu muốn)
       schemas: './src/schemas', // Thư mục nơi các schema được tạo
-      baseUrl: 'https://api.5pix.org', // Base URL cho các API
       mock: true, // Tạo mock data cho API khi chưa có server thực sự
+      override: {
+        mutator: {
+          path: './src/api/axiosInstance.ts', // Path to the mutator file
+          name: 'defaultMutator', // Name of the exported mutator function
+        },
+      },
     },
   },
 })
