@@ -9,7 +9,7 @@ const defaultMeta = {
   siteName: '5PIX',
   description: 'Nhiếp ảnh mang lại trải nghiệm khác biệt',
   // change base url of your web (without '/' at the end)
-  url: 'http://localhost:9999',
+  url: 'http://5pix.org',
   type: 'website',
   robots: 'follow, index',
   // change with url of your image (recommended dimension = 1.91:1)
