@@ -12,6 +12,14 @@ import { store } from 'redux/store'
 
 import 'styles/globals.css'
 import 'styles/template.scss'
+import { use, useEffect } from 'react'
+
+declare global {
+  interface Window {
+    dataLayer: any[]
+    gtag: (...args: any[]) => void
+  }
+}
 
 type AppPropsWithAuth = AppProps<{ session: Session }> & {
   Component: {
@@ -20,6 +28,42 @@ type AppPropsWithAuth = AppProps<{ session: Session }> & {
 }
 const queryClient = new QueryClient()
 const App = ({ Component, pageProps: { session, ...pageProps } }: AppPropsWithAuth) => {
+  useEffect(() => {
+    const initGTM = () => {
+      const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || 'G-31FHD8K98D'
+      if (!GTM_ID) {
+        return
+      }
+      const script = document.createElement('script')
+      script.id = 'google-tag-manager'
+      script.src = `https://www.googletagmanager.com/gtm.js?id=${GTM_ID}`
+      script.async = true
+      script.defer = true
+      script.onload = () => {
+        window.dataLayer = window.dataLayer || []
+        function gtag() {
+          // eslint-disable-next-line prefer-rest-params
+          window.dataLayer.push(arguments)
+        }
+
+        window.gtag = gtag
+        ;(gtag as any)('js', new Date())
+        ;(gtag as any)('config', GTM_ID)
+      }
+      document.head.appendChild(script)
+    }
+
+    if (!window.dataLayer) {
+      initGTM()
+    }
+
+    return () => {
+      const script = document.getElementById('google-tag-manager')
+      if (script) {
+        script.remove()
+      }
+    }
+  }, [])
   return (
     <ReduxProvider store={store}>
       <ConfigProvider>

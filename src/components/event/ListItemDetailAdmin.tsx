@@ -5,6 +5,7 @@ import { SearchOutlined } from '@ant-design/icons'
 import Image from 'next/image'
 import { AlbumImageItemResponse, BodyGetAlbumImagesPost, GetAlbumImagesPostParams } from '@/schemas'
 import { getAlbumImagesPost } from '@/services/images/images'
+import { processImageAlbumsAlbumIdProcessImagePut } from '@/services/album/album'
 export interface ListItemDetailAdminProps {
   id: number | string
 }
@@ -13,29 +14,30 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
   const [curLoading, setCurLoading] = useState(false)
   const [isLoadingMore, setIsLoadingMore] = useState(false)
   const [totalPages, setTotalPages] = useState(1)
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isModalVisibleImage, setIsModalVisibleImage] = useState(false);
-  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
+  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [isModalVisibleImage, setIsModalVisibleImage] = useState(false)
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null)
   const [totalEvents, setTotalEvents] = useState<number | null>(null)
   const [loadedImgs, setLoadedImgs] = useState<AlbumImageItemResponse[]>([])
+  const [isShowLabel, setIsShowLabel] = useState(true)
 
-  const carouselRef = useRef<any>(null);  // Create a ref to access the Carousel
+  const carouselRef = useRef<any>(null) // Create a ref to access the Carousel
 
   const showModal = () => {
-    setIsModalVisible(true);  // Show upload modal
-  };
+    setIsModalVisible(true) // Show upload modal
+  }
 
   const showModalFullImage = () => {
-    setIsModalVisibleImage(true);  // Show full image modal
-  };
+    setIsModalVisibleImage(true) // Show full image modal
+  }
 
   const handleCancel = () => {
-    setIsModalVisible(false);
-  };
+    setIsModalVisible(false)
+  }
 
   const handleCancelImage = () => {
-    setIsModalVisibleImage(false);
-  };
+    setIsModalVisibleImage(false)
+  }
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -78,6 +80,10 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
     image_name: 'Detail Event',
     s3_image_url: '/assets/images/DetailEvent.png',
   })
+  const indexAlbum = () => {
+    // Index album
+    processImageAlbumsAlbumIdProcessImagePut(Number(id))
+  }
   const handlePreviousPage = () => {
     if (currentPage > 1) {
       setCurrentPage((prevPage) => prevPage - 1)
@@ -95,7 +101,7 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
     setCurrentPage(1)
   }
 
-  const [hiddenImages, setHiddenImages] = useState<number[]>([]);
+  const [hiddenImages, setHiddenImages] = useState<number[]>([])
 
   const handleOptionClick = (action: string, imageIndex: number) => {
     if (action === 'hide') {
@@ -105,8 +111,8 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
     } else if (action === 'find') {
       // Handle find action if necessary
     } else if (action === 'open') {
-      setSelectedImageIndex(imageIndex);
-      setIsModalVisibleImage(true);
+      setSelectedImageIndex(imageIndex)
+      setIsModalVisibleImage(true)
     }
   }
 
@@ -153,10 +159,10 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
       <div className='flex justify-between'>
         <p className='text-2xl'>Tà Năng Trail Challenge 2025</p>
         <div className='flex gap-2'>
-          <Button size='large' className='bg-[#C7DBFF] text-black font-bold'>
+          <Button size='large' className='bg-[#C7DBFF] text-black font-bold' onClick={indexAlbum}>
             Start Index
           </Button>
-          <Button size="large" className="bg-[#275FC1] text-white font-bold" onClick={showModal}>
+          <Button size='large' className='bg-[#275FC1] text-white font-bold' onClick={showModal}>
             + Tải ảnh lên
           </Button>
         </div>
@@ -178,23 +184,29 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
         </div>
         <Button
           size='large'
-          className='flex gap-2 items-center bg-[#E4E7EC] text-[#344054] font-bold'
+          className='flex  gap-2 items-center bg-[#E4E7EC] text-[#344054] font-bold'
+          onClick={() => setIsShowLabel(!isShowLabel)}
         >
-          <Image src='/assets/icons/template/icon_hidden.svg' alt='Logo' height={20} width={20} />
-          Ẩn Label
+          <Image
+            src={
+              isShowLabel
+                ? '/assets/icons/template/icon_hidden.svg'
+                : '/assets/icons/template/icon_show.svg'
+            }
+            alt='Logo'
+            height={20}
+            width={20}
+          />
+          {isShowLabel ? 'Ẩn nhãn' : 'Hiện nhãn'}
         </Button>
       </div>
-      <Modal
-        open={isModalVisible}
-        onCancel={handleCancel}
-        footer={null}
-      >
+      <Modal open={isModalVisible} onCancel={handleCancel} footer={null}>
         <div>
           <p className='text-center text-lg mb-2'>Tải ảnh vào album Tà Năng Challange 2025</p>
           <div className='flex flex-col items-center p-16 gap-4 border-dashed border-2 rounded-2xl'>
             <Image
               src='/assets/icons/template/drag_image_here.svg'
-              className=""
+              className=''
               alt='Logo'
               height={80}
               width={80}
@@ -204,7 +216,7 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
               <Button size='large' className='bg-[#275FC1] text-white flex items-center gap-2'>
                 <Image
                   src='/assets/icons/template/upload_image.svg'
-                  className=""
+                  className=''
                   alt='Logo'
                   height={16}
                   width={16}
@@ -218,7 +230,7 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
           <div className='flex justify-center'>
             <Image
               src='/assets/images/DriveThumbnail.png'
-              className=""
+              className=''
               alt='Drive'
               height={110}
               width={140}
@@ -230,7 +242,7 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
         open={isModalVisibleImage}
         onCancel={() => setIsModalVisibleImage(false)}
         footer={null}
-        width="80%"
+        width='80%'
       >
         <div>
           <Carousel
@@ -249,17 +261,11 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
             ))}
           </Carousel>
 
-          <div className="flex justify-between mt-4">
-            <Button
-              onClick={() => carouselRef.current?.prev()}
-              className="bg-[#275FC1] text-white"
-            >
+          <div className='flex justify-between mt-4'>
+            <Button onClick={() => carouselRef.current?.prev()} className='bg-[#275FC1] text-white'>
               Previous
             </Button>
-            <Button
-              onClick={() => carouselRef.current?.next()}
-              className="bg-[#275FC1] text-white"
-            >
+            <Button onClick={() => carouselRef.current?.next()} className='bg-[#275FC1] text-white'>
               Next
             </Button>
           </div>
@@ -285,21 +291,23 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
                     width={30}
                   />
                 </Popover>
-                <div
-                  style={{
-                    transition: 'transform 0.3s',
-                    width: 'calc(100% - 16px)',
-                    position: 'absolute',
-                    backgroundColor: '#10182880',
-                    padding: '2px',
-                    height: '24px',
-                    bottom: '0',
-                  }}
-                >
-                  <div className='absolute text-white text-xs whitespace-nowrap overflow-hidden text-ellipsis w-full'>
-                    {image.image_metadata}
+                {isShowLabel && (
+                  <div
+                    style={{
+                      transition: 'transform 0.3s',
+                      width: 'calc(100% - 12px)',
+                      position: 'absolute',
+                      backgroundColor: '#10182880',
+                      padding: '2px',
+                      height: '24px',
+                      bottom: '0',
+                    }}
+                  >
+                    <div className='absolute text-white text-xs whitespace-nowrap overflow-hidden text-ellipsis w-full'>
+                      {image.image_metadata}
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             ),
         )}
@@ -340,7 +348,7 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
 export default ListEventsDetailAdmin

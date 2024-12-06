@@ -6,7 +6,7 @@ import type { SEOProps } from 'types/seo.type'
 // Default value for some meta data
 const defaultMeta = {
   title: '5PIX',
-  siteName: '5PIX',
+  siteName: '5pix.org - Đơn vị cung cấp giải pháp hình ảnh sự kiện hàng đầu Đông Nam Á',
   description: 'Nhiếp ảnh mang lại trải nghiệm khác biệt',
   // change base url of your web (without '/' at the end)
   url: 'http://5pix.org',
@@ -14,7 +14,7 @@ const defaultMeta = {
   robots: 'follow, index',
   // change with url of your image (recommended dimension = 1.91:1)
   // used in twitter, facebook, etc. card when link copied in tweet/status
-  image: 'http://localhost:9999/assets/card-image.png',
+  image: '/assets/images/preview.jpg',
   author: 'Huhu',
 }
 
