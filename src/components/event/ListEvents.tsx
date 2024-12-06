@@ -50,7 +50,7 @@ export const ListEvents: React.FC = () => {
     setCurrentPage((prevPage) => prevPage + 1)
   }
   return (
-    <div className=''>
+    <div className='pb-8'>
       <div className='gap-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'>
         {loadedEvents?.map((event) => (
           <Link href={`/events/${event.id}`} key={event.id}>

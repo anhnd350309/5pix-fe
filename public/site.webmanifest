@@ -6,6 +6,7 @@
   "display": "standalone",
   "background_color": "#FFFFFF",
   "theme_color": "#F53838",
+  "preview": "/assets/images/preview.jpg",
   "description": "Nhiếp ảnh mang lại trải nghiệm khác biệt",
   "icons": [
     {

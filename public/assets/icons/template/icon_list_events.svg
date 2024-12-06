@@ -1,7 +1,7 @@
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M21 8.78564H3" stroke="#0A347D" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="square"/>
-  <path d="M17.4 4.92871H21V21.0001H3V4.92871H6.6" stroke="#0A347D" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="square" stroke-linejoin="round"/>
-  <path d="M8.78564 4.92871H15.2142" stroke="#0A347D" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="square"/>
-  <path d="M8 3H7V6H8V3Z" stroke="#0A347D" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="square" stroke-linejoin="round"/>
-  <path d="M17 3H16V6H17V3Z" stroke="#0A347D" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="square" stroke-linejoin="round"/>
+  <path d="M21 8.78564H3" stroke="#FFF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="square"/>
+  <path d="M17.4 4.92871H21V21.0001H3V4.92871H6.6" stroke="#FFF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="square" stroke-linejoin="round"/>
+  <path d="M8.78564 4.92871H15.2142" stroke="#FFF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="square"/>
+  <path d="M8 3H7V6H8V3Z" stroke="#FFF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="square" stroke-linejoin="round"/>
+  <path d="M17 3H16V6H17V3Z" stroke="#FFF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="square" stroke-linejoin="round"/>
 </svg>
