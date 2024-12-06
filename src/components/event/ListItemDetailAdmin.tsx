@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { AlbumImageItemResponse, BodyGetAlbumImagesPost, GetAlbumImagesPostParams } from '@/schemas'
 import { getAlbumImagesPost } from '@/services/images/images'
 import { processImageAlbumsAlbumIdProcessImagePut } from '@/services/album/album'
+import ExpandableText from '@/components/event/ExpandableText'
 export interface ListItemDetailAdminProps {
   id: number | string
 }
@@ -27,16 +28,8 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
     setIsModalVisible(true) // Show upload modal
   }
 
-  const showModalFullImage = () => {
-    setIsModalVisibleImage(true) // Show full image modal
-  }
-
   const handleCancel = () => {
     setIsModalVisible(false)
-  }
-
-  const handleCancelImage = () => {
-    setIsModalVisibleImage(false)
   }
 
   useEffect(() => {
@@ -104,6 +97,7 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
   const [hiddenImages, setHiddenImages] = useState<number[]>([])
 
   const handleOptionClick = (action: string, imageIndex: number) => {
+    console.log('Action:', action, 'Image index:', imageIndex)
     if (action === 'hide') {
       setHiddenImages((prev) => [...prev, imageIndex])
     } else if (action === 'view') {
@@ -111,6 +105,7 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
     } else if (action === 'find') {
       // Handle find action if necessary
     } else if (action === 'open') {
+      console.log('Image index clicked:', imageIndex);
       setSelectedImageIndex(imageIndex)
       setIsModalVisibleImage(true)
     }
@@ -182,23 +177,6 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
             Tìm kiếm bằng hình ảnh
           </Button>
         </div>
-        <Button
-          size='large'
-          className='flex  gap-2 items-center bg-[#E4E7EC] text-[#344054] font-bold'
-          onClick={() => setIsShowLabel(!isShowLabel)}
-        >
-          <Image
-            src={
-              isShowLabel
-                ? '/assets/icons/template/icon_hidden.svg'
-                : '/assets/icons/template/icon_show.svg'
-            }
-            alt='Logo'
-            height={20}
-            width={20}
-          />
-          {isShowLabel ? 'Ẩn nhãn' : 'Hiện nhãn'}
-        </Button>
       </div>
       <Modal open={isModalVisible} onCancel={handleCancel} footer={null}>
         <div>
@@ -250,7 +228,7 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
             initialSlide={selectedImageIndex || 0}
             afterChange={(current) => setSelectedImageIndex(current)}
           >
-            {images.map((image, index) => (
+            {loadedImgs.map((image, index) => (
               <div className='flex justify-center' key={index}>
                 <img
                   src={image?.s3_image_url || '/assets/images/DetailEvent.png'}
@@ -275,47 +253,35 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
         {loadedImgs.map(
           (image, index) =>
             !hiddenImages.includes(index) && (
-              <div key={index} className='relative w-full'>
-                <Image
+              <div key={index} className="relative w-full">
+                <img
                   src={image?.cdn_image_url || '/assets/images/DetailEvent.png'}
-                  alt='Logo'
-                  height={80}
-                  width={300}
+                  alt="Logo"
+                  className="w-full"
+                  onClick={() => handleOptionClick('open', index)}
                 />
-                <Popover content={content(index)} trigger='click' placement='bottomRight'>
+                <Popover content={content(index)} trigger="click" placement="bottomRight">
                   <Image
-                    src='/assets/icons/template/icon_option.svg'
-                    className='absolute top-1 right-1 cursor-pointer'
-                    alt='Logo'
+                    src="/assets/icons/template/icon_option.svg"
+                    className="absolute top-1 right-1 cursor-pointer"
+                    alt="Logo"
                     height={30}
                     width={30}
                   />
                 </Popover>
-                {isShowLabel && (
-                  <div
-                    style={{
-                      transition: 'transform 0.3s',
-                      width: 'calc(100% - 12px)',
-                      position: 'absolute',
-                      backgroundColor: '#10182880',
-                      padding: '2px',
-                      height: '24px',
-                      bottom: '0',
-                    }}
-                  >
-                    <div className='absolute text-white text-xs whitespace-nowrap overflow-hidden text-ellipsis w-full'>
-                      {image.image_metadata}
-                    </div>
+                <div className="transition-transform flex items-center duration-300 w-full absolute bg-[#10182880] bottom-0">
+                  <div className="w-full p-1">
+                    <ExpandableText text={image.image_metadata || ''} />
                   </div>
-                )}
+                </div>
               </div>
             ),
         )}
       </div>
       {loadedImgs.length < (totalEvents ?? 0) && (
-        <div className='grid grid-cols-1 sm:grid-cols-3 gap-1 sm:gap-4 mt-4'>
-          <div className='flex justify-center border-blue-500'>
-            <Button
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-1 sm:gap-4 mt-4">
+          <div className="flex justify-center border-blue-500">
+          <Button
               onClick={handleBackToPage1}
               disabled={currentPage === 1 || isLoadingMore}
               className='bg-transparent hover:bg-blue-500 mb-8 border border-blue-500 rounded-full text-blue-500 hover:text-white flex items-center'
