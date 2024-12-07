@@ -14,7 +14,7 @@ const defaultMeta = {
   robots: 'follow, index',
   // change with url of your image (recommended dimension = 1.91:1)
   // used in twitter, facebook, etc. card when link copied in tweet/status
-  image: '/assets/images/preview.jpg',
+  image: 'https://d2bdqtxx47uj31.cloudfront.net/ae5bib.jpg',
   author: 'Huhu',
 }
 
@@ -146,6 +146,13 @@ const SEOHead = (props: SEOProps) => {
       <meta name='twitter:title' content={meta.title} />
       <meta name='twitter:description' content={meta.description} />
       <meta name='twitter:image' content={meta.image} />
+      {/*Facebook*/}
+      <meta property='og:locale' content='vi_VN' />
+      <meta property='og:type' content='website' />
+      <meta property='og:title' content={meta.title} />
+      <meta property='og:description' content={meta.description} />
+      <meta property='og:image' content={meta.image} />
+
       {meta.date && (
         <>
           <meta property='article:published_time' content={meta.date} />
