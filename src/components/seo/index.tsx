@@ -5,16 +5,16 @@ import type { SEOProps } from 'types/seo.type'
 
 // Default value for some meta data
 const defaultMeta = {
-  title: '5PIX',
+  title: '5PIX -Đơn vị cung cấp giải pháp hình ảnh sự kiện hàng đầu Đông Nam Á',
   siteName: '5pix.org - Đơn vị cung cấp giải pháp hình ảnh sự kiện hàng đầu Đông Nam Á',
   description: 'Nhiếp ảnh mang lại trải nghiệm khác biệt',
   // change base url of your web (without '/' at the end)
-  url: 'http://5pix.org',
+  url: 'https://5pix.org',
   type: 'website',
   robots: 'follow, index',
   // change with url of your image (recommended dimension = 1.91:1)
   // used in twitter, facebook, etc. card when link copied in tweet/status
-  image: '/assets/images/preview.jpg',
+  image: 'https://d2bdqtxx47uj31.cloudfront.net/ae5bib.jpg',
   author: 'Huhu',
 }
 
@@ -146,6 +146,13 @@ const SEOHead = (props: SEOProps) => {
       <meta name='twitter:title' content={meta.title} />
       <meta name='twitter:description' content={meta.description} />
       <meta name='twitter:image' content={meta.image} />
+      {/*Facebook*/}
+      <meta property='og:locale' content='vi_VN' />
+      <meta property='og:type' content='website' />
+      <meta property='og:title' content={meta.title} />
+      <meta property='og:description' content={meta.description} />
+      <meta property='og:image' content={meta.image} />
+
       {meta.date && (
         <>
           <meta property='article:published_time' content={meta.date} />
