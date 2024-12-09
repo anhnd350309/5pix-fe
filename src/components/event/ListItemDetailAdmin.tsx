@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { AlbumImageItemResponse, BodyGetAlbumImagesPost, GetAlbumImagesPostParams } from '@/schemas'
 import { getAlbumImagesPost } from '@/services/images/images'
 import { processImageAlbumsAlbumIdProcessImagePut } from '@/services/album/album'
+import ExpandableText from '@/components/event/ExpandableText'
 export interface ListItemDetailAdminProps {
   id: number | string
 }
@@ -27,16 +28,8 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
     setIsModalVisible(true) // Show upload modal
   }
 
-  const showModalFullImage = () => {
-    setIsModalVisibleImage(true) // Show full image modal
-  }
-
   const handleCancel = () => {
     setIsModalVisible(false)
-  }
-
-  const handleCancelImage = () => {
-    setIsModalVisibleImage(false)
   }
 
   useEffect(() => {
@@ -58,6 +51,7 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
             order: 'desc',
           }
           const imgs = await getAlbumImagesPost(body, params)
+          console.log(imgs)
           setLoadedImgs(imgs.data)
           setTotalEvents(imgs?.metadata.total_items ?? null)
           setTotalPages(Math.ceil(imgs?.metadata.total_items / 100))
@@ -103,6 +97,7 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
   const [hiddenImages, setHiddenImages] = useState<number[]>([])
 
   const handleOptionClick = (action: string, imageIndex: number) => {
+    console.log('Action:', action, 'Image index:', imageIndex)
     if (action === 'hide') {
       setHiddenImages((prev) => [...prev, imageIndex])
     } else if (action === 'view') {
@@ -110,6 +105,7 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
     } else if (action === 'find') {
       // Handle find action if necessary
     } else if (action === 'open') {
+      console.log('Image index clicked:', imageIndex)
       setSelectedImageIndex(imageIndex)
       setIsModalVisibleImage(true)
     }
@@ -181,23 +177,6 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
             Tìm kiếm bằng hình ảnh
           </Button>
         </div>
-        <Button
-          size='large'
-          className='flex  gap-2 items-center bg-[#E4E7EC] text-[#344054] font-bold'
-          onClick={() => setIsShowLabel(!isShowLabel)}
-        >
-          <Image
-            src={
-              isShowLabel
-                ? '/assets/icons/template/icon_hidden.svg'
-                : '/assets/icons/template/icon_show.svg'
-            }
-            alt='Logo'
-            height={20}
-            width={20}
-          />
-          {isShowLabel ? 'Ẩn nhãn' : 'Hiện nhãn'}
-        </Button>
       </div>
       <Modal open={isModalVisible} onCancel={handleCancel} footer={null}>
         <div>
@@ -294,7 +273,7 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
                   <div className='w-full p-1'>
                     <ExpandableText text={image.image_metadata || ''} />
                   </div>
-                )}
+                </div>
               </div>
             ),
         )}
