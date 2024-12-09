@@ -135,7 +135,9 @@ const Event: React.FC = () => {
   if (!event) return <div>Not found</div>
   return (
     <Layout>
-      {event.album_slug && <SEOHead title={event.album_name} />}
+      {event.album_slug && (
+        <SEOHead templateTitle={event.album_name} image={event.album_image_url} />
+      )}
       <div className='space-y-5 mx-1 sm:mx-16 mt-4 px-4 xl:px-16 center pb-[40px]'>
         <BannerEvent event={event} id={id} mutate={mutate} setShowTotal={setShowTotal} />
         {isPending ? (

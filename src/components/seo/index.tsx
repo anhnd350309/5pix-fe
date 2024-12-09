@@ -146,12 +146,6 @@ const SEOHead = (props: SEOProps) => {
       <meta name='twitter:title' content={meta.title} />
       <meta name='twitter:description' content={meta.description} />
       <meta name='twitter:image' content={meta.image} />
-      {/*Facebook*/}
-      <meta property='og:locale' content='vi_VN' />
-      <meta property='og:type' content='website' />
-      <meta property='og:title' content={meta.title} />
-      <meta property='og:description' content={meta.description} />
-      <meta property='og:image' content={meta.image} />
 
       {meta.date && (
         <>

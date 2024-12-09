@@ -1,12 +1,12 @@
 {
   "$schema": "https://json.schemastore.org/web-manifest-combined.json",
-  "name": "5PIX",
-  "short_name": "5PIX",
+  "name": "5PIX -Đơn vị cung cấp giải pháp hình ảnh sự kiện hàng đầu Đông Nam Á",
+  "short_name": "5PIX -Đơn vị cung cấp giải pháp hình ảnh sự kiện hàng đầu Đông Nam Á",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#FFFFFF",
   "theme_color": "#F53838",
-  "preview": "/assets/images/preview.jpg",
+  "preview": "https://d2bdqtxx47uj31.cloudfront.net/ae5bib.jpg",
   "description": "Nhiếp ảnh mang lại trải nghiệm khác biệt",
   "icons": [
     {

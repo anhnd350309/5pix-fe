@@ -19,7 +19,7 @@ const Home = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
 
   return (
     <>
-      <SEOHead title='5PIX' />
+      <SEOHead />
       <LayoutAdmin>
         <ListEventsAdmin />
       </LayoutAdmin>
