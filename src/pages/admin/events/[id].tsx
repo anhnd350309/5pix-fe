@@ -9,7 +9,7 @@ const EventAdmin = () => {
   const { id } = router.query
   return (
     <>
-      <SEOHead title='5PIX' />
+      <SEOHead />
       <LayoutAdmin>
         {id && <ListEventsDetailAdmin id={Array.isArray(id) ? id[0] : id} />}
       </LayoutAdmin>
