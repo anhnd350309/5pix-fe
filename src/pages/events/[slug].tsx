@@ -14,6 +14,7 @@ import {
   SearchPubImagesPostParams,
 } from '@/schemas'
 import { useSearchParams } from 'next/navigation'
+import SEOHead from '@/components/seo'
 const Event: React.FC = () => {
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -29,14 +30,12 @@ const Event: React.FC = () => {
   const [totalPages, setTotalPages] = useState(1)
   const id = parseInt(slug as string, 0)
 
-  console.log(slug, id)
   // setLoadedImgs(imagesData?.data?.data || [])
   const [totalEvents, setTotalEvents] = useState<number | null>(null)
   useEffect(() => {
     const fetchEvents = async () => {
       if (bibNumber) {
         if (slug) {
-          console.log(bibNumber)
           const params = {
             album_id: id,
             slug: Array.isArray(slug) ? slug[0] : slug,
@@ -57,12 +56,10 @@ const Event: React.FC = () => {
           })
         }
       } else {
-        console.log(slug, id)
         if (currentPage === 1) setCurLoading(true)
         // setError(null)
 
         try {
-          console.log('hehe')
           if (id || slug) {
             const body: BodySearchPubImagesPost = {
               avatar_file: '',
@@ -101,6 +98,7 @@ const Event: React.FC = () => {
   }, [imagesData])
   const handlePreviousPage = () => {
     if (currentPage > 1) {
+      setIsLoadingMore(true)
       setCurrentPage((prevPage) => prevPage - 1)
       // handleLoadMore(currentPage - 1)
     }
@@ -108,6 +106,7 @@ const Event: React.FC = () => {
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
+      setIsLoadingMore(true)
       setCurrentPage((prevPage) => prevPage + 1)
       // handleLoadMore(currentPage + 1)
     }
@@ -117,6 +116,7 @@ const Event: React.FC = () => {
   //   setCurrentPage((prevPage) => prevPage + 1)
   // }
   const handleBackToPage1 = () => {
+    setIsLoadingMore(true)
     setCurrentPage(1)
   }
   if (isLoading || curLoading) {
@@ -134,6 +134,7 @@ const Event: React.FC = () => {
   if (!event) return <div>Not found</div>
   return (
     <Layout>
+      {event.album_slug && <SEOHead title={event.album_name} />}
       <div className='space-y-5 mx-1 sm:mx-16 mt-4 px-4 xl:px-16 center pb-[40px]'>
         <BannerEvent event={event} id={id} mutate={mutate} setShowTotal={setShowTotal} />
         {isPending ? (
@@ -174,7 +175,7 @@ const Event: React.FC = () => {
                 disabled={currentPage === 1 || isLoadingMore}
                 className='bg-transparent hover:bg-blue-500 mb-8 border border-blue-500 rounded-full text-blue-500 hover:text-white flex items-center'
               >
-                Back to Page 1
+                {isLoadingMore ? <Spin className='mr-2' /> : 'Back to Page 1'}
               </Button>
             </div>
             <div className='flex justify-center border-blue-500'>
@@ -183,7 +184,7 @@ const Event: React.FC = () => {
                 disabled={currentPage === 1 || isLoadingMore}
                 className='bg-transparent hover:bg-blue-500 mb-8 border border-blue-500 rounded-full text-blue-500 hover:text-white flex items-center'
               >
-                Previous
+                {isLoadingMore ? <Spin className='mr-2' /> : 'Previous'}
               </Button>
 
               <Button

@@ -208,7 +208,7 @@ const Hero = () => {
             {eventHighlights?.map((event) => (
               <CarouselItem key={event.id} className='md:basis-1/1 lg:basis-1/3'>
                 <div className='p-1'>
-                  <Link href={`/events/${event.id}`}>
+                  <Link href={`/events/${event.album_slug ? event.album_slug : event.id}`}>
                     <EventCard
                       key={event.id}
                       title={event.album_name}
