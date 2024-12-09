@@ -14,5 +14,5 @@
  */
 
 export interface BodyGetAlbumImagesPost {
-  avatar_file?: Blob | string
+  avatar_file?: Blob;
 }
