@@ -7,6 +7,7 @@ import Layout from '@/components/layout/Layout'
 import { useDetailPubAlbumsAlbumSlugGet } from '@/services/public-album/public-album'
 import { searchPubImagesPost, useSearchPubImagesPost } from '@/services/public-images/public-images'
 import ImgViewer from '@/components/event/ImgViewer'
+
 import {
   AlbumImageItemResponsePublic,
   BodySearchPubImagesPost,
