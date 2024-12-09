@@ -51,7 +51,6 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
             order: 'desc',
           }
           const imgs = await getAlbumImagesPost(body, params)
-          console.log(imgs)
           setLoadedImgs(imgs.data)
           setTotalEvents(imgs?.metadata.total_items ?? null)
           setTotalPages(Math.ceil(imgs?.metadata.total_items / 100))
@@ -97,7 +96,6 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
   const [hiddenImages, setHiddenImages] = useState<number[]>([])
 
   const handleOptionClick = (action: string, imageIndex: number) => {
-    console.log('Action:', action, 'Image index:', imageIndex)
     if (action === 'hide') {
       setHiddenImages((prev) => [...prev, imageIndex])
     } else if (action === 'view') {
