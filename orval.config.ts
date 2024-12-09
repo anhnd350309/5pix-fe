@@ -2,7 +2,7 @@ import { defineConfig } from 'orval'
 
 export default defineConfig({
   api: {
-    input: 'https://api.5pix.org/openapi.json', // Đường dẫn tới file OpenAPI specification (có thể là .json hoặc .yaml)
+    input: 'https://dapi.5pix.org/openapi.json', // Đường dẫn tới file OpenAPI specification (có thể là .json hoặc .yaml)
     output: {
       mode: 'tags-split', // Chia mã nguồn thành nhiều thư mục dựa trên tags
       target: './src/services', // Thư mục nơi mã nguồn sẽ được tạo

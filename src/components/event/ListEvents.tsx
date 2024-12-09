@@ -53,7 +53,7 @@ export const ListEvents: React.FC = () => {
     <div className='pb-8'>
       <div className='gap-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'>
         {loadedEvents?.map((event) => (
-          <Link href={`/events/${event.id}`} key={event.id}>
+          <Link href={`/events/${event.album_slug ? event.album_slug : event.id}`} key={event.id}>
             <EventCard
               key={event.id}
               title={event.album_name}

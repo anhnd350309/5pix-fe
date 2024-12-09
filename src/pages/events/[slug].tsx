@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 
 import { BannerEvent } from '@/components/event/BannerEvent'
 import Layout from '@/components/layout/Layout'
-import { useDetailPubAlbumsAlbumIdGet } from '@/services/public-album/public-album'
+import { useDetailPubAlbumsAlbumSlugGet } from '@/services/public-album/public-album'
 import { searchPubImagesPost, useSearchPubImagesPost } from '@/services/public-images/public-images'
 import ImgViewer from '@/components/event/ImgViewer'
 import {
@@ -17,25 +17,29 @@ import { useSearchParams } from 'next/navigation'
 const Event: React.FC = () => {
   const searchParams = useSearchParams()
   const router = useRouter()
-  const { id } = router.query
+  const { slug } = router.query
   const bibNumber = searchParams.get('bib_number')
   const [currentPage, setCurrentPage] = useState(1)
   const [curLoading, setCurLoading] = useState(false)
   const [isLoadingMore, setIsLoadingMore] = useState(false)
-  const { data, error, isLoading } = useDetailPubAlbumsAlbumIdGet(Number(id))
+  const { data, error, isLoading } = useDetailPubAlbumsAlbumSlugGet(slug as string)
   const { mutate, data: imagesData, error: imagesError, isPending } = useSearchPubImagesPost()
   const [showTotal, setShowTotal] = useState(false)
   const [loadedImgs, setLoadedImgs] = useState<AlbumImageItemResponsePublic[]>([])
   const [totalPages, setTotalPages] = useState(1)
+  const id = parseInt(slug as string, 0)
+
+  console.log(slug, id)
   // setLoadedImgs(imagesData?.data?.data || [])
   const [totalEvents, setTotalEvents] = useState<number | null>(null)
   useEffect(() => {
     const fetchEvents = async () => {
       if (bibNumber) {
-        if (id) {
+        if (slug) {
           console.log(bibNumber)
           const params = {
-            album_id: Number(id),
+            album_id: id,
+            slug: Array.isArray(slug) ? slug[0] : slug,
             bib_number: bibNumber,
             search_type: 'metadata' as ImageSearchType,
             page_size: 100,
@@ -53,16 +57,19 @@ const Event: React.FC = () => {
           })
         }
       } else {
+        console.log(slug, id)
         if (currentPage === 1) setCurLoading(true)
         // setError(null)
 
         try {
-          if (id) {
+          console.log('hehe')
+          if (id || slug) {
             const body: BodySearchPubImagesPost = {
               avatar_file: '',
             }
             const params: SearchPubImagesPostParams = {
-              album_id: Number(id),
+              album_id: id || 0,
+              slug: slug as string,
               search_type: 'all',
               page: currentPage,
               page_size: 100,
