@@ -36,6 +36,7 @@ import type {
   UserUpdateRequest,
 } from '../../schemas'
 import { defaultMutator } from '../../api/axiosInstance'
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 
 /**
  * API Get list User
