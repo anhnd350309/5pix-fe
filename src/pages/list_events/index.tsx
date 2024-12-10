@@ -4,11 +4,9 @@ import React from 'react'
 
 const ListEventPage = () => {
   return (
-    <Layout>
-      <div className='px-8 mx-16'>
-        <ListEvents />
-      </div>
-    </Layout>
+    <div className='px-8 mx-16'>
+      <ListEvents />
+    </div>
   )
 }
 

@@ -18,9 +18,7 @@ const Home = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
       <SEOHead />
-      <Layout>
-        <Hero />
-      </Layout>
+      <Hero />
     </>
   )
 }

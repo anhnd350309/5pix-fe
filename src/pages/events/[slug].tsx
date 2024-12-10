@@ -3,20 +3,82 @@ import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 
 import { BannerEvent } from '@/components/event/BannerEvent'
-import Layout from '@/components/layout/Layout'
-import { useDetailPubAlbumsAlbumSlugGet } from '@/services/public-album/public-album'
+import {
+  detailPubAlbumsAlbumSlugGet,
+  useDetailPubAlbumsAlbumSlugGet,
+} from '@/services/public-album/public-album'
 import { searchPubImagesPost, useSearchPubImagesPost } from '@/services/public-images/public-images'
 import ImgViewer from '@/components/event/ImgViewer'
 
 import {
   AlbumImageItemResponsePublic,
+  AlbumItemResponsePublic,
   BodySearchPubImagesPost,
   ImageSearchType,
   SearchPubImagesPostParams,
 } from '@/schemas'
 import { useSearchParams } from 'next/navigation'
 import SEOHead from '@/components/seo'
-const Event: React.FC = () => {
+import { InferGetServerSidePropsType, GetServerSideProps } from 'next'
+type Repo = {
+  event?: AlbumItemResponsePublic
+  images: AlbumImageItemResponsePublic[]
+}
+export const getServerSideProps = (async (context) => {
+  // const searchParams = useSearchParams()
+  // const router = useRouter()
+  // const { slug } = router.query
+
+  // const bibNumber = searchParams.get('bib_number')
+  const slug = context.params?.slug
+  const bibNumber = context.query.bib_number
+  const res = await detailPubAlbumsAlbumSlugGet(slug as string)
+  const event = res.data
+  if (!event) {
+    return {
+      notFound: true,
+    }
+  }
+  let params
+  let id = parseInt(slug as string, 0)
+  if (isNaN(id)) {
+    id = 0
+  }
+  if (bibNumber) {
+    params = {
+      album_id: id,
+      slug: Array.isArray(slug) ? slug[0] : slug,
+      bib_number: Array.isArray(bibNumber) ? bibNumber[0] : bibNumber,
+      search_type: 'metadata' as ImageSearchType,
+      page_size: 100,
+      page: 1,
+      sort_by: 'id',
+      order: 'desc',
+    }
+  } else {
+    params = {
+      album_id: id,
+      slug: Array.isArray(slug) ? slug[0] : slug,
+      search_type: 'all' as ImageSearchType,
+      page_size: 100,
+      page: 1,
+      sort_by: 'id',
+      order: 'desc',
+    }
+  }
+  const imagesData = await searchPubImagesPost(
+    {
+      avatar_file: '',
+    },
+    params,
+  )
+  const images = imagesData.data
+  return {
+    props: { repo: { event, images } },
+  }
+}) satisfies GetServerSideProps<{ repo: Repo }>
+const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const event = repo.event
   const searchParams = useSearchParams()
   const router = useRouter()
   const { slug } = router.query
@@ -24,13 +86,17 @@ const Event: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [curLoading, setCurLoading] = useState(false)
   const [isLoadingMore, setIsLoadingMore] = useState(false)
-  const { data, error, isLoading } = useDetailPubAlbumsAlbumSlugGet(slug as string)
+  // const { data, error, isLoading } = useDetailPubAlbumsAlbumSlugGet(slug as string, {
+  //   query: {},
+  // })
   const { mutate, data: imagesData, error: imagesError, isPending } = useSearchPubImagesPost()
   const [showTotal, setShowTotal] = useState(false)
-  const [loadedImgs, setLoadedImgs] = useState<AlbumImageItemResponsePublic[]>([])
+  const [loadedImgs, setLoadedImgs] = useState<AlbumImageItemResponsePublic[]>(repo.images)
   const [totalPages, setTotalPages] = useState(1)
-  const id = parseInt(slug as string, 0)
-
+  let id = parseInt(slug as string, 0)
+  if (isNaN(id)) {
+    id = 0
+  }
   // setLoadedImgs(imagesData?.data?.data || [])
   const [totalEvents, setTotalEvents] = useState<number | null>(null)
   useEffect(() => {
@@ -66,7 +132,7 @@ const Event: React.FC = () => {
               avatar_file: '',
             }
             const params: SearchPubImagesPostParams = {
-              album_id: id || 0,
+              album_id: id,
               slug: slug as string,
               search_type: 'all',
               page: currentPage,
@@ -120,21 +186,16 @@ const Event: React.FC = () => {
     setIsLoadingMore(true)
     setCurrentPage(1)
   }
-  if (isLoading || curLoading) {
+  if (curLoading) {
     return (
       <div className='flex justify-center items-center min-h-screen'>
         <Spin />
       </div>
     )
   }
-  if (error) {
-    router.push('/404') // Redirect to 404 page
-    return null
-  }
-  const event = data?.data
-  if (!event) return <div>Not found</div>
+
   return (
-    <Layout>
+    <React.Fragment>
       {event.album_slug && (
         <SEOHead templateTitle={event.album_name} image={event.album_image_url} />
       )}
@@ -146,7 +207,7 @@ const Event: React.FC = () => {
           <React.Fragment>
             {showTotal && loadedImgs.length > 0 && (
               <span>
-                Tìm thấy {loadedImgs.length} ảnh của bạn, trong tổng số {event.total_image} ảnh
+                Tìm thấy {loadedImgs.length} ảnh của bạn, trong tổng số {event?.total_image} ảnh
               </span>
             )}
             <div className='gap-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6  min-h-[300px] '>
@@ -206,7 +267,7 @@ const Event: React.FC = () => {
           </div>
         )}
       </div>
-    </Layout>
+    </React.Fragment>
   )
 }
 

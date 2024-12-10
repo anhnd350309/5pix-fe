@@ -12,87 +12,94 @@
         
  * OpenAPI spec version: 0.1.0
  */
-import {
-  useMutation
-} from '@tanstack/react-query'
-import type {
-  MutationFunction,
-  UseMutationOptions,
-  UseMutationResult
-} from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
+import FormData from 'form-data'
+import type { MutationFunction, UseMutationOptions, UseMutationResult } from '@tanstack/react-query'
 import type {
   BodySearchPubImagesPost,
   HTTPValidationError,
   PageAlbumImageItemResponsePublic,
-  SearchPubImagesPostParams
+  SearchPubImagesPostParams,
 } from '../../schemas'
-import { defaultMutator } from '../../api/axiosInstance';
-
-
+import { defaultMutator } from '../../api/axiosInstance'
 
 /**
  * API Search Album Image
  * @summary Search
  */
 export const searchPubImagesPost = (
-    bodySearchPubImagesPost: BodySearchPubImagesPost,
-    params?: SearchPubImagesPostParams,
- signal?: AbortSignal
+  bodySearchPubImagesPost: BodySearchPubImagesPost,
+  params?: SearchPubImagesPostParams,
+  signal?: AbortSignal,
 ) => {
-      
-      const formData = new FormData();
-if(bodySearchPubImagesPost.avatar_file !== undefined) {
- formData.append('avatar_file', bodySearchPubImagesPost.avatar_file)
- }
+  const formData = new FormData()
+  if (bodySearchPubImagesPost.avatar_file !== undefined) {
+    formData.append('avatar_file', bodySearchPubImagesPost.avatar_file)
+  }
 
-      return defaultMutator<PageAlbumImageItemResponsePublic>(
-      {url: `/pub/images`, method: 'POST',
-      headers: {'Content-Type': 'multipart/form-data', },
-       data: formData,
-        params, signal
-    },
-      );
-    }
-  
+  return defaultMutator<PageAlbumImageItemResponsePublic>({
+    url: `/pub/images`,
+    method: 'POST',
+    headers: { 'Content-Type': 'multipart/form-data' },
+    data: formData,
+    params,
+    signal,
+  })
+}
 
+export const getSearchPubImagesPostMutationOptions = <
+  TError = HTTPValidationError,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof searchPubImagesPost>>,
+    TError,
+    { data: BodySearchPubImagesPost; params?: SearchPubImagesPostParams },
+    TContext
+  >
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof searchPubImagesPost>>,
+  TError,
+  { data: BodySearchPubImagesPost; params?: SearchPubImagesPostParams },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {}
 
-export const getSearchPubImagesPostMutationOptions = <TError = HTTPValidationError,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof searchPubImagesPost>>, TError,{data: BodySearchPubImagesPost;params?: SearchPubImagesPostParams}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof searchPubImagesPost>>, TError,{data: BodySearchPubImagesPost;params?: SearchPubImagesPostParams}, TContext> => {
-const {mutation: mutationOptions} = options ?? {};
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof searchPubImagesPost>>,
+    { data: BodySearchPubImagesPost; params?: SearchPubImagesPostParams }
+  > = (props) => {
+    const { data, params } = props ?? {}
 
-      
+    return searchPubImagesPost(data, params)
+  }
 
+  return { mutationFn, ...mutationOptions }
+}
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof searchPubImagesPost>>, {data: BodySearchPubImagesPost;params?: SearchPubImagesPostParams}> = (props) => {
-          const {data,params} = props ?? {};
+export type SearchPubImagesPostMutationResult = NonNullable<
+  Awaited<ReturnType<typeof searchPubImagesPost>>
+>
+export type SearchPubImagesPostMutationBody = BodySearchPubImagesPost
+export type SearchPubImagesPostMutationError = HTTPValidationError
 
-          return  searchPubImagesPost(data,params,)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type SearchPubImagesPostMutationResult = NonNullable<Awaited<ReturnType<typeof searchPubImagesPost>>>
-    export type SearchPubImagesPostMutationBody = BodySearchPubImagesPost
-    export type SearchPubImagesPostMutationError = HTTPValidationError
-
-    /**
+/**
  * @summary Search
  */
-export const useSearchPubImagesPost = <TError = HTTPValidationError,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof searchPubImagesPost>>, TError,{data: BodySearchPubImagesPost;params?: SearchPubImagesPostParams}, TContext>, }
-): UseMutationResult<
-        Awaited<ReturnType<typeof searchPubImagesPost>>,
-        TError,
-        {data: BodySearchPubImagesPost;params?: SearchPubImagesPostParams},
-        TContext
-      > => {
+export const useSearchPubImagesPost = <TError = HTTPValidationError, TContext = unknown>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof searchPubImagesPost>>,
+    TError,
+    { data: BodySearchPubImagesPost; params?: SearchPubImagesPostParams },
+    TContext
+  >
+}): UseMutationResult<
+  Awaited<ReturnType<typeof searchPubImagesPost>>,
+  TError,
+  { data: BodySearchPubImagesPost; params?: SearchPubImagesPostParams },
+  TContext
+> => {
+  const mutationOptions = getSearchPubImagesPostMutationOptions(options)
 
-      const mutationOptions = getSearchPubImagesPostMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    
+  return useMutation(mutationOptions)
+}

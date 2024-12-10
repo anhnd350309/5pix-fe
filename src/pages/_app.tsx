@@ -13,6 +13,7 @@ import { store } from 'redux/store'
 import 'styles/globals.css'
 import 'styles/template.scss'
 import { use, useEffect } from 'react'
+import { getDefaultLayout } from '@/components/layout/Layout'
 
 declare global {
   interface Window {
@@ -64,6 +65,16 @@ const App = ({ Component, pageProps: { session, ...pageProps } }: AppPropsWithAu
       }
     }
   }, [])
+
+  const getLayout =
+    (Component as any).getLayout || getDefaultLayout || ((page: React.ReactNode) => page)
+
+  console.log('getLayout', Component.requireAuth)
+
+  useEffect(() => {
+    console.log('pageProps', pageProps)
+  }, [])
+
   return (
     <ReduxProvider store={store}>
       <ConfigProvider>
@@ -71,11 +82,9 @@ const App = ({ Component, pageProps: { session, ...pageProps } }: AppPropsWithAu
           <SessionProvider session={session}>
             <QueryClientProvider client={queryClient}>
               {Component.requireAuth ? (
-                <ProtectedLayout>
-                  <Component {...pageProps} />
-                </ProtectedLayout>
+                <ProtectedLayout>{getLayout(<Component {...pageProps} />)}</ProtectedLayout>
               ) : (
-                <Component {...pageProps} />
+                getLayout(<Component {...pageProps} />)
               )}
             </QueryClientProvider>
           </SessionProvider>

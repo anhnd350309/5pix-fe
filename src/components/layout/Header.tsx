@@ -1,10 +1,10 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import React, { useState } from 'react';
-import { Link as LinkScroll } from 'react-scroll';
+import Image from 'next/image'
+import Link from 'next/link'
+import React, { useState } from 'react'
+import { Link as LinkScroll } from 'react-scroll'
 
 const Header = ({ bgColor }: { bgColor: string }) => {
-  const [activeLink, setActiveLink] = useState<string>('');
+  const [activeLink, setActiveLink] = useState<string>('')
 
   return (
     <>
@@ -34,26 +34,27 @@ const Header = ({ bgColor }: { bgColor: string }) => {
                 activeLink === 'about'
                   ? ' animation-active text-template-orange-500 '
                   : ` hover:text-template-orange-500 ${
-                    bgColor === 'white' ? 'text-black' : 'text-white'
-                  }`
+                      bgColor === 'white' ? 'text-black' : 'text-white'
+                    }`
               }`}
               onClick={() => {
-                setActiveLink('about');
+                setActiveLink('about')
               }}
             >
               Trang chủ
             </Link>
             <Link
               href='/list_events'
+              prefetch
               className={`animation-hover mx-2 inline-block cursor-pointer px-4 py-2 relative${
                 activeLink === 'feature'
                   ? ' animation-active text-template-orange-500 '
                   : ` hover:text-template-orange-500 ${
-                    bgColor === 'white' ? 'text-black' : 'text-white'
-                  }`
+                      bgColor === 'white' ? 'text-black' : 'text-white'
+                    }`
               }`}
               onClick={() => {
-                setActiveLink('feature');
+                setActiveLink('feature')
               }}
             >
               Danh sách sự kiện
@@ -65,14 +66,14 @@ const Header = ({ bgColor }: { bgColor: string }) => {
               smooth
               duration={1000}
               onSetActive={() => {
-                setActiveLink('pricing');
+                setActiveLink('pricing')
               }}
               className={`animation-hover mx-2 inline-block cursor-pointer px-4 py-2 relative${
                 activeLink === 'pricing'
                   ? ' animation-active text-template-orange-500 '
                   : ` hover:text-template-orange-500 ${
-                    bgColor === 'white' ? 'text-black' : 'text-white'
-                  }`
+                      bgColor === 'white' ? 'text-black' : 'text-white'
+                    }`
               }`}
             >
               Về 5PIX
@@ -84,14 +85,14 @@ const Header = ({ bgColor }: { bgColor: string }) => {
               smooth
               duration={1000}
               onSetActive={() => {
-                setActiveLink('preview');
+                setActiveLink('preview')
               }}
               className={`animation-hover mx-2 inline-block cursor-pointer px-4 py-2 relative${
                 activeLink === 'preview'
                   ? ' animation-active text-template-orange-500 '
                   : ` hover:text-template-orange-500 ${
-                    bgColor === 'white' ? 'text-black' : 'text-white'
-                  }`
+                      bgColor === 'white' ? 'text-black' : 'text-white'
+                    }`
               }`}
             >
               Liên Hệ
@@ -100,7 +101,7 @@ const Header = ({ bgColor }: { bgColor: string }) => {
         </nav>
       </header>
     </>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

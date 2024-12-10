@@ -1,13 +1,13 @@
-import React from 'react';
-import { useRouter } from 'next/router';
+import React from 'react'
+import { useRouter } from 'next/router'
 
-import Footer from './Footer';
-import Header from './Header';
+import Footer from './Footer'
+import Header from './Header'
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
-  const router = useRouter();
+  const router = useRouter()
 
-  const bgColor = router.pathname === '/list_events' ? 'white' : 'black';
+  const bgColor = router.pathname === '/list_events' ? 'white' : 'black'
 
   return (
     <>
@@ -21,7 +21,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       {children}
       <Footer />
     </>
-  );
-};
+  )
+}
 
-export default Layout;
+export default Layout
+
+export const getDefaultLayout = (page: React.ReactNode) => <Layout>{page}</Layout>
