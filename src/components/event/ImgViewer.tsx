@@ -98,7 +98,7 @@ export default function ImageViewer({
               bottom: '0',
             }}
           >
-            <div style={{ left: '46%', position: 'absolute' }}>
+            <div style={{ left: '50%', transform: 'translateX(-50%)', position: 'absolute' }}>
               <Button
                 shape='circle'
                 icon={<ZoomOutOutlined />}
