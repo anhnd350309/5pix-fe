@@ -34,10 +34,9 @@ export default function ImageViewer({
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)
-    window.dataLayer.push({
-      event: 'Download image',
-      downloadType: 'image',
-      eventCategory: 'download',
+    window.dataLayer.push('event', 'download', {
+      event_category: 'image',
+      event_label: alt,
     })
   }
   const zoomIn = () => setZoom((prevZoom) => Math.min(prevZoom + 0.2, 3)) // Max zoom level

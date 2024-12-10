@@ -6,7 +6,7 @@ import type { SEOProps } from 'types/seo.type'
 // Default value for some meta data
 const defaultMeta = {
   title: '5PIX -Đơn vị cung cấp giải pháp hình ảnh sự kiện hàng đầu Đông Nam Á',
-  siteName: '5pix.org - Đơn vị cung cấp giải pháp hình ảnh sự kiện hàng đầu Đông Nam Á',
+  siteName: '5PIX.ORG - Đơn vị cung cấp giải pháp hình ảnh sự kiện hàng đầu Đông Nam Á',
   description: 'Nhiếp ảnh mang lại trải nghiệm khác biệt',
   // change base url of your web (without '/' at the end)
   url: 'https://5pix.org',
@@ -125,7 +125,7 @@ const SEOHead = (props: SEOProps) => {
 
   // Use siteName if there is templateTitle
   // but show full title if there is none
-  meta.title = props.templateTitle ? `${props.templateTitle} | ${meta.siteName}` : meta.title
+  meta.title = props.templateTitle ? `${props.templateTitle}` : meta.title
 
   return (
     <Head>
