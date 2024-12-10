@@ -25,13 +25,8 @@ export const BannerEvent: ({
   id,
   mutate,
   setShowTotal,
-}: {
-  event: { album_image_url: any; album_name: any; event_date: any; total_image?: any }
-  id: any
-  mutate?: any
-  setShowTotal: any
-}) => JSX.Element = ({
-  event: { album_image_url, album_name, event_date, total_image },
+}: BannerEventProps) => JSX.Element = ({
+  event: { album_image_url, album_name, event_date, total_image, album_slug },
   id,
   mutate,
   setShowTotal,
@@ -64,6 +59,7 @@ export const BannerEvent: ({
     const params = {
       album_id: id,
       bib_number: bibNumber,
+      slug: album_slug,
       search_type: 'all' as ImageSearchType,
       page_size: 100,
       page: 1,
