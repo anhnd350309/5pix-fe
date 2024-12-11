@@ -16,6 +16,7 @@ const nextConfig = {
       '5pix-dev-original-image.s3.ap-southeast-1.amazonaws.com',
       'de8xjpkclpdv9.cloudfront.net',
       'd2bdqtxx47uj31.cloudfront.net',
+      'd206ocdtskenxb.cloudfront.net',
     ],
   },
 }

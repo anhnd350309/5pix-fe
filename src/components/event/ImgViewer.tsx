@@ -43,7 +43,7 @@ export default function ImageViewer({
   const zoomOut = () => setZoom((prevZoom) => Math.max(prevZoom - 0.2, 1)) // Min zoom level
 
   return (
-    <div className='relative aspect-[3/2] overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 ease-in-out'>
+    <div className='flex justify-center items-center bg-transparent rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 ease-in-out'>
       {/* Thumbnail */}
       <img
         src={src}
