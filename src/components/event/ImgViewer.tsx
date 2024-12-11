@@ -34,7 +34,7 @@ export default function ImageViewer({
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)
-    window.dataLayer.push('event', 'download', {
+    window.gtag('event', 'download', {
       event_category: 'image',
       event_label: alt,
     })
@@ -43,7 +43,7 @@ export default function ImageViewer({
   const zoomOut = () => setZoom((prevZoom) => Math.max(prevZoom - 0.2, 1)) // Min zoom level
 
   return (
-    <>
+    <div className='relative aspect-[3/2] overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 ease-in-out'>
       {/* Thumbnail */}
       <img
         src={src}
@@ -137,6 +137,6 @@ export default function ImageViewer({
           padding: 0 !important;
         }
       `}</style>
-    </>
+    </div>
   )
 }

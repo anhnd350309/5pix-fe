@@ -26,6 +26,7 @@ export const authOptions: AuthOptions = {
     // Seconds - How long until an idle session expires and is no longer valid.
     maxAge: 24 * 60 * 60, // 1 day
   },
+  secret: process.env.NEXTAUTH_SECRET,
   // Configure one or more authentication providers
   providers: [
     CredentialsProvider({
