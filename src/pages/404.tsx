@@ -8,7 +8,7 @@ const Custom404Page = () => {
   const router = useRouter()
 
   return (
-    <Layout>
+    <>
       <SEOHead title='404 Not Found' />
       <Row align='middle' justify='center' className='mt-24'>
         <Result
@@ -22,7 +22,7 @@ const Custom404Page = () => {
           }
         />
       </Row>
-    </Layout>
+    </>
   )
 }
 
