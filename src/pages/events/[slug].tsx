@@ -227,11 +227,14 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
                 </span>
               ) : (
                 loadedImgs?.map((image, index: number) => (
-                  <img
-                    src={image?.cdn_image_url || '/assets/images/DetailEvent.png'}
-                    loading="lazy"
-                    alt="Image"
-                    className="w-full"
+                  // In the file where you use the ImageViewer component
+                  <ImgViewer
+                    src={image?.cdn_image_url || 'assets/images/DetailEvent.png'}
+                    key={index}
+                    alt={image?.image_name || 'image'}
+                    extra={image?.s3_image_url || 'assets/images/DetailEvent.png'}
+                    width={600}
+                    height={400}
                     onClick={() => handleOptionClick('open', index)}
                   />
                 ))

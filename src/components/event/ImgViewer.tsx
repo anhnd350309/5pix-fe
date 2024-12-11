@@ -1,46 +1,48 @@
-import { DownloadOutlined, ZoomInOutlined, ZoomOutOutlined } from '@ant-design/icons'
-import { Modal, Button } from 'antd'
-import { useState } from 'react'
+import { DownloadOutlined, ZoomInOutlined, ZoomOutOutlined } from '@ant-design/icons';
+import { Modal, Button } from 'antd';
+import { useState } from 'react';
 
 interface ImageViewerProps {
-  src: string
-  alt: string
-  width: number
-  height: number
-  className?: string
-  extra: string
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  className?: string;
+  extra: string;
+  onClick?: () => void;
 }
 
 export default function ImageViewer({
-  src,
-  alt,
-  width,
-  height,
-  className,
-  extra,
-}: ImageViewerProps) {
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [zoom, setZoom] = useState(1)
+                                      src,
+                                      alt,
+                                      width,
+                                      height,
+                                      className,
+                                      extra,
+                                      onClick,
+                                    }: ImageViewerProps) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [zoom, setZoom] = useState(1);
 
-  const openModal = () => setIsModalOpen(true)
+  const openModal = () => setIsModalOpen(true);
   const closeModal = () => {
-    setIsModalOpen(false)
-    setZoom(1) // Reset zoom when modal is closed
-  }
+    setIsModalOpen(false);
+    setZoom(1); // Reset zoom when modal is closed
+  };
   const handleDownload = () => {
-    const link = document.createElement('a')
-    link.href = extra
-    link.setAttribute('download', alt || 'download')
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
+    const link = document.createElement('a');
+    link.href = extra;
+    link.setAttribute('download', alt || 'download');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
     window.gtag('event', 'download', {
       event_category: 'image',
       event_label: alt,
-    })
-  }
-  const zoomIn = () => setZoom((prevZoom) => Math.min(prevZoom + 0.2, 3)) // Max zoom level
-  const zoomOut = () => setZoom((prevZoom) => Math.max(prevZoom - 0.2, 1)) // Min zoom level
+    });
+  };
+  const zoomIn = () => setZoom((prevZoom) => Math.min(prevZoom + 0.2, 3)); // Max zoom level
+  const zoomOut = () => setZoom((prevZoom) => Math.max(prevZoom - 0.2, 1)); // Min zoom level
 
   return (
     <div className='flex justify-center items-center bg-transparent rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 ease-in-out'>
@@ -50,7 +52,7 @@ export default function ImageViewer({
         alt={alt}
         width={width}
         height={height}
-        onClick={openModal}
+        onClick={onClick || openModal}
         className={`cursor-pointer ${className}`}
         style={{ objectFit: 'cover' }}
       />
@@ -138,5 +140,5 @@ export default function ImageViewer({
         }
       `}</style>
     </div>
-  )
+  );
 }
