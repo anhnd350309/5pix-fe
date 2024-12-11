@@ -20,6 +20,7 @@ import {
 import { useSearchParams } from 'next/navigation'
 import SEOHead from '@/components/seo'
 import { InferGetServerSidePropsType, GetServerSideProps } from 'next'
+import ImageModal from '@/components/common/ImageModal'
 type Repo = {
   event?: AlbumItemResponsePublic
   images: AlbumImageItemResponsePublic[]
@@ -28,7 +29,6 @@ export const getServerSideProps = (async (context) => {
   // const searchParams = useSearchParams()
   // const router = useRouter()
   // const { slug } = router.query
-
   // const bibNumber = searchParams.get('bib_number')
   const slug = context.params?.slug
   const bibNumber = context.query.bib_number
@@ -93,6 +93,8 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
   const [showTotal, setShowTotal] = useState(false)
   const [loadedImgs, setLoadedImgs] = useState<AlbumImageItemResponsePublic[]>(repo.images)
   const [totalPages, setTotalPages] = useState(1)
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
+  const [isModalVisibleImage, setIsModalVisibleImage] = useState(false);
   let id = parseInt(slug as string, 0)
   if (isNaN(id)) {
     id = 0
@@ -194,6 +196,14 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
     )
   }
 
+  const handleOptionClick = (action: string, imageIndex: number) => {
+    if (action === 'open') {
+      console.log('Open image', imageIndex);
+      setSelectedImageIndex(imageIndex);
+      setIsModalVisibleImage(true); // Mở modal khi nhấn vào ảnh
+    }
+  };
+
   return (
     <React.Fragment>
       {event.album_slug && (
@@ -217,13 +227,12 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
                 </span>
               ) : (
                 loadedImgs?.map((image, index: number) => (
-                  <ImgViewer
-                    src={image?.cdn_image_url || 'assets/images/DetailEvent.png'}
-                    key={index}
-                    alt={image?.image_name || 'image'}
-                    extra={image?.s3_image_url || 'assets/images/DetailEvent.png'}
-                    width={600}
-                    height={400}
+                  <img
+                    src={image?.cdn_image_url || '/assets/images/DetailEvent.png'}
+                    loading="lazy"
+                    alt="Image"
+                    className="w-full"
+                    onClick={() => handleOptionClick('open', index)}
                   />
                 ))
               )}
@@ -267,8 +276,19 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
           </div>
         )}
       </div>
+      <ImageModal
+        visible={isModalVisibleImage}
+        onCancel={() => setIsModalVisibleImage(false)}
+        images={loadedImgs}
+        selectedImageIndex={selectedImageIndex || 0}
+        setSelectedImageIndex={setSelectedImageIndex}
+      />
     </React.Fragment>
   )
 }
 
 export default Event
+
+
+
+
