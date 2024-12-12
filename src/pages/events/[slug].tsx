@@ -93,8 +93,8 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
   const [showTotal, setShowTotal] = useState(false)
   const [loadedImgs, setLoadedImgs] = useState<AlbumImageItemResponsePublic[]>(repo.images)
   const [totalPages, setTotalPages] = useState(1)
-  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
-  const [isModalVisibleImage, setIsModalVisibleImage] = useState(false);
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null)
+  const [isModalVisibleImage, setIsModalVisibleImage] = useState(false)
   let id = parseInt(slug as string, 0)
   if (isNaN(id)) {
     id = 0
@@ -198,11 +198,11 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
 
   const handleOptionClick = (action: string, imageIndex: number) => {
     if (action === 'open') {
-      console.log('Open image', imageIndex);
-      setSelectedImageIndex(imageIndex);
-      setIsModalVisibleImage(true); // Mở modal khi nhấn vào ảnh
+      console.log('Open image', imageIndex)
+      setSelectedImageIndex(imageIndex)
+      setIsModalVisibleImage(true) // Mở modal khi nhấn vào ảnh
     }
-  };
+  }
 
   return (
     <React.Fragment>
@@ -291,7 +291,3 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
 }
 
 export default Event
-
-
-
-
