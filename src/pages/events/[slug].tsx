@@ -3,10 +3,7 @@ import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 
 import { BannerEvent } from '@/components/event/BannerEvent'
-import {
-  detailPubAlbumsAlbumSlugGet,
-  useDetailPubAlbumsAlbumSlugGet,
-} from '@/services/public-album/public-album'
+import { detailPubAlbumsAlbumSlugGet } from '@/services/public-album/public-album'
 import { searchPubImagesPost, useSearchPubImagesPost } from '@/services/public-images/public-images'
 import ImgViewer from '@/components/event/ImgViewer'
 

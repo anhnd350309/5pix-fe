@@ -146,13 +146,6 @@ const SEOHead = (props: SEOProps) => {
       <meta name='twitter:title' content={meta.title} />
       <meta name='twitter:description' content={meta.description} />
       <meta name='twitter:image' content={meta.image} />
-
-  title: '5PIX -Đơn vị cung cấp giải pháp hình ảnh sự kiện hàng đầu Đông Nam Á',
-  siteName: '5PIX.ORG - Đơn vị cung cấp giải pháp hình ảnh sự kiện hàng đầu Đông Nam Á',
-  url: 'https://5pix.org',
-  image: 'https://d2bdqtxx47uj31.cloudfront.net/ae5bib.jpg',
-  meta.title = props.templateTitle ? `${props.templateTitle}` : meta.title
-
       {meta.date && (
         <>
           <meta property='article:published_time' content={meta.date} />
