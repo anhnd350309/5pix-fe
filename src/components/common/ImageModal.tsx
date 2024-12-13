@@ -42,7 +42,13 @@ const ImageModal: React.FC<ImageModalProps> = ({
       <style>
         {`
           .custom-modal .ant-modal-content {
-            background-color: transparent !important;
+            background-color: rgba(0,0,0,0.8) !important;
+            height: 100vh;
+            width: 100%;
+            margin: 0;
+            position: fixed !important;
+            top: 0;
+            left: 0;
           }
           .custom-modal .ant-modal-close {
             color: white !important;
@@ -56,7 +62,7 @@ const ImageModal: React.FC<ImageModalProps> = ({
         open={visible}
         onCancel={onCancel}
         footer={null}
-        width='90%'
+        width='100%'
         className='custom-modal overflow-hidden'
         bodyStyle={{
           padding: 0,
@@ -80,16 +86,7 @@ const ImageModal: React.FC<ImageModalProps> = ({
             dots={false}
           >
             {images.map((image, index) => (
-              <div
-                className='flex justify-center items-center'
-                key={index}
-                style={{
-                  maxHeight: '80vh',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
+              <div className='flex justify-center items-center h-[90vh]' key={index}>
                 <img
                   src={image?.s3_image_url || '/assets/images/DetailEvent.png'}
                   alt={`Image ${index}`}
