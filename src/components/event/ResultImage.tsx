@@ -17,8 +17,8 @@ const ResultImage: React.FC<CroppieComponentProps> = ({ imagePath, frameUrl, onS
   useEffect(() => {
     if (croppieRef.current) {
       croppieInstance.current = new Croppie(croppieRef.current, {
-        viewport: { width: 1000, height: 600 }, // Set the viewport type to 'square' or 'circle'
-        boundary: { width: 1000, height: 600 },
+        viewport: { width: window.innerWidth * 0.9, height: window.innerWidth * 0.5 }, // Set the viewport type to 'square' or 'circle'
+        boundary: { width: window.innerWidth * 0.9, height: window.innerWidth * 0.5 },
         showZoomer: false,
         enableResize: false,
         enableOrientation: true,

@@ -21,7 +21,7 @@ const ResultPage: ResultPageType = () => {
     }
   }
   return (
-    <div className='w-full text-center h-full'>
+    <div className='flex flex-col items-center w-screen text-center h-screen justify-center'>
       <h1>Image Cropper with Frame</h1>
       {!croppedImage && (
         <ResultImage
