@@ -20,7 +20,7 @@ const ResultImage: React.FC<CroppieComponentProps> = ({ imagePath, frameUrl, onS
         viewport: { width: 1000, height: 600 }, // Set the viewport type to 'square' or 'circle'
         boundary: { width: 1000, height: 600 },
         showZoomer: false,
-        enableResize: true,
+        enableResize: false,
         enableOrientation: true,
         // background: true, // Enable background
       })
