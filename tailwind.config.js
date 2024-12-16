@@ -11,6 +11,7 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ['Cabin', 'sans-serif'], // Gán Cabin làm font chính
+        'reddit-sans': ['"Reddit Sans"', 'sans-serif'],
       },
       colors: {
         quoc: {

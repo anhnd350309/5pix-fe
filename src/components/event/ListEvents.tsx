@@ -50,10 +50,14 @@ export const ListEvents: React.FC = () => {
     setCurrentPage((prevPage) => prevPage + 1)
   }
   return (
-    <div className='pb-8'>
-      <div className='gap-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'>
+    <div className='pb-8 flex flex-col items-center'>
+      <div className='grid gap-x-8 gap-y-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'>
         {loadedEvents?.map((event) => (
-          <Link href={`/events/${event.album_slug ? event.album_slug : event.id}`} key={event.id}>
+          <Link
+            href={`/events/${event.album_slug ? event.album_slug : event.id}`}
+            key={event.id}
+            style={{ width: 'fit-content' }}
+          >
             <EventCard
               key={event.id}
               title={event.album_name}

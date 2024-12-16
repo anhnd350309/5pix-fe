@@ -14,7 +14,7 @@ const Header = ({ bgColor }: { bgColor: string }) => {
             <Link href='/'>
               <Image
                 className='h-8 w-auto'
-                src='/assets/images/Logo.svg'
+                src='/assets/images/LogoWhite.svg'
                 alt='Logo'
                 height={30}
                 width={100}
