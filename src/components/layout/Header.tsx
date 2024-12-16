@@ -97,6 +97,20 @@ const Header = ({ bgColor }: { bgColor: string }) => {
             >
               Liên Hệ
             </LinkScroll>
+            <Link
+              href='https://5bib.com/'
+              prefetch
+              className={`animation-hover mx-2 inline-block cursor-pointer px-4 py-2 relative${
+                activeLink === 'feature'
+                  ? ' animation-active text-template-orange-500 '
+                  : ` hover:text-template-orange-500 ${
+                      bgColor === 'white' ? 'text-black' : 'text-white'
+                    }`
+              }`}
+              target='_blank'
+            >
+              Mua vé sự kiện
+            </Link>
           </ul>
         </nav>
       </header>
