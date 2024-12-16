@@ -14,7 +14,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       {bgColor === 'black' && (
         <div
           className='absolute top-0 left-0 -z-10 w-full h-[400px] bg-cover bg-center'
-          style={{ backgroundImage: "url('/assets/images/BG.png')" }}
+          style={{ backgroundImage: "url('/assets/images/BG.webp')" }}
         />
       )}
       <Header bgColor={bgColor} />

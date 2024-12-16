@@ -6,7 +6,7 @@ const Footer = () => {
   return (
     <div
       className='bg-template-white-300 pb-10 pt-10'
-      style={{ backgroundImage: "url('/assets/images/BG.png')" }}
+      style={{ backgroundImage: "url('/assets/images/BG.webp')" }}
     >
       <div className='container mx-auto grid w-full grid-flow-row grid-cols-3 grid-rows-4 gap-4 px-8 sm:grid-flow-col sm:grid-cols-12 sm:grid-rows-1 xl:px-16'>
         <div className='col-span-12 flex flex-col items-center sm:items-start sm:col-span-4 sm:col-end-6 '>

@@ -104,37 +104,31 @@ const UploadImageComponent: React.FC<UploadImageComponentProps> = ({ onFileChang
       {imageSrc ? (
         <>
           {imageDetails && (
-            <div className="flex w-full justify-between items-center mb-2">
+            <div className='flex w-full justify-between items-center mb-2'>
               <div className='flex flex-col gap-2'>
-                <div className="text-xl">
+                <div className='text-xl'>
                   <strong>
                     {imageDetails.name.length > 30
                       ? `${imageDetails.name.substring(0, 27)}...${imageDetails.name.substring(imageDetails.name.lastIndexOf('.'))}`
                       : imageDetails.name}
                   </strong>
                 </div>
-                <div className="text-sm flex gap-4">
-                  <div className="flex">
-                    <strong>
-                      Định dạng:
-                    </strong>
+                <div className='text-sm flex gap-4'>
+                  <div className='flex'>
+                    <strong>Định dạng:</strong>
                     {imageDetails.type}
                   </div>
-                  <div className="flex">
-                    <strong>
-                      Dung lượng:
-                    </strong>
+                  <div className='flex'>
+                    <strong>Dung lượng:</strong>
                     {(imageDetails.size / 1024 / 1024).toFixed(2)} MB
                   </div>
-                  <div className="flex">
-                    <strong>
-                      Kích thước:
-                    </strong>
+                  <div className='flex'>
+                    <strong>Kích thước:</strong>
                     {imageDetails.width} x {imageDetails.height} px
                   </div>
                 </div>
               </div>
-              <Button className="w-28 bg-[#2563EB] rounded-full" onClick={handleDone}>
+              <Button className='w-28 bg-[#2563EB] rounded-full' onClick={handleDone}>
                 Hoàn thành
               </Button>
             </div>
@@ -142,17 +136,20 @@ const UploadImageComponent: React.FC<UploadImageComponentProps> = ({ onFileChang
         </>
       ) : (
         <>
-          <div className="text-center text-2xl font-bold">
-            Tìm kiếm bằng gương mặt
-          </div>
-          <div className="text-center text-sm">
+          <div className='text-center text-2xl font-bold'>Tìm kiếm bằng gương mặt</div>
+          <div className='text-center text-sm'>
             Hãy chọn ảnh rõ mặt để kết quả tìm kiếm được chính xác nhất
           </div>
         </>
       )}
       {imageSrc ? (
-        <div className="flex justify-center">
-          <img src={imageSrc} alt="Uploaded" className="w-auto max-h-96 object-cover mb-4" />
+        <div className='flex justify-center'>
+          <img
+            loading='lazy'
+            src={imageSrc}
+            alt='Uploaded'
+            className='w-auto max-h-96 object-cover mb-4'
+          />
         </div>
       ) : (
         <div
@@ -164,15 +161,13 @@ const UploadImageComponent: React.FC<UploadImageComponentProps> = ({ onFileChang
           onDrop={handleDrop}
         >
           <img
-            src="/assets/icons/template/upload_img.svg"
+            loading='lazy'
+            src='/assets/icons/template/upload_img.svg'
             className='w-auto'
             alt='Upload Illustration'
           />
           <div className='text-sm font-bold text-center'>Kéo thả ảnh vào hoặc</div>
-          <Button
-            className='w-28 bg-[#2563EB] rounded-full'
-            onClick={handleFileSelect}
-          >
+          <Button className='w-28 bg-[#2563EB] rounded-full' onClick={handleFileSelect}>
             Chọn tệp tải lên
           </Button>
 
@@ -192,7 +187,6 @@ const UploadImageComponent: React.FC<UploadImageComponentProps> = ({ onFileChang
           </div>
         </>
       )}
-
     </div>
   )
 }

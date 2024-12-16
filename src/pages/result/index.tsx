@@ -21,11 +21,11 @@ const ResultPage: ResultPageType = () => {
     }
   }
   return (
-    <div className='flex flex-col items-center w-screen text-center h-screen justify-center'>
+    <div className='flex flex-col items-center w-screen text-center h-[80vh] justify-center'>
       <h1>Image Cropper with Frame</h1>
       {!croppedImage && (
         <ResultImage
-          imagePath='/assets/images/preview.jpg' // Main image
+          imagePath='/assets/images/preview.webp' // Main image
           frameUrl='/assets/images/frame.png' // Frame image
           onSave={handleCrop}
           // viewportWidth={600}
@@ -35,7 +35,7 @@ const ResultPage: ResultPageType = () => {
       {croppedImage && (
         <div className='flex flex-col items-center gap-4'>
           <h2>Cropped Image:</h2>
-          <img src={croppedImage} alt='Cropped' style={{ maxWidth: '1000px' }} />
+          <img loading='lazy' src={croppedImage} alt='Cropped' style={{ maxWidth: '1000px' }} />
           <div className='flex flex-row gap-4'>
             <Button type='primary' icon={<DownloadOutlined />} onClick={downloadImage}>
               Tải về

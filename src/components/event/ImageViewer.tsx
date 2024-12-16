@@ -74,6 +74,7 @@ const ImageViewer: React.FC<ImageViewerProps> = ({
         {/* Image Container */}
         <div className='relative flex items-center justify-center overflow-hidden'>
           <img
+            loading='lazy'
             src={extra}
             alt={alt}
             style={{
