@@ -21,7 +21,6 @@ const ResultImage: React.FC<CroppieComponentProps> = ({
   const croppieInstance = useRef<Croppie | null>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
-  console.log(frameData)
   useEffect(() => {
     if (croppieRef.current) {
       croppieInstance.current = new Croppie(croppieRef.current, {
@@ -68,7 +67,7 @@ const ResultImage: React.FC<CroppieComponentProps> = ({
 
           // Draw the frame on top of the cropped image
           const frameImage = new Image()
-          frameImage.src = frameUrl
+          frameImage.src = frameData as string
 
           frameImage.onload = () => {
             ctx.drawImage(frameImage, 0, 0, croppedImage.width, croppedImage.height)
@@ -87,21 +86,34 @@ const ResultImage: React.FC<CroppieComponentProps> = ({
       <div ref={croppieRef} />
       <canvas ref={canvasRef} style={{ display: 'none' }} />
       <button onClick={handleSave}>Save Image</button>
-      {frameUrl && (
-        <div
+      {frameData && (
+        <img
+          src={frameUrl}
+          alt='Frame'
           style={{
             position: 'absolute',
-            top: '0',
-            left: '0',
-            width: '100%',
-            height: '100%',
             pointerEvents: 'none',
-            backgroundImage: `url(${frameUrl})`,
-            backgroundSize: 'cover',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '96%',
             zIndex: 1,
           }}
-          className={frameData}
         />
+        // <div
+        //   style={{
+        //     position: 'absolute',
+        //     top: '0',
+        //     left: '0',
+        //     width: '90%',
+        //     height: '85%',
+        //     pointerEvents: 'none',
+        //     backgroundImage: `url(${frameData})`,
+        //     backgroundSize: 'cover',
+        //     zIndex: 1,
+        //   }}
+        //   className={frameData}
+        // />
       )}
     </div>
   )

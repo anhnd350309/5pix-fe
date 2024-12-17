@@ -1,3 +1,4 @@
+'use client'
 import ResultImage from '@/components/event/ResultImage'
 import { genCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePost } from '@/services/public-album/public-album'
 import { DownloadOutlined } from '@ant-design/icons'
@@ -23,9 +24,10 @@ const ResultPage: ResultPageType = () => {
           album_slug: 'chay-vi-hanh-tinh-xanh',
           bib_number: '28828',
         })
-        const blob = new Blob([new Uint8Array(data as any)], { type: 'image/png' })
-        const fileURL = URL.createObjectURL(blob)
-        setFrameData(fileURL)
+        const blob = new Blob([data as any], { type: 'image/png' })
+        convertBlobToBase64(blob)
+        // fileURL.split(':').slice(1).join(':')
+        // setFrameData(base64)
       } catch (err) {
         console.log(err)
       }
@@ -43,6 +45,13 @@ const ResultPage: ResultPageType = () => {
       link.download = 'cropped-image.png'
       link.click()
     }
+  }
+  const convertBlobToBase64 = (blob: Blob) => {
+    const reader = new FileReader()
+    reader.onloadend = () => {
+      setFrameData(reader.result as string)
+    }
+    reader.readAsDataURL(blob)
   }
   return (
     <div className='flex flex-col items-center w-screen text-center h-[80vh] justify-center'>
