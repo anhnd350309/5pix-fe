@@ -88,7 +88,7 @@ const ResultImage: React.FC<CroppieComponentProps> = ({
       <button onClick={handleSave}>Save Image</button>
       {frameData && (
         <img
-          src={frameUrl}
+          src={frameData}
           alt='Frame'
           style={{
             position: 'absolute',

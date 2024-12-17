@@ -69,7 +69,7 @@ const ResultPage: ResultPageType = () => {
       {croppedImage && (
         <div className='flex flex-col items-center gap-4'>
           <h2>Cropped Image:</h2>
-          <img loading='lazy' src={croppedImage} alt='Cropped' style={{ maxWidth: '1000px' }} />
+          <img loading='lazy' src={croppedImage} alt='Cropped' />
           <div className='flex flex-row gap-4'>
             <Button type='primary' icon={<DownloadOutlined />} onClick={downloadImage}>
               Tải về
