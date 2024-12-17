@@ -2,7 +2,6 @@ import React, { useRef, useEffect } from 'react'
 import { Modal, Carousel, Button } from 'antd'
 import { DownloadOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons'
 import { AlbumImageItemResponse } from '@/schemas'
-import { genCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePost } from '@/services/public-album/public-album'
 import { useRouter } from 'next/router'
 interface ImageModalProps {
   visible: boolean

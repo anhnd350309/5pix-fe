@@ -2,7 +2,6 @@
 import ResultImage from '@/components/event/ResultImage'
 import { genCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePost } from '@/services/public-album/public-album'
 import { DownloadOutlined } from '@ant-design/icons'
-import { fr } from '@faker-js/faker/.'
 import { Button } from 'antd'
 import { useRouter } from 'next/router'
 import React, { use, useEffect, useState } from 'react'

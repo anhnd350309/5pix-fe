@@ -10,7 +10,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel'
-import { Dialog, DialogTrigger, DialogContent } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import {
   Select,
@@ -22,18 +21,13 @@ import {
 import {
   AlbumItemResponsePublic,
   GetPubAlbumsGetParams,
-  ImageSearchType,
   PageAlbumImageItemResponsePublic,
 } from '@/schemas'
 import { getPubAlbumsGet } from '@/services/public-album/public-album'
 import { useRouter } from 'next/router'
 import { ListEvents } from '../event/ListEvents'
 import EventCard from '../shared/EventCard'
-import UploadImageComponent from '@/components/common/UploadImageComponent'
-import { searchPubImagesPost } from '@/services/public-images/public-images'
 import { Spin } from 'antd'
-import { ro } from '@faker-js/faker/.'
-import { al } from '@faker-js/faker/dist/airline-BLb3y-7w'
 
 const Hero = () => {
   const { t } = useTranslation('common')

@@ -1,12 +1,6 @@
 import React, { useState } from 'react'
 import { Button } from 'antd'
-import {
-  LeftOutlined,
-  RightOutlined,
-  DownloadOutlined,
-  ZoomInOutlined,
-  ZoomOutOutlined,
-} from '@ant-design/icons'
+import { DownloadOutlined, ZoomInOutlined, ZoomOutOutlined } from '@ant-design/icons'
 
 interface ImageViewerProps {
   src: string
