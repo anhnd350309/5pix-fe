@@ -28,6 +28,7 @@ export * from './dataResponseImageCdn';
 export * from './dataResponseStr';
 export * from './dataResponseToken';
 export * from './dataResponseUserItemResponse';
+export * from './genCertificateThumbnailImageRequest';
 export * from './getAlbumImagesPostParams';
 export * from './getAlbumsGetParams';
 export * from './getPubAlbumsGetParams';

@@ -1,3 +1,4 @@
+'use client'
 import React, { useEffect, useRef } from 'react'
 import Croppie from 'croppie'
 import 'croppie/croppie.css'
@@ -7,13 +8,20 @@ interface CroppieComponentProps {
   imagePath: string
   frameUrl: string
   onSave: (croppedImage: string) => void
+  frameData?: string
 }
 
-const ResultImage: React.FC<CroppieComponentProps> = ({ imagePath, frameUrl, onSave }) => {
+const ResultImage: React.FC<CroppieComponentProps> = ({
+  imagePath,
+  frameUrl,
+  onSave,
+  frameData,
+}) => {
   const croppieRef = useRef<HTMLDivElement>(null)
   const croppieInstance = useRef<Croppie | null>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
+  console.log(frameData)
   useEffect(() => {
     if (croppieRef.current) {
       croppieInstance.current = new Croppie(croppieRef.current, {
@@ -29,7 +37,6 @@ const ResultImage: React.FC<CroppieComponentProps> = ({ imagePath, frameUrl, onS
         url: imagePath,
       })
     }
-
     return () => {
       if (croppieInstance.current) {
         croppieInstance.current.destroy()
@@ -93,6 +100,7 @@ const ResultImage: React.FC<CroppieComponentProps> = ({ imagePath, frameUrl, onS
             backgroundSize: 'cover',
             zIndex: 1,
           }}
+          className={frameData}
         />
       )}
     </div>

@@ -13,20 +13,25 @@
  * OpenAPI spec version: 0.1.0
  */
 import {
+  useMutation,
   useQuery
 } from '@tanstack/react-query'
 import type {
   DataTag,
   DefinedInitialDataOptions,
   DefinedUseQueryResult,
+  MutationFunction,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
+  UseMutationOptions,
+  UseMutationResult,
   UseQueryOptions,
   UseQueryResult
 } from '@tanstack/react-query'
 import type {
   DataResponseAlbumItemResponsePublic,
+  GenCertificateThumbnailImageRequest,
   GetPubAlbumsGetParams,
   HTTPValidationError,
   PageAlbumItemResponsePublic
@@ -213,3 +218,63 @@ export function useDetailPubAlbumsAlbumSlugGet<TData = Awaited<ReturnType<typeof
 
 
 
+/**
+ * API gen certificate thumbnail image
+ * @summary Gen Certificate Thumbnail Image
+ */
+export const genCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePost = (
+    genCertificateThumbnailImageRequest: GenCertificateThumbnailImageRequest,
+ signal?: AbortSignal
+) => {
+      
+      
+      return defaultMutator<unknown>(
+      {url: `/pub/albums/gen-certificate-thumbnail-image`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: genCertificateThumbnailImageRequest, signal
+    },
+      );
+    }
+  
+
+
+export const getGenCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePostMutationOptions = <TError = HTTPValidationError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof genCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePost>>, TError,{data: GenCertificateThumbnailImageRequest}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof genCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePost>>, TError,{data: GenCertificateThumbnailImageRequest}, TContext> => {
+const {mutation: mutationOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof genCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePost>>, {data: GenCertificateThumbnailImageRequest}> = (props) => {
+          const {data} = props ?? {};
+
+          return  genCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePost(data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type GenCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePostMutationResult = NonNullable<Awaited<ReturnType<typeof genCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePost>>>
+    export type GenCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePostMutationBody = GenCertificateThumbnailImageRequest
+    export type GenCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePostMutationError = HTTPValidationError
+
+    /**
+ * @summary Gen Certificate Thumbnail Image
+ */
+export const useGenCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePost = <TError = HTTPValidationError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof genCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePost>>, TError,{data: GenCertificateThumbnailImageRequest}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof genCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePost>>,
+        TError,
+        {data: GenCertificateThumbnailImageRequest},
+        TContext
+      > => {
+
+      const mutationOptions = getGenCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePostMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    

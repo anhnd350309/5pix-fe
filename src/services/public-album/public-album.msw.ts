@@ -53,7 +53,18 @@ export const getDetailPubAlbumsAlbumSlugGetMockHandler = (overrideResponse?: Dat
       })
   })
 }
+
+export const getGenCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePostMockHandler = (overrideResponse?: unknown | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<unknown> | unknown)) => {
+  return http.post('*/pub/albums/gen-certificate-thumbnail-image', async (info) => {await delay(1000);
+  if (typeof overrideResponse === 'function') {await overrideResponse(info); }
+    return new HttpResponse(null,
+      { status: 200,
+        
+      })
+  })
+}
 export const getPublicAlbumMock = () => [
   getGetPubAlbumsGetMockHandler(),
-  getDetailPubAlbumsAlbumSlugGetMockHandler()
+  getDetailPubAlbumsAlbumSlugGetMockHandler(),
+  getGenCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePostMockHandler()
 ]

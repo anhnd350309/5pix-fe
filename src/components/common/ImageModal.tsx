@@ -2,13 +2,16 @@ import React, { useRef, useEffect } from 'react'
 import { Modal, Carousel, Button } from 'antd'
 import { DownloadOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons'
 import { AlbumImageItemResponse } from '@/schemas'
-
+import { genCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePost } from '@/services/public-album/public-album'
+import { useRouter } from 'next/router'
 interface ImageModalProps {
   visible: boolean
   onCancel: () => void
   images: AlbumImageItemResponse[]
   selectedImageIndex: number
   setSelectedImageIndex: (index: number) => void
+  bibNum?: string
+  albumSlug?: string
 }
 
 const ImageModal: React.FC<ImageModalProps> = ({
@@ -17,7 +20,10 @@ const ImageModal: React.FC<ImageModalProps> = ({
   images,
   selectedImageIndex,
   setSelectedImageIndex,
+  bibNum,
+  albumSlug,
 }) => {
+  const router = useRouter()
   const carouselRef = useRef<any>(null)
 
   useEffect(() => {
@@ -36,6 +42,23 @@ const ImageModal: React.FC<ImageModalProps> = ({
       event_category: 'image',
       event_label: images[selectedImageIndex]?.image_name,
     })
+  }
+  const handleGetResult = async () => {
+    const currentImage =
+      images[selectedImageIndex]?.s3_image_url || '/assets/images/DetailEvent.png'
+    router.push(`/events/${albumSlug}/result?image=${currentImage}&bibNum=${bibNum}`)
+    // try {
+    //   const data = await genCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePost({
+    //     album_slug: 'chay-vi-hanh-tinh-xanh',
+    //     bib_number: '28828',
+    //   })
+    //   console.log(data)
+    // } catch (err) {
+    //   console.log(err)
+    // }
+  }
+  const getCurrentImageUrl = () => {
+    return images[selectedImageIndex]?.s3_image_url || '/assets/images/DetailEvent.png'
   }
   return (
     <>
@@ -134,6 +157,9 @@ const ImageModal: React.FC<ImageModalProps> = ({
         >
           <Button type='primary' icon={<DownloadOutlined />} onClick={handleDownload}>
             Tải về
+          </Button>
+          <Button type='primary' icon={<DownloadOutlined />} onClick={handleGetResult}>
+            {bibNum}
           </Button>
         </div>
       </Modal>
