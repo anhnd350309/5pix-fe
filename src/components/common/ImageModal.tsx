@@ -151,14 +151,15 @@ const ImageModal: React.FC<ImageModalProps> = ({
             justifyContent: 'center',
             alignItems: 'center',
             width: '80%',
+            gap: '16px',
           }}
           className='ejehhhe'
         >
           <Button type='primary' icon={<DownloadOutlined />} onClick={handleDownload}>
             Tải về
           </Button>
-          <Button type='primary' icon={<DownloadOutlined />} onClick={handleGetResult}>
-            {bibNum}
+          <Button type='primary' onClick={handleGetResult}>
+            Lấy ảnh kèm kết quả
           </Button>
         </div>
       </Modal>

@@ -57,7 +57,7 @@ const ResultPage: ResultPageType = () => {
       <h1>Image Cropper with Frame</h1>
       {!croppedImage && (
         <ResultImage
-          imagePath='/assets/images/preview.webp' // Main image
+          imagePath={typeof image === 'string' ? image : '/assets/images/preview.webp'} // Main image
           frameUrl='/assets/images/frame.png' // Frame image
           onSave={handleCrop}
           frameData={frameData}
