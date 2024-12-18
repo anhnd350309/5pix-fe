@@ -2,10 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { Input, Spin } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 import { AlbumItemResponsePublic, GetPubAlbumsGetParams } from '@/schemas'
-import { getPubAlbumsGet } from '@/services/public-album/public-album'
 import Link from 'next/link'
 import EventCardAdmin from '@/components/shared/EvenCardAdmin'
-import EventCard from '@/components/shared/EventCard'
 import { getAlbumsGet } from '@/services/album/album'
 
 const AllEventsAdmin = () => {

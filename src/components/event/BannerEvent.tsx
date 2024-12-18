@@ -18,6 +18,8 @@ export interface BannerEventProps {
   id: number | string
   mutate?: any
   setShowTotal: any
+  bibNum: string
+  setBibNum: any
 }
 
 export const BannerEvent: ({
@@ -25,13 +27,16 @@ export const BannerEvent: ({
   id,
   mutate,
   setShowTotal,
+  bibNum,
+  setBibNum,
 }: BannerEventProps) => JSX.Element = ({
   event: { album_image_url, album_name, event_date, total_image, album_slug },
   id,
   mutate,
   setShowTotal,
+  bibNum: bibNumber,
+  setBibNum: setBibNumber,
 }) => {
-  const [bibNumber, setBibNumber] = useState<string>('')
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
@@ -71,12 +76,14 @@ export const BannerEvent: ({
       if (body.avatar_file) {
         params.search_type = 'index_face'
         setShowTotal(true)
+        setBibNumber('')
       } else if (bibNumber) {
         params.search_type = 'metadata'
         setShowTotal(true)
       } else {
         params.search_type = 'all'
         setShowTotal(false)
+        setBibNumber('')
       }
       mutate({
         data: {
@@ -85,7 +92,6 @@ export const BannerEvent: ({
         params: params,
       })
       setSelectedFile(null)
-      setBibNumber('')
       // console.log('reset file', selectedFile)
       // const response = await searchPubImagesPost(body, params)
       // console.log('Search Results:', response.data)

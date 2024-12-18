@@ -92,6 +92,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
   const [totalPages, setTotalPages] = useState(1)
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null)
   const [isModalVisibleImage, setIsModalVisibleImage] = useState(false)
+  const [bibNum, setBibNum] = useState<string>('')
   let id = parseInt(slug as string, 0)
   if (isNaN(id)) {
     id = 0
@@ -207,7 +208,14 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
         <SEOHead templateTitle={event.album_name} image={event.album_image_url} />
       )}
       <div className='space-y-5 mx-1 sm:mx-16 mt-4 px-4 xl:px-16 center pb-[40px]'>
-        <BannerEvent event={event} id={id} mutate={mutate} setShowTotal={setShowTotal} />
+        <BannerEvent
+          event={event}
+          id={id}
+          mutate={mutate}
+          setShowTotal={setShowTotal}
+          bibNum={bibNum}
+          setBibNum={setBibNum}
+        />
         {isPending ? (
           <Spin className='flex justify-center items-center h-24' />
         ) : (
@@ -282,6 +290,8 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
         images={loadedImgs}
         selectedImageIndex={selectedImageIndex || 0}
         setSelectedImageIndex={setSelectedImageIndex}
+        bibNum={bibNum}
+        albumSlug={event.album_slug}
       />
     </React.Fragment>
   )

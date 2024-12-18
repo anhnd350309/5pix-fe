@@ -1,3 +1,4 @@
+'use client'
 import React, { useEffect, useRef } from 'react'
 import Croppie from 'croppie'
 import 'croppie/croppie.css'
@@ -7,29 +8,46 @@ interface CroppieComponentProps {
   imagePath: string
   frameUrl: string
   onSave: (croppedImage: string) => void
+  frameData?: string
 }
 
-const ResultImage: React.FC<CroppieComponentProps> = ({ imagePath, frameUrl, onSave }) => {
+const ResultImage: React.FC<CroppieComponentProps> = ({
+  imagePath,
+  frameUrl,
+  onSave,
+  frameData,
+}) => {
   const croppieRef = useRef<HTMLDivElement>(null)
   const croppieInstance = useRef<Croppie | null>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
     if (croppieRef.current) {
+      console.log('croppieRef.current is defined')
       croppieInstance.current = new Croppie(croppieRef.current, {
         viewport: { width: window.innerWidth * 0.9, height: window.innerWidth * 0.5 }, // Set the viewport type to 'square' or 'circle'
         boundary: { width: window.innerWidth * 0.9, height: window.innerWidth * 0.5 },
-        showZoomer: false,
+        showZoomer: true,
         enableResize: false,
         enableOrientation: true,
+        enableExif: true,
         // background: true, // Enable background
       })
-
-      croppieInstance.current.bind({
-        url: imagePath,
-      })
+      console.log('Croppie instance created:', croppieInstance.current)
+      const uniqueImageUrl = `${imagePath}?t=${Date.now()}`
+      croppieInstance.current
+        .bind({
+          url: uniqueImageUrl,
+        })
+        .then(() => {
+          console.log('Image loaded successfully')
+        })
+        .catch((error) => {
+          console.error('Error loading image:', error)
+        })
+    } else {
+      console.error('croppieRef.current is not defined')
     }
-
     return () => {
       if (croppieInstance.current) {
         croppieInstance.current.destroy()
@@ -61,7 +79,7 @@ const ResultImage: React.FC<CroppieComponentProps> = ({ imagePath, frameUrl, onS
 
           // Draw the frame on top of the cropped image
           const frameImage = new Image()
-          frameImage.src = frameUrl
+          frameImage.src = frameData as string
 
           frameImage.onload = () => {
             ctx.drawImage(frameImage, 0, 0, croppedImage.width, croppedImage.height)
@@ -80,20 +98,34 @@ const ResultImage: React.FC<CroppieComponentProps> = ({ imagePath, frameUrl, onS
       <div ref={croppieRef} />
       <canvas ref={canvasRef} style={{ display: 'none' }} />
       <button onClick={handleSave}>Save Image</button>
-      {frameUrl && (
-        <div
+      {frameData && (
+        <img
+          src={frameData}
+          alt='Frame'
           style={{
             position: 'absolute',
-            top: '0',
-            left: '0',
-            width: '100%',
-            height: '100%',
             pointerEvents: 'none',
-            backgroundImage: `url(${frameUrl})`,
-            backgroundSize: 'cover',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '95%',
             zIndex: 1,
           }}
         />
+        // <div
+        //   style={{
+        //     position: 'absolute',
+        //     top: '0',
+        //     left: '0',
+        //     width: '90%',
+        //     height: '85%',
+        //     pointerEvents: 'none',
+        //     backgroundImage: `url(${frameData})`,
+        //     backgroundSize: 'cover',
+        //     zIndex: 1,
+        //   }}
+        //   className={frameData}
+        // />
       )}
     </div>
   )
