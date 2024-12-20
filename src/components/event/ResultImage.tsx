@@ -95,7 +95,7 @@ const ResultImage: React.FC<CroppieComponentProps> = ({
 
   return (
     <div style={{ position: 'relative', display: 'inline-block' }}>
-      <div ref={croppieRef} />
+      <div ref={croppieRef} style={{ display: 'inline' }} />
       <canvas ref={canvasRef} style={{ display: 'none' }} />
       <button onClick={handleSave}>Save Image</button>
       {frameData && (
@@ -108,7 +108,7 @@ const ResultImage: React.FC<CroppieComponentProps> = ({
             top: 0,
             left: 0,
             width: '100%',
-            height: '95%',
+            height: 'calc(100% - 80px)',
             zIndex: 1,
           }}
         />

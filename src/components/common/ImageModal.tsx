@@ -158,9 +158,11 @@ const ImageModal: React.FC<ImageModalProps> = ({
           <Button type='primary' icon={<DownloadOutlined />} onClick={handleDownload}>
             Tải về
           </Button>
-          <Button type='primary' onClick={handleGetResult}>
-            Lấy ảnh kèm kết quả
-          </Button>
+          {bibNum && (
+            <Button type='primary' onClick={handleGetResult}>
+              Lấy ảnh kèm kết quả
+            </Button>
+          )}
         </div>
       </Modal>
     </>

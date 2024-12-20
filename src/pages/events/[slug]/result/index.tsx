@@ -11,17 +11,17 @@ type ResultPageType = React.FC & { getLayout?: (page: React.ReactNode) => React.
 const ResultPage: ResultPageType = () => {
   const [frameData, setFrameData] = useState('')
   const router = useRouter()
+  const { slug } = router.query
   const { query } = router
   const { image, bibNum } = query
-  console.log('image:', image, 'bibnumber:', bibNum)
 
   const [croppedImage, setCroppedImage] = useState<string | null>(null)
   useEffect(() => {
     const handlerGetResult = async () => {
       try {
         const data = await genCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePost({
-          album_slug: 'chay-vi-hanh-tinh-xanh',
-          bib_number: '28828',
+          album_slug: Array.isArray(slug) ? slug[0] : slug,
+          bib_number: Array.isArray(bibNum) ? bibNum[0] : bibNum,
         })
         const blob = new Blob([data as any], { type: 'image/png' })
         convertBlobToBase64(blob)
@@ -31,8 +31,10 @@ const ResultPage: ResultPageType = () => {
         console.log(err)
       }
     }
-    handlerGetResult()
-  }, [])
+    if (slug && bibNum) {
+      handlerGetResult()
+    }
+  }, [slug, bibNum])
   const handleCrop = (croppedData: string) => {
     setCroppedImage(croppedData) // Save the cropped image
     console.log('Cropped image:', croppedData)
@@ -54,7 +56,7 @@ const ResultPage: ResultPageType = () => {
   }
   return (
     <div className='flex flex-col items-center w-screen text-center h-[80vh] justify-center'>
-      <h1>Image Cropper with Frame</h1>
+      <h1>Lấy hình ảnh kèm kết quả</h1>
       {!croppedImage && (
         <ResultImage
           imagePath={typeof image === 'string' ? image : '/assets/images/preview.webp'} // Main image
