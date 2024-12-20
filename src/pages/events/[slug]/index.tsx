@@ -90,7 +90,10 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
   const [showTotal, setShowTotal] = useState(false)
   const [loadedImgs, setLoadedImgs] = useState<AlbumImageItemResponsePublic[]>(repo.images)
   const [totalPages, setTotalPages] = useState(1)
-  let id = Number.isInteger(slug) ? parseInt(slug as string) : 0
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null)
+  const [isModalVisibleImage, setIsModalVisibleImage] = useState(false)
+  const [bibNum, setBibNum] = useState<string>('')
+  let id = parseInt(slug as string, 0)
   if (isNaN(id)) {
     id = 0
   }
