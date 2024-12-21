@@ -25,8 +25,6 @@ const ResultPage: ResultPageType = () => {
         })
         const blob = new Blob([data as any], { type: 'image/png' })
         convertBlobToBase64(blob)
-        // fileURL.split(':').slice(1).join(':')
-        // setFrameData(base64)
       } catch (err) {
         console.log(err)
       }

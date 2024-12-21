@@ -45,7 +45,7 @@ const ImageModal: React.FC<ImageModalProps> = ({
   const handleGetResult = async () => {
     const currentImage =
       images[selectedImageIndex]?.s3_image_url || '/assets/images/DetailEvent.png'
-    router.push(`/events/${albumSlug}/result?image=${currentImage}&bibNum=${bibNum}`)
+    window.open(`/events/${albumSlug}/result?image=${currentImage}&bibNum=${bibNum}`)
     // try {
     //   const data = await genCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePost({
     //     album_slug: 'chay-vi-hanh-tinh-xanh',
