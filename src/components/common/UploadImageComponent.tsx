@@ -104,16 +104,16 @@ const UploadImageComponent: React.FC<UploadImageComponentProps> = ({ onFileChang
       {imageSrc ? (
         <>
           {imageDetails && (
-            <div className='flex w-full justify-between items-center mb-2'>
+            <div className='flex w-[95%] justify-between items-center mb-2'>
               <div className='flex flex-col gap-2'>
                 <div className='text-xl'>
                   <strong>
                     {imageDetails.name.length > 30
-                      ? `${imageDetails.name.substring(0, 27)}...${imageDetails.name.substring(imageDetails.name.lastIndexOf('.'))}`
+                      ? `${imageDetails.name.substring(0, 20)}...${imageDetails.name.substring(imageDetails.name.lastIndexOf('.'))}`
                       : imageDetails.name}
                   </strong>
                 </div>
-                <div className='text-sm flex gap-4'>
+                {/* <div className='text-sm flex gap-4'>
                   <div className='flex'>
                     <strong>Định dạng:</strong>
                     {imageDetails.type}
@@ -126,7 +126,7 @@ const UploadImageComponent: React.FC<UploadImageComponentProps> = ({ onFileChang
                     <strong>Kích thước:</strong>
                     {imageDetails.width} x {imageDetails.height} px
                   </div>
-                </div>
+                </div> */}
               </div>
               <Button className='w-28 bg-[#2563EB] rounded-full' onClick={handleDone}>
                 Hoàn thành
