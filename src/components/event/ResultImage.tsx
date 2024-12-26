@@ -34,10 +34,10 @@ const ResultImage: React.FC<CroppieComponentProps> = ({
         // background: true, // Enable background
       })
       console.log('Croppie instance created:', croppieInstance.current)
-      const uniqueImageUrl = `${imagePath}?t=${Date.now()}`
+      const proxyImageUrl = `/api/proxy?path=${encodeURIComponent(imagePath)}`
       croppieInstance.current
         .bind({
-          url: uniqueImageUrl,
+          url: proxyImageUrl,
         })
         .then(() => {
           console.log('Image loaded successfully')

@@ -51,7 +51,7 @@ export const ListEvents: React.FC = () => {
   }
   return (
     <div className='pb-8 flex flex-col items-center'>
-      <div className='grid gap-x-8 gap-y-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'>
+      <div className='grid gap-x-8 gap-y-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'>
         {loadedEvents?.map((event) => (
           <Link
             href={`/events/${event.album_slug ? event.album_slug : event.id}`}

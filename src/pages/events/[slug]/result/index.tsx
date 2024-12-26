@@ -57,7 +57,11 @@ const ResultPage: ResultPageType = () => {
       <h1>Lấy hình ảnh kèm kết quả</h1>
       {!croppedImage && (
         <ResultImage
-          imagePath={typeof image === 'string' ? image : '/assets/images/preview.webp'} // Main image
+          imagePath={
+            typeof image === 'string'
+              ? image
+              : 'https://d206ocdtskenxb.cloudfront.net/6/20241222_062420_691676_c2f0576d-4d0a-442a-b6e6-bbf6e24e04fe.jpg'
+          } // Main image
           frameUrl='/assets/images/frame.png' // Frame image
           onSave={handleCrop}
           frameData={frameData}
