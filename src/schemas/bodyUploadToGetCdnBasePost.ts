@@ -14,5 +14,5 @@
  */
 
 export interface BodyUploadToGetCdnBasePost {
-  file: Blob;
+  file_data: Blob;
 }

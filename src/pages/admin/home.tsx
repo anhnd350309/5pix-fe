@@ -29,4 +29,6 @@ const Home = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
 
 // Home.requireAuth = true
 export default Home
+export const getLayout = (page: React.ReactNode) => <div>{page}</div>
+Home.getLayout = getLayout
 // export default Home

@@ -39,7 +39,7 @@ export const uploadToGetCdnBasePost = (
 ) => {
       
       const formData = new FormData();
-formData.append('file', bodyUploadToGetCdnBasePost.file)
+formData.append('file_data', bodyUploadToGetCdnBasePost.file_data)
 
       return defaultMutator<DataResponseImageCdn>(
       {url: `/base`, method: 'POST',

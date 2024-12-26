@@ -41,6 +41,7 @@
     "framer-motion": "^10.12.3",
     "i18next": "^22.4.15",
     "lucide-react": "^0.460.0",
+    "moment": "^2.30.1",
     "msw": "^2.6.6",
     "next": "13.3.0",
     "next-auth": "^4.22.1",
