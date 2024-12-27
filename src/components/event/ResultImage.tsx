@@ -60,7 +60,8 @@ const ResultImage: React.FC<CroppieComponentProps> = ({
     if (croppieInstance.current && canvasRef.current) {
       const croppedData = await croppieInstance.current.result({
         type: 'base64',
-        size: 'viewport',
+        size: 'original',
+        quality: 1,
       })
 
       const canvas = canvasRef.current
@@ -85,7 +86,7 @@ const ResultImage: React.FC<CroppieComponentProps> = ({
             ctx.drawImage(frameImage, 0, 0, croppedImage.width, croppedImage.height)
 
             // Get the combined image as a base64 string
-            const combinedImage = canvas.toDataURL('image/png')
+            const combinedImage = canvas.toDataURL('image/png', 1)
             onSave(combinedImage)
           }
         }
