@@ -91,7 +91,6 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
   const [loadedImgs, setLoadedImgs] = useState<AlbumImageItemResponsePublic[]>(repo.images)
   const [totalPages, setTotalPages] = useState(1)
   let id = Number.isInteger(slug) ? parseInt(slug as string) : 0
-  console.log('id', id)
   if (isNaN(id)) {
     id = 0
   }
