@@ -18,3 +18,5 @@ const EventAdmin = () => {
 }
 
 export default EventAdmin
+export const getLayout = (page: React.ReactNode) => <div>{page}</div>
+EventAdmin.getLayout = getLayout

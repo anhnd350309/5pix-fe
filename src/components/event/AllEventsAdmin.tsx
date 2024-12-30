@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { Input, Spin } from 'antd'
+import { Button, Input, Spin } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 import { AlbumItemResponsePublic, GetPubAlbumsGetParams } from '@/schemas'
 import Link from 'next/link'
 import EventCardAdmin from '@/components/shared/EvenCardAdmin'
 import { getAlbumsGet } from '@/services/album/album'
+interface AllEventsAdminProps {
+  // setIsModalUpdate?: void
+  setIsModalUpdate: (visible: boolean) => void
+  setEvent?: any
+}
 
-const AllEventsAdmin = () => {
+const AllEventsAdmin: React.FC<AllEventsAdminProps> = ({ setIsModalUpdate, setEvent }) => {
   const [currentPage, setCurrentPage] = useState(1)
   const [loadedEvents, setLoadedEvents] = useState<AlbumItemResponsePublic[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -47,20 +52,33 @@ const AllEventsAdmin = () => {
     setIsLoadingMore(true)
     setCurrentPage((prevPage) => prevPage + 1)
   }
+
   return (
     <div>
       <Input size='large' placeholder='Mã sự kiện, tên sự kiện' prefix={<SearchOutlined />} />
       <div className='flex flex-col gap-4 py-4'>
         {loadedEvents?.map((event) => (
-          <Link href={`/admin/events/${event.id}`} key={event.id}>
-            <EventCardAdmin
-              key={event.id}
-              title={event.album_name}
-              date={event.event_date}
-              imageCount={event.total_image ?? 0}
-              imageUrl={event.album_image_url}
-            />
-          </Link>
+          <div className='relative'>
+            <Link href={`/admin/events/${event.id}`} key={event.id}>
+              <EventCardAdmin
+                key={event.id}
+                title={event.album_name}
+                date={event.event_date}
+                imageCount={event.total_image ?? 0}
+                imageUrl={event.album_image_url}
+              />
+            </Link>
+            <Button
+              size='large'
+              className='bg-[#0A347D] text-emerald-50 font-bold absolute right-0 top-0'
+              onClick={() => {
+                setEvent(event)
+                setIsModalUpdate(true)
+              }}
+            >
+              Chỉnh sửa
+            </Button>
+          </div>
         ))}
       </div>
     </div>
