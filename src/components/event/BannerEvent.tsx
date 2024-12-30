@@ -20,6 +20,8 @@ export interface BannerEventProps {
   setShowTotal: any
   bibNum: string
   setBibNum: any
+  setFile?: any
+  setCurrentPage?: any
 }
 
 export const BannerEvent: ({
@@ -29,6 +31,8 @@ export const BannerEvent: ({
   setShowTotal,
   bibNum,
   setBibNum,
+  setFile,
+  setCurrentPage,
 }: BannerEventProps) => JSX.Element = ({
   event: { album_image_url, album_name, event_date, total_image, album_slug },
   id,
@@ -36,6 +40,8 @@ export const BannerEvent: ({
   setShowTotal,
   bibNum: bibNumber,
   setBibNum: setBibNumber,
+  setFile,
+  setCurrentPage,
 }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
@@ -57,7 +63,7 @@ export const BannerEvent: ({
     //   alert('Please enter a BIB number or upload an image!')
     //   return
     // }
-
+    setCurrentPage(1)
     const body = {
       avatar_file: selectedFile || '',
     }
@@ -74,13 +80,16 @@ export const BannerEvent: ({
 
     try {
       if (body.avatar_file) {
+        setFile(body.avatar_file)
         params.search_type = 'index_face'
         setShowTotal(true)
         setBibNumber('')
       } else if (bibNumber) {
+        setFile(null)
         params.search_type = 'metadata'
         setShowTotal(true)
       } else {
+        setFile(null)
         params.search_type = 'all'
         setShowTotal(false)
         setBibNumber('')

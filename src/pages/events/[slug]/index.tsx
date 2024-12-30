@@ -18,6 +18,7 @@ import { useSearchParams } from 'next/navigation'
 import SEOHead from '@/components/seo'
 import { InferGetServerSidePropsType, GetServerSideProps } from 'next'
 import ImageModal from '@/components/common/ImageModal'
+import { fi } from '@faker-js/faker/.'
 type Repo = {
   event?: AlbumItemResponsePublic
   images: AlbumImageItemResponsePublic[]
@@ -83,6 +84,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
   const [currentPage, setCurrentPage] = useState(1)
   const [curLoading, setCurLoading] = useState(false)
   const [isLoadingMore, setIsLoadingMore] = useState(false)
+  const [file, setFile] = useState<File | null>(null)
   // const { data, error, isLoading } = useDetailPubAlbumsAlbumSlugGet(slug as string, {
   //   query: {},
   // })
@@ -99,6 +101,10 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
   }
   // setLoadedImgs(imagesData?.data?.data || [])
   const [totalEvents, setTotalEvents] = useState<number | null>(null)
+  useEffect(() => {
+    setTotalEvents(imagesData?.metadata.total_items ?? null)
+    setTotalPages(Math.ceil((imagesData?.metadata.total_items ?? 0) / 100))
+  }, [imagesData])
   useEffect(() => {
     const fetchEvents = async () => {
       if (bibNumber) {
@@ -121,6 +127,36 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
             },
             params: params,
           })
+        }
+      } else if (file) {
+        if (currentPage === 1) setCurLoading(true)
+        // setError(null)
+
+        try {
+          if (id || slug) {
+            const body: BodySearchPubImagesPost = {
+              avatar_file: file,
+            }
+            const params: SearchPubImagesPostParams = {
+              album_id: id,
+              slug: slug as string,
+              search_type: 'index_face',
+              page: currentPage,
+              page_size: 100,
+              sort_by: 'id',
+              order: 'desc',
+            }
+            const newImgs = await searchPubImagesPost(body, params)
+            setLoadedImgs(newImgs.data)
+            setTotalEvents(newImgs?.metadata.total_items ?? null)
+            setTotalPages(Math.ceil(newImgs?.metadata.total_items / 100))
+          }
+        } catch (err: any) {
+          // setError(err.message || 'Something went wrong')
+          console.log(err)
+        } finally {
+          setCurLoading(false)
+          setIsLoadingMore(false)
         }
       } else {
         if (currentPage === 1) setCurLoading(true)
@@ -154,7 +190,9 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
         }
       }
     }
-
+    if (file) {
+      console.log('file', file, currentPage)
+    }
     fetchEvents()
   }, [currentPage, id])
   useEffect(() => {
@@ -215,6 +253,8 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
           setShowTotal={setShowTotal}
           bibNum={bibNum}
           setBibNum={setBibNum}
+          setFile={setFile}
+          setCurrentPage={setCurrentPage}
         />
         {isPending ? (
           <Spin className='flex justify-center items-center h-24' />
