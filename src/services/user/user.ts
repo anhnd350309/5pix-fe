@@ -37,7 +37,7 @@ import type {
 } from '../../schemas'
 import { defaultMutator } from '../../api/axiosInstance'
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
-
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
 /**
  * API Get list User
  * @summary Get
@@ -210,7 +210,7 @@ export const useCreateUsersPost = <TError = HTTPValidationError, TContext = unkn
 export const detailMeUsersMeGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<DataResponseUserItemResponse>> => {
-  return axios.get(`https://dapi.5pix.org/users/me`, options)
+  return axios.get(`${API_BASE_URL}/users/me`, options)
 }
 
 export const getDetailMeUsersMeGetQueryKey = () => {

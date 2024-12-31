@@ -58,7 +58,7 @@ export const authOptions: AuthOptions = {
           // how to save token to session here
 
           const userData = await detailMeUsersMeGet({
-            baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || 'https://dapi.5pix.org',
+            baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || 'https://api.5pix.org',
             headers: {
               Authorization: `Bearer ${token}`,
             },
