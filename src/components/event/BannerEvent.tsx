@@ -86,6 +86,7 @@ export const BannerEvent: ({
         setBibNumber('')
       } else if (bibNumber) {
         setFile(null)
+        setBibNumber(bibNumber)
         params.search_type = 'metadata'
         setShowTotal(true)
       } else {

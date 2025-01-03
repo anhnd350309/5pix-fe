@@ -95,6 +95,9 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null)
   const [isModalVisibleImage, setIsModalVisibleImage] = useState(false)
   const [bibNum, setBibNum] = useState<string>('')
+  if (bibNumber) {
+    setBibNum(bibNumber)
+  }
   let id = parseInt(slug as string, 0)
   if (isNaN(id)) {
     id = 0
@@ -107,26 +110,33 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
   }, [imagesData])
   useEffect(() => {
     const fetchEvents = async () => {
-      if (bibNumber) {
-        if (slug) {
-          const params = {
-            album_id: id,
-            slug: Array.isArray(slug) ? slug[0] : slug,
-            bib_number: bibNumber,
-            search_type: 'metadata' as ImageSearchType,
-            page_size: 100,
-            page: 1,
-            sort_by: 'id',
-            order: 'desc',
-          }
+      if (bibNum) {
+        try {
+          if (slug) {
+            const params = {
+              album_id: id,
+              slug: Array.isArray(slug) ? slug[0] : slug,
+              bib_number: bibNum,
+              search_type: 'metadata' as ImageSearchType,
+              page_size: 100,
+              page: currentPage,
+              sort_by: 'id',
+              order: 'desc',
+            }
 
-          setShowTotal(true)
-          mutate({
-            data: {
-              avatar_file: '',
-            },
-            params: params,
-          })
+            setShowTotal(true)
+            mutate({
+              data: {
+                avatar_file: '',
+              },
+              params: params,
+            })
+          }
+        } catch (err: any) {
+          console.log(err)
+        } finally {
+          setCurLoading(false)
+          setIsLoadingMore(false)
         }
       } else if (file) {
         if (currentPage === 1) setCurLoading(true)

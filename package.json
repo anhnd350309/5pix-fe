@@ -46,6 +46,7 @@
     "next": "13.3.0",
     "next-auth": "^4.22.1",
     "next-i18next": "^13.2.2",
+    "next-sitemap": "^4.2.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-i18next": "^12.2.2",
