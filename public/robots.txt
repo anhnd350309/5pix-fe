@@ -1,5 +1,9 @@
-User-Agent: *
+# *
+User-agent: *
 Allow: /
-Disallow: /private/
 
-Sitemap: https://acme.com/sitemap.xml
+# Host
+Host: https://5pix.org
+
+# Sitemaps
+Sitemap: https://5pix.org/sitemap.xml

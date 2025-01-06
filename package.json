@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev -p 9999",
     "build": "next build --no-lint",
+    "postbuild": "next-sitemap",
     "start": "next start",
     "check": "run-p check:*",
     "check:lint": "next lint --dir 'src'",
