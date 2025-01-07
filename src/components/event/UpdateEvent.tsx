@@ -1,12 +1,12 @@
 import React, { useRef, useState } from 'react'
 import { Button, Form, Input, DatePicker, Switch } from 'antd'
-import { AlbumItemResponsePublic, BodyUploadToGetCdnBasePost } from '@/schemas'
+import { AlbumItemResponse, BodyUploadToGetCdnBasePost } from '@/schemas'
 import { uploadToGetCdnBasePost } from '@/services/base/base'
 import moment from 'moment'
 import { updateAlbumsAlbumIdPut } from '@/services/album/album'
 interface UpdateEventProps {
   // setIsModalUpdate?: void
-  event?: AlbumItemResponsePublic
+  event?: AlbumItemResponse
   setShowModalUpdate: (visible: boolean) => void
 }
 const UpdateEvent: React.FC<UpdateEventProps> = ({ event, setShowModalUpdate }) => {
@@ -132,6 +132,9 @@ const UpdateEvent: React.FC<UpdateEventProps> = ({ event, setShowModalUpdate }) 
           album_name: event?.album_name,
           album_slug: event?.album_slug,
           is_highlight: event?.is_highlight,
+          is_find_all_image: event?.is_find_all_image,
+          is_find_by_face: event?.is_find_by_face,
+          is_find_by_metadata: event?.is_find_by_metadata,
           event_date: moment(event?.event_date),
         }}
         autoComplete='off'
@@ -191,7 +194,7 @@ const UpdateEvent: React.FC<UpdateEventProps> = ({ event, setShowModalUpdate }) 
             <Switch />
           </Form.Item>
 
-          <Form.Item name='is_highlight' label='Nổi bật sự kiện'>
+          <Form.Item name='is_highlight' valuePropName='checked' label='Nổi bật sự kiện'>
             <Switch />
           </Form.Item>
 

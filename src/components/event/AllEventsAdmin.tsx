@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Input, Spin } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
-import { AlbumItemResponsePublic, GetPubAlbumsGetParams } from '@/schemas'
+import { AlbumItemResponse, GetPubAlbumsGetParams } from '@/schemas'
 import Link from 'next/link'
 import EventCardAdmin from '@/components/shared/EvenCardAdmin'
 import { getAlbumsGet } from '@/services/album/album'
@@ -13,7 +13,7 @@ interface AllEventsAdminProps {
 
 const AllEventsAdmin: React.FC<AllEventsAdminProps> = ({ setIsModalUpdate, setEvent }) => {
   const [currentPage, setCurrentPage] = useState(1)
-  const [loadedEvents, setLoadedEvents] = useState<AlbumItemResponsePublic[]>([])
+  const [loadedEvents, setLoadedEvents] = useState<AlbumItemResponse[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [isLoadingMore, setIsLoadingMore] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -73,6 +73,7 @@ const AllEventsAdmin: React.FC<AllEventsAdminProps> = ({ setIsModalUpdate, setEv
               className='bg-[#0A347D] text-emerald-50 font-bold absolute right-0 top-0'
               onClick={() => {
                 setEvent(event)
+                console.log(event)
                 setIsModalUpdate(true)
               }}
             >

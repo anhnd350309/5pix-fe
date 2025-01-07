@@ -4,12 +4,12 @@ import Link from 'next/link'
 import AllEventsAdmin from '@/components/event/AllEventsAdmin'
 import InsertEvents from '@/components/event/InsertEvents'
 import UpdateEvent from './UpdateEvent'
-import { AlbumItemResponsePublic } from '@/schemas'
+import { AlbumItemResponse } from '@/schemas'
 
 const ListEventsAdmin = () => {
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [showModalUpdate, setShowModalUpdate] = useState(false)
-  const [event, setEvent] = useState<AlbumItemResponsePublic>()
+  const [event, setEvent] = useState<AlbumItemResponse>()
   const showModal = () => {
     setIsModalVisible(true)
   }
