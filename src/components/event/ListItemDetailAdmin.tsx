@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { AlbumImageItemResponse } from '@/schemas'
 import { getAlbumImagesPost } from '@/services/images/images'
 import ImageModal from '@/components/common/ImageModal'
+import ExpandableText from './ExpandableText'
 
 export interface ListItemDetailAdminProps {
   id: number | string
@@ -80,6 +81,11 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
                 width={30}
               />
             </Popover>
+            <div className='transition-transform flex items-center duration-300 w-full absolute bg-[#10182880] bottom-0'>
+              <div className='w-full p-1'>
+                <ExpandableText text={image.image_metadata || ''} />
+              </div>
+            </div>
           </div>
         ))}
       </div>
