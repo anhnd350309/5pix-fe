@@ -25,8 +25,8 @@ const ResultImage: React.FC<CroppieComponentProps> = ({
     if (croppieRef.current) {
       console.log('croppieRef.current is defined')
       croppieInstance.current = new Croppie(croppieRef.current, {
-        viewport: { width: window.innerWidth * 0.9, height: window.innerWidth * 0.5 }, // Set the viewport type to 'square' or 'circle'
-        boundary: { width: window.innerWidth * 0.9, height: window.innerWidth * 0.5 },
+        viewport: { width: window.innerWidth * 0.8, height: window.innerWidth * 0.44 }, // Set the viewport type to 'square' or 'circle'
+        boundary: { width: window.innerWidth * 0.8, height: window.innerWidth * 0.44 },
         showZoomer: true,
         enableResize: false,
         enableOrientation: true,
@@ -95,7 +95,7 @@ const ResultImage: React.FC<CroppieComponentProps> = ({
   }
 
   return (
-    <div style={{ position: 'relative', display: 'inline-block' }}>
+    <div style={{ position: 'relative', display: 'inline-block', marginTop: '20vh' }}>
       <div ref={croppieRef} style={{ display: 'inline' }} />
       <canvas ref={canvasRef} style={{ display: 'none' }} />
       <button onClick={handleSave}>Save Image</button>
