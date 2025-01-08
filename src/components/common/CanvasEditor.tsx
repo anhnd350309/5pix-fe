@@ -1,9 +1,13 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Stage, Layer, Rect, Text, Group } from 'react-konva'
-
+import { Stage, Layer, Rect, Text, Group, Image } from 'react-konva'
+import useImage from 'use-image'
+import { Button } from '../ui/button'
 const CanvasEditor = () => {
+  const [image] = useImage('/assets/images/preview.webp') // Replace with your image path
+  const imageWidth = 800 // Set your image width
+  const imageHeight = 600 // Set your image height
   const [textBoxes, setTextBoxes] = useState([
     {
       id: 1,
@@ -36,10 +40,12 @@ const CanvasEditor = () => {
     const id = e.target.id()
     const updatedTextBoxes = textBoxes.map((textBox) => {
       if (textBox.id === parseInt(id)) {
+        const newX = Math.max(0, Math.min(e.target.x(), imageWidth - textBox.width))
+        const newY = Math.max(0, Math.min(e.target.y(), imageHeight - textBox.height))
         return {
           ...textBox,
-          x: e.target.x(),
-          y: e.target.y(),
+          x: newX,
+          y: newY,
         }
       }
       return textBox
@@ -84,9 +90,25 @@ const CanvasEditor = () => {
     })
     setTextBoxes(updatedTextBoxes)
   }
+  const save = () => {
+    // log position of each text box,log aligh and font size
 
+    textBoxes.forEach((textBox) => {
+      console.log(
+        `TextBox ${textBox.id} position: x=${textBox.x}, y=${textBox.y}, align=${textBox.align}, fontSize=${textBox.fontSize}`,
+      )
+    })
+  }
   return (
-    <div>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+      }}
+    >
       <div style={{ marginBottom: '20px' }}>
         {selectedTextBoxId !== null && (
           <div>
@@ -102,8 +124,9 @@ const CanvasEditor = () => {
           </div>
         )}
       </div>
-      <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Stage width={imageWidth} height={imageHeight}>
         <Layer>
+          <Image image={image} width={imageWidth} height={imageHeight} />
           {textBoxes.map((textBox) => (
             <Group
               key={textBox.id}
@@ -136,6 +159,7 @@ const CanvasEditor = () => {
           ))}
         </Layer>
       </Stage>
+      <Button onClick={save}>Save</Button>
     </div>
   )
 }
