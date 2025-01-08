@@ -3,7 +3,7 @@ import ResultImage from '@/components/event/ResultImage'
 import { genCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePost } from '@/services/public-album/public-album'
 import { DownloadOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
-import { useRouter } from 'next/router'
+import useRouter from 'next/router'
 import React, { use, useEffect, useState } from 'react'
 
 type ResultPageType = React.FC & { getLayout?: (page: React.ReactNode) => React.ReactNode }
