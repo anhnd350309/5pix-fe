@@ -1,6 +1,6 @@
-import React from 'react';
-import HeaderAdmin from '@/components/layout/HeaderAdmin';
-import Navbar from '@/components/layout/Navbar';
+import React from 'react'
+import HeaderAdmin from '@/components/layout/HeaderAdmin'
+import Navbar from '@/components/layout/Navbar'
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -10,14 +10,12 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         <div className='w-[200px]'>
           <Navbar />
         </div>
-        <div className="bg-[#0A347D] flex-1 w-[calc(100%-200px)]">
-          <div className="bg-white h-full p-4">
-            {children}
-          </div>
+        <div className='bg-white flex-1 w-[calc(100%-200px)]'>
+          <div className='bg-[#F9FAFB] rounded-tl-[50px] h-full p-4'>{children}</div>
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Layout;
+export default Layout

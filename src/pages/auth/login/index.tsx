@@ -143,3 +143,5 @@ const Login = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
 }
 
 export default Login
+export const getLayout = (page: React.ReactNode) => <div>{page}</div>
+Login.getLayout = getLayout

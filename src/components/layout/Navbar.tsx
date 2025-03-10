@@ -1,58 +1,79 @@
-import React, { useState } from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
+import React from 'react'
+import { Menu } from 'antd'
+import { AppstoreOutlined, CalendarOutlined, ShoppingCartOutlined } from '@ant-design/icons'
+import { useRouter } from 'next/router'
+import SvgListAlbums from '../icons/icons/ListAlbums'
 
 const Navbar = () => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const router = useRouter()
 
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen)
+  const menuItems = [
+    {
+      key: '/admin/dashboard',
+      icon: <AppstoreOutlined className='text-lg' />,
+      label: 'Tổng quan',
+    },
+    {
+      key: '/admin/home',
+      icon: <SvgListAlbums width={16} height={16} className='text-lg' />,
+      label: 'Danh sách album',
+    },
+    {
+      key: '/admin/orders',
+      icon: <ShoppingCartOutlined className='text-lg' />,
+      label: 'Quản lí đơn hàng',
+    },
+  ]
+
+  const handleMenuClick = ({ key }: { key: string }) => {
+    router.push(key)
   }
 
   return (
-    <div className='w-[200px] bg-[#0A347D] h-full'>
-      {' '}
-      {/* Make the navbar stretch full height */}
-      <Link href='/admin/home'>
-        <div
-          className='flex gap-2 bg-[#10182880] text-white border-2 border-black p-2 cursor-pointer'
-          // onClick={toggleDropdown}
-        >
-          <Image
-            className='h-6 w-6 text-white'
-            src='/assets/icons/template/icon_list_events.svg'
-            alt='phone'
-            height={30}
-            width={30}
-          />
-          Danh sách sự kiện
-        </div>
-      </Link>
-      {isDropdownOpen && (
-        <div className='bg-[#B0B0B0] text-[#0A347D]'>
-          <div className='flex gap-2 p-2 cursor-pointer border-b-2 border-r-2 border-l-2 border-black'>
-            <Image
-              className='h-6 w-6 text-white'
-              src='/assets/icons/template/icon_update_events.svg'
-              alt='phone'
-              height={30}
-              width={30}
-            />
-            Cập nhật sự kiện
-          </div>
-          <div className='flex gap-2 p-2 cursor-pointer border-b-2 border-r-2 border-l-2 border-black'>
-            <Image
-              className='h-6 w-6 text-white'
-              src='/assets/icons/template/icon_album.svg'
-              alt='phone'
-              height={30}
-              width={30}
-            />
-            Album ảnh
-          </div>
-        </div>
-      )}
-    </div>
+    <nav className='w-[200px] min-h-screen bg-white '>
+      <Menu
+        mode='inline'
+        selectedKeys={[router.pathname]}
+        items={menuItems}
+        onClick={handleMenuClick}
+        className='h-full pt-6 border-r-0'
+        style={{
+          backgroundColor: 'transparent',
+          fontSize: '14px',
+        }}
+        theme='light'
+      />
+      <style jsx global>{`
+        .ant-menu-item {
+          height: 48px !important;
+          line-height: 48px !important;
+          margin: 4px 8px !important;
+          border-radius: 8px !important;
+        }
+        .ant-menu-item:hover {
+          background-color: #f5f8ff !important;
+          color: #1d2939 !important;
+        }
+        .ant-menu-item-selected {
+          background-color: #f5f8ff !important;
+          color: #1d2939 !important;
+          font-weight: 700 !important;
+        }
+        .ant-menu-item-selected::after {
+          display: none !important;
+        }
+        .ant-menu-item .anticon {
+          color: #667085;
+        }
+        .ant-menu-item:hover .anticon,
+        .ant-menu-item-selected .anticon {
+          color: #1d2939 !important;
+        }
+        .ant-menu-inline {
+          border-inline-end: none !important;
+        }
+      `}</style>
+    </nav>
   )
 }
 
