@@ -32,7 +32,7 @@ const Footer = () => {
                   height={30}
                   width={30}
                 />
-                <span className='text-sm text-white'>098 2299 618</span>
+                <span className='text-sm text-white'>098 6587 345</span>
               </div>
             </li>
             <li className='font-sans text-base font-normal leading-6 tracking-[0.002em] text-left underline-offset-auto [text-decoration-skip-ink:none] mb-3'>

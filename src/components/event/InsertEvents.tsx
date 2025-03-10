@@ -1,21 +1,27 @@
 import React, { useRef, useState } from 'react'
 import { Button, Form, Input, DatePicker, Switch } from 'antd'
-import { BodyUploadToGetCdnBasePost } from '@/schemas'
+import { AlbumCreateRequest, BodyUploadToGetCdnBasePost } from '@/schemas'
 import { uploadToGetCdnBasePost } from '@/services/base/base'
 import moment from 'moment'
 import { createAlbumsPost } from '@/services/album/album'
+interface InsertEventsProps {
+  onChange?: (value: string) => void
+  setEventData?: (value: AlbumCreateRequest) => void
+}
 
-const InsertEvents = () => {
+const InsertEvents = ({ onChange, setEventData }: InsertEventsProps) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const [form] = Form.useForm()
   const [url, setUrl] = useState('')
   const handleSubmit = (values: any) => {
     //conver time to yyyy-mm-dd format
     values.event_date = moment(values.event_date).format('YYYY-MM-DD')
+    setEventData?.(values)
+    onChange?.('businessConfig')
     console.log('Form values: ', values)
     //
     // Xử lý gửi dữ liệu form ở đây
-    createAlbumsPost(values)
+    // createAlbumsPost(values)
   }
   const handleFileSelect = () => {
     if (fileInputRef.current) {
@@ -186,7 +192,7 @@ const InsertEvents = () => {
             className='bg-[#275FC1] text-white border-[#275FC1] border-2 font-bold'
             htmlType='submit'
           >
-            Xuất bản
+            Tiếp tục
           </Button>
         </div>
         <Form.Item name='album_image_url'></Form.Item>

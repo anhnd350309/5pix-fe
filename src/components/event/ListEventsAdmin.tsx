@@ -4,12 +4,16 @@ import Link from 'next/link'
 import AllEventsAdmin from '@/components/event/AllEventsAdmin'
 import InsertEvents from '@/components/event/InsertEvents'
 import UpdateEvent from './UpdateEvent'
-import { AlbumItemResponse } from '@/schemas'
+import { AlbumCreateRequest, AlbumItemResponse } from '@/schemas'
+import ToggleSwitch from './ToggleSwitch'
+import PriceConfig from './PriceConfig'
 
 const ListEventsAdmin = () => {
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [showModalUpdate, setShowModalUpdate] = useState(false)
   const [event, setEvent] = useState<AlbumItemResponse>()
+  const [selected, setSelected] = useState('overView')
+  const [eventData, setEventData] = useState<AlbumCreateRequest>()
   const showModal = () => {
     setIsModalVisible(true)
   }
@@ -71,7 +75,24 @@ const ListEventsAdmin = () => {
         className='h-full w-[1150px]'
       >
         <div className='h-full'>
-          <InsertEvents />
+          <div className='flex justify-center'>
+            <ToggleSwitch
+              onChange={(value) => {
+                setSelected(value)
+              }}
+              selected={selected}
+            />
+          </div>
+          {selected === 'overView' ? (
+            <InsertEvents
+              onChange={(value) => {
+                setSelected(value)
+              }}
+              setEventData={setEventData}
+            />
+          ) : (
+            <PriceConfig />
+          )}
         </div>
       </Modal>
       <Modal
