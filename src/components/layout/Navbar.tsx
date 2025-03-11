@@ -30,7 +30,7 @@ const Navbar = () => {
   }
 
   return (
-    <nav className='w-[200px] min-h-screen bg-white '>
+    <nav className='w-[200px]  bg-white '>
       <Menu
         mode='inline'
         selectedKeys={[router.pathname]}

@@ -1,21 +1,17 @@
 interface ToggleSwitchProps {
   onChange?: (value: string) => void
   selected?: string
+  options?: { label: string; value: string }[]
 }
 
-const ToggleSwitch = ({ onChange, selected }: ToggleSwitchProps) => {
-  const options = [
-    { label: 'Tổng quan album', value: 'overView' },
-    { label: 'Cấu hình kinh doanh', value: 'businessConfig' },
-  ]
-
+const ToggleSwitch = ({ onChange, selected, options = [] }: ToggleSwitchProps) => {
   const handleSelect = (value: string) => {
     // setSelected(value)
     onChange?.(value)
   }
 
   return (
-    <div className='inline-flex p-1 bg-[#F2F4F7] rounded-[100px] w-fit'>
+    <div className='inline-flex bg-[#F2F4F7] rounded-[100px] w-fit border border-gray-400'>
       {options.map((option) => (
         <button
           key={option.value}

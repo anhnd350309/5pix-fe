@@ -1,7 +1,7 @@
 import React from 'react'
 import SEOHead from '@/components/seo'
 import LayoutAdmin from '@/components/layout/LayoutAdmin'
-import ListEventsDetailAdmin from '@/components/event/ListItemDetailAdmin'
+import ListEventsDetailAdmin from '@/components/event/admin/ListItemDetailAdmin'
 import { useRouter } from 'next/router'
 //
 const EventAdmin = () => {
@@ -9,14 +9,14 @@ const EventAdmin = () => {
   const { id } = router.query
   return (
     <>
-      <SEOHead />
-      <LayoutAdmin>
-        {id && <ListEventsDetailAdmin id={Array.isArray(id) ? id[0] : id} />}
-      </LayoutAdmin>
+      {/* <SEOHead /> */}
+      {/* <LayoutAdmin> */}
+      {id && <ListEventsDetailAdmin id={Array.isArray(id) ? id[0] : id} />}
+      {/* </LayoutAdmin> */}
     </>
   )
 }
 
 export default EventAdmin
-export const getLayout = (page: React.ReactNode) => <div>{page}</div>
+export const getLayout = (page: React.ReactNode) => <LayoutAdmin>{page}</LayoutAdmin>
 EventAdmin.getLayout = getLayout

@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Button, Modal, Tabs } from 'antd'
 import Link from 'next/link'
-import AllEventsAdmin from '@/components/event/AllEventsAdmin'
-import InsertEvents from '@/components/event/InsertEvents'
+import AllEventsAdmin from '@/components/event/admin/AllEventsAdmin'
+import InsertEvents from '@/components/event/admin/InsertEvents'
 import UpdateEvent from './UpdateEvent'
 import { AlbumCreateRequest, AlbumItemResponse } from '@/schemas'
 import ToggleSwitch from './ToggleSwitch'
@@ -14,6 +14,10 @@ const ListEventsAdmin = () => {
   const [event, setEvent] = useState<AlbumItemResponse>()
   const [selected, setSelected] = useState('overView')
   const [eventData, setEventData] = useState<AlbumCreateRequest>()
+  const options = [
+    { label: 'Tổng quan album', value: 'overView' },
+    { label: 'Cấu hình kinh doanh', value: 'businessConfig' },
+  ]
   const showModal = () => {
     setIsModalVisible(true)
   }
@@ -81,6 +85,7 @@ const ListEventsAdmin = () => {
                 setSelected(value)
               }}
               selected={selected}
+              options={options}
             />
           </div>
           {selected === 'overView' ? (

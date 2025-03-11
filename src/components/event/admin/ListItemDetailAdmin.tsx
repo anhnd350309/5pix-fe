@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { AlbumImageItemResponse } from '@/schemas'
 import { getAlbumImagesPost } from '@/services/images/images'
 import ImageModal from '@/components/common/ImageModal'
-import ExpandableText from './ExpandableText'
+import ExpandableText from '../../common/ExpandableText'
 
 export interface ListItemDetailAdminProps {
   id: number | string
