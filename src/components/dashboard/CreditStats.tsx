@@ -2,6 +2,8 @@ import React from 'react'
 import { Card, Button, Table } from 'antd'
 import { CreditCardOutlined } from '@ant-design/icons'
 import type { ColumnsType } from 'antd/es/table'
+import SvgCredit from '../icons/icons/Credit'
+import { useRouter } from 'next/router'
 
 interface TransactionRecord {
   time: string
@@ -11,6 +13,7 @@ interface TransactionRecord {
 }
 
 const CreditStats = () => {
+  const router = useRouter()
   const columns: ColumnsType<TransactionRecord> = [
     {
       title: 'Thời gian',
@@ -56,21 +59,23 @@ const CreditStats = () => {
     },
     // Add more sample data as needed
   ]
-
+  const topUp = () => {
+    router.push('/admin/credit')
+  }
   return (
     <div className='p-8 space-y-8'>
       <Card className='shadow-sm'>
         <div className='flex items-center gap-16'>
           <div className='flex items-center gap-4'>
-            <div className='p-3 rounded-lg bg-[#FEE4E2]'>
-              <CreditCardOutlined className='text-2xl text-[#F04438]' />
+            <div className='p-3 rounded-lg '>
+              <SvgCredit width={48} />
             </div>
             <div>
               <p className='text-[#475467] text-sm'>Tổng số credit hiện có</p>
               <p className='text-[#1D2939] text-2xl font-semibold'>1,500</p>
             </div>
           </div>
-          <Button type='primary' className='bg-[#2E90FA] h-10 px-4'>
+          <Button type='primary' className='bg-[#2E90FA] h-10 px-4' onClick={topUp}>
             Nạp credit
           </Button>
         </div>

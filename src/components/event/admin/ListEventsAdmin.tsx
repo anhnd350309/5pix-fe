@@ -31,7 +31,7 @@ const ListEventsAdmin = () => {
   }
 
   return (
-    <div className='flex flex-col gap-4'>
+    <div className='flex flex-col gap-4 p-4'>
       <div className='text-[#475467] breadcrumb flex gap-2'>
         <Link href='/admin/home'>Trang chủ</Link>
         <div> &gt; </div>
