@@ -68,7 +68,7 @@ export const PaymentMethodSelector = ({
                               : option.id === PaymentMethod.PAYX_DOMESTIC_CARD ||
                                   option.id === PaymentMethod.PAYX_QR
                                 ? 'w-[48px] h-[38px]'
-                                : 'w-12 h-12'
+                                : 'w-14 h-12'
                         }`}
                         alt={option.name}
                       />
