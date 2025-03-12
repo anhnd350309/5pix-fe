@@ -7,14 +7,7 @@ import { useRouter } from 'next/router'
 const EventAdmin = () => {
   const router = useRouter()
   const { id } = router.query
-  return (
-    <>
-      {/* <SEOHead /> */}
-      {/* <LayoutAdmin> */}
-      {id && <ListEventsDetailAdmin id={Array.isArray(id) ? id[0] : id} />}
-      {/* </LayoutAdmin> */}
-    </>
-  )
+  return <>{id && <ListEventsDetailAdmin id={Array.isArray(id) ? id[0] : id} />}</>
 }
 
 export default EventAdmin
