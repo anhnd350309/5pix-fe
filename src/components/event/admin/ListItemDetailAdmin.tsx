@@ -6,6 +6,7 @@ import { AlbumImageItemResponse } from '@/schemas'
 import { getAlbumImagesPost } from '@/services/images/images'
 import ImageModal from '@/components/common/ImageModal'
 import ExpandableText from '../../common/ExpandableText'
+import { EyeInvisibleOutlined, EyeOutlined, LinkOutlined } from '@ant-design/icons'
 
 export interface ListItemDetailAdminProps {
   id: number | string
@@ -50,18 +51,25 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
     }
   }
 
+  const popoverContent = (
+    <div className='flex flex-col p-0'>
+      <div className='flex items-center gap-2 cursor-pointer pb-2 border-b border-[#E0E0E0]'>
+        <EyeInvisibleOutlined />
+        <span>Ẩn đi</span>
+      </div>
+      <div className='flex items-center gap-2 cursor-pointer  pb-2 border-b border-[#E0E0E0] '>
+        <EyeOutlined />
+        <span>Xem ảnh gốc</span>
+      </div>
+      <div className='flex items-center gap-2 cursor-pointer pb-2 '>
+        <LinkOutlined />
+        <span>Tìm ảnh giống</span>
+      </div>
+    </div>
+  )
+
   return (
     <div className='flex flex-col gap-4'>
-      <div className='text-[#475467] breadcrumb flex gap-2'>
-        <Link href='/admin/home'>Trang chủ</Link>
-        <div> &gt; </div>
-        <Link href='/admin/home'>Danh sách sự kiện</Link>
-        <div> &gt; </div>
-        <Link href='/admin/home'>Tà Năng Trail Challenge 2025</Link>
-        <div> &gt; </div>
-        <Link href='/admin/home'>Album ảnh</Link>
-      </div>
-
       <div className='grid grid-cols-5 gap-4'>
         {loadedImgs.map((image, index) => (
           <div key={index} className='relative w-full'>
@@ -72,7 +80,7 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
               className='w-full'
               onClick={() => handleOptionClick('open', index)} // Mở modal khi nhấn vào ảnh
             />
-            <Popover content={<div>Options</div>} trigger='click' placement='bottomRight'>
+            <Popover content={popoverContent} trigger='click' placement='bottomRight'>
               <Image
                 src='/assets/icons/template/icon_option.svg'
                 className='absolute top-1 right-1 cursor-pointer'

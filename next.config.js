@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /** @type {import('next').NextConfig} */
 const { i18n } = require('./next-i18next.config')
+const withTM = require('next-transpile-modules')(['rc-cascader', '@babel/runtime'])
 
 const nextConfig = {
   reactStrictMode: false,
@@ -22,6 +23,16 @@ const nextConfig = {
       '5pix-thumbnail-image.s3.ap-southeast-1.amazonaws.com',
     ],
   },
+  webpack: (config) => {
+    config.module.rules.push({
+      test: /\.m?js/,
+      resolve: {
+        fullySpecified: false,
+      },
+    })
+
+    return config
+  },
 }
 
-module.exports = nextConfig
+module.exports = withTM(nextConfig)
