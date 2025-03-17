@@ -12,10 +12,11 @@ import {
   Cell,
 } from 'recharts'
 import dayjs, { Dayjs } from 'dayjs'
-import type { RangeValue } from 'rc-picker/lib/interface'
+import type { RangePickerProps } from 'antd/es/date-picker'
 import SvgRevenue from '../icons/icons/Revenue'
 import SvgCart from '../icons/icons/Cart'
 import SvgCredit from '../icons/icons/Credit'
+
 // Sample data for charts
 const lineChartData = [
   { name: '2023/03', 'Doanh thu': 50, 'Don hang': 80 },
@@ -31,6 +32,7 @@ const pieChartData = [
   { name: 'Ta Nang Trail...', value: 10000000 },
   { name: 'Khác', value: 10000000 },
 ]
+
 const dataTable = [
   {
     key: '1',
@@ -51,11 +53,12 @@ const dataTable = [
     currentStatus: 'Hiển thị',
   },
 ]
+
 const COLORS = ['#2563EB', '#FF58EE', '#32D583', '#FEC84B']
 
 const DashboardStats = () => {
   const [mounted, setMounted] = useState(false)
-  const [dateRange, setDateRange] = useState<RangeValue<Dayjs>>(null)
+  const [dateRange, setDateRange] = useState<RangePickerProps['value']>(null)
 
   useEffect(() => {
     setMounted(true)
