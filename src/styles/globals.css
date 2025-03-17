@@ -100,3 +100,7 @@ p {
     @apply bg-background text-foreground;
   }
 }
+.custom-table .ant-table-thead > tr > th {
+  background-color: #d0d5dd !important;
+  color: #16489f !important;
+}

@@ -1,6 +1,6 @@
 import type { GetStaticProps, InferGetStaticPropsType } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-
+import '../styles/globals.css'
 import SEOHead from 'components/seo'
 import LayoutAdmin from '@/components/layout/LayoutAdmin'
 import ListEventsAdmin from '@/components/event/admin/ListEventsAdmin'
