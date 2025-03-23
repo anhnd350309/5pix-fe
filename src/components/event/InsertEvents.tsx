@@ -4,6 +4,7 @@ import { BodyUploadToGetCdnBasePost } from '@/schemas'
 import { uploadToGetCdnBasePost } from '@/services/base/base'
 import moment from 'moment'
 import { createAlbumsPost } from '@/services/album/album'
+import { normalizeString } from '@/lib/utils'
 
 const InsertEvents = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null)
@@ -12,6 +13,8 @@ const InsertEvents = () => {
   const handleSubmit = (values: any) => {
     //conver time to yyyy-mm-dd format
     values.event_date = moment(values.event_date).format('YYYY-MM-DD')
+    values.album_slug = normalizeString(values.album_slug)
+
     console.log('Form values: ', values)
     //
     // Xử lý gửi dữ liệu form ở đây
@@ -28,7 +31,6 @@ const InsertEvents = () => {
       const body: BodyUploadToGetCdnBasePost = {
         file_data: file,
       }
-      console.log('eeee')
       try {
         const response = await uploadToGetCdnBasePost(body)
         console.log(response)
