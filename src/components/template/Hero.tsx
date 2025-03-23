@@ -28,6 +28,7 @@ import { useRouter } from 'next/router'
 import { ListEvents } from '../event/ListEvents'
 import EventCard from '../shared/EventCard'
 import { Spin } from 'antd'
+import { normalizeString } from '@/lib/utils'
 
 const Hero = () => {
   const { t } = useTranslation('common')
@@ -202,7 +203,9 @@ const Hero = () => {
             {eventHighlights?.map((event) => (
               <CarouselItem key={event.id} className='md:basis-1/1 lg:basis-[33.4%]'>
                 <div className='p-1'>
-                  <Link href={`/events/${event.album_slug ? event.album_slug : event.id}`}>
+                  <Link
+                    href={`/events/${event.album_slug ? normalizeString(event.album_slug) : event.id}`}
+                  >
                     <EventCard
                       key={event.id}
                       title={event.album_name}
