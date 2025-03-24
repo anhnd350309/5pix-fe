@@ -1,5 +1,5 @@
 import OrderTable from '@/components/admin/OrderTable'
-import LayoutAdmin from '@/components/layout/admin/LayoutAdmin'
+import LayoutMerchant from '@/components/layout/merchant/LayoutMerchant'
 const Orders = () => {
   return (
     <div>
@@ -10,5 +10,5 @@ const Orders = () => {
 }
 
 export default Orders
-export const getLayout = (page: React.ReactNode) => <LayoutAdmin>{page}</LayoutAdmin>
+export const getLayout = (page: React.ReactNode) => <LayoutMerchant>{page}</LayoutMerchant>
 Orders.getLayout = getLayout

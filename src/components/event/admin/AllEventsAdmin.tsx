@@ -68,17 +68,26 @@ const AllEventsAdmin: React.FC<AllEventsAdminProps> = ({ setIsModalUpdate, setEv
                 imageUrl={event.album_image_url}
               />
             </Link>
-            <Button
-              size='large'
-              className='bg-[#0A347D] text-emerald-50 font-bold absolute right-0 top-0'
-              onClick={() => {
-                setEvent(event)
-                console.log(event)
-                setIsModalUpdate(true)
-              }}
-            >
-              Chỉnh sửa
-            </Button>
+            <div className='absolute right-0 top-0 flex items-center gap-2 p-4 h-full'>
+              <Button
+                size='large'
+                className='bg-white text-[#0A347D] border-[#0A347D] border-2 font-bold'
+                onClick={() => {}}
+              >
+                Vô hiệu
+              </Button>
+              <Button
+                size='large'
+                className='bg-[#0A347D] text-emerald-50 font-bold'
+                onClick={() => {
+                  setEvent(event)
+                  console.log(event)
+                  setIsModalUpdate(true)
+                }}
+              >
+                Chỉnh sửa
+              </Button>
+            </div>
           </div>
         ))}
       </div>

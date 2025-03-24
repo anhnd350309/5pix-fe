@@ -2,9 +2,10 @@ import React from 'react'
 import { Menu } from 'antd'
 import { AppstoreOutlined, CalendarOutlined, ShoppingCartOutlined } from '@ant-design/icons'
 import { useRouter } from 'next/router'
-import SvgListAlbums from '../icons/icons/ListAlbums'
+import SvgListAlbums from '../../icons/icons/ListAlbums'
+import SvgListUser from '@/components/icons/icons/ListUser'
 
-const Navbar = () => {
+const NavbarAdmin = () => {
   const router = useRouter()
 
   const menuItems = [
@@ -22,6 +23,11 @@ const Navbar = () => {
       key: '/admin/orders',
       icon: <ShoppingCartOutlined className='text-lg' />,
       label: 'Quản lí đơn hàng',
+    },
+    {
+      key: '/admin/users',
+      icon: <SvgListUser width={16} height={16} className='text-lg' />,
+      label: 'Danh sách đối tác',
     },
   ]
 
@@ -77,4 +83,4 @@ const Navbar = () => {
   )
 }
 
-export default Navbar
+export default NavbarAdmin
