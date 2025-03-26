@@ -8,7 +8,7 @@ const { Header } = Layout
 
 const HeaderAdmin = () => {
   return (
-    <Header className='h-[80px] bg-white flex justify-between items-center px-8  '>
+    <Header className='h-[80px] bg-white flex justify-between items-center px-8 font-sans'>
       <Link href='/'>
         <Image
           className='h-8 w-auto'

@@ -70,9 +70,52 @@ const DashboardStats = () => {
   }
 
   return (
-    <div className='p-6 '>
+    <div className='p-6'>
       <Card>
-        <div className='flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4 sm:gap-0'>
+        <Row gutter={[16, 16]}>
+          <Col xs={24} sm={12} md={8} className='p-0 border rounded-[8px] border-gray-300'>
+            <Card bodyStyle={{ padding: '12px' }}>
+              <div className='flex flex-row justify-center items-center gap-2 h-full'>
+                <SvgRevenue width={48} />
+                <Statistic
+                  title='Tổng doanh thu'
+                  value={200000000}
+                  suffix='đ'
+                  valueStyle={{ color: '#52c41a', fontSize: '16px' }}
+                />
+              </div>
+            </Card>
+          </Col>
+          <Col xs={24} sm={12} md={8} className='p-0 border rounded-[8px] border-gray-300'>
+            <Card bodyStyle={{ padding: '12px' }}>
+              <div className='flex flex-row justify-center items-center gap-2 h-full'>
+                <SvgCart width={48} />
+                <Statistic
+                  title='Tổng đơn hàng'
+                  value={1200}
+                  valueStyle={{ color: '#1890ff', fontSize: '16px' }}
+                />
+              </div>
+            </Card>
+          </Col>
+          <Col xs={24} sm={12} md={8} className='p-0 border rounded-[8px] border-gray-300'>
+            <Card bodyStyle={{ padding: '12px' }}>
+              <div className='flex flex-row justify-center items-center gap-2 h-full'>
+                <SvgCredit width={48} />
+                <Statistic
+                  title='Tổng số credit đã dùng'
+                  value={1500}
+                  valueStyle={{ color: '#f5222d', fontSize: '16px' }}
+                />
+              </div>
+            </Card>
+          </Col>
+        </Row>
+      </Card>
+
+      {/* Statistic Cards */}
+      <Card className='mt-6'>
+        <div className='flex flex-col sm:flex-row justify-between items-center sm:items-center gap-4 sm:gap-0'>
           <Space className='w-full sm:w-auto mb-4 sm:mb-0'>
             <span className='text-gray-700'>Thời gian:</span>
             <DatePicker.RangePicker
@@ -106,88 +149,12 @@ const DashboardStats = () => {
             </Button>
           </Space>
         </div>
-        <Row gutter={[16, 16]}>
-          <Col xs={24} sm={12} md={8} className='p-0 border rounded-[8px] border-gray-300'>
-            <Card bodyStyle={{ padding: '12px' }}>
-              <div className='flex flex-row justify-center gap-2'>
-                <SvgRevenue width={48} />
-                <Statistic
-                  title='Tổng doanh thu'
-                  value={200000000}
-                  suffix='đ'
-                  valueStyle={{ color: '#52c41a', fontSize: '16px' }}
-                />
-              </div>
-            </Card>
-          </Col>
-          <Col xs={24} sm={12} md={8} className='p-0 border rounded-[8px] border-gray-300'>
-            <Card bodyStyle={{ padding: '12px' }}>
-              <div className='flex flex-row justify-center gap-2'>
-                <SvgCart width={48} />
-                <Statistic
-                  title='Tổng đơn hàng'
-                  value={1200}
-                  valueStyle={{ color: '#1890ff', fontSize: '16px' }}
-                />
-              </div>
-            </Card>
-          </Col>
-          <Col xs={24} sm={12} md={8} className='p-0 border rounded-[8px] border-gray-300'>
-            <Card bodyStyle={{ padding: '12px' }}>
-              <div className='flex flex-row justify-center gap-2'>
-                <SvgCredit width={48} />
-                <Statistic
-                  title='Tổng số credit đã dùng'
-                  value={1500}
-                  valueStyle={{ color: '#f5222d', fontSize: '16px' }}
-                />
-              </div>
-            </Card>
-          </Col>
-        </Row>
       </Card>
 
-      {/* Statistic Cards */}
-      <Row gutter={[16, 16]} className='mb-6 mt-6'>
-        <Col xs={24} sm={12} md={8}>
-          <Card>
-            <div className='flex flex-row pl-4 gap-2'>
-              <SvgRevenue width={48} />
-              <Statistic
-                title='Tổng doanh thu'
-                value={200000000}
-                suffix='đ'
-                valueStyle={{ color: '#52c41a' }}
-              />
-            </div>
-          </Card>
-        </Col>
-        <Col xs={24} sm={12} md={8}>
-          <Card>
-            <div className='flex flex-row pl-4 gap-2'>
-              <SvgCart width={48} />
-              <Statistic title='Tổng đơn hàng' value={1200} valueStyle={{ color: '#1890ff' }} />
-            </div>
-          </Card>
-        </Col>
-        <Col xs={24} sm={12} md={8}>
-          <Card>
-            <div className='flex flex-row pl-4 gap-2'>
-              <SvgCredit width={48} />
-              <Statistic
-                title='Tổng số credit đã dùng'
-                value={1500}
-                valueStyle={{ color: '#f5222d' }}
-              />
-            </div>
-          </Card>
-        </Col>
-      </Row>
-
       {/* Charts */}
-      <Row gutter={[16, 16]}>
+      <Row gutter={[16, 16]} className='mb-6 mt-6'>
         <Col xs={24} md={12}>
-          <Card title='Biểu đồ doanh thu theo thời gian'>
+          <Card title='Biểu đồ doanh thu theo thời gian' className='font-sans'>
             <LineChart width={500} height={300} data={lineChartData}>
               <CartesianGrid strokeDasharray='3 3' />
               <XAxis dataKey='name' />
@@ -199,7 +166,7 @@ const DashboardStats = () => {
           </Card>
         </Col>
         <Col xs={24} md={12}>
-          <Card title='Biểu đồ hiệu suất bán phẩm'>
+          <Card title='Biểu đồ hiệu suất bán phẩm' className='font-sans'>
             <div className='flex justify-center'>
               <PieChart width={300} height={300}>
                 <Pie
@@ -217,7 +184,7 @@ const DashboardStats = () => {
                 </Pie>
                 <Tooltip />
               </PieChart>
-              <div className='mt-4 flex flex-col justify-center '>
+              <div className='mt-4 flex flex-col justify-center'>
                 {pieChartData.map((entry, index) => (
                   <div key={index} className='flex items-center mb-2'>
                     <div
@@ -233,6 +200,7 @@ const DashboardStats = () => {
           </Card>
         </Col>
       </Row>
+
       <Row gutter={[16, 16]} className='mt-4'>
         <Col span={24}>
           <Card title='Danh sách album đang trên hệ trống'>

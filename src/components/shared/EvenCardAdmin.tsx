@@ -1,5 +1,4 @@
 import Image from 'next/image'
-
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
 
 interface EventCardProps {
@@ -18,8 +17,8 @@ const EventCardAdmin: React.FC<EventCardProps> = ({ title, date, imageCount, ima
             src={imageUrl || '/assets/images/template/event.jpg'}
             alt={title || 'event'}
             width={600}
-            height={400}
-            className='rounded-t-lg h-52 w-[600px] object-cover'
+            height={300}
+            className='rounded-t-lg h-32 w-[600px] object-cover'
           />
         </CardHeader>
         <CardContent className='flex flex-col justify-center'>
@@ -27,7 +26,7 @@ const EventCardAdmin: React.FC<EventCardProps> = ({ title, date, imageCount, ima
             {title}
           </CardTitle>
           <CardDescription>
-            <div className='flex flex-col gap-4'>
+            <div className='flex items-center gap-4'>
               <div className='flex items-center'>
                 <Image
                   className='w-4 h-4'

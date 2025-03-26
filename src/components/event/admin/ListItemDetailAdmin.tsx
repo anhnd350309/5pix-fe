@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { Popover } from 'antd'
+import { Button, Popover, Spin } from 'antd'
 import Image from 'next/image'
 import { AlbumImageItemResponse } from '@/schemas'
-import { getAlbumImagesPost } from '@/services/images/images'
+import { getAlbumImagesPost, useGetAlbumImagesPost } from '@/services/images/images'
 import ImageModal from '@/components/common/ImageModal'
 import ExpandableText from '../../common/ExpandableText'
 import { EyeInvisibleOutlined, EyeOutlined, LinkOutlined } from '@ant-design/icons'
@@ -17,7 +17,9 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
   const [loadedImgs, setLoadedImgs] = useState<AlbumImageItemResponse[]>([])
   const [isModalVisibleImage, setIsModalVisibleImage] = useState(false)
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null)
-
+  const [totalPages, setTotalPages] = useState(1)
+  const [totalEvents, setTotalEvents] = useState<number | null>(null)
+  const [isLoadingMore, setIsLoadingMore] = useState(false)
   useEffect(() => {
     const fetchImages = async () => {
       try {
@@ -36,14 +38,34 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
         )
 
         setLoadedImgs(imgs.data)
+        setTotalEvents(imgs?.metadata.total_items ?? null)
+        setTotalPages(Math.ceil(imgs?.metadata.total_items / 100))
       } catch (error) {
         console.error(error)
+      } finally {
+        setIsLoadingMore(false)
       }
     }
 
     fetchImages()
   }, [id, currentPage])
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setIsLoadingMore(true)
+      setCurrentPage((prevPage) => prevPage - 1)
+    }
+  }
 
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setIsLoadingMore(true)
+      setCurrentPage((prevPage) => prevPage + 1)
+    }
+  }
+  const handleBackToPage1 = () => {
+    setIsLoadingMore(true)
+    setCurrentPage(1)
+  }
   const handleOptionClick = (action: string, imageIndex: number) => {
     if (action === 'open') {
       setSelectedImageIndex(imageIndex)
@@ -67,7 +89,6 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
       </div>
     </div>
   )
-
   return (
     <div className='flex flex-col gap-4'>
       <div className='grid grid-cols-5 gap-4'>
@@ -97,6 +118,41 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
           </div>
         ))}
       </div>
+      {loadedImgs.length < (totalEvents ?? 0) && (
+        <div className='grid grid-cols-1 sm:grid-cols-3 gap-1 sm:gap-4 mt-4'>
+          <div className='flex justify-center border-blue-500'>
+            <Button
+              onClick={handleBackToPage1}
+              disabled={currentPage === 1 || isLoadingMore}
+              className='bg-transparent hover:bg-blue-500 mb-8 border border-blue-500 rounded-full text-blue-500 hover:text-white flex items-center'
+            >
+              {isLoadingMore ? <Spin className='mr-2' /> : 'Back to Page 1'}
+            </Button>
+          </div>
+          <div className='flex justify-center border-blue-500'>
+            <Button
+              onClick={handlePreviousPage}
+              disabled={currentPage === 1 || isLoadingMore}
+              className='bg-transparent hover:bg-blue-500 mb-8 border border-blue-500 rounded-full text-blue-500 hover:text-white flex items-center'
+            >
+              {isLoadingMore ? <Spin className='mr-2' /> : 'Previous'}
+            </Button>
+
+            <Button
+              onClick={handleNextPage}
+              disabled={currentPage === totalPages || isLoadingMore}
+              className='bg-transparent hover:bg-blue-500 mb-8 border border-blue-500 rounded-full text-blue-500 hover:text-white flex items-center'
+            >
+              {isLoadingMore ? <Spin className='mr-2' /> : 'Next'}
+            </Button>
+          </div>
+          <div className='flex justify-center border-blue-500'>
+            <span className='mx-4'>
+              Page {currentPage} of {totalPages}
+            </span>
+          </div>
+        </div>
+      )}
       <ImageModal
         visible={isModalVisibleImage}
         onCancel={() => setIsModalVisibleImage(false)}

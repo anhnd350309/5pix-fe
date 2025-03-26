@@ -108,7 +108,20 @@ const ListEventsAdmin = () => {
         className='h-full w-[1150px]'
       >
         <div className='h-full'>
-          <UpdateEvent event={event} setShowModalUpdate={setShowModalUpdate} />
+          <div className='flex justify-center'>
+            <ToggleSwitch
+              onChange={(value) => {
+                setSelected(value)
+              }}
+              selected={selected}
+              options={options}
+            />
+          </div>
+          {selected === 'overView' ? (
+            <UpdateEvent event={event} setShowModalUpdate={setShowModalUpdate} />
+          ) : (
+            <PriceConfig />
+          )}
         </div>
       </Modal>
     </div>

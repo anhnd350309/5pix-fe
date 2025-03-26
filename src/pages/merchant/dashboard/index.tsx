@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import Link from 'next/link'
 import dynamic from 'next/dynamic'
-import LayoutAdmin from '@/components/layout/admin/LayoutAdmin'
 import ToggleSwitch from '@/components/event/admin/ToggleSwitch'
+import LayoutMerchant from '@/components/layout/merchant/LayoutMerchant'
 
 // Import components with no SSR to prevent hydration issues
 const DashboardStats = dynamic(() => import('@/components/dashboard/DashboardStats'), {
@@ -35,5 +34,5 @@ const Dashboard = () => {
 }
 
 export default Dashboard
-export const getLayout = (page: React.ReactNode) => <LayoutAdmin>{page}</LayoutAdmin>
+export const getLayout = (page: React.ReactNode) => <LayoutMerchant>{page}</LayoutMerchant>
 Dashboard.getLayout = getLayout

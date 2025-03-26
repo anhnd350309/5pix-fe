@@ -1,9 +1,8 @@
 import React from 'react'
-import SEOHead from '@/components/seo'
-import LayoutAdmin from '@/components/layout/admin/LayoutAdmin'
 import ListEventsDetailAdmin from '@/components/event/admin/ListItemDetailAdmin'
 import { useRouter } from 'next/router'
 import DetailEventFilter from '@/components/event/admin/EventFilter'
+import LayoutMerchant from '@/components/layout/merchant/LayoutMerchant'
 
 const EventAdmin = () => {
   const router = useRouter()
@@ -19,5 +18,5 @@ const EventAdmin = () => {
 }
 
 export default EventAdmin
-export const getLayout = (page: React.ReactNode) => <LayoutAdmin>{page}</LayoutAdmin>
+export const getLayout = (page: React.ReactNode) => <LayoutMerchant>{page}</LayoutMerchant>
 EventAdmin.getLayout = getLayout

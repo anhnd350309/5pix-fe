@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import dynamic from 'next/dynamic'
-import LayoutAdmin from '@/components/layout/admin/LayoutAdmin'
 import CreditSelection from '@/components/credit/Selection'
 import { PaymentMethodSelector } from '@/components/credit/PaymentMethodSelector'
 import Cart from '@/components/credit/Cart'
+import LayoutMerchant from '@/components/layout/merchant/LayoutMerchant'
 
 // Import components with no SSR to prevent hydration issues
 const DashboardStats = dynamic(() => import('@/components/dashboard/DashboardStats'), {
@@ -34,5 +34,5 @@ const Credit = () => {
 }
 
 export default Credit
-export const getLayout = (page: React.ReactNode) => <LayoutAdmin>{page}</LayoutAdmin>
+export const getLayout = (page: React.ReactNode) => <LayoutMerchant>{page}</LayoutMerchant>
 Credit.getLayout = getLayout

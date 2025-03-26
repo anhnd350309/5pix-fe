@@ -95,6 +95,7 @@ const CreditStats = () => {
             showTotal: (total, range) => `1-10 trong số ${total}`,
           }}
           className='custom-table'
+          bordered
         />
       </div>
 
