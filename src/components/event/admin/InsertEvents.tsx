@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { Button, Form, Input, DatePicker, Switch } from 'antd'
+import { Button, Form, Input, DatePicker, Switch, Select } from 'antd'
 import { AlbumCreateRequest, BodyUploadToGetCdnBasePost } from '@/schemas'
 import { uploadToGetCdnBasePost } from '@/services/base/base'
 import moment from 'moment'
@@ -8,6 +8,7 @@ interface InsertEventsProps {
   onChange?: (value: string) => void
   setEventData?: (value: AlbumCreateRequest) => void
 }
+const { Option } = Select
 
 const InsertEvents = ({ onChange, setEventData }: InsertEventsProps) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null)
@@ -128,6 +129,23 @@ const InsertEvents = ({ onChange, setEventData }: InsertEventsProps) => {
             <Input placeholder='Nhập tên sự kiện' />
           </Form.Item>
           <Form.Item
+            name='event_type'
+            label='Loại sự kiện'
+            rules={[{ required: true, message: 'Vui lòng chọn loại sự kiện!' }]}
+          >
+            <Select placeholder='Chọn loại sự kiện'>
+              <Option value='Road Running - Chạy bộ'>Road Running - Chạy bộ</Option>
+              <Option value='Trail Running - Chạy địa hình'>Trail Running - Chạy địa hình</Option>
+              <Option value='PickerBall'>PickerBall</Option>
+              <Option value='Golf'>Golf</Option>
+              <Option value='Badminton - Cầu lông'>Badminton - Cầu lông</Option>
+              <Option value='Soccer - Đá bóng'>Soccer - Đá bóng</Option>
+              <Option value='Cycling - Đạp xe'>Cycling - Đạp xe</Option>
+              <Option value='Basketball - Bóng chuyền'>Basketball - Bóng chuyền</Option>
+              <Option value='Other - Khác'>Other - Khác</Option>
+            </Select>
+          </Form.Item>
+          <Form.Item
             name='album_slug'
             label='Slug sự kiện'
             rules={[{ required: true, message: 'Vui lòng nhập slug sự kiện!' }]}
@@ -144,39 +162,11 @@ const InsertEvents = ({ onChange, setEventData }: InsertEventsProps) => {
           </Form.Item>
 
           <Form.Item
-            name='is_find_all_image'
-            valuePropName='checked'
-            label='Cho phép xem toàn bộ ảnh'
+            name='location'
+            rules={[{ required: true, message: 'Vui lòng nhập địa điểm!' }]}
+            label='Địa điểm diễn ra'
           >
-            <Switch />
-          </Form.Item>
-
-          <Form.Item
-            name='is_find_by_face'
-            valuePropName='checked'
-            label='Cho phép tìm ảnh bằng khuôn mặt'
-          >
-            <Switch />
-          </Form.Item>
-
-          <Form.Item
-            name='is_find_by_metadata'
-            valuePropName='checked'
-            label='Cho phép tìm ảnh bằng số BIB/Text'
-          >
-            <Switch />
-          </Form.Item>
-
-          <Form.Item name='is_highlight' label='Nổi bật sự kiện'>
-            <Switch />
-          </Form.Item>
-
-          <Form.Item
-            name='googleDriveLink'
-            rules={[{ required: true, message: 'Vui lòng nhập link ảnh Google Drive!' }]}
-            label='Link ảnh Google Drive'
-          >
-            <Input placeholder='Nhập link ảnh Google Drive' />
+            <Input placeholder='Nhập vào địa điểm sự kiện' />
           </Form.Item>
         </div>
         <div className='flex justify-end gap-2'>

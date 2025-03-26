@@ -163,27 +163,35 @@ const OrderTable: React.FC = () => {
 
         {/* Images Section */}
         <div className='mb-6'>
-          <div className='flex items-center space-x-4'>
-            <div className='flex flex-col'>
-              <div className='w-12 h-12 bg-gray-200 rounded-md'></div>
-              <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-900 mt-2'>
-                Order Image
-              </p>
-              <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-600'>
-                MARATHON QUỐC TẾ MEKONG DELTA...
-              </p>
+          <div className='flex flex-col space-y-4'>
+            <div className='flex items-center justify-between'>
+              <div className='flex items-center space-x-4'>
+                <div className='w-12 h-12 bg-gray-200 rounded-md'></div>
+                <div className='flex flex-col'>
+                  <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-900'>
+                    Order Image
+                  </p>
+                  <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-600'>
+                    MARATHON QUỐC TẾ MEKONG DELTA...
+                  </p>
+                </div>
+              </div>
               <p className='font-inter font-bold text-[14px] leading-[20px] text-gray-900'>
                 9,000,000 đ
               </p>
             </div>
-            <div className='flex flex-col'>
-              <div className='w-12 h-12 bg-gray-200 rounded-md'></div>
-              <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-900 mt-2'>
-                Photoflat
-              </p>
-              <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-600'>
-                MARATHON QUỐC TẾ MEKONG DELTA...
-              </p>
+            <div className='flex items-center justify-between'>
+              <div className='flex items-center space-x-4'>
+                <div className='w-12 h-12 bg-gray-200 rounded-md'></div>
+                <div className='flex flex-col'>
+                  <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-900'>
+                    Photoflat
+                  </p>
+                  <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-600'>
+                    MARATHON QUỐC TẾ MEKONG DELTA...
+                  </p>
+                </div>
+              </div>
               <p className='font-inter font-bold text-[14px] leading-[20px] text-gray-900'>
                 9,000,000 đ
               </p>

@@ -1,13 +1,19 @@
 import { useState } from 'react'
-import { Radio, Input, Button } from 'antd'
+import { Radio, Input, Button, Select } from 'antd'
+
+const { Option } = Select
 
 const PriceConfig = () => {
   const [paymentType, setPaymentType] = useState('charge')
   const [price, setPrice] = useState('')
-  const [quantity, setQuantity] = useState('')
+  const [photobookPrice, setPhotobookPrice] = useState('')
+  const [bank, setBank] = useState('')
+  const [accountNumber, setAccountNumber] = useState('')
+  const [accountHolder, setAccountHolder] = useState('')
+  const [paymentMethod, setPaymentMethod] = useState('auto')
 
   return (
-    <div className='max-w-md mx-auto p-6 bg-white rounded-lg shadow-md'>
+    <div className='max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md'>
       <div className='mb-6'>
         <h3 className='text-lg font-semibold mb-2'>Phương thức thanh toán</h3>
         <Radio.Group
@@ -15,18 +21,18 @@ const PriceConfig = () => {
           onChange={(e) => setPaymentType(e.target.value)}
           className='flex space-x-6'
         >
-          <Radio value='free' className='text-gray-700'>
-            Miễn phí
-          </Radio>
           <Radio value='charge' className='text-gray-700'>
             Thu phí
+          </Radio>
+          <Radio value='free' className='text-gray-700'>
+            Miễn phí
           </Radio>
         </Radio.Group>
       </div>
 
       {paymentType === 'charge' && (
         <div className='mb-6'>
-          <h3 className='text-lg font-semibold mb-2'>Thiệt lập giá bán</h3>
+          <h3 className='text-lg font-semibold mb-2'>Thiết lập giá bán</h3>
           <div className='space-y-4'>
             <div>
               <label className='block text-sm font-medium text-gray-700 mb-1'>
@@ -46,8 +52,8 @@ const PriceConfig = () => {
               </label>
               <Input
                 type='number'
-                value={quantity}
-                onChange={(e) => setQuantity(e.target.value)}
+                value={photobookPrice}
+                onChange={(e) => setPhotobookPrice(e.target.value)}
                 placeholder='Nhập số lượng 0 nếu không bán Photobook'
                 className='w-full rounded-md'
               />
@@ -57,6 +63,64 @@ const PriceConfig = () => {
               trong trường hợp này.
             </p>
           </div>
+        </div>
+      )}
+
+      {paymentType === 'charge' && (
+        <div className='mb-6'>
+          <h3 className='text-lg font-semibold mb-2'>Phương thức nhận thanh toán</h3>
+          <Radio.Group
+            value={paymentMethod}
+            onChange={(e) => setPaymentMethod(e.target.value)}
+            className='flex flex-col space-y-4'
+          >
+            <Radio value='auto' className='text-gray-700'>
+              Tự động xác nhận qua 5PIX
+            </Radio>
+            <Radio value='manual' className='text-gray-700'>
+              Thanh toán qua tài khoản cá nhân
+            </Radio>
+          </Radio.Group>
+          {paymentMethod === 'manual' && (
+            <div className='mt-4 space-y-4'>
+              <div>
+                <label className='block text-sm font-medium text-gray-700 mb-1'>Ngân hàng</label>
+                <Select
+                  value={bank}
+                  onChange={(value) => setBank(value)}
+                  placeholder='Chọn ngân hàng'
+                  className='w-full rounded-md'
+                >
+                  <Option value='Vietcombank'>Vietcombank</Option>
+                  <Option value='Techcombank'>Techcombank</Option>
+                  <Option value='BIDV'>BIDV</Option>
+                  <Option value='Vietinbank'>Vietinbank</Option>
+                </Select>
+              </div>
+              <div>
+                <label className='block text-sm font-medium text-gray-700 mb-1'>Số tài khoản</label>
+                <Input
+                  type='text'
+                  value={accountNumber}
+                  onChange={(e) => setAccountNumber(e.target.value)}
+                  placeholder='Nhập số tài khoản'
+                  className='w-full rounded-md'
+                />
+              </div>
+              <div>
+                <label className='block text-sm font-medium text-gray-700 mb-1'>
+                  Chủ tài khoản tài khoản
+                </label>
+                <Input
+                  type='text'
+                  value={accountHolder}
+                  onChange={(e) => setAccountHolder(e.target.value)}
+                  placeholder='Nhập tên chủ tài khoản'
+                  className='w-full rounded-md'
+                />
+              </div>
+            </div>
+          )}
         </div>
       )}
 
