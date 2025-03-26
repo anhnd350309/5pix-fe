@@ -154,7 +154,7 @@ const DashboardStats = () => {
       {/* Charts */}
       <Row gutter={[16, 16]} className='mb-6 mt-6'>
         <Col xs={24} md={12}>
-          <Card title='Biểu đồ doanh thu theo thời gian'>
+          <Card title='Biểu đồ doanh thu theo thời gian' className='font-sans'>
             <LineChart width={500} height={300} data={lineChartData}>
               <CartesianGrid strokeDasharray='3 3' />
               <XAxis dataKey='name' />
@@ -166,7 +166,7 @@ const DashboardStats = () => {
           </Card>
         </Col>
         <Col xs={24} md={12}>
-          <Card title='Biểu đồ hiệu suất bán phẩm'>
+          <Card title='Biểu đồ hiệu suất bán phẩm' className='font-sans'>
             <div className='flex justify-center'>
               <PieChart width={300} height={300}>
                 <Pie

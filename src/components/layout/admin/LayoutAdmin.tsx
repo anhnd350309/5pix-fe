@@ -8,7 +8,7 @@ const LayoutAdmin = ({ children }: { children: React.ReactNode }) => {
     <>
       <SEOHead />
       <HeaderAdmin />
-      <div className='flex  h-[calc(100vh-80px)]'>
+      <div className='flex  h-[calc(100vh-80px)] font-sans'>
         <div className='w-[200px]'>
           <NavbarAdmin />
         </div>

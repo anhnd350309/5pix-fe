@@ -77,7 +77,13 @@ const App = ({ Component, pageProps: { session, ...pageProps } }: AppPropsWithAu
 
   return (
     <ReduxProvider store={store}>
-      <ConfigProvider>
+      <ConfigProvider
+        theme={{
+          token: {
+            fontFamily: 'Inter, sans-serif',
+          },
+        }}
+      >
         <StyleProvider hashPriority='high'>
           <SessionProvider session={session}>
             <QueryClientProvider client={queryClient}>

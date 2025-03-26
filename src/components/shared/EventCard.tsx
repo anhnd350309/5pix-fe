@@ -22,7 +22,7 @@ const EventCard: React.FC<EventCardProps> = ({ title, date, imageCount, imageUrl
         />
       </CardHeader>
       <CardContent>
-        <CardTitle className='font-reddit-sans text-ellipsis truncate whitespace-nowrap overflow-hidden'>
+        <CardTitle className='font-inter text-ellipsis truncate whitespace-nowrap overflow-hidden'>
           {title}
         </CardTitle>
         <CardDescription>
