@@ -9,17 +9,17 @@ const NavbarMerchant = () => {
 
   const menuItems = [
     {
-      key: '/merchant/dashboard',
+      key: '/dashboard',
       icon: <AppstoreOutlined className='text-lg' />,
       label: 'Tổng quan',
     },
     {
-      key: '/merchant/home',
+      key: '/home',
       icon: <SvgListAlbums width={16} height={16} className='text-lg' />,
       label: 'Danh sách album',
     },
     {
-      key: '/merchant/orders',
+      key: '/orders',
       icon: <ShoppingCartOutlined className='text-lg' />,
       label: 'Quản lí đơn hàng',
     },

@@ -10,22 +10,22 @@ const NavbarAdmin = () => {
 
   const menuItems = [
     {
-      key: '/admin/dashboard',
+      key: '/dashboard',
       icon: <AppstoreOutlined className='text-lg' />,
       label: 'Tổng quan',
     },
     {
-      key: '/admin/home',
+      key: '/home',
       icon: <SvgListAlbums width={16} height={16} className='text-lg' />,
       label: 'Danh sách album',
     },
     {
-      key: '/admin/orders',
+      key: '/orders',
       icon: <ShoppingCartOutlined className='text-lg' />,
       label: 'Quản lí đơn hàng',
     },
     {
-      key: '/admin/users',
+      key: '/users',
       icon: <SvgListUser width={16} height={16} className='text-lg' />,
       label: 'Danh sách đối tác',
     },

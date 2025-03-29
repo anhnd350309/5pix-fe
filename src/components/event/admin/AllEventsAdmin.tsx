@@ -59,7 +59,7 @@ const AllEventsAdmin: React.FC<AllEventsAdminProps> = ({ setIsModalUpdate, setEv
       <div className='flex flex-col gap-4 py-4'>
         {loadedEvents?.map((event) => (
           <div className='relative'>
-            <Link href={`/admin/events/${event.id}`} key={event.id}>
+            <Link href={`/events/${event.id}`} key={event.id}>
               <EventCardAdmin
                 key={event.id}
                 title={event.album_name}

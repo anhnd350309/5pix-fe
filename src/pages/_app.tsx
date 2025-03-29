@@ -8,7 +8,7 @@ import { appWithTranslation } from 'next-i18next'
 import { Provider as ReduxProvider } from 'react-redux'
 
 import { ProtectedLayout } from 'components/layout/ProtectedLayout'
-import { store } from 'redux/store'
+// import { store } from 'redux/store'
 import { UserRole } from '@/schemas/userRole'
 
 import 'styles/globals.css'
@@ -72,36 +72,30 @@ const App = ({ Component, pageProps: { session, ...pageProps } }: AppPropsWithAu
   const getLayout =
     (Component as any).getLayout || getDefaultLayout || ((page: React.ReactNode) => page)
 
-  console.log('getLayout', Component.requireAuth)
-
-  useEffect(() => {
-    console.log('pageProps', pageProps)
-  }, [])
-
   return (
-    <ReduxProvider store={store}>
-      <ConfigProvider
-        theme={{
-          token: {
-            fontFamily: 'Inter, sans-serif',
-          },
-        }}
-      >
-        <StyleProvider hashPriority='high'>
-          <SessionProvider session={session}>
-            <QueryClientProvider client={queryClient}>
-              {Component.requireAuth ? (
-                <ProtectedLayout requiredRoles={Component.requiredRoles}>
-                  {getLayout(<Component {...pageProps} />)}
-                </ProtectedLayout>
-              ) : (
-                getLayout(<Component {...pageProps} />)
-              )}
-            </QueryClientProvider>
-          </SessionProvider>
-        </StyleProvider>
-      </ConfigProvider>
-    </ReduxProvider>
+    // <ReduxProvider store={store}>
+    <ConfigProvider
+      theme={{
+        token: {
+          fontFamily: 'Inter, sans-serif',
+        },
+      }}
+    >
+      <StyleProvider hashPriority='high'>
+        <SessionProvider session={session}>
+          <QueryClientProvider client={queryClient}>
+            {Component.requireAuth ? (
+              <ProtectedLayout requiredRoles={Component.requiredRoles}>
+                {getLayout(<Component {...pageProps} />)}
+              </ProtectedLayout>
+            ) : (
+              getLayout(<Component {...pageProps} />)
+            )}
+          </QueryClientProvider>
+        </SessionProvider>
+      </StyleProvider>
+    </ConfigProvider>
+    // </ReduxProvider>
   )
 }
 

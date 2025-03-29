@@ -60,7 +60,7 @@ const CreditStats = () => {
     // Add more sample data as needed
   ]
   const topUp = () => {
-    router.push('/admin/credit')
+    router.push('/credit')
   }
   return (
     <div className='p-8 space-y-8'>

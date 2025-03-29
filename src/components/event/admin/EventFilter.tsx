@@ -50,13 +50,13 @@ const DetailEventFilter: React.FC<DetailEventFilterProps> = ({ eventName }) => {
   return (
     <div className='p-4'>
       <div className='text-[#475467] breadcrumb flex gap-2 pb-6'>
-        <Link href='/admin/home'>Trang chủ</Link>
+        <Link href='/home'>Trang chủ</Link>
         <div> &gt; </div>
-        <Link href='/admin/home'>Danh sách sự kiện</Link>
+        <Link href='/home'>Danh sách sự kiện</Link>
         <div> &gt; </div>
-        <Link href='/admin/home'>Tà Năng Trail Challenge 2025</Link>
+        <Link href='/home'>Tà Năng Trail Challenge 2025</Link>
         <div> &gt; </div>
-        <Link href='/admin/home'>Album ảnh</Link>
+        <Link href='/home'>Album ảnh</Link>
       </div>
       <div className='flex items-center justify-between mb-4'>
         <h1 className='font-inter font-medium text-[24px] leading-[100%] tracking-[0%]'>
