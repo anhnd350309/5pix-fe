@@ -1,6 +1,6 @@
 import React from 'react'
 import { Menu } from 'antd'
-import { AppstoreOutlined, CalendarOutlined, ShoppingCartOutlined } from '@ant-design/icons'
+import { AppstoreOutlined, ShoppingCartOutlined } from '@ant-design/icons'
 import { useRouter } from 'next/router'
 import SvgListAlbums from '../../icons/icons/ListAlbums'
 import SvgListUser from '@/components/icons/icons/ListUser'
@@ -30,16 +30,15 @@ const NavbarAdmin = () => {
       label: 'Danh sách đối tác',
     },
   ]
-
+  const selectedKey = router.pathname.replace(/^\/admin/, '') || '/dashboard'
   const handleMenuClick = ({ key }: { key: string }) => {
     router.push(key)
   }
-
   return (
     <nav className='w-[200px]  bg-white font-sans'>
       <Menu
         mode='inline'
-        selectedKeys={[router.pathname]}
+        selectedKeys={[selectedKey]}
         items={menuItems}
         onClick={handleMenuClick}
         className='h-full pt-6 border-r-0'
@@ -64,6 +63,8 @@ const NavbarAdmin = () => {
           background-color: #f5f8ff !important;
           color: #1d2939 !important;
           font-weight: 700 !important;
+          border-left: 4px solid #36bffa !important;
+          padding-left: 12px !important;
         }
         .ant-menu-item-selected::after {
           display: none !important;
