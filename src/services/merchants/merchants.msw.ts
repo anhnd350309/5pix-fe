@@ -12,84 +12,214 @@
         
  * OpenAPI spec version: 0.1.0
  */
+import { faker } from '@faker-js/faker'
+import { HttpResponse, delay, http } from 'msw'
 import {
-  faker
-} from '@faker-js/faker'
-import {
-  HttpResponse,
-  delay,
-  http
-} from 'msw'
-import type {
-  DataResponseMerchantDetailResponse,
-  DataResponseMerchantItemResponse,
-  PageMerchantItemResponse
+  Enum,
+  type DataResponseMerchantDetailResponse,
+  type DataResponseMerchantItemResponse,
+  type PageMerchantItemResponse,
 } from '../../schemas'
 
-export const getGetMerchantsGetResponseMock = (overrideResponse: Partial< PageMerchantItemResponse > = {}): PageMerchantItemResponse => ({code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), data: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({address: faker.string.alpha(20), email: faker.string.alpha(20), full_name: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), id: faker.number.int({min: undefined, max: undefined}), merchant_active_status: faker.helpers.arrayElement([{}, undefined]), merchant_type: {}, phone_number: faker.string.alpha(20)})), message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), metadata: {current_page: faker.number.int({min: undefined, max: undefined}), page_size: faker.number.int({min: undefined, max: undefined}), total_items: faker.number.int({min: undefined, max: undefined})}, ...overrideResponse})
+export const getGetMerchantsGetResponseMock = (
+  overrideResponse: Partial<PageMerchantItemResponse> = {},
+): PageMerchantItemResponse => ({
+  code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+  data: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({
+    address: faker.string.alpha(20),
+    email: faker.string.alpha(20),
+    full_name: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+    id: faker.number.int({ min: undefined, max: undefined }),
+    merchant_active_status: faker.helpers.arrayElement(
+      Object.keys(Enum) as Array<keyof typeof Enum>,
+    ),
+    merchant_type: {},
+    phone_number: faker.string.alpha(20),
+  })),
+  message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+  metadata: {
+    current_page: faker.number.int({ min: undefined, max: undefined }),
+    page_size: faker.number.int({ min: undefined, max: undefined }),
+    total_items: faker.number.int({ min: undefined, max: undefined }),
+  },
+  ...overrideResponse,
+})
 
-export const getCreateMerchantsPostResponseMock = (overrideResponse: Partial< DataResponseMerchantItemResponse > = {}): DataResponseMerchantItemResponse => ({code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), data: faker.helpers.arrayElement([{address: faker.string.alpha(20), email: faker.string.alpha(20), full_name: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), id: faker.number.int({min: undefined, max: undefined}), merchant_active_status: faker.helpers.arrayElement([{}, undefined]), merchant_type: {}, phone_number: faker.string.alpha(20)}, undefined]), message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), ...overrideResponse})
+export const getCreateMerchantsPostResponseMock = (
+  overrideResponse: Partial<DataResponseMerchantItemResponse> = {},
+): DataResponseMerchantItemResponse => ({
+  code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+  data: faker.helpers.arrayElement([
+    {
+      address: faker.string.alpha(20),
+      email: faker.string.alpha(20),
+      full_name: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+      id: faker.number.int({ min: undefined, max: undefined }),
+      merchant_active_status: faker.helpers.arrayElement(
+        Object.keys(Enum) as Array<keyof typeof Enum>,
+      ),
+      merchant_type: {},
+      phone_number: faker.string.alpha(20),
+    },
+    undefined,
+  ]),
+  message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+  ...overrideResponse,
+})
 
-export const getDetailMerchantsMerchantIdGetResponseMock = (overrideResponse: Partial< DataResponseMerchantDetailResponse > = {}): DataResponseMerchantDetailResponse => ({code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), data: faker.helpers.arrayElement([{address: faker.string.alpha(20), date_of_birth: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), email: faker.string.alpha(20), events_attended: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), full_name: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), id: faker.number.int({min: undefined, max: undefined}), merchant_active_status: faker.helpers.arrayElement([{}, undefined]), merchant_active_status_note: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), merchant_type: {}, phone_number: faker.string.alpha(20), sample_photo_link: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), social_media_link: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), years_of_experience: faker.helpers.arrayElement([{}, undefined])}, undefined]), message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), ...overrideResponse})
+export const getDetailMerchantsMerchantIdGetResponseMock = (
+  overrideResponse: Partial<DataResponseMerchantDetailResponse> = {},
+): DataResponseMerchantDetailResponse => ({
+  code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+  data: faker.helpers.arrayElement([
+    {
+      address: faker.string.alpha(20),
+      date_of_birth: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+      email: faker.string.alpha(20),
+      events_attended: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+      full_name: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+      id: faker.number.int({ min: undefined, max: undefined }),
+      merchant_active_status: faker.helpers.arrayElement(
+        Object.keys(Enum) as Array<keyof typeof Enum>,
+      ),
+      merchant_active_status_note: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+      merchant_type: {},
+      phone_number: faker.string.alpha(20),
+      sample_photo_link: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+      social_media_link: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+      years_of_experience: faker.helpers.arrayElement([{}, undefined]),
+    },
+    undefined,
+  ]),
+  message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+  ...overrideResponse,
+})
 
-export const getUpdateMerchantsUpdateMerchantPutResponseMock = (overrideResponse: Partial< DataResponseMerchantItemResponse > = {}): DataResponseMerchantItemResponse => ({code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), data: faker.helpers.arrayElement([{address: faker.string.alpha(20), email: faker.string.alpha(20), full_name: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), id: faker.number.int({min: undefined, max: undefined}), merchant_active_status: faker.helpers.arrayElement([{}, undefined]), merchant_type: {}, phone_number: faker.string.alpha(20)}, undefined]), message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), ...overrideResponse})
+export const getUpdateMerchantsUpdateMerchantPutResponseMock = (
+  overrideResponse: Partial<DataResponseMerchantItemResponse> = {},
+): DataResponseMerchantItemResponse => ({
+  code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+  data: faker.helpers.arrayElement([
+    {
+      address: faker.string.alpha(20),
+      email: faker.string.alpha(20),
+      full_name: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+      id: faker.number.int({ min: undefined, max: undefined }),
+      merchant_active_status: faker.helpers.arrayElement(
+        Object.keys(Enum) as Array<keyof typeof Enum>,
+      ),
+      merchant_type: {},
+      phone_number: faker.string.alpha(20),
+    },
+    undefined,
+  ]),
+  message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+  ...overrideResponse,
+})
 
+export const getGetMerchantsGetMockHandler = (
+  overrideResponse?:
+    | PageMerchantItemResponse
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<PageMerchantItemResponse> | PageMerchantItemResponse),
+) => {
+  return http.get('*/merchants', async (info) => {
+    await delay(1000)
 
-export const getGetMerchantsGetMockHandler = (overrideResponse?: PageMerchantItemResponse | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<PageMerchantItemResponse> | PageMerchantItemResponse)) => {
-  return http.get('*/merchants', async (info) => {await delay(1000);
-  
-    return new HttpResponse(JSON.stringify(overrideResponse !== undefined 
-            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse) 
-            : getGetMerchantsGetResponseMock()),
-      { status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      })
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === 'function'
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetMerchantsGetResponseMock(),
+      ),
+      { status: 200, headers: { 'Content-Type': 'application/json' } },
+    )
   })
 }
 
-export const getCreateMerchantsPostMockHandler = (overrideResponse?: DataResponseMerchantItemResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<DataResponseMerchantItemResponse> | DataResponseMerchantItemResponse)) => {
-  return http.post('*/merchants', async (info) => {await delay(1000);
-  
-    return new HttpResponse(JSON.stringify(overrideResponse !== undefined 
-            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse) 
-            : getCreateMerchantsPostResponseMock()),
-      { status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      })
+export const getCreateMerchantsPostMockHandler = (
+  overrideResponse?:
+    | DataResponseMerchantItemResponse
+    | ((
+        info: Parameters<Parameters<typeof http.post>[1]>[0],
+      ) => Promise<DataResponseMerchantItemResponse> | DataResponseMerchantItemResponse),
+) => {
+  return http.post('*/merchants', async (info) => {
+    await delay(1000)
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === 'function'
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getCreateMerchantsPostResponseMock(),
+      ),
+      { status: 200, headers: { 'Content-Type': 'application/json' } },
+    )
   })
 }
 
-export const getDetailMerchantsMerchantIdGetMockHandler = (overrideResponse?: DataResponseMerchantDetailResponse | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<DataResponseMerchantDetailResponse> | DataResponseMerchantDetailResponse)) => {
-  return http.get('*/merchants/:merchantId', async (info) => {await delay(1000);
-  
-    return new HttpResponse(JSON.stringify(overrideResponse !== undefined 
-            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse) 
-            : getDetailMerchantsMerchantIdGetResponseMock()),
-      { status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      })
+export const getDetailMerchantsMerchantIdGetMockHandler = (
+  overrideResponse?:
+    | DataResponseMerchantDetailResponse
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<DataResponseMerchantDetailResponse> | DataResponseMerchantDetailResponse),
+) => {
+  return http.get('*/merchants/:merchantId', async (info) => {
+    await delay(1000)
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === 'function'
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getDetailMerchantsMerchantIdGetResponseMock(),
+      ),
+      { status: 200, headers: { 'Content-Type': 'application/json' } },
+    )
   })
 }
 
-export const getUpdateMerchantsUpdateMerchantPutMockHandler = (overrideResponse?: DataResponseMerchantItemResponse | ((info: Parameters<Parameters<typeof http.put>[1]>[0]) => Promise<DataResponseMerchantItemResponse> | DataResponseMerchantItemResponse)) => {
-  return http.put('*/merchants/update-merchant', async (info) => {await delay(1000);
-  
-    return new HttpResponse(JSON.stringify(overrideResponse !== undefined 
-            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse) 
-            : getUpdateMerchantsUpdateMerchantPutResponseMock()),
-      { status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      })
+export const getUpdateMerchantsUpdateMerchantPutMockHandler = (
+  overrideResponse?:
+    | DataResponseMerchantItemResponse
+    | ((
+        info: Parameters<Parameters<typeof http.put>[1]>[0],
+      ) => Promise<DataResponseMerchantItemResponse> | DataResponseMerchantItemResponse),
+) => {
+  return http.put('*/merchants/update-merchant', async (info) => {
+    await delay(1000)
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === 'function'
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getUpdateMerchantsUpdateMerchantPutResponseMock(),
+      ),
+      { status: 200, headers: { 'Content-Type': 'application/json' } },
+    )
   })
 }
 
-export const getApproveMerchantMerchantsApproveMerchantPostMockHandler = (overrideResponse?: unknown | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<unknown> | unknown)) => {
-  return http.post('*/merchants/approve-merchant', async (info) => {await delay(1000);
-  if (typeof overrideResponse === 'function') {await overrideResponse(info); }
-    return new HttpResponse(null,
-      { status: 200,
-        
-      })
+export const getApproveMerchantMerchantsApproveMerchantPostMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<unknown> | unknown),
+) => {
+  return http.post('*/merchants/approve-merchant', async (info) => {
+    await delay(1000)
+    if (typeof overrideResponse === 'function') {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
   })
 }
 export const getMerchantsMock = () => [
@@ -97,5 +227,5 @@ export const getMerchantsMock = () => [
   getCreateMerchantsPostMockHandler(),
   getDetailMerchantsMerchantIdGetMockHandler(),
   getUpdateMerchantsUpdateMerchantPutMockHandler(),
-  getApproveMerchantMerchantsApproveMerchantPostMockHandler()
+  getApproveMerchantMerchantsApproveMerchantPostMockHandler(),
 ]
