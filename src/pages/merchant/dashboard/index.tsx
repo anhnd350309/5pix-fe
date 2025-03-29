@@ -34,5 +34,8 @@ const Dashboard = () => {
 }
 
 export default Dashboard
+
+Dashboard.requireAuth = true
+Dashboard.requiredRoles = ['admin', 'merchant']
 export const getLayout = (page: React.ReactNode) => <LayoutMerchant>{page}</LayoutMerchant>
 Dashboard.getLayout = getLayout

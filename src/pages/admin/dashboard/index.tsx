@@ -35,5 +35,8 @@ const Dashboard = () => {
 }
 
 export default Dashboard
+
+Dashboard.requireAuth = true
+Dashboard.requiredRoles = ['admin']
 export const getLayout = (page: React.ReactNode) => <LayoutAdmin>{page}</LayoutAdmin>
 Dashboard.getLayout = getLayout

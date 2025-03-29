@@ -9,6 +9,7 @@ import { Provider as ReduxProvider } from 'react-redux'
 
 import { ProtectedLayout } from 'components/layout/ProtectedLayout'
 import { store } from 'redux/store'
+import { UserRole } from '@/schemas/userRole'
 
 import 'styles/globals.css'
 import 'styles/template.scss'
@@ -25,6 +26,8 @@ declare global {
 type AppPropsWithAuth = AppProps<{ session: Session }> & {
   Component: {
     requireAuth?: boolean
+    requiredRoles?: Array<keyof typeof UserRole>
+    getLayout?: (page: React.ReactNode) => React.ReactNode
   }
 }
 const queryClient = new QueryClient()
@@ -88,7 +91,9 @@ const App = ({ Component, pageProps: { session, ...pageProps } }: AppPropsWithAu
           <SessionProvider session={session}>
             <QueryClientProvider client={queryClient}>
               {Component.requireAuth ? (
-                <ProtectedLayout>{getLayout(<Component {...pageProps} />)}</ProtectedLayout>
+                <ProtectedLayout requiredRoles={Component.requiredRoles}>
+                  {getLayout(<Component {...pageProps} />)}
+                </ProtectedLayout>
               ) : (
                 getLayout(<Component {...pageProps} />)
               )}

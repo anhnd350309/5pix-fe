@@ -18,5 +18,8 @@ const EventAdmin = () => {
 }
 
 export default EventAdmin
+
+EventAdmin.requireAuth = true
+EventAdmin.requiredRoles = ['admin', 'merchant']
 export const getLayout = (page: React.ReactNode) => <LayoutMerchant>{page}</LayoutMerchant>
 EventAdmin.getLayout = getLayout

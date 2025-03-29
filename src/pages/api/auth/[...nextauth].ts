@@ -7,16 +7,27 @@ import GoogleProvider from 'next-auth/providers/google'
 import TwitterProvider from 'next-auth/providers/twitter'
 import { loginAccessTokenLoginPost } from '@/services/login/login'
 import { detailMeUsersMeGet } from '@/services/user/user'
+import { UserRole } from '@/schemas/userRole'
+
 declare module 'next-auth' {
   interface Session {
     accessToken?: string
     id?: string
+    role?: string
   }
 }
 
 declare module 'next-auth' {
   interface User {
     accessToken?: string
+    role?: string
+  }
+}
+
+declare module 'next-auth/jwt' {
+  interface JWT {
+    accessToken?: string
+    role?: string
   }
 }
 
@@ -68,6 +79,7 @@ export const authOptions: AuthOptions = {
             name: userData?.data?.data?.full_name,
             email: userData?.data?.data?.email,
             accessToken: token,
+            role: userData?.data?.data?.role || 'user', // Lấy role từ API response
           }
 
           // If no user was found, return null
@@ -111,21 +123,27 @@ export const authOptions: AuthOptions = {
   },
   callbacks: {
     async redirect({ url, baseUrl }) {
+      // Chuyển hướng theo vai trò sau khi đăng nhập
       return url.startsWith(baseUrl) ? url : baseUrl
     },
     async jwt({ token, user }) {
       if (user) {
         token.accessToken = user.accessToken
+        token.role = user.role
       }
       return token
     },
     async session({ session, token }) {
       session.accessToken = token.accessToken as string
+      session.role = token.role as string
       return session
     },
   },
   pages: {
     signIn: '/auth/login', // custom login page
+    error: '/auth/error', // Error code passed in query string as ?error=
+    signOut: '/auth/signout',
+    newUser: '/auth/new-user', // New users will be directed here on first sign in
   },
 }
 

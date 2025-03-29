@@ -92,3 +92,48 @@ Lưu ý: Nếu không fix sẽ không commit code được vì trong source đã
 ├── tailwind.config.js      # File cấu hình của Tailwind CSS (color, theme, font-size, plugin,...)
 └── tsconfig.json           # TypeScript configuration
 ```
+
+Bảo vệ component và trang  
+Bảo vệ trang với phân quyền role
+
+```
+// Trang chỉ dành cho admin
+MyPage.requireAuth = true;
+MyPage.requiredRoles = ['admin'];
+
+// Trang dành cho cả admin và merchant
+MyPage.requireAuth = true;
+MyPage.requiredRoles = ['admin', 'merchant'];
+```
+
+Bảo vệ component với HOC withAuth
+
+```
+// Component chỉ dành cho merchant
+export default withAuth(MerchantComponent, { requiredRoles: ['merchant'] });
+
+// Component dành cho admin
+export default withAuth(AdminComponent, { requiredRoles: ['admin'] });
+```
+
+Kiểm tra role trong component
+
+```
+import { useSession } from 'next-auth/react';
+
+const MyComponent = () => {
+  const { data: session } = useSession();
+
+  if (session?.role === 'admin') {
+    // Hiển thị giao diện admin
+  } else if (session?.role === 'merchant') {
+    // Hiển thị giao diện merchant
+  } else {
+    // Hiển thị giao diện user
+  }
+
+  return (
+    // Component content
+  );
+};
+```

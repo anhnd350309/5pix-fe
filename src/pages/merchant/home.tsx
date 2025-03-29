@@ -21,8 +21,9 @@ const Home = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
   )
 }
 
+// Chỉ cho phép role merchant truy cập
 Home.requireAuth = true
+Home.requiredRoles = ['admin', 'merchant']
 export default Home
 export const getLayout = (page: React.ReactNode) => <LayoutMerchant>{page}</LayoutMerchant>
 Home.getLayout = getLayout
-// export default Home
