@@ -8,7 +8,8 @@ export const LoginForm: React.FC = () => {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
-
+  const admin = process.env.NEXT_ENV === 'dev' ? 'admin-dev' : 'admin'
+  const merchant = process.env.NEXT_ENV === 'dev' ? 'merchant-dev' : 'merchant'
   const onSubmit = async (values: any) => {
     try {
       setIsLoading(true)
@@ -20,7 +21,13 @@ export const LoginForm: React.FC = () => {
       if (result?.error) {
         setError(result.error)
       } else {
-        router.push('/')
+        const hostname = window.location.hostname
+        const subdomain = hostname.split('.')[0]
+        if (subdomain === admin || subdomain === merchant) {
+          router.push('/home')
+        } else {
+          router.push('/')
+        }
       }
     } catch (error) {
       console.error('Error:', error)
