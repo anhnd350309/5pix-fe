@@ -63,11 +63,12 @@ const CreditStats = () => {
     router.push('/credit')
   }
   return (
-    <div className='p-8 space-y-8'>
+    <div className=' sm:p-6 lg:p-8 space-y-8'>
+      {/* Tổng số credit */}
       <Card className='shadow-sm'>
-        <div className='flex items-center gap-16'>
+        <div className='flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-16'>
           <div className='flex items-center gap-4'>
-            <div className='p-3 rounded-lg '>
+            <div className='p-3 rounded-lg bg-[#F2F4F7]'>
               <SvgCredit width={48} />
             </div>
             <div>
@@ -75,17 +76,23 @@ const CreditStats = () => {
               <p className='text-[#1D2939] text-2xl font-semibold'>1,500</p>
             </div>
           </div>
-          <Button type='primary' className='bg-[#2E90FA] h-10 px-4' onClick={topUp}>
+          <Button
+            type='primary'
+            className='bg-[#2E90FA] h-10 px-4 w-full sm:w-auto'
+            onClick={topUp}
+          >
             Nạp credit
           </Button>
         </div>
       </Card>
 
+      {/* Lịch sử giao dịch */}
       <div className='bg-white rounded-lg'>
         <div className='p-4 border-b border-[#EAECF0]'>
           <h2 className='text-lg font-semibold text-[#1D2939]'>Lịch sử giao dịch</h2>
         </div>
         <Table
+          scroll={{ x: 'max-content' }}
           columns={columns}
           dataSource={data}
           pagination={{

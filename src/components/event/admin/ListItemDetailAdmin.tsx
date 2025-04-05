@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Button, Popover, Spin } from 'antd'
 import Image from 'next/image'
 import { AlbumImageItemResponse } from '@/schemas'
-import { getAlbumImagesPost, useGetAlbumImagesPost } from '@/services/images/images'
+import { getAlbumImagesPost } from '@/services/images/images'
 import ImageModal from '@/components/common/ImageModal'
 import ExpandableText from '../../common/ExpandableText'
 import { EyeInvisibleOutlined, EyeOutlined, LinkOutlined } from '@ant-design/icons'
@@ -20,6 +20,7 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
   const [totalPages, setTotalPages] = useState(1)
   const [totalEvents, setTotalEvents] = useState<number | null>(null)
   const [isLoadingMore, setIsLoadingMore] = useState(false)
+
   useEffect(() => {
     const fetchImages = async () => {
       try {
@@ -49,6 +50,7 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
 
     fetchImages()
   }, [id, currentPage])
+
   const handlePreviousPage = () => {
     if (currentPage > 1) {
       setIsLoadingMore(true)
@@ -62,10 +64,12 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
       setCurrentPage((prevPage) => prevPage + 1)
     }
   }
+
   const handleBackToPage1 = () => {
     setIsLoadingMore(true)
     setCurrentPage(1)
   }
+
   const handleOptionClick = (action: string, imageIndex: number) => {
     if (action === 'open') {
       setSelectedImageIndex(imageIndex)
@@ -89,9 +93,10 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
       </div>
     </div>
   )
+
   return (
-    <div className='flex flex-col gap-4'>
-      <div className='grid grid-cols-5 gap-4'>
+    <div className='flex flex-col gap-4 p-4'>
+      <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4'>
         {loadedImgs.map((image, index) => (
           <div key={index} className='relative w-full'>
             <img

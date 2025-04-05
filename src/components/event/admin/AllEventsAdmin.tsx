@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Input, Spin } from 'antd'
-import { SearchOutlined } from '@ant-design/icons'
+import { Button, Input, Spin, Dropdown, Menu } from 'antd'
+import { MoreOutlined, SearchOutlined } from '@ant-design/icons'
 import { AlbumItemResponse, GetPubAlbumsGetParams } from '@/schemas'
 import Link from 'next/link'
 import EventCardAdmin from '@/components/shared/EvenCardAdmin'
 import { getAlbumsGet } from '@/services/album/album'
+
 interface AllEventsAdminProps {
-  // setIsModalUpdate?: void
   setIsModalUpdate: (visible: boolean) => void
   setEvent?: any
 }
@@ -54,11 +54,19 @@ const AllEventsAdmin: React.FC<AllEventsAdminProps> = ({ setIsModalUpdate, setEv
   }
 
   return (
-    <div>
-      <Input size='large' placeholder='Mã sự kiện, tên sự kiện' prefix={<SearchOutlined />} />
+    <div className=''>
+      {/* Search Input */}
+      <Input
+        size='large'
+        placeholder='Mã sự kiện, tên sự kiện'
+        prefix={<SearchOutlined />}
+        className='w-full sm:w-1/2 mb-4'
+      />
+
+      {/* Events List */}
       <div className='flex flex-col gap-4 py-4'>
         {loadedEvents?.map((event) => (
-          <div className='relative'>
+          <div className='relative bg-white shadow-md rounded-lg '>
             <Link href={`/events/${event.id}`} key={event.id}>
               <EventCardAdmin
                 key={event.id}
@@ -68,20 +76,49 @@ const AllEventsAdmin: React.FC<AllEventsAdminProps> = ({ setIsModalUpdate, setEv
                 imageUrl={event.album_image_url}
               />
             </Link>
-            <div className='absolute right-0 top-0 flex items-center gap-2 p-4 h-full'>
+            <div className='absolute right-0 top-0 flex items-center gap-2  h-full'>
+              {/* Dropdown for mobile */}
+              <Dropdown
+                overlay={
+                  <Menu>
+                    <Menu.Item key='disable' onClick={() => {}}>
+                      Vô hiệu
+                    </Menu.Item>
+                    <Menu.Item
+                      key='edit'
+                      onClick={() => {
+                        setEvent(event)
+                        setIsModalUpdate(true)
+                      }}
+                    >
+                      Chỉnh sửa
+                    </Menu.Item>
+                  </Menu>
+                }
+                trigger={['click']}
+                className='block sm:hidden'
+              >
+                <Button
+                  size='large'
+                  className='text-emerald-50 font-bold w-full bg-transparent hover:bg-gray-200'
+                >
+                  <MoreOutlined />
+                </Button>
+              </Dropdown>
+
+              {/* Buttons for larger screens */}
               <Button
                 size='large'
-                className='bg-white text-[#0A347D] border-[#0A347D] border-2 font-bold'
+                className='bg-white text-[#0A347D] border-[#0A347D] border-2 font-bold w-full sm:w-auto hidden sm:inline-flex'
                 onClick={() => {}}
               >
                 Vô hiệu
               </Button>
               <Button
                 size='large'
-                className='bg-[#0A347D] text-emerald-50 font-bold'
+                className='bg-[#0A347D] text-emerald-50 font-bold w-full sm:w-auto hidden sm:inline-flex'
                 onClick={() => {
                   setEvent(event)
-                  console.log(event)
                   setIsModalUpdate(true)
                 }}
               >
@@ -91,6 +128,20 @@ const AllEventsAdmin: React.FC<AllEventsAdminProps> = ({ setIsModalUpdate, setEv
           </div>
         ))}
       </div>
+
+      {/* Load More Button */}
+      {totalEvents && loadedEvents.length < totalEvents && (
+        <div className='flex justify-center mt-4'>
+          <Button
+            size='large'
+            className='bg-[#0A347D] text-emerald-50 font-bold px-6 py-2'
+            onClick={handleLoadMore}
+            loading={isLoadingMore}
+          >
+            Tải thêm
+          </Button>
+        </div>
+      )}
     </div>
   )
 }

@@ -271,7 +271,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
         ) : (
           <React.Fragment>
             {showTotal && loadedImgs.length > 0 && (
-              <span>
+              <span className='text-center'>
                 Tìm thấy {loadedImgs.length} ảnh của bạn, trong tổng số {event?.total_image} ảnh
               </span>
             )}

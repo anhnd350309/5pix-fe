@@ -119,7 +119,7 @@ const OrderTable: React.FC = () => {
     if (!record.details) return null
     return (
       <div className='p-6 bg-white shadow-md rounded-lg border border-gray-200 relative'>
-        <div className='flex justify-between items-center mb-4'>
+        <div className='flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4'>
           <div className='flex items-center space-x-2'>
             <span className='font-inter font-bold text-[14px] leading-[20px] tracking-[-0.2%] text-blue-600'>
               Information
@@ -127,7 +127,7 @@ const OrderTable: React.FC = () => {
           </div>
         </div>
 
-        <div className='grid grid-cols-5 gap-20 mb-6'>
+        <div className='grid grid-cols-1 sm:grid-cols-5 gap-4 sm:gap-20 mb-6'>
           <div className='flex flex-col space-y-4 col-span-2'>
             <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-2'>
               <strong> Order ID:</strong> {record.orderId}
@@ -160,60 +160,6 @@ const OrderTable: React.FC = () => {
             </p>
           </div>
         </div>
-
-        {/* Images Section */}
-        <div className='mb-6'>
-          <div className='flex flex-col space-y-4'>
-            <div className='flex items-center justify-between'>
-              <div className='flex items-center space-x-4'>
-                <div className='w-12 h-12 bg-gray-200 rounded-md'></div>
-                <div className='flex flex-col'>
-                  <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-900'>
-                    Order Image
-                  </p>
-                  <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-600'>
-                    MARATHON QUỐC TẾ MEKONG DELTA...
-                  </p>
-                </div>
-              </div>
-              <p className='font-inter font-bold text-[14px] leading-[20px] text-gray-900'>
-                9,000,000 đ
-              </p>
-            </div>
-            <div className='flex items-center justify-between'>
-              <div className='flex items-center space-x-4'>
-                <div className='w-12 h-12 bg-gray-200 rounded-md'></div>
-                <div className='flex flex-col'>
-                  <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-900'>
-                    Photoflat
-                  </p>
-                  <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-600'>
-                    MARATHON QUỐC TẾ MEKONG DELTA...
-                  </p>
-                </div>
-              </div>
-              <p className='font-inter font-bold text-[14px] leading-[20px] text-gray-900'>
-                9,000,000 đ
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className='border-t pt-4'>
-          <div className='flex justify-end'>
-            <div className='text-right flex flex-col space-y-4'>
-              <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-600 mb-2 flex justify-between'>
-                <strong>Subtotal:</strong> {record.details.subtotal}
-              </p>
-              <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-600 mb-2 flex justify-between'>
-                <strong>Discount:</strong> {record.details.discount}
-              </p>
-              <p className='font-inter font-bold text-[14px] leading-[20px] text-gray-900 flex justify-between'>
-                <strong>Total Amount:</strong> {record.details.totalAmount}
-              </p>
-            </div>
-          </div>
-        </div>
       </div>
     )
   }
@@ -235,20 +181,21 @@ const OrderTable: React.FC = () => {
         <TabPane tab='Đã đóng' key='closed' />
         <TabPane tab='Đã hủy' key='cancelled' />
       </Tabs>
-      <div className='flex justify-between items-center my-4'>
+      <div className='flex flex-col sm:flex-row justify-between items-start sm:items-center my-4 gap-4'>
         <Input
           placeholder='Order ID, Email, Customer Name, Phone Number'
           prefix={<SearchOutlined />}
           value={searchText}
           onChange={handleSearch}
-          className='w-1/2'
+          className='w-full sm:w-1/2'
         />
-        <Space>
-          <RangePicker showTime format='HH:mm:ss - DD/MM/YYYY' />
-          <Button>Reset</Button>
+        <Space className='w-full sm:w-auto flex flex-col sm:flex-row gap-4'>
+          <RangePicker showTime format='HH:mm:ss - DD/MM/YYYY' className='w-full sm:w-auto' />
+          <Button className='w-full sm:w-auto'>Reset</Button>
         </Space>
       </div>
       <Table
+        scroll={{ x: 'max-content' }}
         bordered
         columns={columns}
         dataSource={dataSource

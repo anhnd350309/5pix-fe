@@ -58,30 +58,30 @@ const DetailEventFilter: React.FC<DetailEventFilterProps> = ({ eventName }) => {
         <div> &gt; </div>
         <Link href='/home'>Album ảnh</Link>
       </div>
-      <div className='flex items-center justify-between mb-4'>
-        <h1 className='font-inter font-medium text-[24px] leading-[100%] tracking-[0%]'>
+      <div className='flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4'>
+        <h1 className='font-inter font-medium text-[24px] leading-[100%] tracking-[0%] mb-2 sm:mb-0'>
           {eventName}
         </h1>
-        <div className='flex items-center space-x-2'>
-          <Button className='bg-[#C7DBFF] font-inter font-bold text-[14px] leading-[20px] tracking-[-0.2%]'>
+        <div className='flex flex-col sm:flex-row items-center space-x-0 sm:space-x-2 space-y-2 sm:space-y-0'>
+          <Button className='bg-[#C7DBFF] font-inter font-bold text-[14px] leading-[20px] tracking-[-0.2%] w-full sm:w-auto'>
             Xử lý ảnh và gửi duyệt
           </Button>
           <Dropdown overlay={menu}>
             <Button
               type='primary'
-              className='bg-[#2563EB] text-white w-[250px] flex justify-between font-inter font-bold text-[14px] leading-[20px] tracking-[-0.2%]'
+              className='bg-[#2563EB] text-white w-full sm:w-[250px] flex justify-between font-inter font-bold text-[14px] leading-[20px] tracking-[-0.2%]'
             >
               Tải ảnh lên <DownOutlined />
             </Button>
           </Dropdown>
         </div>
       </div>
-      <div className='flex items-center space-x-2 mb-4'>
-        <Input placeholder='Tên theo BIB/text' className='w-[40%]' />
-        <Button className='text-white bg-black font-inter font-bold text-[14px] leading-[20px] tracking-[-0.2%]'>
+      <div className='flex flex-col sm:flex-row items-center space-x-0 sm:space-x-2 space-y-2 sm:space-y-0 mb-4'>
+        <Input placeholder='Tên theo BIB/text' className='w-full sm:w-[40%]' />
+        <Button className='text-white bg-black font-inter font-bold text-[14px] leading-[20px] tracking-[-0.2%] w-full sm:w-auto'>
           Tìm ảnh
         </Button>
-        <Button className='bg-[#C7DBFF] font-inter font-bold text-[14px] leading-[20px] tracking-[-0.2%]'>
+        <Button className='bg-[#C7DBFF] font-inter font-bold text-[14px] leading-[20px] tracking-[-0.2%] w-full sm:w-auto'>
           Tìm kiếm bằng hình ảnh
         </Button>
       </div>

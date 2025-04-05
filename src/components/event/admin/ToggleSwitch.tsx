@@ -6,7 +6,6 @@ interface ToggleSwitchProps {
 
 const ToggleSwitch = ({ onChange, selected, options = [] }: ToggleSwitchProps) => {
   const handleSelect = (value: string) => {
-    // setSelected(value)
     onChange?.(value)
   }
 
@@ -16,7 +15,7 @@ const ToggleSwitch = ({ onChange, selected, options = [] }: ToggleSwitchProps) =
         <button
           key={option.value}
           onClick={() => handleSelect(option.value)}
-          className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-[100px] transition-all duration-200 min-w-[180px] justify-center ${
+          className={`flex items-center gap-2 px-3 py-2 text-xs md:px-4 md:py-2 md:text-sm font-medium rounded-[100px] transition-all duration-200 min-w-[120px] md:min-w-[180px] justify-center ${
             selected === option.value
               ? 'bg-[#2E90FA] text-white'
               : 'text-[#344054] hover:text-[#2E90FA]'

@@ -37,12 +37,14 @@ const ListEventsAdmin = () => {
         <div> &gt; </div>
         <Link href='/home'>Danh sách sự kiện</Link>
       </div>
+
+      {/* Header */}
       <div>
-        <div className='flex items-center justify-between'>
-          <div className='text-2xl'>Danh sách sự kiện</div>
+        <div className='flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4'>
+          <div className='text-2xl font-semibold'>Danh sách sự kiện</div>
           <Button
             size='large'
-            className='bg-[#0A347D] text-emerald-50 font-bold'
+            className='bg-[#0A347D] text-emerald-50 font-bold w-full sm:w-auto'
             onClick={showModal}
           >
             + Sự kiện
@@ -50,6 +52,7 @@ const ListEventsAdmin = () => {
         </div>
       </div>
 
+      {/* Tabs */}
       <Tabs
         onChange={onChange}
         items={[
@@ -69,14 +72,16 @@ const ListEventsAdmin = () => {
             children: <AllEventsAdmin setIsModalUpdate={setShowModalUpdate} setEvent={setEvent} />,
           },
         ]}
+        className='custom-tabs'
       />
 
+      {/* Modal: Tạo sự kiện */}
       <Modal
         title='Tạo sự kiện'
         open={isModalVisible}
         onCancel={handleCancel}
         footer={null}
-        className='h-full w-[1150px]'
+        className='h-full w-full sm:w-[800px] lg:w-[1150px]'
       >
         <div className='h-full'>
           <div className='flex justify-center'>
@@ -100,12 +105,14 @@ const ListEventsAdmin = () => {
           )}
         </div>
       </Modal>
+
+      {/* Modal: Chỉnh sửa sự kiện */}
       <Modal
         title='Chỉnh sửa sự kiện'
         open={showModalUpdate}
         onCancel={() => setShowModalUpdate(false)}
         footer={null}
-        className='h-full w-[1150px]'
+        className='h-full w-full sm:w-[800px] lg:w-[1150px]'
       >
         <div className='h-full'>
           <div className='flex justify-center'>
