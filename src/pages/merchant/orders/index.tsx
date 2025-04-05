@@ -10,5 +10,9 @@ const Orders = () => {
 }
 
 export default Orders
+
+// Chỉ cho phép role merchant truy cập
+Orders.requireAuth = true
+Orders.requiredRoles = ['admin', 'merchant']
 export const getLayout = (page: React.ReactNode) => <LayoutMerchant>{page}</LayoutMerchant>
 Orders.getLayout = getLayout

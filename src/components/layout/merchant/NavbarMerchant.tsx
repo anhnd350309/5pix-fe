@@ -1,6 +1,6 @@
 import React from 'react'
 import { Menu } from 'antd'
-import { AppstoreOutlined, CalendarOutlined, ShoppingCartOutlined } from '@ant-design/icons'
+import { AppstoreOutlined, ShoppingCartOutlined } from '@ant-design/icons'
 import { useRouter } from 'next/router'
 import SvgListAlbums from '../../icons/icons/ListAlbums'
 
@@ -9,22 +9,22 @@ const NavbarMerchant = () => {
 
   const menuItems = [
     {
-      key: '/merchant/dashboard',
+      key: '/dashboard',
       icon: <AppstoreOutlined className='text-lg' />,
       label: 'Tổng quan',
     },
     {
-      key: '/merchant/home',
+      key: '/home',
       icon: <SvgListAlbums width={16} height={16} className='text-lg' />,
       label: 'Danh sách album',
     },
     {
-      key: '/merchant/orders',
+      key: '/orders',
       icon: <ShoppingCartOutlined className='text-lg' />,
       label: 'Quản lí đơn hàng',
     },
   ]
-
+  const selectedKey = router.pathname.replace(/^\/merchant/, '') || '/dashboard'
   const handleMenuClick = ({ key }: { key: string }) => {
     router.push(key)
   }
@@ -33,7 +33,7 @@ const NavbarMerchant = () => {
     <nav className='w-[200px]  bg-white '>
       <Menu
         mode='inline'
-        selectedKeys={[router.pathname]}
+        selectedKeys={[selectedKey]}
         items={menuItems}
         onClick={handleMenuClick}
         className='h-full pt-6 border-r-0'
@@ -58,6 +58,8 @@ const NavbarMerchant = () => {
           background-color: #f5f8ff !important;
           color: #1d2939 !important;
           font-weight: 700 !important;
+          border-left: 4px solid #36bffa !important;
+          padding-left: 12px !important;
         }
         .ant-menu-item-selected::after {
           display: none !important;

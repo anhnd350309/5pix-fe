@@ -13,14 +13,9 @@
  * OpenAPI spec version: 0.1.0
  */
 
-/**
- * An enumeration.
- */
-export type UserRole = (typeof UserRole)[keyof typeof UserRole]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const UserRole = {
-  admin: 'admin',
-  merchant: 'merchant',
-  user: 'user',
-} as const
+export type GetMerchantsGetParams = {
+page_size?: number;
+page?: number;
+sort_by?: string;
+order?: string;
+};

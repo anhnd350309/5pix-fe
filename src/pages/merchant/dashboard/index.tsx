@@ -20,13 +20,15 @@ const Dashboard = () => {
   const [selected, setSelected] = useState('business')
 
   return (
-    <div className='flex flex-col'>
-      <div className='flex items-center  gap-12 p-4'>
-        <h1 className='text-[#1D2939] text-2xl font-semibold'>Tổng quan</h1>
+    <div className='flex flex-col gap-4 md:p-6 lg:p-8'>
+      {/* Header */}
+      <div className='flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-12'>
+        <h1 className='text-[#1D2939] text-xl md:text-2xl lg:text-3xl font-semibold'>Tổng quan</h1>
         <ToggleSwitch options={options} selected={selected} onChange={setSelected} />
       </div>
 
-      <div className=' rounded-lg'>
+      {/* Content */}
+      <div className='rounded-lg bg-white shadow-md md:p-6 lg:p-8'>
         {selected === 'business' ? <DashboardStats /> : <CreditStats />}
       </div>
     </div>
@@ -34,5 +36,8 @@ const Dashboard = () => {
 }
 
 export default Dashboard
+
+Dashboard.requireAuth = true
+Dashboard.requiredRoles = ['admin', 'merchant']
 export const getLayout = (page: React.ReactNode) => <LayoutMerchant>{page}</LayoutMerchant>
 Dashboard.getLayout = getLayout

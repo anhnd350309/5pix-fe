@@ -14,13 +14,15 @@
  */
 
 /**
- * An enumeration.
+ * Generic enumeration.
+
+    Derive from this class to define new enumerations.
+
+    
  */
-export type UserRole = (typeof UserRole)[keyof typeof UserRole]
+export type Enum = typeof Enum[keyof typeof Enum];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const UserRole = {
-  admin: 'admin',
-  merchant: 'merchant',
-  user: 'user',
-} as const
+export const Enum = {
+} as const;

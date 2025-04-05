@@ -12,15 +12,10 @@
         
  * OpenAPI spec version: 0.1.0
  */
+import type { MerchantApprovedStatus } from './merchantApprovedStatus';
 
-/**
- * An enumeration.
- */
-export type UserRole = (typeof UserRole)[keyof typeof UserRole]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const UserRole = {
-  admin: 'admin',
-  merchant: 'merchant',
-  user: 'user',
-} as const
+export interface MerchantApproveRequest {
+  merchant_active_status: MerchantApprovedStatus;
+  merchant_active_status_note?: string;
+  merchant_id: number;
+}

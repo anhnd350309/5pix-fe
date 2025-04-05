@@ -10,5 +10,8 @@ const Orders = () => {
 }
 
 export default Orders
+
+Orders.requireAuth = true
+Orders.requiredRoles = ['admin']
 export const getLayout = (page: React.ReactNode) => <LayoutAdmin>{page}</LayoutAdmin>
 Orders.getLayout = getLayout

@@ -12,15 +12,10 @@
         
  * OpenAPI spec version: 0.1.0
  */
+import type { MerchantDetailResponse } from './merchantDetailResponse';
 
-/**
- * An enumeration.
- */
-export type UserRole = (typeof UserRole)[keyof typeof UserRole]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const UserRole = {
-  admin: 'admin',
-  merchant: 'merchant',
-  user: 'user',
-} as const
+export interface DataResponseMerchantDetailResponse {
+  code?: string;
+  data?: MerchantDetailResponse;
+  message?: string;
+}

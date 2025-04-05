@@ -12,13 +12,20 @@
         
  * OpenAPI spec version: 0.1.0
  */
+import type { Enum } from './enum'
 
-import { UserRole } from './userRole'
-
-export interface UserItemResponse {
-  id: number
+export interface MerchantDetailResponse {
+  address: string
+  date_of_birth?: string
   email: string
+  events_attended?: string
   full_name?: string
-  created_at?: string
-  role: keyof typeof UserRole
+  id: number
+  merchant_active_status?: Enum
+  merchant_active_status_note?: string
+  merchant_type: Enum | {}
+  phone_number: string
+  sample_photo_link?: string
+  social_media_link?: string
+  years_of_experience?: Enum | {}
 }

@@ -12,15 +12,14 @@
         
  * OpenAPI spec version: 0.1.0
  */
+import type { Enum } from './enum'
 
-/**
- * An enumeration.
- */
-export type UserRole = (typeof UserRole)[keyof typeof UserRole]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const UserRole = {
-  admin: 'admin',
-  merchant: 'merchant',
-  user: 'user',
-} as const
+export interface MerchantItemResponse {
+  address: string
+  email: string
+  full_name?: string
+  id: number
+  merchant_active_status?: Enum
+  merchant_type: Enum | {}
+  phone_number: string
+}

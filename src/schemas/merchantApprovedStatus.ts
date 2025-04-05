@@ -16,11 +16,12 @@
 /**
  * An enumeration.
  */
-export type UserRole = (typeof UserRole)[keyof typeof UserRole]
+export type MerchantApprovedStatus = typeof MerchantApprovedStatus[keyof typeof MerchantApprovedStatus];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const UserRole = {
-  admin: 'admin',
-  merchant: 'merchant',
-  user: 'user',
-} as const
+export const MerchantApprovedStatus = {
+  approved: 'approved',
+  waiting_for_approve: 'waiting_for_approve',
+  rejected: 'rejected',
+} as const;

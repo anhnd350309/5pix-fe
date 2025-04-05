@@ -34,5 +34,8 @@ const Credit = () => {
 }
 
 export default Credit
+
+Credit.requireAuth = true
+Credit.requiredRoles = ['admin']
 export const getLayout = (page: React.ReactNode) => <LayoutAdmin>{page}</LayoutAdmin>
 Credit.getLayout = getLayout

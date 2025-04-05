@@ -2,14 +2,16 @@ import { Spin } from 'antd'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 import { useEffect } from 'react'
+import { UserRole } from '@/schemas/userRole'
 
 type Props = {
   children: React.ReactElement
+  requiredRoles?: Array<keyof typeof UserRole>
 }
 
-export const ProtectedLayout = ({ children }: Props): JSX.Element => {
+export const ProtectedLayout = ({ children, requiredRoles = [] }: Props): JSX.Element => {
   const router = useRouter()
-  const { status: sessionStatus } = useSession()
+  const { data: session, status: sessionStatus } = useSession()
   const authorized = sessionStatus === 'authenticated'
   const unAuthorized = sessionStatus === 'unauthenticated'
   const loading = sessionStatus === 'loading'
@@ -17,11 +19,23 @@ export const ProtectedLayout = ({ children }: Props): JSX.Element => {
   useEffect(() => {
     // check if the session is loading or the router is not ready
     if (loading || !router.isReady) return
+
     // if the user is not authorized, redirect to the login page
     if (unAuthorized) {
       router.replace('/auth/login')
+      return
     }
-  }, [loading, unAuthorized, sessionStatus, router])
+
+    // Kiểm tra role nếu có yêu cầu role cụ thể
+    if (authorized && requiredRoles.length > 0) {
+      const userRole = session?.role as keyof typeof UserRole
+
+      if (!userRole || !requiredRoles.includes(userRole)) {
+        // Redirect đến trang unauthorized nếu không có quyền
+        router.replace('/unauthorized')
+      }
+    }
+  }, [loading, unAuthorized, authorized, sessionStatus, router, session, requiredRoles])
 
   // if the user refresh the page or somehow navigated to the protected page
   if (loading) {
@@ -30,6 +44,15 @@ export const ProtectedLayout = ({ children }: Props): JSX.Element => {
         <Spin size='large' />
       </div>
     )
+  }
+
+  // Kiểm tra quyền truy cập dựa trên role
+  if (authorized && requiredRoles.length > 0) {
+    const userRole = session?.role as keyof typeof UserRole
+
+    if (!userRole || !requiredRoles.includes(userRole)) {
+      return <></>
+    }
   }
 
   // if the user is authorized, render the page

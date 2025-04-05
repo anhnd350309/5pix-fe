@@ -12,7 +12,10 @@
         
  * OpenAPI spec version: 0.1.0
  */
-import { useMutation, useQuery } from '@tanstack/react-query'
+import {
+  useMutation,
+  useQuery
+} from '@tanstack/react-query'
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -24,328 +27,254 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult,
+  UseQueryResult
 } from '@tanstack/react-query'
 import type {
   DataResponseAlbumItemResponsePublic,
   GenCertificateThumbnailImageRequest,
   GetPubAlbumsGetParams,
   HTTPValidationError,
-  PageAlbumItemResponsePublic,
+  PageAlbumItemResponsePublic
 } from '../../schemas'
-import { defaultMutator } from '../../api/axiosInstance'
+import { defaultMutator } from '../../api/axiosInstance';
+
+
 
 /**
  * API Public Get list Album
 - highlight: bool = False (default) - Get list album highlight thì set True
  * @summary Get
  */
-export const getPubAlbumsGet = (params?: GetPubAlbumsGetParams, signal?: AbortSignal) => {
-  return defaultMutator<PageAlbumItemResponsePublic>({
-    url: `/pub/albums`,
-    method: 'GET',
-    params,
-    signal,
-  })
-}
-
-export const getGetPubAlbumsGetQueryKey = (params?: GetPubAlbumsGetParams) => {
-  return [`/pub/albums`, ...(params ? [params] : [])] as const
-}
-
-export const getGetPubAlbumsGetQueryOptions = <
-  TData = Awaited<ReturnType<typeof getPubAlbumsGet>>,
-  TError = HTTPValidationError,
->(
-  params?: GetPubAlbumsGetParams,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getPubAlbumsGet>>, TError, TData>>
-  },
+export const getPubAlbumsGet = (
+    params?: GetPubAlbumsGetParams,
+ signal?: AbortSignal
 ) => {
-  const { query: queryOptions } = options ?? {}
+      
+      
+      return defaultMutator<PageAlbumItemResponsePublic>(
+      {url: `/pub/albums`, method: 'GET',
+        params, signal
+    },
+      );
+    }
+  
 
-  const queryKey = queryOptions?.queryKey ?? getGetPubAlbumsGetQueryKey(params)
+export const getGetPubAlbumsGetQueryKey = (params?: GetPubAlbumsGetParams,) => {
+    return [`/pub/albums`, ...(params ? [params]: [])] as const;
+    }
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof getPubAlbumsGet>>> = ({ signal }) =>
-    getPubAlbumsGet(params, signal)
+    
+export const getGetPubAlbumsGetQueryOptions = <TData = Awaited<ReturnType<typeof getPubAlbumsGet>>, TError = HTTPValidationError>(params?: GetPubAlbumsGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPubAlbumsGet>>, TError, TData>>, }
+) => {
 
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof getPubAlbumsGet>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData> }
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetPubAlbumsGetQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPubAlbumsGet>>> = ({ signal }) => getPubAlbumsGet(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getPubAlbumsGet>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
 }
 
 export type GetPubAlbumsGetQueryResult = NonNullable<Awaited<ReturnType<typeof getPubAlbumsGet>>>
 export type GetPubAlbumsGetQueryError = HTTPValidationError
 
-export function useGetPubAlbumsGet<
-  TData = Awaited<ReturnType<typeof getPubAlbumsGet>>,
-  TError = HTTPValidationError,
->(
-  params: undefined | GetPubAlbumsGetParams,
-  options: {
-    query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getPubAlbumsGet>>, TError, TData>> &
-      Pick<
-        DefinedInitialDataOptions<Awaited<ReturnType<typeof getPubAlbumsGet>>, TError, TData>,
-        'initialData'
-      >
-  },
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetPubAlbumsGet<
-  TData = Awaited<ReturnType<typeof getPubAlbumsGet>>,
-  TError = HTTPValidationError,
->(
-  params?: GetPubAlbumsGetParams,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getPubAlbumsGet>>, TError, TData>> &
-      Pick<
-        UndefinedInitialDataOptions<Awaited<ReturnType<typeof getPubAlbumsGet>>, TError, TData>,
-        'initialData'
-      >
-  },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetPubAlbumsGet<
-  TData = Awaited<ReturnType<typeof getPubAlbumsGet>>,
-  TError = HTTPValidationError,
->(
-  params?: GetPubAlbumsGetParams,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getPubAlbumsGet>>, TError, TData>>
-  },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+
+export function useGetPubAlbumsGet<TData = Awaited<ReturnType<typeof getPubAlbumsGet>>, TError = HTTPValidationError>(
+ params: undefined |  GetPubAlbumsGetParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPubAlbumsGet>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getPubAlbumsGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetPubAlbumsGet<TData = Awaited<ReturnType<typeof getPubAlbumsGet>>, TError = HTTPValidationError>(
+ params?: GetPubAlbumsGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPubAlbumsGet>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getPubAlbumsGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetPubAlbumsGet<TData = Awaited<ReturnType<typeof getPubAlbumsGet>>, TError = HTTPValidationError>(
+ params?: GetPubAlbumsGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPubAlbumsGet>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get
  */
 
-export function useGetPubAlbumsGet<
-  TData = Awaited<ReturnType<typeof getPubAlbumsGet>>,
-  TError = HTTPValidationError,
->(
-  params?: GetPubAlbumsGetParams,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getPubAlbumsGet>>, TError, TData>>
-  },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
-  const queryOptions = getGetPubAlbumsGetQueryOptions(params, options)
+export function useGetPubAlbumsGet<TData = Awaited<ReturnType<typeof getPubAlbumsGet>>, TError = HTTPValidationError>(
+ params?: GetPubAlbumsGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPubAlbumsGet>>, TError, TData>>, }
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>
-  }
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
 
-  query.queryKey = queryOptions.queryKey
+  const queryOptions = getGetPubAlbumsGetQueryOptions(params,options)
 
-  return query
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
 }
+
+
 
 /**
  * API Detail Album
  * @summary Detail
  */
-export const detailPubAlbumsAlbumSlugGet = (albumSlug: string, signal?: AbortSignal) => {
-  return defaultMutator<DataResponseAlbumItemResponsePublic>({
-    url: `/pub/albums/${albumSlug}`,
-    method: 'GET',
-    signal,
-  })
-}
-
-export const getDetailPubAlbumsAlbumSlugGetQueryKey = (albumSlug: string) => {
-  return [`/pub/albums/${albumSlug}`] as const
-}
-
-export const getDetailPubAlbumsAlbumSlugGetQueryOptions = <
-  TData = Awaited<ReturnType<typeof detailPubAlbumsAlbumSlugGet>>,
-  TError = HTTPValidationError,
->(
-  albumSlug: string,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof detailPubAlbumsAlbumSlugGet>>, TError, TData>
-    >
-  },
+export const detailPubAlbumsAlbumSlugGet = (
+    albumSlug: string,
+ signal?: AbortSignal
 ) => {
-  const { query: queryOptions } = options ?? {}
+      
+      
+      return defaultMutator<DataResponseAlbumItemResponsePublic>(
+      {url: `/pub/albums/${albumSlug}`, method: 'GET', signal
+    },
+      );
+    }
+  
 
-  const queryKey = queryOptions?.queryKey ?? getDetailPubAlbumsAlbumSlugGetQueryKey(albumSlug)
+export const getDetailPubAlbumsAlbumSlugGetQueryKey = (albumSlug: string,) => {
+    return [`/pub/albums/${albumSlug}`] as const;
+    }
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof detailPubAlbumsAlbumSlugGet>>> = ({
-    signal,
-  }) => detailPubAlbumsAlbumSlugGet(albumSlug, signal)
+    
+export const getDetailPubAlbumsAlbumSlugGetQueryOptions = <TData = Awaited<ReturnType<typeof detailPubAlbumsAlbumSlugGet>>, TError = HTTPValidationError>(albumSlug: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailPubAlbumsAlbumSlugGet>>, TError, TData>>, }
+) => {
 
-  return { queryKey, queryFn, enabled: !!albumSlug, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof detailPubAlbumsAlbumSlugGet>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData> }
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getDetailPubAlbumsAlbumSlugGetQueryKey(albumSlug);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof detailPubAlbumsAlbumSlugGet>>> = ({ signal }) => detailPubAlbumsAlbumSlugGet(albumSlug, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(albumSlug), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof detailPubAlbumsAlbumSlugGet>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
 }
 
-export type DetailPubAlbumsAlbumSlugGetQueryResult = NonNullable<
-  Awaited<ReturnType<typeof detailPubAlbumsAlbumSlugGet>>
->
+export type DetailPubAlbumsAlbumSlugGetQueryResult = NonNullable<Awaited<ReturnType<typeof detailPubAlbumsAlbumSlugGet>>>
 export type DetailPubAlbumsAlbumSlugGetQueryError = HTTPValidationError
 
-export function useDetailPubAlbumsAlbumSlugGet<
-  TData = Awaited<ReturnType<typeof detailPubAlbumsAlbumSlugGet>>,
-  TError = HTTPValidationError,
->(
-  albumSlug: string,
-  options: {
-    query: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof detailPubAlbumsAlbumSlugGet>>, TError, TData>
-    > &
-      Pick<
+
+export function useDetailPubAlbumsAlbumSlugGet<TData = Awaited<ReturnType<typeof detailPubAlbumsAlbumSlugGet>>, TError = HTTPValidationError>(
+ albumSlug: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailPubAlbumsAlbumSlugGet>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof detailPubAlbumsAlbumSlugGet>>,
           TError,
           TData
-        >,
-        'initialData'
-      >
-  },
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useDetailPubAlbumsAlbumSlugGet<
-  TData = Awaited<ReturnType<typeof detailPubAlbumsAlbumSlugGet>>,
-  TError = HTTPValidationError,
->(
-  albumSlug: string,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof detailPubAlbumsAlbumSlugGet>>, TError, TData>
-    > &
-      Pick<
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useDetailPubAlbumsAlbumSlugGet<TData = Awaited<ReturnType<typeof detailPubAlbumsAlbumSlugGet>>, TError = HTTPValidationError>(
+ albumSlug: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailPubAlbumsAlbumSlugGet>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof detailPubAlbumsAlbumSlugGet>>,
           TError,
           TData
-        >,
-        'initialData'
-      >
-  },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useDetailPubAlbumsAlbumSlugGet<
-  TData = Awaited<ReturnType<typeof detailPubAlbumsAlbumSlugGet>>,
-  TError = HTTPValidationError,
->(
-  albumSlug: string,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof detailPubAlbumsAlbumSlugGet>>, TError, TData>
-    >
-  },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useDetailPubAlbumsAlbumSlugGet<TData = Awaited<ReturnType<typeof detailPubAlbumsAlbumSlugGet>>, TError = HTTPValidationError>(
+ albumSlug: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailPubAlbumsAlbumSlugGet>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Detail
  */
 
-export function useDetailPubAlbumsAlbumSlugGet<
-  TData = Awaited<ReturnType<typeof detailPubAlbumsAlbumSlugGet>>,
-  TError = HTTPValidationError,
->(
-  albumSlug: string,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof detailPubAlbumsAlbumSlugGet>>, TError, TData>
-    >
-  },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
-  const queryOptions = getDetailPubAlbumsAlbumSlugGetQueryOptions(albumSlug, options)
+export function useDetailPubAlbumsAlbumSlugGet<TData = Awaited<ReturnType<typeof detailPubAlbumsAlbumSlugGet>>, TError = HTTPValidationError>(
+ albumSlug: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailPubAlbumsAlbumSlugGet>>, TError, TData>>, }
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>
-  }
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
 
-  query.queryKey = queryOptions.queryKey
+  const queryOptions = getDetailPubAlbumsAlbumSlugGetQueryOptions(albumSlug,options)
 
-  return query
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
 }
+
+
 
 /**
  * API gen certificate thumbnail image
  * @summary Gen Certificate Thumbnail Image
  */
 export const genCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePost = (
-  genCertificateThumbnailImageRequest: GenCertificateThumbnailImageRequest,
-  signal?: AbortSignal,
+    genCertificateThumbnailImageRequest: GenCertificateThumbnailImageRequest,
+ signal?: AbortSignal
 ) => {
-  return defaultMutator<unknown>({
-    url: `/pub/albums/gen-certificate-thumbnail-image`,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    data: genCertificateThumbnailImageRequest,
-    responseType: 'blob',
-    signal,
-  })
-}
-
-export const getGenCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePostMutationOptions =
-  <TError = HTTPValidationError, TContext = unknown>(options?: {
-    mutation?: UseMutationOptions<
-      Awaited<
-        ReturnType<typeof genCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePost>
-      >,
-      TError,
-      { data: GenCertificateThumbnailImageRequest },
-      TContext
-    >
-  }): UseMutationOptions<
-    Awaited<
-      ReturnType<typeof genCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePost>
-    >,
-    TError,
-    { data: GenCertificateThumbnailImageRequest },
-    TContext
-  > => {
-    const { mutation: mutationOptions } = options ?? {}
-
-    const mutationFn: MutationFunction<
-      Awaited<
-        ReturnType<typeof genCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePost>
-      >,
-      { data: GenCertificateThumbnailImageRequest }
-    > = (props) => {
-      const { data } = props ?? {}
-
-      return genCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePost(data)
+      
+      
+      return defaultMutator<unknown>(
+      {url: `/pub/albums/gen-certificate-thumbnail-image`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: genCertificateThumbnailImageRequest, signal
+    },
+      );
     }
+  
 
-    return { mutationFn, ...mutationOptions }
-  }
 
-export type GenCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePostMutationResult =
-  NonNullable<
-    Awaited<
-      ReturnType<typeof genCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePost>
-    >
-  >
-export type GenCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePostMutationBody =
-  GenCertificateThumbnailImageRequest
-export type GenCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePostMutationError =
-  HTTPValidationError
+export const getGenCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePostMutationOptions = <TError = HTTPValidationError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof genCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePost>>, TError,{data: GenCertificateThumbnailImageRequest}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof genCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePost>>, TError,{data: GenCertificateThumbnailImageRequest}, TContext> => {
+const {mutation: mutationOptions} = options ?? {};
 
-/**
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof genCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePost>>, {data: GenCertificateThumbnailImageRequest}> = (props) => {
+          const {data} = props ?? {};
+
+          return  genCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePost(data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type GenCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePostMutationResult = NonNullable<Awaited<ReturnType<typeof genCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePost>>>
+    export type GenCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePostMutationBody = GenCertificateThumbnailImageRequest
+    export type GenCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePostMutationError = HTTPValidationError
+
+    /**
  * @summary Gen Certificate Thumbnail Image
  */
-export const useGenCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePost = <
-  TError = HTTPValidationError,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<
-      ReturnType<typeof genCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePost>
-    >,
-    TError,
-    { data: GenCertificateThumbnailImageRequest },
-    TContext
-  >
-}): UseMutationResult<
-  Awaited<ReturnType<typeof genCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePost>>,
-  TError,
-  { data: GenCertificateThumbnailImageRequest },
-  TContext
-> => {
-  const mutationOptions =
-    getGenCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePostMutationOptions(options)
+export const useGenCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePost = <TError = HTTPValidationError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof genCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePost>>, TError,{data: GenCertificateThumbnailImageRequest}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof genCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePost>>,
+        TError,
+        {data: GenCertificateThumbnailImageRequest},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions)
-}
+      const mutationOptions = getGenCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePostMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    

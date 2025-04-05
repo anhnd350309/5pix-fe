@@ -16,11 +16,13 @@
 /**
  * An enumeration.
  */
-export type UserRole = (typeof UserRole)[keyof typeof UserRole]
+export type MerchantYearsOfExperience = typeof MerchantYearsOfExperience[keyof typeof MerchantYearsOfExperience];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const UserRole = {
-  admin: 'admin',
-  merchant: 'merchant',
-  user: 'user',
-} as const
+export const MerchantYearsOfExperience = {
+  '<_1': '< 1',
+  '1-3': '1-3',
+  '3-5': '3-5',
+  '>_5': '> 5',
+} as const;

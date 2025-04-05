@@ -70,7 +70,8 @@ const DashboardStats = () => {
   }
 
   return (
-    <div className='p-6'>
+    <div className=' sm:p-6 lg:p-8'>
+      {/* Statistic Cards */}
       <Card>
         <Row gutter={[16, 16]}>
           <Col xs={24} sm={12} md={8} className='p-0 border rounded-[8px] border-gray-300'>
@@ -113,10 +114,10 @@ const DashboardStats = () => {
         </Row>
       </Card>
 
-      {/* Statistic Cards */}
+      {/* Filters */}
       <Card className='mt-6'>
-        <div className='flex flex-col sm:flex-row justify-between items-center sm:items-center gap-4 sm:gap-0'>
-          <Space className='w-full sm:w-auto mb-4 sm:mb-0'>
+        <div className='flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4'>
+          <Space className='w-full sm:w-auto'>
             <span className='text-gray-700'>Thời gian:</span>
             <DatePicker.RangePicker
               value={dateRange}
@@ -155,14 +156,16 @@ const DashboardStats = () => {
       <Row gutter={[16, 16]} className='mb-6 mt-6'>
         <Col xs={24} md={12}>
           <Card title='Biểu đồ doanh thu theo thời gian' className='font-sans'>
-            <LineChart width={500} height={300} data={lineChartData}>
-              <CartesianGrid strokeDasharray='3 3' />
-              <XAxis dataKey='name' />
-              <YAxis />
-              <Tooltip />
-              <Line type='monotone' dataKey='Doanh thu' stroke='#1890ff' />
-              <Line type='monotone' dataKey='Don hang' stroke='#f5222d' />
-            </LineChart>
+            <div className='overflow-x-auto'>
+              <LineChart width={500} height={300} data={lineChartData}>
+                <CartesianGrid strokeDasharray='3 3' />
+                <XAxis dataKey='name' />
+                <YAxis />
+                <Tooltip />
+                <Line type='monotone' dataKey='Doanh thu' stroke='#1890ff' />
+                <Line type='monotone' dataKey='Don hang' stroke='#f5222d' />
+              </LineChart>
+            </div>
           </Card>
         </Col>
         <Col xs={24} md={12}>
@@ -201,10 +204,12 @@ const DashboardStats = () => {
         </Col>
       </Row>
 
+      {/* Table */}
       <Row gutter={[16, 16]} className='mt-4'>
         <Col span={24}>
-          <Card title='Danh sách album đang trên hệ trống'>
+          <Card title='Danh sách album đang trên hệ thống'>
             <Table
+              scroll={{ x: 'max-content' }}
               bordered
               dataSource={dataTable}
               pagination={{
