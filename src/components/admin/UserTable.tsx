@@ -1,129 +1,129 @@
-import React, { useState } from 'react'
-import { Table, Tag, Button, Tabs, Input, DatePicker, Space } from 'antd'
+import React, { useEffect, useState } from 'react'
+import { Table, Tag, Button, Tabs, Input, DatePicker, Space, Spin } from 'antd'
 import { UserOutlined, MailOutlined, SearchOutlined } from '@ant-design/icons'
+import { GetMerchantsGetParams, MerchantDetailResponse, MerchantItemResponse } from '@/schemas'
+import { detailMerchantsMerchantIdGet, getMerchantsGet } from '@/services/merchants/merchants'
+import { merchantTypeMapping, statusMapping } from '@/constants/mapping'
 
 const { RangePicker } = DatePicker
 const { TabPane } = Tabs
 
-interface UserDetail {
-  birthDate: string
-  email: string
-  socialMediaLink: string
-  demoFolderLink: string
-  teamsParticipated: string
-  platformFee: string
-  creditDiscount: string
-  experienceYears: string
+interface UserTableProps {
+  // Các props khác nếu có
 }
 
-interface UserData {
-  key: string
-  customer: string
-  username: string
-  phone: string
-  type: string
-  status: string
-  details?: UserDetail
-}
-
-const UserTable: React.FC = () => {
-  const [selectedRow, setSelectedRow] = useState<string | null>(null)
+const UserTable: React.FC<UserTableProps> = () => {
+  const [selectedRow, setSelectedRow] = useState<number | null>(null)
   const [activeTab, setActiveTab] = useState<string>('all')
   const [searchText, setSearchText] = useState<string>('')
+  const [currentPage, setCurrentPage] = useState(1)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [loadedUsers, setLoadedUsers] = useState<MerchantItemResponse[]>([])
+  const [detailUser, setDetailUser] = useState<MerchantDetailResponse | null>(null)
+  const [isLoadingDetail, setIsLoadingDetail] = useState(false) // State riêng cho loading detail
 
-  const dataSource: UserData[] = [
-    {
-      key: '1',
-      customer: 'Minh Danny',
-      username: 'MinhDanny@gmail.com',
-      phone: '0123456789',
-      type: 'Doanh nghiệp',
-      status: 'Hoàn thành',
-      details: {
-        birthDate: '12:23:00 - 15/04/2023',
-        email: 'minhnb@gmail.com',
-        socialMediaLink: 'https://www.facebook.com/DannyMNB',
-        demoFolderLink:
-          'https://drive.google.com/drive/u/3/folders/1lSN2Tq6Tl0X6zLneYVvrVK_CNpxfdM6Q',
-        teamsParticipated: '5PIX',
-        platformFee: '25%',
-        creditDiscount: '0%',
-        experienceYears: '1 năm',
-      },
-    },
-    {
-      key: '2',
-      customer: 'Anh Đan',
-      username: 'AnhDan@gmail.com',
-      phone: '0987654321',
-      type: 'Cá nhân',
-      status: 'Chờ xác nhận thanh toán',
-      details: {
-        birthDate: '10:00:00 - 01/01/2023',
-        email: 'anhdan@gmail.com',
-        socialMediaLink: 'https://www.facebook.com/AnhDan',
-        demoFolderLink:
-          'https://drive.google.com/drive/u/3/folders/1lSN2Tq6Tl0X6zLneYVvrVK_CNpxfdM6Q',
-        teamsParticipated: 'Team A',
-        platformFee: '20%',
-        creditDiscount: '5%',
-        experienceYears: '2 năm',
-      },
-    },
-    {
-      key: '3',
-      customer: 'Nguyễn Văn A',
-      username: 'NguyenVanA@gmail.com',
-      phone: '0912345678',
-      type: 'Cá nhân',
-      status: 'Đã đóng',
-      details: {
-        birthDate: '08:00:00 - 20/05/2022',
-        email: 'nguyenvana@gmail.com',
-        socialMediaLink: 'https://www.facebook.com/NguyenVanA',
-        demoFolderLink:
-          'https://drive.google.com/drive/u/3/folders/1lSN2Tq6Tl0X6zLneYVvrVK_CNpxfdM6Q',
-        teamsParticipated: 'Team B',
-        platformFee: '15%',
-        creditDiscount: '10%',
-        experienceYears: '3 năm',
-      },
-    },
-  ]
+  const [totalUsers, setTotalUsers] = useState<number | null>(null)
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      setIsLoading(true)
+      setError(null)
+
+      try {
+        const params: GetMerchantsGetParams = {
+          page: currentPage,
+          page_size: 10,
+          merchant_active_status: activeTab !== 'all' ? activeTab : undefined,
+        }
+        const response = await getMerchantsGet(params)
+        const newUsers = response.data
+        setLoadedUsers(newUsers)
+        setTotalUsers(response.metadata.total_items)
+      } catch (err: any) {
+        setError(err.message || 'Something went wrong')
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchUsers()
+  }, [currentPage, activeTab])
+
+  useEffect(() => {
+    const fetchUserDetail = async () => {
+      if (!selectedRow) {
+        setDetailUser(null) // Reset detailUser khi không có selectedRow
+        return
+      }
+
+      setIsLoadingDetail(true)
+      setError(null)
+
+      try {
+        const response = await detailMerchantsMerchantIdGet(selectedRow)
+        const detail = response.data
+        if (detail) {
+          setDetailUser(detail)
+        } else {
+          setDetailUser(null)
+        }
+      } catch (err: any) {
+        setError(err.message || 'Something went wrong')
+      } finally {
+        setIsLoadingDetail(false)
+      }
+    }
+
+    fetchUserDetail()
+  }, [selectedRow])
 
   const columns = [
     {
       title: 'Khách hàng',
-      dataIndex: 'customer',
-      key: 'customer',
+      dataIndex: 'full_name',
+      key: 'full_name',
     },
     {
       title: 'Username',
-      dataIndex: 'username',
-      key: 'username',
+      dataIndex: 'email',
+      key: 'email',
     },
     {
       title: 'Số điện thoại',
-      dataIndex: 'phone',
-      key: 'phone',
+      dataIndex: 'phone_number',
+      key: 'phone_number',
     },
     {
       title: 'Loại hình đăng ký',
-      dataIndex: 'type',
-      key: 'type',
+      dataIndex: 'merchant_type',
+      key: 'merchant_type',
+      render: (text: string) => {
+        const merchantTypeText = merchantTypeMapping[text] || 'Không xác định'
+        return <span>{merchantTypeText}</span>
+      },
     },
     {
       title: 'Trạng thái',
-      dataIndex: 'status',
-      key: 'status',
-      render: (text: string) => (
-        <Tag color={text === 'Hoàn thành' ? 'green' : 'default'}>{text}</Tag>
-      ),
+      dataIndex: 'merchant_active_status',
+      key: 'merchant_active_status',
+      render: (text: string) => {
+        const status = statusMapping[text] || { text: 'Không xác định', color: 'default' }
+        return <Tag color={status.color}>{status.text}</Tag>
+      },
     },
   ]
 
-  const expandedRowRender = (record: UserData) => {
-    if (!record.details) return null
+  const expandedRowRender = (record: MerchantDetailResponse) => {
+    console.log(record)
+    if (isLoadingDetail) {
+      return <Spin /> // Hiển thị loading khi đang tải detail
+    }
+
+    if (!detailUser || detailUser.id !== record.id) {
+      return <div>Không có thông tin chi tiết.</div> // Hoặc một thông báo khác
+    }
+
     return (
       <div className='relative'>
         <div className='flex justify-between items-center mb-4'>
@@ -136,64 +136,60 @@ const UserTable: React.FC = () => {
         <div className='p-6 grid grid-cols-2 gap-4 bg-white border border-gray-200 shadow-md rounded-lg'>
           <div className='flex flex-col space-y-2'>
             <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-2'>
-              <strong>Họ và tên:</strong> {record.customer}
+              <strong>Họ và tên:</strong> {detailUser.full_name}
             </p>
             <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-2'>
-              <strong>Ngày sinh:</strong> {record.details.birthDate}
+              <strong>Ngày sinh:</strong> {detailUser.date_of_birth}
             </p>
             <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-2'>
-              <strong>Email:</strong> {record.details.email}
+              <strong>Email:</strong> {detailUser.email}
             </p>
             <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-2'>
-              <strong>SDT:</strong> {record.phone}
+              <strong>SDT:</strong> {detailUser.phone_number}
             </p>
             <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-2'>
-              <strong>Loại hình đăng ký:</strong> {record.type}
+              <strong>Loại hình đăng ký:</strong> {merchantTypeMapping[detailUser.merchant_type]}
             </p>
             <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-2'>
-              <strong>Số năm kinh nghiệm:</strong> {record.details.experienceYears}
+              <strong>Số năm kinh nghiệm:</strong> {detailUser.years_of_experience}
             </p>
           </div>
           <div className='flex flex-col space-y-2'>
             <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-5'>
               <strong className='col-span-2'>Link social media:</strong>
               <a
-                href={record.details.socialMediaLink}
+                href={detailUser.social_media_link}
                 target='_blank'
                 rel='noopener noreferrer'
                 className='col-span-2'
               >
-                {record.details.socialMediaLink}
+                {detailUser.social_media_link}
               </a>
             </p>
             <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-5'>
               <strong className='col-span-2'>Link thư mục demo:</strong>
               <a
-                href={record.details.demoFolderLink}
+                href={detailUser.sample_photo_link}
                 target='_blank'
                 rel='noopener noreferrer'
                 className='col-span-3'
               >
-                {record.details.demoFolderLink}
+                {detailUser.sample_photo_link}
               </a>
             </p>
             <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-5'>
               <strong className='col-span-2'>Các team từng tham gia:</strong>
-              <div className='col-span-3'>{record.details.teamsParticipated}</div>
+              <div className='col-span-3'>{detailUser.events_attended}</div>
             </p>
             <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-5'>
               <strong className='col-span-2'>Trạng thái đơn hàng:</strong>
-              <Tag color='green' className='w-24 col-span-3'>
-                {record.status}
+              <Tag
+                color={statusMapping[detailUser.merchant_active_status ?? 'unknown']?.color}
+                className='w-fit col-span-3'
+              >
+                {statusMapping[detailUser.merchant_active_status ?? 'unknown']?.text ||
+                  'Không xác định'}
               </Tag>
-            </p>
-            <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-5'>
-              <strong className='col-span-2'>Phí nền tảng:</strong>{' '}
-              <div className='col-span-3'>{record.details.platformFee}</div>
-            </p>
-            <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-5'>
-              <strong className='col-span-2'>Giảm giá credit:</strong>
-              <div className='col-span-3'>{record.details.creditDiscount}</div>
             </p>
           </div>
         </div>
@@ -215,14 +211,17 @@ const UserTable: React.FC = () => {
     setSearchText(e.target.value)
   }
 
+  const onExpand = (expanded: boolean, record: MerchantItemResponse) => {
+    setSelectedRow(expanded ? record.id : null)
+  }
+
   return (
     <div className='container mx-auto p-4'>
       <Tabs defaultActiveKey='all' onChange={handleTabChange}>
         <TabPane tab='Tất cả' key='all' />
-        <TabPane tab='Hoàn thành' key='completed' />
-        <TabPane tab='Chờ xác nhận thanh toán' key='pending' />
-        <TabPane tab='Đã đóng' key='closed' />
-        <TabPane tab='Đã hủy' key='cancelled' />
+        <TabPane tab='Đang hoạt động' key='approved' />
+        <TabPane tab='Chờ duyệt' key='waiting_for_approve' />
+        <TabPane tab='Vô hiệu' key='rejected' />
       </Tabs>
       <div className='flex justify-between items-center my-4'>
         <Input
@@ -238,34 +237,26 @@ const UserTable: React.FC = () => {
         </Space>
       </div>
       <Table
+        scroll={{ x: 'max-content' }}
+        rowKey={(record) => record.id}
+        loading={isLoading}
         bordered
         columns={columns}
-        dataSource={dataSource
-          .filter((item) => {
-            if (activeTab === 'all') return true
-            if (activeTab === 'completed' && item.status === 'Hoàn thành') return true
-            if (activeTab === 'pending' && item.status === 'Chờ xác nhận thanh toán') return true
-            if (activeTab === 'closed' && item.status === 'Đã đóng') return true
-            if (activeTab === 'cancelled' && item.status === 'Đã hủy') return true
-            return false
-          })
-          .filter((item) => {
-            return (
-              item.customer.includes(searchText) ||
-              item.username.includes(searchText) ||
-              item.phone.includes(searchText)
-            )
-          })}
+        dataSource={loadedUsers}
         expandable={{
           expandedRowRender,
           expandRowByClick: true,
-          onExpand: (expanded: boolean, record: UserData) =>
-            setSelectedRow(expanded ? record.key : null),
+          onExpand: (expanded: boolean, record: MerchantDetailResponse) =>
+            setSelectedRow(expanded ? record.id : null),
           expandedRowKeys: selectedRow ? [selectedRow] : [],
         }}
         pagination={{
+          current: currentPage,
+          onChange: (page) => {
+            setCurrentPage(page)
+          },
           pageSize: 10,
-          total: 200,
+          total: totalUsers ?? 0,
           showSizeChanger: false,
         }}
         className='shadow-md rounded-lg custom-table'

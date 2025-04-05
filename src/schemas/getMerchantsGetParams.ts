@@ -14,8 +14,9 @@
  */
 
 export type GetMerchantsGetParams = {
-page_size?: number;
-page?: number;
-sort_by?: string;
-order?: string;
-};
+  page_size?: number
+  page?: number
+  sort_by?: string
+  order?: string
+  merchant_active_status?: string
+}

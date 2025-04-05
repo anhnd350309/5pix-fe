@@ -20,6 +20,6 @@ export interface MerchantItemResponse {
   full_name?: string
   id: number
   merchant_active_status?: Enum
-  merchant_type: Enum | {}
+  merchant_type: Enum
   phone_number: string
 }

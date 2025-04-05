@@ -23,9 +23,9 @@ export interface MerchantDetailResponse {
   id: number
   merchant_active_status?: Enum
   merchant_active_status_note?: string
-  merchant_type: Enum | {}
+  merchant_type: string
   phone_number: string
   sample_photo_link?: string
   social_media_link?: string
-  years_of_experience?: Enum | {}
+  years_of_experience?: string
 }
