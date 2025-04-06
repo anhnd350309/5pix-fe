@@ -2,10 +2,94 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React, { useState } from 'react'
 import { Link as LinkScroll } from 'react-scroll'
+import { useSession, signIn, signOut } from 'next-auth/react'
+import {
+  Dropdown,
+  Menu,
+  Modal,
+  Button as AntButton,
+  Form,
+  Select,
+  Input,
+  DatePicker,
+  Button,
+} from 'antd' // Import Dropdown, Menu và Modal
+import moment from 'moment'
+import { createMerchantsPost } from '@/services/merchants/merchants'
+import { MerchantType, MerchantYearsOfExperience } from '@/schemas'
+const { Option } = Select
 
+interface RegistrationFormValues {
+  merchant_type: string
+  full_name: string
+  date_of_birth: string
+  email: string
+  phone_number: string
+  address: string
+  years_of_experience: string
+  events_attended: string
+  social_media_link: string
+  sample_photo_link: string
+}
 const Header = ({ bgColor }: { bgColor: string }) => {
   const [activeLink, setActiveLink] = useState<string>('')
+  const { data: session } = useSession()
+  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [form] = Form.useForm()
+  const navigateManage = () => {
+    if (session) {
+      const userRole = session.role // Assuming `role` is part of the session user object
+      if (userRole === 'admin') {
+        window.location.assign(
+          process.env.NEXT_ENV === 'dev' ? 'https://admin-dev.5pix.org' : 'https://admin.5pix.org',
+        )
+      } else if (userRole === 'merchant') {
+        window.location.assign(
+          process.env.NEXT_ENV === 'dev'
+            ? 'https://merchant-dev.5pix.org'
+            : 'https://merchant.5pix.org',
+        )
+      } else {
+        console.error('User role is not recognized.')
+      }
+    } else {
+      console.error('User is not logged in.')
+    }
+  }
+  // Menu dành cho dropdown
+  const partnerMenu = (
+    <Menu>
+      {/* <Menu.Item
+        key='partner'
+        onClick={() => {
+          setIsModalVisible(true)
+        }}
+      >
+        Trở thành đối tác của 5PIX
+      </Menu.Item> */}
+      <Menu.Item key='manage' onClick={navigateManage}>
+        Quản lý
+      </Menu.Item>
+    </Menu>
+  )
 
+  const onFinish = (values: RegistrationFormValues) => {
+    const formattedDate = values.date_of_birth
+      ? moment(values.date_of_birth).format('YYYY-MM-DD')
+      : ''
+
+    const formData = {
+      ...values,
+      date_of_birth: formattedDate,
+      merchant_type: values.merchant_type as MerchantType, // Ensure correct type
+      years_of_experience: values.years_of_experience as MerchantYearsOfExperience, // Ensure correct type
+    }
+    console.log('Received values:', formData)
+    createMerchantsPost(formData)
+    // Handle form submission here
+    setIsModalVisible(false)
+    form.resetFields()
+  }
   return (
     <>
       <header className={`top-0 z-30 w-full bg-transparent transition-all pt-4`}>
@@ -21,7 +105,6 @@ const Header = ({ bgColor }: { bgColor: string }) => {
               />
             </Link>
           </div>
-          {/* Dynamically set text color based on bgColor */}
           <ul
             className={`col-start-4 col-end-8 hidden items-center ${
               bgColor === 'white' ? 'text-black' : 'text-white'
@@ -59,7 +142,7 @@ const Header = ({ bgColor }: { bgColor: string }) => {
             >
               Danh sách sự kiện
             </Link>
-            <LinkScroll
+            {/* <LinkScroll
               activeClass='active'
               to='pricing'
               spy
@@ -77,7 +160,7 @@ const Header = ({ bgColor }: { bgColor: string }) => {
               }`}
             >
               Về 5PIX
-            </LinkScroll>
+            </LinkScroll> */}
             <LinkScroll
               activeClass='active'
               to='preview'
@@ -87,6 +170,9 @@ const Header = ({ bgColor }: { bgColor: string }) => {
               onSetActive={() => {
                 setActiveLink('preview')
               }}
+              onClick={() => {
+                setIsModalVisible(true)
+              }}
               className={`animation-hover mx-2 inline-block cursor-pointer px-4 py-2 relative${
                 activeLink === 'preview'
                   ? ' animation-active text-template-orange-500 '
@@ -95,7 +181,7 @@ const Header = ({ bgColor }: { bgColor: string }) => {
                     }`
               }`}
             >
-              Liên Hệ
+              Trở thành đối tác của 5PIX
             </LinkScroll>
             <Link
               href='https://5bib.com/'
@@ -108,12 +194,185 @@ const Header = ({ bgColor }: { bgColor: string }) => {
                     }`
               }`}
               target='_blank'
+              onClick={() => {
+                setActiveLink('feature')
+              }}
             >
               Mua vé sự kiện
             </Link>
           </ul>
+
+          {/* Authentication Section */}
+          <div className='col-start-8 col-end-10 flex items-center justify-end'>
+            {session ? (
+              <>
+                <Dropdown overlay={partnerMenu} trigger={['click']}>
+                  <span
+                    className={`${bgColor === 'white' ? 'text-black' : 'text-white'} mr-4 cursor-pointer`}
+                  >
+                    Xin chào, {session.user?.name || session.user?.email}
+                  </span>
+                </Dropdown>
+                <button
+                  className='bg-template-orange-500 hover:bg-template-orange-700 text-white font-bold py-2 px-4 rounded'
+                  onClick={() => signOut()}
+                >
+                  Đăng xuất
+                </button>
+              </>
+            ) : (
+              <button
+                className='bg-template-orange-500 hover:bg-template-orange-700 text-white font-bold py-2 px-4 rounded'
+                onClick={() => signIn()}
+              >
+                Đăng nhập
+              </button>
+            )}
+          </div>
         </nav>
       </header>
+
+      {/* Modal cho "Trở thành đối tác của 5PIX" */}
+      <Modal
+        title='Trở thành đối tác của 5PIX'
+        visible={isModalVisible}
+        onCancel={() => setIsModalVisible(false)}
+        footer={[
+          <AntButton key='close' type='primary' onClick={() => setIsModalVisible(false)}>
+            Đóng
+          </AntButton>,
+        ]}
+      >
+        <Form
+          form={form}
+          name='registration_form'
+          onFinish={onFinish}
+          layout='horizontal'
+          initialValues={{
+            merchant_type: 'individual',
+            team: 'Đội 1',
+          }}
+        >
+          <Form.Item
+            className='mb-3'
+            name='merchant_type'
+            label='Loại hình đăng ký'
+            rules={[{ required: true, message: 'Vui lòng chọn loại hình!' }]}
+            labelCol={{ span: 10, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
+            wrapperCol={{ span: 14 }}
+          >
+            <Select placeholder='Chọn'>
+              <Option value='individual'>Cá nhân</Option>
+              <Option value='company'>Công ty</Option>
+              <Option value='other'>Khác</Option>
+            </Select>
+          </Form.Item>
+          <Form.Item
+            className='mb-3'
+            name='full_name'
+            label='Họ và tên'
+            rules={[{ required: true, message: 'Vui lòng nhập họ và tên!' }]}
+            labelCol={{ span: 10, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
+            wrapperCol={{ span: 14 }}
+          >
+            <Input placeholder='Nguyen Van A' />
+          </Form.Item>
+
+          <Form.Item
+            className='mb-3'
+            name='date_of_birth'
+            label='Ngày sinh'
+            rules={[{ required: true, message: 'Vui lòng chọn ngày sinh!' }]}
+            labelCol={{ span: 10, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
+            wrapperCol={{ span: 14 }}
+          >
+            <DatePicker format='DD/MM/YYYY' style={{ width: '100%' }} placeholder='15/06/1990' />
+          </Form.Item>
+
+          <Form.Item
+            className='mb-3'
+            name='email'
+            label='Email'
+            rules={[
+              {
+                required: true,
+                message: 'Vui lòng nhập email!',
+                type: 'email',
+              },
+            ]}
+            labelCol={{ span: 10, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
+            wrapperCol={{ span: 14 }}
+          >
+            <Input placeholder='username@gmail.com' />
+          </Form.Item>
+
+          <Form.Item
+            className='mb-3'
+            name='phone_number'
+            label='Số điện thoại'
+            rules={[{ required: true, message: 'Vui lòng nhập số điện thoại!' }]}
+            labelCol={{ span: 10, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
+            wrapperCol={{ span: 14 }}
+          >
+            <Input placeholder='098765322' />
+          </Form.Item>
+
+          <Form.Item
+            className='mb-3'
+            name='address'
+            label='Địa chỉ'
+            rules={[{ required: true, message: 'Vui lòng nhập địa chỉ!' }]}
+            labelCol={{ span: 10, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
+            wrapperCol={{ span: 14 }}
+          >
+            <Input placeholder='Trần Vỹ, Mai Dịch, Cầu Giấy, Hà Nội' />
+          </Form.Item>
+
+          <Form.Item
+            className='mb-3'
+            name='years_of_experience'
+            label='Số năm kinh nghiệm'
+            rules={[{ required: true, message: 'Vui lòng chọn!' }]}
+            labelCol={{ span: 10, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
+            wrapperCol={{ span: 14 }}
+          >
+            <Select placeholder='Chọn đội'>
+              <Option value='<_1'>Ít hơn 1 năm</Option>
+              <Option value='1-3'>Từ 1 đến 3 năm</Option>
+              <Option value='3-5'>Từ 3 đến 5 năm</Option>
+              <Option value='>_5'>Hơn 5 năm</Option>
+            </Select>
+          </Form.Item>
+
+          <Form.Item
+            className='mb-3'
+            name='social_media_link'
+            label='Bản đính kèm tài khoản media'
+            rules={[{ required: true, message: 'Vui lòng nhập tài khoản media!' }]}
+            labelCol={{ span: 10, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
+            wrapperCol={{ span: 14 }}
+          >
+            <Input placeholder='Đính kèm social media của bạn' />
+          </Form.Item>
+
+          <Form.Item
+            className='mb-3'
+            name='sample_photo_link'
+            label='Đường link thư mục demo'
+            rules={[{ required: true, message: 'Vui lòng nhập link demo!' }]}
+            labelCol={{ span: 10, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
+            wrapperCol={{ span: 14 }}
+          >
+            <Input placeholder='Đường link thư mục demo' />
+          </Form.Item>
+
+          <Form.Item>
+            <Button type='primary' htmlType='submit'>
+              Đăng ký
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
     </>
   )
 }
