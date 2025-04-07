@@ -90,6 +90,15 @@ const Header = ({ bgColor }: { bgColor: string }) => {
     setIsModalVisible(false)
     form.resetFields()
   }
+  const onClickMerchant = () => {
+    // check login
+    if (session) {
+      setIsModalVisible(true)
+    } else {
+      // redirect to login page
+      signIn()
+    }
+  }
   return (
     <>
       <header className={`top-0 z-30 w-full bg-transparent transition-all pt-4`}>
@@ -98,7 +107,7 @@ const Header = ({ bgColor }: { bgColor: string }) => {
             <Link href='/'>
               <Image
                 className='h-8 w-auto'
-                src='/assets/images/LogoWhite.svg'
+                src='/assets/images/Logo.svg'
                 alt='Logo'
                 height={30}
                 width={100}
@@ -161,6 +170,24 @@ const Header = ({ bgColor }: { bgColor: string }) => {
             >
               Về 5PIX
             </LinkScroll> */}
+
+            <Link
+              href='https://5bib.com/'
+              prefetch
+              className={`animation-hover mx-2 inline-block cursor-pointer px-4 py-2 relative${
+                activeLink === 'buyticket'
+                  ? ' animation-active text-template-orange-500 '
+                  : ` hover:text-template-orange-500 ${
+                      bgColor === 'white' ? 'text-black' : 'text-white'
+                    }`
+              }`}
+              target='_blank'
+              onClick={() => {
+                setActiveLink('buyticket')
+              }}
+            >
+              Mua vé sự kiện
+            </Link>
             <LinkScroll
               activeClass='active'
               to='preview'
@@ -170,10 +197,8 @@ const Header = ({ bgColor }: { bgColor: string }) => {
               onSetActive={() => {
                 setActiveLink('preview')
               }}
-              onClick={() => {
-                setIsModalVisible(true)
-              }}
-              className={`animation-hover mx-2 inline-block cursor-pointer px-4 py-2 relative${
+              onClick={onClickMerchant}
+              className={`animation-hover mx-2 inline-block font-bold  cursor-pointer px-4 py-2 relative${
                 activeLink === 'preview'
                   ? ' animation-active text-template-orange-500 '
                   : ` hover:text-template-orange-500 ${
@@ -183,23 +208,6 @@ const Header = ({ bgColor }: { bgColor: string }) => {
             >
               Trở thành đối tác của 5PIX
             </LinkScroll>
-            <Link
-              href='https://5bib.com/'
-              prefetch
-              className={`animation-hover mx-2 inline-block cursor-pointer px-4 py-2 relative${
-                activeLink === 'feature'
-                  ? ' animation-active text-template-orange-500 '
-                  : ` hover:text-template-orange-500 ${
-                      bgColor === 'white' ? 'text-black' : 'text-white'
-                    }`
-              }`}
-              target='_blank'
-              onClick={() => {
-                setActiveLink('feature')
-              }}
-            >
-              Mua vé sự kiện
-            </Link>
           </ul>
 
           {/* Authentication Section */}
@@ -230,6 +238,10 @@ const Header = ({ bgColor }: { bgColor: string }) => {
             )}
           </div>
         </nav>
+        <h1 className='text-center font-extrabold text-4xl md:text-5xl'>
+          Nhiếp ảnh
+          <br /> mang lại trải nghiệm khác biệt
+        </h1>
       </header>
 
       {/* Modal cho "Trở thành đối tác của 5PIX" */}

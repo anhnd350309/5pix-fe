@@ -141,11 +141,11 @@ const Hero = () => {
 
   return (
     <div className='flex flex-col space-y-5 sm:mx-16 mt-4 px-8 xl:px-16 center' id='about'>
-      <div className='flex flex-col justify-center items-center space-y-5 row-start-2 sm:row-start-1'>
-        <h1 className='font-bold text-3xl text-center text-white lg:text-4xl xl:text-5xl leading-normal'>
+      <div className='flex flex-col justify-center items-center space-y-5 row-start-1'>
+        {/* <h1 className='font-bold text-3xl text-center text-white lg:text-4xl xl:text-5xl leading-normal'>
           {t('Nhiếp ảnh')}
           <br /> {t('mang lại trải nghiệm khác biệt')}
-        </h1>
+        </h1> */}
         <div className='flex sm:flex-row flex-col items-center sm:space-x-4 space-y-4 sm:space-y-0 sm:bg-white shadow p-2 rounded-full'>
           <Select onValueChange={(value: string) => setAlbumId(value)}>
             <SelectTrigger className='bg-white border-none rounded-full text-center !w-[300px]'>
