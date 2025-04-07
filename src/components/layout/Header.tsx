@@ -246,144 +246,158 @@ const Header = ({ bgColor }: { bgColor: string }) => {
 
       {/* Modal cho "Trở thành đối tác của 5PIX" */}
       <Modal
-        title='Trở thành đối tác của 5PIX'
+        className='custom-modal'
+        // title='Trở thành đối tác của 5PIX'
         visible={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
-        footer={[
-          <AntButton key='close' type='primary' onClick={() => setIsModalVisible(false)}>
-            Đóng
-          </AntButton>,
-        ]}
+        footer={null}
       >
-        <Form
-          form={form}
-          name='registration_form'
-          onFinish={onFinish}
-          layout='horizontal'
-          initialValues={{
-            merchant_type: 'individual',
-            team: 'Đội 1',
-          }}
-        >
-          <Form.Item
-            className='mb-3'
-            name='merchant_type'
-            label='Loại hình đăng ký'
-            rules={[{ required: true, message: 'Vui lòng chọn loại hình!' }]}
-            labelCol={{ span: 10, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
-            wrapperCol={{ span: 14 }}
+        <div className='flex flex-row gap-3 justify-between'>
+          <Form
+            className='w-full pt-4'
+            form={form}
+            name='registration_form'
+            onFinish={onFinish}
+            layout='horizontal'
+            initialValues={{
+              merchant_type: 'individual',
+              team: 'Đội 1',
+            }}
           >
-            <Select placeholder='Chọn'>
-              <Option value='individual'>Cá nhân</Option>
-              <Option value='company'>Công ty</Option>
-              <Option value='other'>Khác</Option>
-            </Select>
-          </Form.Item>
-          <Form.Item
-            className='mb-3'
-            name='full_name'
-            label='Họ và tên'
-            rules={[{ required: true, message: 'Vui lòng nhập họ và tên!' }]}
-            labelCol={{ span: 10, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
-            wrapperCol={{ span: 14 }}
-          >
-            <Input placeholder='Nguyen Van A' />
-          </Form.Item>
+            <h1 className='text-center font-medium text-3xl  pb-3'>Đăng ký làm nhiếp ảnh gia</h1>
+            <Form.Item
+              className='mb-6'
+              name='merchant_type'
+              label='Loại hình đăng ký'
+              rules={[{ required: true, message: 'Vui lòng chọn loại hình!' }]}
+              labelCol={{ span: 10, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
+              wrapperCol={{ span: 14 }}
+            >
+              <Select placeholder='Chọn'>
+                <Option value='individual'>Cá nhân</Option>
+                <Option value='company'>Doanh nghiệp</Option>
+                <Option value='other'>Khác</Option>
+              </Select>
+            </Form.Item>
+            <Form.Item
+              className='mb-6'
+              name='full_name'
+              label='Họ và tên'
+              rules={[{ required: true, message: 'Vui lòng nhập họ và tên!' }]}
+              labelCol={{ span: 10, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
+              wrapperCol={{ span: 14 }}
+            >
+              <Input placeholder='Nguyen Van A' />
+            </Form.Item>
 
-          <Form.Item
-            className='mb-3'
-            name='date_of_birth'
-            label='Ngày sinh'
-            rules={[{ required: true, message: 'Vui lòng chọn ngày sinh!' }]}
-            labelCol={{ span: 10, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
-            wrapperCol={{ span: 14 }}
-          >
-            <DatePicker format='DD/MM/YYYY' style={{ width: '100%' }} placeholder='15/06/1990' />
-          </Form.Item>
+            <Form.Item
+              className='mb-6'
+              name='date_of_birth'
+              label='Ngày sinh'
+              rules={[{ required: true, message: 'Vui lòng chọn ngày sinh!' }]}
+              labelCol={{ span: 10, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
+              wrapperCol={{ span: 14 }}
+            >
+              <DatePicker format='DD/MM/YYYY' style={{ width: '100%' }} placeholder='15/06/1990' />
+            </Form.Item>
 
-          <Form.Item
-            className='mb-3'
-            name='email'
-            label='Email'
-            rules={[
-              {
-                required: true,
-                message: 'Vui lòng nhập email!',
-                type: 'email',
-              },
-            ]}
-            labelCol={{ span: 10, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
-            wrapperCol={{ span: 14 }}
-          >
-            <Input placeholder='username@gmail.com' />
-          </Form.Item>
+            <Form.Item
+              className='mb-6'
+              name='email'
+              label='Email'
+              rules={[
+                {
+                  required: true,
+                  message: 'Vui lòng nhập email!',
+                  type: 'email',
+                },
+              ]}
+              labelCol={{ span: 10, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
+              wrapperCol={{ span: 14 }}
+            >
+              <Input placeholder='username@gmail.com' />
+            </Form.Item>
 
-          <Form.Item
-            className='mb-3'
-            name='phone_number'
-            label='Số điện thoại'
-            rules={[{ required: true, message: 'Vui lòng nhập số điện thoại!' }]}
-            labelCol={{ span: 10, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
-            wrapperCol={{ span: 14 }}
-          >
-            <Input placeholder='098765322' />
-          </Form.Item>
+            <Form.Item
+              className='mb-6'
+              name='phone_number'
+              label='Số điện thoại'
+              rules={[{ required: true, message: 'Vui lòng nhập số điện thoại!' }]}
+              labelCol={{ span: 10, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
+              wrapperCol={{ span: 14 }}
+            >
+              <Input placeholder='098765322' />
+            </Form.Item>
 
-          <Form.Item
-            className='mb-3'
-            name='address'
-            label='Địa chỉ'
-            rules={[{ required: true, message: 'Vui lòng nhập địa chỉ!' }]}
-            labelCol={{ span: 10, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
-            wrapperCol={{ span: 14 }}
-          >
-            <Input placeholder='Trần Vỹ, Mai Dịch, Cầu Giấy, Hà Nội' />
-          </Form.Item>
+            <Form.Item
+              className='mb-6'
+              name='address'
+              label='Địa chỉ'
+              rules={[{ required: true, message: 'Vui lòng nhập địa chỉ!' }]}
+              labelCol={{ span: 10, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
+              wrapperCol={{ span: 14 }}
+            >
+              <Input placeholder='Trần Vỹ, Mai Dịch, Cầu Giấy, Hà Nội' />
+            </Form.Item>
 
-          <Form.Item
-            className='mb-3'
-            name='years_of_experience'
-            label='Số năm kinh nghiệm'
-            rules={[{ required: true, message: 'Vui lòng chọn!' }]}
-            labelCol={{ span: 10, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
-            wrapperCol={{ span: 14 }}
-          >
-            <Select placeholder='Chọn đội'>
-              <Option value='<_1'>Ít hơn 1 năm</Option>
-              <Option value='1-3'>Từ 1 đến 3 năm</Option>
-              <Option value='3-5'>Từ 3 đến 5 năm</Option>
-              <Option value='>_5'>Hơn 5 năm</Option>
-            </Select>
-          </Form.Item>
+            <Form.Item
+              className='mb-6'
+              name='years_of_experience'
+              label='Số năm kinh nghiệm'
+              rules={[{ required: true, message: 'Vui lòng chọn!' }]}
+              labelCol={{ span: 10, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
+              wrapperCol={{ span: 14 }}
+            >
+              <Select placeholder='Chọn kinh nghiệm'>
+                <Option value='<_1'>Ít hơn 1 năm</Option>
+                <Option value='1-3'>Từ 1 đến 3 năm</Option>
+                <Option value='3-5'>Từ 3 đến 5 năm</Option>
+                <Option value='>_5'>Hơn 5 năm</Option>
+              </Select>
+            </Form.Item>
 
-          <Form.Item
-            className='mb-3'
-            name='social_media_link'
-            label='Bản đính kèm tài khoản media'
-            rules={[{ required: true, message: 'Vui lòng nhập tài khoản media!' }]}
-            labelCol={{ span: 10, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
-            wrapperCol={{ span: 14 }}
-          >
-            <Input placeholder='Đính kèm social media của bạn' />
-          </Form.Item>
+            <Form.Item
+              className='mb-6'
+              name='social_media_link'
+              label='Bản đính kèm tài khoản media'
+              rules={[{ required: true, message: 'Vui lòng nhập tài khoản media!' }]}
+              labelCol={{ span: 10, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
+              wrapperCol={{ span: 14 }}
+            >
+              <Input placeholder='Đính kèm social media của bạn' />
+            </Form.Item>
 
-          <Form.Item
-            className='mb-3'
-            name='sample_photo_link'
-            label='Đường link thư mục demo'
-            rules={[{ required: true, message: 'Vui lòng nhập link demo!' }]}
-            labelCol={{ span: 10, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
-            wrapperCol={{ span: 14 }}
-          >
-            <Input placeholder='Đường link thư mục demo' />
-          </Form.Item>
+            <Form.Item
+              className='mb-6'
+              name='sample_photo_link'
+              label='Đường link thư mục demo'
+              rules={[{ required: true, message: 'Vui lòng nhập link demo!' }]}
+              labelCol={{ span: 10, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
+              wrapperCol={{ span: 14 }}
+            >
+              <Input placeholder='Đường link thư mục demo' />
+            </Form.Item>
 
-          <Form.Item>
-            <Button type='primary' htmlType='submit'>
-              Đăng ký
-            </Button>
-          </Form.Item>
-        </Form>
+            <Form.Item>
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <Button
+                  style={{ borderRadius: '20px', width: '350px', height: '40px' }}
+                  type='primary'
+                  htmlType='submit'
+                >
+                  Đăng ký
+                </Button>
+              </div>
+            </Form.Item>
+          </Form>
+          <div>
+            <img
+              src='/assets/images/FormMerchant.png'
+              alt='partner'
+              className='w-full h-full object-cover'
+            />
+          </div>
+        </div>
       </Modal>
     </>
   )

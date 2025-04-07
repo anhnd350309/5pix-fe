@@ -104,3 +104,13 @@ p {
   background-color: #d0d5dd !important;
   color: #16489f !important;
 }
+.custom-modal .ant-modal-content {
+  padding: 0 !important;
+
+  width: 968px;
+}
+
+.custom-modal {
+  width: 968px !important;
+  top: 30px !important;
+}
