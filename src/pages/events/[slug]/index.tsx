@@ -1,4 +1,4 @@
-import { Button, Spin } from 'antd'
+import { Button, Card, Spin } from 'antd'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 
@@ -19,6 +19,8 @@ import SEOHead from '@/components/seo'
 import { InferGetServerSidePropsType, GetServerSideProps } from 'next'
 import ImageModal from '@/components/common/ImageModal'
 import { fi } from '@faker-js/faker/.'
+import AddToCartModal from '@/components/common/AddToCartModal'
+import { signIn, useSession } from 'next-auth/react'
 type Repo = {
   event?: AlbumItemResponsePublic
   images: AlbumImageItemResponsePublic[]
@@ -85,6 +87,20 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
   const [curLoading, setCurLoading] = useState(false)
   const [isLoadingMore, setIsLoadingMore] = useState(false)
   const [file, setFile] = useState<File | null>(null)
+  const { status } = useSession()
+  const [isPopupVisible, setIsPopupVisible] = useState(false)
+  const hidePopup = () => {
+    setIsPopupVisible(false)
+  }
+  const showPopup = () => {
+    // check user is login from session
+    if (status !== 'authenticated') {
+      signIn()
+      return
+    }
+    setIsPopupVisible(true)
+  }
+
   // const { data, error, isLoading } = useDetailPubAlbumsAlbumSlugGet(slug as string, {
   //   query: {},
   // })
@@ -275,25 +291,70 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
                 Tìm thấy {loadedImgs.length} ảnh của bạn, trong tổng số {event?.total_image} ảnh
               </span>
             )}
-            <div className='gap-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6  min-h-[300px] '>
-              {loadedImgs.length === 0 ? (
-                <span className='flex justify-center items-center w-[85vw]'>
-                  Không tìm thấy hình ảnh nào của bạn
-                </span>
-              ) : (
-                loadedImgs?.map((image, index: number) => (
-                  // In the file where you use the ImageViewer component
-                  <ImgViewer
-                    src={image?.cdn_image_url || 'assets/images/DetailEvent.png'}
-                    key={index}
-                    alt={image?.image_name || 'image'}
-                    extra={image?.s3_image_url || 'assets/images/DetailEvent.png'}
-                    width={600}
-                    height={400}
-                    onClick={() => handleOptionClick('open', index)}
-                  />
-                ))
-              )}
+            <div className='flex flex-col xl:flex-row gap-4'>
+              {/* Phần grid ảnh (giữ nguyên code của bạn) */}
+              <div className='flex-1'>
+                <div className='gap-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5  min-h-[300px] '>
+                  {loadedImgs.length === 0 ? (
+                    <span className='flex justify-center items-center w-[85vw]'>
+                      Không tìm thấy hình ảnh nào của bạn
+                    </span>
+                  ) : (
+                    loadedImgs?.map((image, index: number) => (
+                      // In the file where you use the ImageViewer component
+                      <ImgViewer
+                        src={image?.cdn_image_url || 'assets/images/DetailEvent.png'}
+                        key={index}
+                        alt={image?.image_name || 'image'}
+                        extra={image?.s3_image_url || 'assets/images/DetailEvent.png'}
+                        width={600}
+                        height={400}
+                        onClick={() => handleOptionClick('open', index)}
+                      />
+                    ))
+                  )}
+                </div>
+              </div>
+              <div className='w-fit'>
+                <Card
+                  title='Photobook'
+                  // Tùy chỉnh giao diện phần header
+                  headStyle={{
+                    backgroundColor: '#E6F7FF',
+                    borderBottom: 'none',
+                    fontWeight: 700,
+                    fontSize: '18px',
+                    padding: '8px 16px',
+                    textAlign: 'center',
+                  }}
+                  // Tùy chỉnh giao diện phần khung Card
+                  style={{
+                    width: 200,
+                    borderRadius: 8,
+                    overflow: 'hidden',
+                    border: '1px solid #d9d9d9',
+                  }}
+                  // Tùy chỉnh phần nội dung bên trong Card
+                  bodyStyle={{
+                    padding: '16px',
+                  }}
+                >
+                  <p>Tất cả 110 ảnh khoảnh khắc định dạng kỹ thuật số (JPG)</p>
+                  <h3
+                    style={{
+                      margin: '16px 0',
+                      fontSize: '18px',
+                      fontWeight: 'bold',
+                      textAlign: 'center',
+                    }}
+                  >
+                    150.000 VND
+                  </h3>
+                  <Button type='primary' shape='round' onClick={showPopup}>
+                    Thêm vào giỏ hàng
+                  </Button>
+                </Card>
+              </div>
             </div>
           </React.Fragment>
         )}
@@ -342,7 +403,9 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
         setSelectedImageIndex={setSelectedImageIndex}
         bibNum={bibNum}
         albumSlug={event.album_slug}
+        isFree={false}
       />
+      <AddToCartModal isPopupVisible={isPopupVisible} hidePopup={hidePopup} />
     </React.Fragment>
   )
 }

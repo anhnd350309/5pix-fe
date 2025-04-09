@@ -82,7 +82,7 @@ const Cart: FC<CartProps> = ({
 
   // if (!cartItems) return null
   return (
-    <div className='bg-white px-6 py-2 md:rounded-lg shadow-md'>
+    <div className='bg-white px-6 py-2 md:rounded-lg shadow-md max-w-md'>
       <div className='flex flex-row items-center justify-start pb-2 mb-2 space-x-2 border-b border-b-[#E4E7EC]'>
         <div>
           <SvgCart width={28} />

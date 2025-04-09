@@ -37,7 +37,8 @@ export async function middleware(req: NextRequest) {
     // Chỉ cho phép role admin truy cập subdomain admin
     if (token?.role !== 'admin') {
       console.log('User not admin, redirecting to unauthorized')
-      signIn()
+      url.pathname = '/auth/login'
+      return NextResponse.redirect(url)
     }
 
     // Chuyển hướng đến trang admin
@@ -58,7 +59,8 @@ export async function middleware(req: NextRequest) {
     // Chỉ cho phép role merchant truy cập subdomain merchant
     if (!(token?.role === 'merchant' || token?.role === 'admin')) {
       console.log('User not merchant, redirecting to unauthorized')
-      signIn()
+      url.pathname = '/auth/login'
+      return NextResponse.redirect(url)
     }
 
     // Chuyển hướng đến trang merchant

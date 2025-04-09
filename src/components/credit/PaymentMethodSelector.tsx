@@ -33,7 +33,7 @@ export const PaymentMethodSelector = ({
   }, [acqInfo, validMethods])
 
   return (
-    <div className={`rounded-md px-6 shadow-md bg-white ${containerClass}`}>
+    <div className={`max-w-md rounded-md px-6 shadow-md bg-white ${containerClass}`}>
       <Title icon={<SvgCheckOut width={28} />} title={'Chọn phương thức thanh toán'} />
       <div className='divide-y divide-neutral-200 mt-3 flex flex-col item-center justify-center pb-3'>
         {finalPaymentOptions.map((option) => {

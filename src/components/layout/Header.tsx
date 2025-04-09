@@ -17,6 +17,10 @@ import {
 import moment from 'moment'
 import { createMerchantsPost } from '@/services/merchants/merchants'
 import { MerchantType, MerchantYearsOfExperience } from '@/schemas'
+import SvgUser from '../icons/icons/User'
+import SvgCart from '../icons/icons/Cart'
+import { ShoppingCartOutlined } from '@ant-design/icons'
+import { useRouter } from 'next/router'
 const { Option } = Select
 
 interface RegistrationFormValues {
@@ -36,6 +40,7 @@ const Header = ({ bgColor }: { bgColor: string }) => {
   const { data: session } = useSession()
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [form] = Form.useForm()
+  const router = useRouter()
   const navigateManage = () => {
     if (session) {
       const userRole = session.role // Assuming `role` is part of the session user object
@@ -43,13 +48,13 @@ const Header = ({ bgColor }: { bgColor: string }) => {
         window.location.assign(
           process.env.NEXT_ENV === 'dev'
             ? 'https://admin-dev.5pix.org/home'
-            : 'http://admin.localhost:9999/home',
+            : 'http://admin.5pix.org/home',
         )
       } else if (userRole === 'merchant') {
         window.location.assign(
           process.env.NEXT_ENV === 'dev'
             ? 'https://merchant-dev.5pix.org/home'
-            : 'http://merchant.localhost:9999/home',
+            : 'http://merchant.5pix.org/home',
         )
       } else {
         console.error('User role is not recognized.')
@@ -61,14 +66,14 @@ const Header = ({ bgColor }: { bgColor: string }) => {
   // Menu dành cho dropdown
   const partnerMenu = (
     <Menu>
-      {/* <Menu.Item
-        key='partner'
+      <Menu.Item
+        key='self'
         onClick={() => {
-          setIsModalVisible(true)
+          router.push('/personal_info')
         }}
       >
-        Trở thành đối tác của 5PIX
-      </Menu.Item> */}
+        Cá nhân
+      </Menu.Item>
       <Menu.Item key='manage' onClick={navigateManage}>
         Quản lý
       </Menu.Item>
@@ -215,21 +220,26 @@ const Header = ({ bgColor }: { bgColor: string }) => {
           {/* Authentication Section */}
           <div className='col-start-8 col-end-10 flex items-center justify-end'>
             {session ? (
-              <>
-                <Dropdown overlay={partnerMenu} trigger={['click']}>
-                  <span
-                    className={`${bgColor === 'white' ? 'text-black' : 'text-white'} mr-4 cursor-pointer`}
-                  >
-                    Xin chào, {session.user?.name || session.user?.email}
-                  </span>
-                </Dropdown>
-                <button
+              <div className='flex flex-row gap-4'>
+                <div className='flex flex-row items-center'>
+                  <ShoppingCartOutlined
+                    style={{ fontSize: '24px' }}
+                    onClick={() => {
+                      router.push('/checkout')
+                    }}
+                  />
+                  |
+                  <Dropdown overlay={partnerMenu} trigger={['click']}>
+                    <SvgUser width={24} />
+                  </Dropdown>
+                </div>
+                {/* <button
                   className='bg-template-orange-500 hover:bg-template-orange-700 text-white font-bold py-2 px-4 rounded'
                   onClick={() => signOut()}
                 >
                   Đăng xuất
-                </button>
-              </>
+                </button> */}
+              </div>
             ) : (
               <button
                 className='bg-template-orange-500 hover:bg-template-orange-700 text-white font-bold py-2 px-4 rounded'

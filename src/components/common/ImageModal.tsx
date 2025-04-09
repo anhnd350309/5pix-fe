@@ -1,8 +1,9 @@
-import React, { useRef, useEffect } from 'react'
-import { Modal, Carousel, Button } from 'antd'
+import React, { useRef, useEffect, useState } from 'react'
+import { Modal, Carousel, Button, Card } from 'antd'
 import { DownloadOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons'
 import { AlbumImageItemResponse } from '@/schemas'
 import { useRouter } from 'next/router'
+import AddToCartModal from './AddToCartModal'
 interface ImageModalProps {
   visible: boolean
   onCancel: () => void
@@ -11,6 +12,7 @@ interface ImageModalProps {
   setSelectedImageIndex: (index: number) => void
   bibNum?: string
   albumSlug?: string
+  isFree?: boolean
 }
 
 const ImageModal: React.FC<ImageModalProps> = ({
@@ -21,9 +23,11 @@ const ImageModal: React.FC<ImageModalProps> = ({
   setSelectedImageIndex,
   bibNum,
   albumSlug,
+  isFree,
 }) => {
   const router = useRouter()
   const carouselRef = useRef<any>(null)
+  const [isPopupVisible, setIsPopupVisible] = useState(false)
 
   useEffect(() => {
     if (carouselRef.current) {
@@ -59,6 +63,13 @@ const ImageModal: React.FC<ImageModalProps> = ({
   }
   const getCurrentImageUrl = () => {
     return images[selectedImageIndex]?.s3_image_url || '/assets/images/DetailEvent.png'
+  }
+  const showPopup = () => {
+    setIsPopupVisible(true)
+  }
+
+  const hidePopup = () => {
+    setIsPopupVisible(false)
   }
   return (
     <>
@@ -156,16 +167,29 @@ const ImageModal: React.FC<ImageModalProps> = ({
           }}
           className='ejehhhe'
         >
-          <Button type='primary' icon={<DownloadOutlined />} onClick={handleDownload}>
-            Tải về
-          </Button>
-          {bibNum && (
+          {isFree ? (
+            <Button type='primary' icon={<DownloadOutlined />} onClick={handleDownload}>
+              Tải về
+            </Button>
+          ) : (
+            <>
+              <Button type='primary' onClick={showPopup}>
+                Mua photobook
+              </Button>
+              <Button type='primary' onClick={showPopup}>
+                Mua hình ảnh
+              </Button>
+            </>
+          )}
+
+          {bibNum && isFree && (
             <Button type='primary' onClick={handleGetResult}>
               Lấy ảnh kèm kết quả
             </Button>
           )}
         </div>
       </Modal>
+      <AddToCartModal isPopupVisible={isPopupVisible} hidePopup={hidePopup} />
     </>
   )
 }
