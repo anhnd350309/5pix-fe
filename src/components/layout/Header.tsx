@@ -41,13 +41,15 @@ const Header = ({ bgColor }: { bgColor: string }) => {
       const userRole = session.role // Assuming `role` is part of the session user object
       if (userRole === 'admin') {
         window.location.assign(
-          process.env.NEXT_ENV === 'dev' ? 'https://admin-dev.5pix.org' : 'https://admin.5pix.org',
+          process.env.NEXT_ENV === 'dev'
+            ? 'https://admin-dev.5pix.org/home'
+            : 'http://admin.localhost:9999/home',
         )
       } else if (userRole === 'merchant') {
         window.location.assign(
           process.env.NEXT_ENV === 'dev'
-            ? 'https://merchant-dev.5pix.org'
-            : 'https://merchant.5pix.org',
+            ? 'https://merchant-dev.5pix.org/home'
+            : 'http://merchant.localhost:9999/home',
         )
       } else {
         console.error('User role is not recognized.')
@@ -238,10 +240,6 @@ const Header = ({ bgColor }: { bgColor: string }) => {
             )}
           </div>
         </nav>
-        <h1 className='text-center font-extrabold text-4xl md:text-5xl'>
-          Nhiếp ảnh
-          <br /> mang lại trải nghiệm khác biệt
-        </h1>
       </header>
 
       {/* Modal cho "Trở thành đối tác của 5PIX" */}

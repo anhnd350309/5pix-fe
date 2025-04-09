@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { getToken } from 'next-auth/jwt'
+import { signIn } from 'next-auth/react'
 
 export async function middleware(req: NextRequest) {
   console.log('Middleware triggered for:', req.nextUrl.pathname)
@@ -36,8 +37,7 @@ export async function middleware(req: NextRequest) {
     // Chỉ cho phép role admin truy cập subdomain admin
     if (token?.role !== 'admin') {
       console.log('User not admin, redirecting to unauthorized')
-      url.pathname = '/auth/login'
-      return NextResponse.redirect(url)
+      signIn()
     }
 
     // Chuyển hướng đến trang admin
@@ -58,8 +58,7 @@ export async function middleware(req: NextRequest) {
     // Chỉ cho phép role merchant truy cập subdomain merchant
     if (!(token?.role === 'merchant' || token?.role === 'admin')) {
       console.log('User not merchant, redirecting to unauthorized')
-      url.pathname = '/auth/login'
-      return NextResponse.redirect(url)
+      signIn()
     }
 
     // Chuyển hướng đến trang merchant

@@ -1,6 +1,6 @@
 import { Spin } from 'antd'
 import { useRouter } from 'next/router'
-import { useSession } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 import { useEffect } from 'react'
 import { UserRole } from '@/schemas/userRole'
 
@@ -22,7 +22,8 @@ export const ProtectedLayout = ({ children, requiredRoles = [] }: Props): JSX.El
 
     // if the user is not authorized, redirect to the login page
     if (unAuthorized) {
-      router.replace('/auth/login')
+      // router.replace('/auth/login')
+      signIn()
       return
     }
 

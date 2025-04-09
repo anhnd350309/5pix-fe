@@ -2,8 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { Table, Tag, Button, Tabs, Input, DatePicker, Space, Spin } from 'antd'
 import { UserOutlined, MailOutlined, SearchOutlined } from '@ant-design/icons'
 import { GetMerchantsGetParams, MerchantDetailResponse, MerchantItemResponse } from '@/schemas'
-import { detailMerchantsMerchantIdGet, getMerchantsGet } from '@/services/merchants/merchants'
+import {
+  approveMerchantMerchantsApproveMerchantPost,
+  detailMerchantsMerchantIdGet,
+  getMerchantsGet,
+} from '@/services/merchants/merchants'
 import { merchantTypeMapping, statusMapping } from '@/constants/mapping'
+import { set } from 'react-hook-form'
 
 const { RangePicker } = DatePicker
 const { TabPane } = Tabs
@@ -24,32 +29,49 @@ const UserTable: React.FC<UserTableProps> = () => {
   const [isLoadingDetail, setIsLoadingDetail] = useState(false) // State riêng cho loading detail
 
   const [totalUsers, setTotalUsers] = useState<number | null>(null)
+  const fetchUsers = async () => {
+    setIsLoading(true)
+    setError(null)
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      setIsLoading(true)
-      setError(null)
-
-      try {
-        const params: GetMerchantsGetParams = {
-          page: currentPage,
-          page_size: 10,
-          merchant_active_status: activeTab !== 'all' ? activeTab : undefined,
-        }
-        const response = await getMerchantsGet(params)
-        const newUsers = response.data
-        setLoadedUsers(newUsers)
-        setTotalUsers(response.metadata.total_items)
-      } catch (err: any) {
-        setError(err.message || 'Something went wrong')
-      } finally {
-        setIsLoading(false)
+    try {
+      const params: GetMerchantsGetParams = {
+        page: currentPage,
+        page_size: 10,
+        merchant_active_status: activeTab !== 'all' ? activeTab : undefined,
       }
+      const response = await getMerchantsGet(params)
+      const newUsers = response.data
+      setLoadedUsers(newUsers)
+      setTotalUsers(response.metadata.total_items)
+    } catch (err: any) {
+      setError(err.message || 'Something went wrong')
+    } finally {
+      setIsLoading(false)
     }
-
+  }
+  useEffect(() => {
     fetchUsers()
   }, [currentPage, activeTab])
-
+  const approveMerchant = () => {
+    console.log('Approve merchant clicked')
+    approveMerchantMerchantsApproveMerchantPost({
+      merchant_active_status: 'approved',
+      merchant_id: selectedRow ?? 0,
+    }).then(() => {
+      fetchUsers()
+      setSelectedRow(null)
+    })
+  }
+  const rejectMerchant = () => {
+    console.log('Approve merchant clicked')
+    approveMerchantMerchantsApproveMerchantPost({
+      merchant_active_status: 'rejected',
+      merchant_id: selectedRow ?? 0,
+    }).then(() => {
+      fetchUsers()
+      setSelectedRow(null)
+    })
+  }
   useEffect(() => {
     const fetchUserDetail = async () => {
       if (!selectedRow) {
@@ -194,9 +216,21 @@ const UserTable: React.FC<UserTableProps> = () => {
           </div>
         </div>
         <div className='flex justify-end mt-4'>
-          <Button className='mr-2' type='default'>
-            Vô hiệu
-          </Button>
+          {detailUser.merchant_active_status === 'approved' ? (
+            <Button className='mr-2' type='default'>
+              Vô hiệu
+            </Button>
+          ) : (
+            <>
+              <Button className='mr-2' type='default' onClick={rejectMerchant}>
+                Từ chối
+              </Button>
+              <Button className='mr-2' type='default' onClick={approveMerchant}>
+                Duyệt
+              </Button>
+            </>
+          )}
+
           <Button type='primary'>Chỉnh sửa</Button>
         </div>
       </div>

@@ -2,7 +2,7 @@
 import { ro } from '@faker-js/faker/.'
 import { w } from '@faker-js/faker/dist/airline-BLb3y-7w'
 import axios, { AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios'
-import { getSession, signOut } from 'next-auth/react'
+import { getSession, signIn, signOut } from 'next-auth/react'
 import { useRouter } from 'next/router'
 
 // Create a custom axios instance
@@ -45,7 +45,8 @@ axiosInstance.interceptors.response.use(
       console.error('Unauthorized! Redirecting to login...')
       // Add logout logic or redirect to login
       // signOut({ callbackUrl: '/auth/login' })
-      window.location.href = '/auth/login'
+      // window.location.href = '/auth/login'
+      signIn()
     }
     if (error.response?.status === 400) {
       console.error('Unauthorized! Redirecting to login...')
