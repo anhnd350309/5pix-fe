@@ -1,5 +1,5 @@
 import React from 'react'
-import { Input, Button, Dropdown, Menu } from 'antd'
+import { Input, Button, Dropdown, Menu, notification } from 'antd'
 import Link from 'next/link'
 import {
   CloudUploadOutlined,
@@ -8,12 +8,29 @@ import {
   GoogleOutlined,
   UploadOutlined,
 } from '@ant-design/icons'
+import {
+  indexImageAlbumsAlbumIdIndexImagePost,
+  loadImageAlbumsAlbumIdLoadImagePost,
+} from '@/services/album/album'
 
 interface DetailEventFilterProps {
   eventName: string
+  id: number
 }
 
-const DetailEventFilter: React.FC<DetailEventFilterProps> = ({ eventName }) => {
+const DetailEventFilter: React.FC<DetailEventFilterProps> = ({ eventName, id }) => {
+  const [api, contextHolder] = notification.useNotification()
+  const openNotificationWithIcon = (
+    type: 'success' | 'info' | 'warning' | 'error',
+    message: string,
+    description?: string,
+  ) => {
+    api[type]({
+      message: message,
+      description: description,
+      placement: 'topRight',
+    })
+  }
   const menu = (
     <Menu className='border border-[#2563EB] rounded-md'>
       <Menu.Item
@@ -46,15 +63,37 @@ const DetailEventFilter: React.FC<DetailEventFilterProps> = ({ eventName }) => {
       </Menu.Item>
     </Menu>
   )
-
+  const handleLoadAlbum = () => {
+    loadImageAlbumsAlbumIdLoadImagePost(id).then((res) => {
+      if (res?.code === '000') {
+        openNotificationWithIcon(
+          'success',
+          'Load album thành công',
+          'Album đã được load thành công.',
+        )
+      } else {
+        openNotificationWithIcon('error', 'Load album thất bại', 'Có lỗi xảy ra khi load album.')
+      }
+    })
+  }
+  const handleIndexImage = () => {
+    indexImageAlbumsAlbumIdIndexImagePost(id).then((res) => {
+      if (res?.code === '000') {
+        openNotificationWithIcon('success', 'Xử lý ảnh thành công', 'Ảnh đang được xử lý.')
+      } else {
+        openNotificationWithIcon('error', 'Xử lý ảnh thất bại', 'Có lỗi xảy ra khi xử lý ảnh.')
+      }
+    })
+  }
   return (
     <div className='p-4'>
+      {contextHolder}
       <div className='text-[#475467] breadcrumb flex gap-2 pb-6'>
         <Link href='/home'>Trang chủ</Link>
         <div> &gt; </div>
         <Link href='/home'>Danh sách sự kiện</Link>
         <div> &gt; </div>
-        <Link href='/home'>Tà Năng Trail Challenge 2025</Link>
+        <Link href='/home'>{eventName}</Link>
         <div> &gt; </div>
         <Link href='/home'>Album ảnh</Link>
       </div>
@@ -63,7 +102,16 @@ const DetailEventFilter: React.FC<DetailEventFilterProps> = ({ eventName }) => {
           {eventName}
         </h1>
         <div className='flex flex-col sm:flex-row items-center space-x-0 sm:space-x-2 space-y-2 sm:space-y-0'>
-          <Button className='bg-[#C7DBFF] font-inter font-bold text-[14px] leading-[20px] tracking-[-0.2%] w-full sm:w-auto'>
+          <Button
+            className='bg-[#C7DBFF] font-inter font-bold text-[14px] leading-[20px] tracking-[-0.2%] w-full sm:w-auto'
+            onClick={handleLoadAlbum}
+          >
+            Load album
+          </Button>
+          <Button
+            className='bg-[#C7DBFF] font-inter font-bold text-[14px] leading-[20px] tracking-[-0.2%] w-full sm:w-auto'
+            onClick={handleIndexImage}
+          >
             Xử lý ảnh và gửi duyệt
           </Button>
           <Dropdown overlay={menu}>

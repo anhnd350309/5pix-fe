@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { Button, Popover, Spin } from 'antd'
+import { Button, Modal, Popover, Spin } from 'antd'
 import Image from 'next/image'
 import { AlbumImageItemResponse } from '@/schemas'
-import { getAlbumImagesPost } from '@/services/images/images'
+import {
+  getAlbumImagesPost,
+  setImageMetadataAlbumImagesSetImageMetadataPut,
+} from '@/services/images/images'
 import ImageModal from '@/components/common/ImageModal'
 import ExpandableText from '../../common/ExpandableText'
 import { EyeInvisibleOutlined, EyeOutlined, LinkOutlined } from '@ant-design/icons'
@@ -20,6 +23,9 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
   const [totalPages, setTotalPages] = useState(1)
   const [totalEvents, setTotalEvents] = useState<number | null>(null)
   const [isLoadingMore, setIsLoadingMore] = useState(false)
+  const [isEditModalVisible, setIsEditModalVisible] = useState(false)
+  const [editingImageIndex, setEditingImageIndex] = useState<number | null>(null)
+  const [editingMetadata, setEditingMetadata] = useState('')
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -74,10 +80,19 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
     if (action === 'open') {
       setSelectedImageIndex(imageIndex)
       setIsModalVisibleImage(true) // Mở modal khi nhấn vào ảnh
+    } else if (action === 'edit') {
+      setEditingImageIndex(imageIndex)
+      setEditingMetadata(loadedImgs[imageIndex]?.image_metadata || '')
+      setIsEditModalVisible(true)
+      // add close popover
+      const popover = document.querySelector('.ant-popover')
+      if (popover) {
+        popover.classList.add('hidden')
+      }
     }
   }
 
-  const popoverContent = (
+  const popoverContent = (imageIndex: number) => (
     <div className='flex flex-col p-0'>
       <div className='flex items-center gap-2 cursor-pointer pb-2 border-b border-[#E0E0E0]'>
         <EyeInvisibleOutlined />
@@ -90,6 +105,13 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
       <div className='flex items-center gap-2 cursor-pointer pb-2 '>
         <LinkOutlined />
         <span>Tìm ảnh giống</span>
+      </div>
+      <div
+        className='flex items-center gap-2 cursor-pointer pb-2 '
+        onClick={() => handleOptionClick('edit', imageIndex)}
+      >
+        <LinkOutlined />
+        <span>Cập nhật index</span>
       </div>
     </div>
   )
@@ -106,7 +128,7 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
               className='w-full'
               onClick={() => handleOptionClick('open', index)} // Mở modal khi nhấn vào ảnh
             />
-            <Popover content={popoverContent} trigger='click' placement='bottomRight'>
+            <Popover content={popoverContent(index)} trigger='click' placement='bottomRight'>
               <Image
                 src='/assets/icons/template/icon_option.svg'
                 className='absolute top-1 right-1 cursor-pointer'
@@ -165,6 +187,35 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
         selectedImageIndex={selectedImageIndex || 0}
         setSelectedImageIndex={setSelectedImageIndex}
       />
+      <Modal
+        title='Cập nhật metadata'
+        open={isEditModalVisible}
+        onCancel={() => {
+          setIsEditModalVisible(false)
+          setEditingImageIndex(null)
+        }}
+        onOk={() => {
+          if (editingImageIndex !== null) {
+            const updatedImages = [...loadedImgs]
+            updatedImages[editingImageIndex].image_metadata = editingMetadata
+            setImageMetadataAlbumImagesSetImageMetadataPut({
+              image_id: loadedImgs[editingImageIndex].id,
+              image_metadata: editingMetadata,
+            })
+            setLoadedImgs(updatedImages)
+          }
+          setIsEditModalVisible(false)
+          setEditingImageIndex(null)
+        }}
+      >
+        <textarea
+          value={editingMetadata}
+          onChange={(e) => setEditingMetadata(e.target.value)}
+          className='w-full p-2 border rounded'
+          rows={4}
+          placeholder='Nhập metadata mới'
+        />
+      </Modal>
     </div>
   )
 }

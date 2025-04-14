@@ -5,9 +5,10 @@ import { useRouter } from 'next/router'
 interface AddToCartModalProps {
   isPopupVisible: boolean
   hidePopup: () => void
+  slug: string
 }
 
-const AddToCartModal: React.FC<AddToCartModalProps> = ({ isPopupVisible, hidePopup }) => {
+const AddToCartModal: React.FC<AddToCartModalProps> = ({ isPopupVisible, hidePopup, slug }) => {
   const router = useRouter()
   return (
     <Modal
@@ -22,7 +23,7 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({ isPopupVisible, hidePop
           key='submit'
           className='rounded-[20px]'
           type='primary'
-          onClick={() => router.push('/checkout')}
+          onClick={() => router.push(`/events/${slug}/checkout`)}
         >
           Thanh toán ngay
         </Button>,

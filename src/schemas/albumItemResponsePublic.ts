@@ -19,6 +19,7 @@ export interface AlbumItemResponsePublic {
   album_slug?: string;
   event_date: string;
   id: number;
+  is_album_free?: number;
   is_highlight: number;
   total_image?: number;
 }

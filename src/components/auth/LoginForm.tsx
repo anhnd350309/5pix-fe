@@ -92,6 +92,12 @@ export const LoginForm: React.FC = () => {
               {isLoading ? 'Đang xử lý...' : 'Đăng nhập'}
             </button>
           </Form.Item>
+          <div className='text-center text-sm text-gray-600'>
+            Chưa có tài khoản?{' '}
+            <Link href='/auth/register' className='text-blue-500 hover:underline'>
+              Đăng ký
+            </Link>
+          </div>
         </Form>
       </div>
     </div>

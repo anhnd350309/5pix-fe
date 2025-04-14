@@ -405,7 +405,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
         albumSlug={event.album_slug}
         isFree={false}
       />
-      <AddToCartModal isPopupVisible={isPopupVisible} hidePopup={hidePopup} />
+      <AddToCartModal isPopupVisible={isPopupVisible} hidePopup={hidePopup} slug={slug as string} />
     </React.Fragment>
   )
 }

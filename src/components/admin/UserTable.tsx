@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Table, Tag, Button, Tabs, Input, DatePicker, Space, Spin } from 'antd'
 import { UserOutlined, MailOutlined, SearchOutlined } from '@ant-design/icons'
-import { GetMerchantsGetParams, MerchantDetailResponse, MerchantItemResponse } from '@/schemas'
+import {
+  GetMerchantsGetParams,
+  MerchantApprovedStatus,
+  MerchantDetailResponse,
+  MerchantItemResponse,
+} from '@/schemas'
 import {
   approveMerchantMerchantsApproveMerchantPost,
   detailMerchantsMerchantIdGet,
@@ -37,7 +42,8 @@ const UserTable: React.FC<UserTableProps> = () => {
       const params: GetMerchantsGetParams = {
         page: currentPage,
         page_size: 10,
-        merchant_active_status: activeTab !== 'all' ? activeTab : undefined,
+        merchant_active_status:
+          activeTab !== 'all' ? (activeTab as MerchantApprovedStatus) : undefined,
       }
       const response = await getMerchantsGet(params)
       const newUsers = response.data

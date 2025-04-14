@@ -203,6 +203,94 @@ export const useCreateMerchantsPost = <TError = HTTPValidationError,
       return useMutation(mutationOptions);
     }
     /**
+ * API get detail Merchant of current user
+ * @summary Get Me
+ */
+export const getMeMerchantsGetMeGet = (
+    
+ signal?: AbortSignal
+) => {
+      
+      
+      return defaultMutator<DataResponseMerchantDetailResponse>(
+      {url: `/merchants/get-me`, method: 'GET', signal
+    },
+      );
+    }
+  
+
+export const getGetMeMerchantsGetMeGetQueryKey = () => {
+    return [`/merchants/get-me`] as const;
+    }
+
+    
+export const getGetMeMerchantsGetMeGetQueryOptions = <TData = Awaited<ReturnType<typeof getMeMerchantsGetMeGet>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getMeMerchantsGetMeGet>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetMeMerchantsGetMeGetQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getMeMerchantsGetMeGet>>> = ({ signal }) => getMeMerchantsGetMeGet(signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getMeMerchantsGetMeGet>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type GetMeMerchantsGetMeGetQueryResult = NonNullable<Awaited<ReturnType<typeof getMeMerchantsGetMeGet>>>
+export type GetMeMerchantsGetMeGetQueryError = unknown
+
+
+export function useGetMeMerchantsGetMeGet<TData = Awaited<ReturnType<typeof getMeMerchantsGetMeGet>>, TError = unknown>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getMeMerchantsGetMeGet>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getMeMerchantsGetMeGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetMeMerchantsGetMeGet<TData = Awaited<ReturnType<typeof getMeMerchantsGetMeGet>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getMeMerchantsGetMeGet>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getMeMerchantsGetMeGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetMeMerchantsGetMeGet<TData = Awaited<ReturnType<typeof getMeMerchantsGetMeGet>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getMeMerchantsGetMeGet>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+/**
+ * @summary Get Me
+ */
+
+export function useGetMeMerchantsGetMeGet<TData = Awaited<ReturnType<typeof getMeMerchantsGetMeGet>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getMeMerchantsGetMeGet>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+
+  const queryOptions = getGetMeMerchantsGetMeGetQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+/**
  * API Detail Merchant
  * @summary Detail
  */
@@ -360,7 +448,7 @@ export const useUpdateMerchantsUpdateMerchantPut = <TError = HTTPValidationError
       return useMutation(mutationOptions);
     }
     /**
- * ### API để Admin thực hiện Approve/Reject Merchant
+ * ### API để Admin thực hiện Approve/Reject Merchant - role admin mới sử dụng được
 
 **MerchantApprovedStatus:**
 - `approved`: Duyệt

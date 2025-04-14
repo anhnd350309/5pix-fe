@@ -189,7 +189,11 @@ const ImageModal: React.FC<ImageModalProps> = ({
           )}
         </div>
       </Modal>
-      <AddToCartModal isPopupVisible={isPopupVisible} hidePopup={hidePopup} />
+      <AddToCartModal
+        isPopupVisible={isPopupVisible}
+        hidePopup={hidePopup}
+        slug={albumSlug as string}
+      />
     </>
   )
 }

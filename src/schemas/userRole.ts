@@ -16,11 +16,13 @@
 /**
  * An enumeration.
  */
-export type UserRole = (typeof UserRole)[keyof typeof UserRole]
+export type UserRole = typeof UserRole[keyof typeof UserRole];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const UserRole = {
   admin: 'admin',
-  merchant: 'merchant',
   user: 'user',
-} as const
+  guest: 'guest',
+  merchant: 'merchant',
+} as const;
