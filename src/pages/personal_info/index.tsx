@@ -7,7 +7,7 @@ import {
   InfoCircleOutlined,
   LogoutOutlined,
 } from '@ant-design/icons'
-import { signOut } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 
 // Định nghĩa type cho các mục menu
 type MenuItem = Required<MenuProps>['items'][number]
@@ -17,7 +17,7 @@ const menuItems: MenuItem[] = [
   { label: 'Tài khoản', key: 'account', icon: <UserOutlined /> },
   { label: 'Lịch sử mua hàng', key: 'history', icon: <ShoppingCartOutlined /> },
   { label: 'Thông tin chung', key: 'info', icon: <InfoCircleOutlined /> },
-  { label: 'Đăng xuất', key: 'logout', icon: <LogoutOutlined />, danger: true }, // Thêm mục đăng xuất
+  { label: 'Đăng xuất', key: 'logout', icon: <LogoutOutlined />, danger: true },
 ]
 
 // Các component con hiển thị nội dung tương ứng với từng menu
@@ -157,22 +157,20 @@ const RenderRightContent: React.FC<RenderRightContentProps> = ({ menuKey }) => {
 // Định nghĩa kiểu cho thông tin người dùng
 interface UserInfo {
   name: string
-  avatarUrl: string
+  image?: string
+  email: string
 }
 
 const ProfilePage: React.FC = () => {
   // Khởi tạo state cho menu đã chọn
   const [selectedKey, setSelectedKey] = useState<string>('history')
   const [isLogoutModalVisible, setIsLogoutModalVisible] = useState(false) // State cho modal
-
-  // Dữ liệu người dùng mẫu
-  const userInfo: UserInfo = {
-    name: 'Nguyễn Bình Minh',
-    avatarUrl: 'https://via.placeholder.com/100x100?text=Avatar', // Thay bằng link ảnh thật nếu có
-  }
+  const { data: session, status } = useSession()
+  console.log('session', session)
+  const userInfo: UserInfo = session?.user as UserInfo
 
   const handleLogout = () => {
-    signOut({ callbackUrl: '/' }) // Chuyển hướng về trang chủ sau khi đăng xuất
+    signOut({ callbackUrl: '/' })
   }
 
   const showLogoutConfirm = () => {
@@ -186,9 +184,9 @@ const ProfilePage: React.FC = () => {
   // Xử lý sự kiện khi click vào menu
   const onMenuClick: MenuProps['onClick'] = (e) => {
     if (e.key === 'logout') {
-      showLogoutConfirm() // Hiển thị confirm modal nếu click vào "Đăng xuất"
+      showLogoutConfirm()
     } else {
-      setSelectedKey(e.key) // Cập nhật selectedKey cho các menu khác
+      setSelectedKey(e.key)
     }
   }
 
@@ -200,8 +198,15 @@ const ProfilePage: React.FC = () => {
           <Card className='mb-4 shadow'>
             {/* Thông tin người dùng */}
             <div className='flex flex-col items-center justify-center mb-4'>
-              <Avatar src={userInfo.avatarUrl} size={80} className='mb-2' icon={<UserOutlined />} />
-              <h3 className='text-base font-semibold'>{userInfo.name}</h3>
+              {status === 'loading' ? (
+                <Avatar size={80} className='mb-2' icon={<UserOutlined />} />
+              ) : (
+                <>
+                  <Avatar src={userInfo.image} size={80} className='mb-2' icon={<UserOutlined />} />
+                  <h3 className='text-base font-semibold'>{userInfo.name}</h3>
+                  <p className='text-sm text-gray-500'>{userInfo.email}</p>
+                </>
+              )}
             </div>
             {/* Menu lựa chọn */}
             <Menu

@@ -13,6 +13,7 @@ interface ImageModalProps {
   bibNum?: string
   albumSlug?: string
   isFree?: boolean
+  albumId: number
 }
 
 const ImageModal: React.FC<ImageModalProps> = ({
@@ -24,6 +25,7 @@ const ImageModal: React.FC<ImageModalProps> = ({
   bibNum,
   albumSlug,
   isFree,
+  albumId,
 }) => {
   const router = useRouter()
   const carouselRef = useRef<any>(null)
@@ -193,6 +195,8 @@ const ImageModal: React.FC<ImageModalProps> = ({
         isPopupVisible={isPopupVisible}
         hidePopup={hidePopup}
         slug={albumSlug as string}
+        imageId={images[selectedImageIndex]?.id as number}
+        albumId={albumId}
       />
     </>
   )

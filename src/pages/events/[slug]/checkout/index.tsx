@@ -1,55 +1,17 @@
-import React, { use, useEffect, useState } from 'react'
-import { List, Button, Spin } from 'antd'
+import React, { useEffect, useState } from 'react'
+import { List, Button, Spin, Popconfirm, message } from 'antd'
 import SvgNoCart from '@/components/icons/icons/NoCart'
 import { useRouter } from 'next/router'
-import {
-  AlbumItemResponsePublic,
-  CollectionImageResponse,
-  ImageSearchType,
-  ItemResponse,
-} from '@/schemas'
+import { AlbumItemResponsePublic, ItemResponse } from '@/schemas'
 import { detailPubAlbumsAlbumSlugGet } from '@/services/public-album/public-album'
-import { searchPubImagesPost } from '@/services/public-images/public-images'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import {
+  addImageImageCollectionRemoveImageDelete,
   getImageCollectionCollectionItemGet,
   getImageCollectionGet,
 } from '@/services/image-collection/image-collection'
-import { set } from 'react-hook-form'
+import { DeleteOutlined } from '@ant-design/icons'
 
-/**
- * Ví dụ mảng dữ liệu giỏ hàng.
- * Bạn có thể lấy dữ liệu thực tế từ server hoặc state trong ứng dụng của mình.
- */
-const cartData = [
-  {
-    id: 1,
-    title: 'Photofull',
-    subTitle: 'Toàn bộ ảnh của sự kiện BIB 70011',
-    eventName: 'Cúc Phương Jungle Path 2023',
-    price: '1.000.000 đ',
-    imageUrl: 'https://via.placeholder.com/120x80?text=Photo+1', // Thay link ảnh thật
-  },
-  {
-    id: 2,
-    title: 'Ảnh đơn',
-    subTitle: 'CRP1324325',
-    eventName: 'Cúc Phương Jungle Path 2023',
-    price: '15.000 đ',
-    imageUrl: 'https://via.placeholder.com/120x80?text=Photo+2', // Thay link ảnh thật
-  },
-  {
-    id: 3,
-    title: 'Ảnh đơn',
-    subTitle: 'CRP1324325',
-    eventName: 'Cúc Phương Jungle Path 2023',
-    price: '15.000 đ',
-    imageUrl: 'https://via.placeholder.com/120x80?text=Photo+3', // Thay link ảnh thật
-  },
-]
-
-// Giả sử tổng tiền là 1.030.000 đ.
-// Tất nhiên, bạn có thể tính động dựa trên các item trong giỏ hàng.
 const total = '1.030.000 đ'
 type Repo = {
   event?: AlbumItemResponsePublic
@@ -72,30 +34,53 @@ export default function CartPage({ repo }: InferGetServerSidePropsType<typeof ge
   const [item, setItem] = useState<ItemResponse[]>([])
   const [loading, setLoading] = useState(false)
   const { event } = repo
+  const fetchImage = async () => {
+    try {
+      setLoading(true)
+      const data = await getImageCollectionGet({
+        album_id: event?.id,
+        page: 1,
+        page_size: 100,
+        sort_by: 'id',
+        order: 'desc',
+      })
+      const collection = await getImageCollectionCollectionItemGet({
+        collection_id: data.data[0].id,
+      })
+      setItem(collection)
+    } catch (error) {
+      console.error('Error fetching data:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
   useEffect(() => {
-    ;(async () => {
-      try {
-        setLoading(true)
-        const data = await getImageCollectionGet({
-          album_id: event?.id,
-          page: 1,
-          page_size: 100,
-          sort_by: 'id',
-          order: 'desc',
-        })
-        const collection = await getImageCollectionCollectionItemGet({
-          collection_id: data.data[0].id,
-        })
-        setItem(collection)
-        console.log('Fetched data:', data.data)
-      } catch (error) {
-        console.error('Error fetching data:', error)
-      } finally {
-        setLoading(false)
-      }
-    })()
+    fetchImage()
   }, [])
   const router = useRouter()
+
+  const confirm = async (itemId?: number) => {
+    try {
+      const data = await getImageCollectionGet({
+        album_id: event?.id,
+      })
+      addImageImageCollectionRemoveImageDelete({
+        collection_id: data.data[0].id,
+        image_ids: [itemId || 0],
+      }).then((res) => {
+        if (res) {
+          message.success('Đã xóa ảnh khỏi giỏ hàng')
+        } else {
+          message.error('Có lỗi xảy ra khi xóa khỏi giỏ hàng')
+        }
+      })
+    } catch (error) {
+      console.error('Error removing from cart:', error)
+    } finally {
+      fetchImage()
+    }
+  }
+
   return (
     <div
       className=' py-8 px-4 w-[100vw]'
@@ -116,7 +101,18 @@ export default function CartPage({ repo }: InferGetServerSidePropsType<typeof ge
             itemLayout='horizontal'
             dataSource={item}
             renderItem={(item) => (
-              <List.Item className='mb-4 bg-white rounded-lg shadow p-4 items-center'>
+              <List.Item className='mb-4 bg-white rounded-lg shadow p-4 items-center relative'>
+                <div className='absolute top-2 right-2'>
+                  <Popconfirm
+                    title='Bạn có chắc chắn muốn xóa ảnh này khỏi giỏ hàng?'
+                    onConfirm={() => confirm(item.album_image_id)}
+                    okText='Có'
+                    cancelText='Không'
+                    className='bg-gray-200 rounded-full'
+                  >
+                    <Button type='text' style={{ color: '#344054' }} icon={<DeleteOutlined />} />
+                  </Popconfirm>
+                </div>
                 <List.Item.Meta
                   avatar={<img className='w-24 h-24 object-cover rounded-md' />}
                   title={<span className='text-blue-500 text-base font-medium'>Ảnh đơn</span>}
@@ -128,7 +124,7 @@ export default function CartPage({ repo }: InferGetServerSidePropsType<typeof ge
                   }
                 />
 
-                <div className='flex flex-col justify-center items-end'>
+                <div className='absolute bottom-2 right-2'>
                   <p className='text-blue-500 font-bold'>{item.id} đ</p>
                 </div>
               </List.Item>
