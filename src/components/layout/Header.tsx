@@ -15,11 +15,11 @@ import {
   Button,
 } from 'antd' // Import Dropdown, Menu và Modal
 import moment from 'moment'
-import { createMerchantsPost } from '@/services/merchants/merchants'
+import { createMerchantsPost, getMeMerchantsGetMeGet } from '@/services/merchants/merchants'
 import { MerchantType, MerchantYearsOfExperience } from '@/schemas'
 import SvgUser from '../icons/icons/User'
 import SvgCart from '../icons/icons/Cart'
-import { ShoppingCartOutlined } from '@ant-design/icons'
+import { CheckCircleTwoTone, ShoppingCartOutlined } from '@ant-design/icons'
 import { useRouter } from 'next/router'
 const { Option } = Select
 
@@ -39,6 +39,7 @@ const Header = ({ bgColor }: { bgColor: string }) => {
   const [activeLink, setActiveLink] = useState<string>('')
   const { data: session } = useSession()
   const [isModalVisible, setIsModalVisible] = useState(false)
+  const [modalStep, setModalStep] = useState<'form' | 'success'>('success')
   const [form] = Form.useForm()
   const router = useRouter()
   const navigateManage = () => {
@@ -94,12 +95,27 @@ const Header = ({ bgColor }: { bgColor: string }) => {
     console.log('Received values:', formData)
     createMerchantsPost(formData)
     // Handle form submission here
-    setIsModalVisible(false)
+    // setIsModalVisible(false)
+    setModalStep('success')
     form.resetFields()
   }
   const onClickMerchant = () => {
     // check login
     if (session) {
+      // get data from getMeMerchantsGetMeGet
+      getMeMerchantsGetMeGet()
+        .then((res) => {
+          console.log('getMeMerchantsGetMeGet', res)
+          if (res.data?.merchant_active_status === 'waiting_for_approve') {
+            setModalStep('success')
+          } else {
+            setModalStep('form')
+          }
+        })
+        .catch((err) => {
+          console.log('getMeMerchantsGetMeGet', err)
+        })
+
       setIsModalVisible(true)
     } else {
       // redirect to login page
@@ -260,144 +276,178 @@ const Header = ({ bgColor }: { bgColor: string }) => {
         onCancel={() => setIsModalVisible(false)}
         footer={null}
       >
-        <div className='flex flex-row gap-3 justify-between'>
-          <Form
-            className='w-full pt-4'
-            form={form}
-            name='registration_form'
-            onFinish={onFinish}
-            layout='horizontal'
-            initialValues={{
-              merchant_type: 'individual',
-              team: 'Đội 1',
-            }}
-          >
-            <h1 className='text-center font-medium text-3xl  pb-3'>Đăng ký làm nhiếp ảnh gia</h1>
-            <Form.Item
-              className='mb-6'
-              name='merchant_type'
-              label='Loại hình đăng ký'
-              rules={[{ required: true, message: 'Vui lòng chọn loại hình!' }]}
-              labelCol={{ span: 10, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
-              wrapperCol={{ span: 14 }}
-            >
-              <Select placeholder='Chọn'>
-                <Option value='individual'>Cá nhân</Option>
-                <Option value='company'>Doanh nghiệp</Option>
-                <Option value='other'>Khác</Option>
-              </Select>
-            </Form.Item>
-            <Form.Item
-              className='mb-6'
-              name='full_name'
-              label='Họ và tên'
-              rules={[{ required: true, message: 'Vui lòng nhập họ và tên!' }]}
-              labelCol={{ span: 10, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
-              wrapperCol={{ span: 14 }}
-            >
-              <Input placeholder='Nguyen Van A' />
-            </Form.Item>
-
-            <Form.Item
-              className='mb-6'
-              name='date_of_birth'
-              label='Ngày sinh'
-              rules={[{ required: true, message: 'Vui lòng chọn ngày sinh!' }]}
-              labelCol={{ span: 10, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
-              wrapperCol={{ span: 14 }}
-            >
-              <DatePicker format='DD/MM/YYYY' style={{ width: '100%' }} placeholder='15/06/1990' />
-            </Form.Item>
-
-            <Form.Item
-              className='mb-6'
-              name='email'
-              label='Email'
-              rules={[
-                {
-                  required: true,
-                  message: 'Vui lòng nhập email!',
-                  type: 'email',
-                },
-              ]}
-              labelCol={{ span: 10, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
-              wrapperCol={{ span: 14 }}
-            >
-              <Input placeholder='username@gmail.com' />
-            </Form.Item>
-
-            <Form.Item
-              className='mb-6'
-              name='phone_number'
-              label='Số điện thoại'
-              rules={[{ required: true, message: 'Vui lòng nhập số điện thoại!' }]}
-              labelCol={{ span: 10, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
-              wrapperCol={{ span: 14 }}
-            >
-              <Input placeholder='098765322' />
-            </Form.Item>
-
-            <Form.Item
-              className='mb-6'
-              name='address'
-              label='Địa chỉ'
-              rules={[{ required: true, message: 'Vui lòng nhập địa chỉ!' }]}
-              labelCol={{ span: 10, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
-              wrapperCol={{ span: 14 }}
-            >
-              <Input placeholder='Trần Vỹ, Mai Dịch, Cầu Giấy, Hà Nội' />
-            </Form.Item>
-
-            <Form.Item
-              className='mb-6'
-              name='years_of_experience'
-              label='Số năm kinh nghiệm'
-              rules={[{ required: true, message: 'Vui lòng chọn!' }]}
-              labelCol={{ span: 10, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
-              wrapperCol={{ span: 14 }}
-            >
-              <Select placeholder='Chọn kinh nghiệm'>
-                <Option value='<_1'>Ít hơn 1 năm</Option>
-                <Option value='1-3'>Từ 1 đến 3 năm</Option>
-                <Option value='3-5'>Từ 3 đến 5 năm</Option>
-                <Option value='>_5'>Hơn 5 năm</Option>
-              </Select>
-            </Form.Item>
-
-            <Form.Item
-              className='mb-6'
-              name='social_media_link'
-              label='Bản đính kèm tài khoản media'
-              rules={[{ required: true, message: 'Vui lòng nhập tài khoản media!' }]}
-              labelCol={{ span: 10, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
-              wrapperCol={{ span: 14 }}
-            >
-              <Input placeholder='Đính kèm social media của bạn' />
-            </Form.Item>
-
-            <Form.Item
-              className='mb-6'
-              name='sample_photo_link'
-              label='Đường link thư mục demo'
-              rules={[{ required: true, message: 'Vui lòng nhập link demo!' }]}
-              labelCol={{ span: 10, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
-              wrapperCol={{ span: 14 }}
-            >
-              <Input placeholder='Đường link thư mục demo' />
-            </Form.Item>
-
-            <Form.Item>
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <Button
-                  style={{ borderRadius: '20px', width: '350px', height: '40px' }}
-                  type='primary'
-                  htmlType='submit'
+        <div className='flex flex-col md:flex-row w-full min-h-[632px]'>
+          {modalStep === 'form' ? (
+            <div className='w-full flex items-center justify-center'>
+              <Form
+                className='w-full pt-4'
+                form={form}
+                name='registration_form'
+                onFinish={onFinish}
+                layout='horizontal'
+                initialValues={{
+                  merchant_type: 'individual',
+                  team: 'Đội 1',
+                }}
+              >
+                <h1 className='text-center font-medium text-3xl  pb-3'>
+                  Đăng ký làm nhiếp ảnh gia
+                </h1>
+                <Form.Item
+                  className='mb-6'
+                  name='merchant_type'
+                  label='Loại hình đăng ký'
+                  rules={[{ required: true, message: 'Vui lòng chọn loại hình!' }]}
+                  labelCol={{ span: 8, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
+                  wrapperCol={{ span: 14 }}
                 >
-                  Đăng ký
+                  <Select placeholder='Chọn'>
+                    <Option value='individual'>Cá nhân</Option>
+                    <Option value='company'>Doanh nghiệp</Option>
+                    <Option value='other'>Khác</Option>
+                  </Select>
+                </Form.Item>
+                <Form.Item
+                  className='mb-6'
+                  name='full_name'
+                  label='Họ và tên'
+                  rules={[{ required: true, message: 'Vui lòng nhập họ và tên!' }]}
+                  labelCol={{ span: 8, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
+                  wrapperCol={{ span: 14 }}
+                >
+                  <Input placeholder='Nguyen Van A' />
+                </Form.Item>
+
+                <Form.Item
+                  className='mb-6'
+                  name='date_of_birth'
+                  label='Ngày sinh'
+                  rules={[{ required: true, message: 'Vui lòng chọn ngày sinh!' }]}
+                  labelCol={{ span: 8, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
+                  wrapperCol={{ span: 14 }}
+                >
+                  <DatePicker
+                    format='DD/MM/YYYY'
+                    style={{ width: '100%' }}
+                    placeholder='15/06/1990'
+                  />
+                </Form.Item>
+
+                <Form.Item
+                  className='mb-6'
+                  name='email'
+                  label='Email'
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Vui lòng nhập email!',
+                      type: 'email',
+                    },
+                  ]}
+                  labelCol={{ span: 8, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
+                  wrapperCol={{ span: 14 }}
+                >
+                  <Input placeholder='username@gmail.com' />
+                </Form.Item>
+
+                <Form.Item
+                  className='mb-6'
+                  name='phone_number'
+                  label='Số điện thoại'
+                  rules={[{ required: true, message: 'Vui lòng nhập số điện thoại!' }]}
+                  labelCol={{ span: 8, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
+                  wrapperCol={{ span: 14 }}
+                >
+                  <Input placeholder='098765322' />
+                </Form.Item>
+
+                <Form.Item
+                  className='mb-6'
+                  name='address'
+                  label='Địa chỉ'
+                  rules={[{ required: true, message: 'Vui lòng nhập địa chỉ!' }]}
+                  labelCol={{ span: 8, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
+                  wrapperCol={{ span: 14 }}
+                >
+                  <Input placeholder='Trần Vỹ, Mai Dịch, Cầu Giấy, Hà Nội' />
+                </Form.Item>
+
+                <Form.Item
+                  className='mb-6'
+                  name='years_of_experience'
+                  label='Số năm kinh nghiệm'
+                  rules={[{ required: true, message: 'Vui lòng chọn!' }]}
+                  labelCol={{ span: 8, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
+                  wrapperCol={{ span: 14 }}
+                >
+                  <Select placeholder='Chọn kinh nghiệm'>
+                    <Option value='< 1'>Ít hơn 1 năm</Option>
+                    <Option value='1-3'>Từ 1 đến 3 năm</Option>
+                    <Option value='3-5'>Từ 3 đến 5 năm</Option>
+                    <Option value='> 5'>Hơn 5 năm</Option>
+                  </Select>
+                </Form.Item>
+
+                <Form.Item
+                  className='mb-6'
+                  name='social_media_link'
+                  label='Bản đính kèm tài khoản media'
+                  rules={[{ required: true, message: 'Vui lòng nhập tài khoản media!' }]}
+                  labelCol={{ span: 8, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
+                  wrapperCol={{ span: 14 }}
+                >
+                  <Input placeholder='Đính kèm social media của bạn' />
+                </Form.Item>
+
+                <Form.Item
+                  className='mb-6'
+                  name='sample_photo_link'
+                  label='Đường link thư mục demo'
+                  rules={[{ required: true, message: 'Vui lòng nhập link demo!' }]}
+                  labelCol={{ span: 8, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
+                  wrapperCol={{ span: 14 }}
+                >
+                  <Input placeholder='Đường link thư mục demo' />
+                </Form.Item>
+
+                <Form.Item>
+                  <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    <Button
+                      style={{ borderRadius: '20px', width: '350px', height: '40px' }}
+                      type='primary'
+                      htmlType='submit'
+                    >
+                      Đăng ký
+                    </Button>
+                  </div>
+                </Form.Item>
+              </Form>
+            </div>
+          ) : (
+            <div className='w-full p-6 flex items-center justify-center min-h-[632px]'>
+              <div className='max-w-[400px] text-center'>
+                <CheckCircleTwoTone twoToneColor='#2563EB' style={{ fontSize: 48 }} />
+                <p className='mt-4 text-sm font-medium'>
+                  Yêu cầu đăng ký làm nhiếp ảnh gia của bạn đã được gửi.
+                </p>
+                <p className='mt-2 text-sm text-gray-800'>
+                  Yêu cầu sẽ được xử lý trong vòng 12 tiếng. Trường hợp cần hỗ trợ, vui lòng liên hệ{' '}
+                  <b>0986587345</b>.
+                </p>
+                <Button
+                  type='primary'
+                  className='mt-6'
+                  onClick={() => {
+                    setIsModalVisible(false)
+                    // setModalStep('form')
+                  }}
+                  block
+                >
+                  Về trang chủ
                 </Button>
               </div>
-            </Form.Item>
-          </Form>
+            </div>
+          )}
           <div>
             <img
               src='/assets/images/FormMerchant.png'

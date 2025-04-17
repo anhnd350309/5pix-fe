@@ -12,13 +12,13 @@
         
  * OpenAPI spec version: 0.1.0
  */
-
-import { UserRole } from './userRole'
+import type { UserRole } from './userRole';
 
 export interface UserItemResponse {
-  id: number
-  email: string
-  full_name?: string
-  created_at?: string
-  role: keyof typeof UserRole
+  email: string;
+  full_name: string;
+  id: number;
+  is_active: boolean;
+  last_login?: string;
+  role: UserRole;
 }

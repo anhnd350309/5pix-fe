@@ -93,12 +93,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
     setIsPopupVisible(false)
   }
   const showPopup = () => {
-    // check user is login from session
-    if (status !== 'authenticated') {
-      signIn()
-      return
-    }
-    setIsPopupVisible(true)
+    router.push(`/events/${slug}/checkout`)
   }
 
   // const { data, error, isLoading } = useDetailPubAlbumsAlbumSlugGet(slug as string, {
@@ -351,7 +346,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
                     150.000 VND
                   </h3>
                   <Button type='primary' shape='round' onClick={showPopup}>
-                    Thêm vào giỏ hàng
+                    Kiểm tra giỏ hàng
                   </Button>
                 </Card>
               </div>
@@ -404,8 +399,9 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
         bibNum={bibNum}
         albumSlug={event.album_slug}
         isFree={false}
+        albumId={event.id}
       />
-      <AddToCartModal isPopupVisible={isPopupVisible} hidePopup={hidePopup} />
+      {/* <AddToCartModal isPopupVisible={isPopupVisible} hidePopup={hidePopup} slug={slug as string} /> */}
     </React.Fragment>
   )
 }

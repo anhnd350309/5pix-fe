@@ -92,6 +92,20 @@ export const LoginForm: React.FC = () => {
               {isLoading ? 'Đang xử lý...' : 'Đăng nhập'}
             </button>
           </Form.Item>
+          <button
+            onClick={() => signIn('google', { callbackUrl: '/' })}
+            className='flex w-full items-center justify-center rounded-lg border border-gray-300 py-3 text-sm font-medium text-gray-700 hover:bg-gray-100 focus:outline-none'
+          >
+            <img src='/assets/icons/google.svg' alt='Google Logo' className='mr-2 h-5' />
+            Đăng nhập bằng Google
+          </button>
+
+          <div className='text-center text-sm text-gray-600 pt-3'>
+            Chưa có tài khoản?{' '}
+            <Link href='/auth/register' className='text-blue-500 hover:underline'>
+              Đăng ký
+            </Link>
+          </div>
         </Form>
       </div>
     </div>

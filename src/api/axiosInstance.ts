@@ -44,11 +44,16 @@ axiosInstance.interceptors.response.use(
     if (error.response?.status === 403) {
       console.error('Unauthorized! Redirecting to login...')
       // Add logout logic or redirect to login
-      // signOut({ callbackUrl: '/auth/login' })
+      signOut({ callbackUrl: '/auth/login' })
       // window.location.href = '/auth/login'
-      signIn()
+      // signIn()
     }
     if (error.response?.status === 400) {
+      console.error('Unauthorized! Redirecting to login...')
+      window.history.back()
+      // window.location.href = '/404'
+    }
+    if (error.response?.status === 500) {
       console.error('Unauthorized! Redirecting to login...')
       // Add logout logic or redirect to login
       // signOut({ callbackUrl: '/auth/login' })

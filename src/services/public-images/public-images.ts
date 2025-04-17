@@ -13,15 +13,25 @@
  * OpenAPI spec version: 0.1.0
  */
 import {
-  useMutation
+  useMutation,
+  useQuery
 } from '@tanstack/react-query'
 import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
   MutationFunction,
+  QueryFunction,
+  QueryKey,
+  UndefinedInitialDataOptions,
   UseMutationOptions,
-  UseMutationResult
+  UseMutationResult,
+  UseQueryOptions,
+  UseQueryResult
 } from '@tanstack/react-query'
 import type {
   BodySearchPubImagesPost,
+  DataResponseAlbumImageItemResponsePublic,
   HTTPValidationError,
   PageAlbumImageItemResponsePublic,
   SearchPubImagesPostParams
@@ -95,4 +105,93 @@ export const useSearchPubImagesPost = <TError = HTTPValidationError,
 
       return useMutation(mutationOptions);
     }
+    /**
+ * ### API get detail Image by id
+
+- Nếu image chưa có cdn_image_url --> chưa thể public --> không cho phép get
+ * @summary Detail Image
+ */
+export const detailImagePubImagesImageIdGet = (
+    imageId: number,
+ signal?: AbortSignal
+) => {
+      
+      
+      return defaultMutator<DataResponseAlbumImageItemResponsePublic>(
+      {url: `/pub/images/${imageId}`, method: 'GET', signal
+    },
+      );
+    }
+  
+
+export const getDetailImagePubImagesImageIdGetQueryKey = (imageId: number,) => {
+    return [`/pub/images/${imageId}`] as const;
+    }
+
     
+export const getDetailImagePubImagesImageIdGetQueryOptions = <TData = Awaited<ReturnType<typeof detailImagePubImagesImageIdGet>>, TError = HTTPValidationError>(imageId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailImagePubImagesImageIdGet>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getDetailImagePubImagesImageIdGetQueryKey(imageId);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof detailImagePubImagesImageIdGet>>> = ({ signal }) => detailImagePubImagesImageIdGet(imageId, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(imageId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof detailImagePubImagesImageIdGet>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type DetailImagePubImagesImageIdGetQueryResult = NonNullable<Awaited<ReturnType<typeof detailImagePubImagesImageIdGet>>>
+export type DetailImagePubImagesImageIdGetQueryError = HTTPValidationError
+
+
+export function useDetailImagePubImagesImageIdGet<TData = Awaited<ReturnType<typeof detailImagePubImagesImageIdGet>>, TError = HTTPValidationError>(
+ imageId: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailImagePubImagesImageIdGet>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof detailImagePubImagesImageIdGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useDetailImagePubImagesImageIdGet<TData = Awaited<ReturnType<typeof detailImagePubImagesImageIdGet>>, TError = HTTPValidationError>(
+ imageId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailImagePubImagesImageIdGet>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof detailImagePubImagesImageIdGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useDetailImagePubImagesImageIdGet<TData = Awaited<ReturnType<typeof detailImagePubImagesImageIdGet>>, TError = HTTPValidationError>(
+ imageId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailImagePubImagesImageIdGet>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+/**
+ * @summary Detail Image
+ */
+
+export function useDetailImagePubImagesImageIdGet<TData = Awaited<ReturnType<typeof detailImagePubImagesImageIdGet>>, TError = HTTPValidationError>(
+ imageId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailImagePubImagesImageIdGet>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+
+  const queryOptions = getDetailImagePubImagesImageIdGetQueryOptions(imageId,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+

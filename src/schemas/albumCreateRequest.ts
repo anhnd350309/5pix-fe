@@ -14,10 +14,15 @@
  */
 
 export interface AlbumCreateRequest {
+  album_display_status?: number;
+  album_image_price?: number;
   album_image_url: string;
   album_name: string;
+  album_price?: number;
   album_slug: string;
+  event_address?: string;
   event_date: string;
+  is_album_free?: number;
   is_find_all_image?: number;
   is_find_by_face?: number;
   is_find_by_metadata?: number;
