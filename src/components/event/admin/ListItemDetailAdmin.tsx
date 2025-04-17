@@ -186,6 +186,7 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
         images={loadedImgs}
         selectedImageIndex={selectedImageIndex || 0}
         setSelectedImageIndex={setSelectedImageIndex}
+        albumId={Number(id)}
       />
       <Modal
         title='Cập nhật metadata'
