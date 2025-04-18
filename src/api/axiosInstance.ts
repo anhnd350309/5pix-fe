@@ -1,3 +1,4 @@
+import { notification } from 'antd'
 import axios, { AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios'
 import { getSession, signIn, signOut } from 'next-auth/react'
 import { useRouter } from 'next/router'
@@ -16,13 +17,10 @@ axiosInstance.interceptors.request.use(
     if (!cachedSession) {
       cachedSession = await getSession()
     }
-    console.log('Cached Session:', cachedSession)
     const token = cachedSession?.accessToken
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
-      // config.headers.Authorization = `Bearer ${token}`
     }
-    console.log('Request Config:', config)
     return config
   },
   (error) => {
@@ -37,7 +35,6 @@ axiosInstance.interceptors.response.use(
     return response
   },
   (error) => {
-    // Handle response errors, e.g., token expiration
     if (error.response?.status === 403) {
       console.error('Unauthorized! Redirecting to login...')
       // Add logout logic or redirect to login
@@ -46,11 +43,18 @@ axiosInstance.interceptors.response.use(
       signIn()
     }
     if (error.response?.status === 400) {
-      console.error('Unauthorized! Redirecting to login...')
+      notification.error({
+        message: 'Có lỗi xảy ra',
+        description: error.response?.data?.message || 'Có lỗi xảy ra',
+      })
       window.history.back()
       // window.location.href = '/404'
     }
     if (error.response?.status === 500) {
+      notification.error({
+        message: 'Có lỗi xảy ra',
+        description: error.response?.data?.message || 'Có lỗi xảy ra',
+      })
       window.history.back()
     }
     return Promise.reject(error)
@@ -61,3 +65,4 @@ export const defaultMutator = async <TData>(config: AxiosRequestConfig): Promise
   const response = await axiosInstance.request<TData>(config)
   return response.data
 }
+export default axiosInstance

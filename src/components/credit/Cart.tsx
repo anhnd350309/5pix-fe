@@ -91,7 +91,7 @@ const Cart: FC<CartProps> = ({
       </div>
       <div className='space-y-2'>
         <div className='flex flex-row items-center font-inter '>
-          <div className='flex-1 text-[#667085]'>{'Tổng tiền'}</div>
+          <div className='flex-1 text-[#667085]'>{'Tổng tiền sản phẩm'}</div>
           <div className='flex-end font-bold'>{formatter(total)}</div>
         </div>
         {/* <div className='flex flex-row items-center font-inter '>
@@ -108,9 +108,12 @@ const Cart: FC<CartProps> = ({
       </div>
       <div className='pt-4 border-t border-t-[#E4E7EC] mt-4 mb-2'>
         <div className='flex flex-row items-center font-inter '>
-          <div className='flex-1 font-inter font-bold text-base text-gray-950 '>{'Tổng tiền'}</div>
+          <div className='flex-1 font-inter font-bold text-base text-gray-950 '>
+            {'Tổng tiền thanh toán'}
+          </div>
           <div className='flex-end font font-bold text-xl text-primary-600'>
-            {formatter(Math.max(total - finalDiscount, 0))}
+            {/* {formatter(Math.max(total - finalDiscount, 0))} */}
+            {total && formatter(total)}
           </div>
         </div>
       </div>

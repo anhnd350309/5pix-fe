@@ -122,18 +122,18 @@ export const authOptions: AuthOptions = {
         token.accessToken = user.accessToken
         token.role = user.role
       }
-      // if (account?.provider === 'google') {
-      //   const data = await googleCallbackLoginGoogleCallbackGet({
-      //     id_token_params: account?.id_token as string,
-      //   })
-      // }
+      if (account?.provider === 'google') {
+        const data = await googleCallbackLoginGoogleCallbackGet({
+          id_token_params: account?.id_token as string,
+        })
+        const googleData = data as { data: { access_token: string } }
+        token.accessToken = googleData.data.access_token
+      }
       return token
     },
     async session({ session, token }) {
       session.accessToken = token.accessToken as string
       session.role = token.role as string
-
-      console.log('JWT token:', session)
       return session
     },
   },

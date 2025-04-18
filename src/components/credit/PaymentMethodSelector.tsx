@@ -39,13 +39,14 @@ export const PaymentMethodSelector = ({
         {finalPaymentOptions.map((option) => {
           return (
             <div key={option.name}>
-              <div className='' key={option.name}>
+              <div className='' key={option.key}>
                 <label className='flex items-center relative py-3 hover:cursor-pointer'>
                   <input
                     type='radio'
                     className='peer mr-4 disabled:opacity-100'
                     value={option.id}
-                    // {...methods.register('method')}
+                    disabled={option.disabled}
+                    defaultChecked={option.key === 'VNPAY_QR'}
                   />
                   <div className='flex-1 mr-3 flex flex-col'>
                     <p className='text-base font-medium'>{option.name}</p>

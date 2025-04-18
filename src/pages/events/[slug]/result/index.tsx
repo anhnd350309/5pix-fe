@@ -34,8 +34,7 @@ const ResultPage: ResultPageType = () => {
     }
   }, [slug, bibNum])
   const handleCrop = (croppedData: string) => {
-    setCroppedImage(croppedData) // Save the cropped image
-    console.log('Cropped image:', croppedData)
+    setCroppedImage(croppedData)
   }
   const downloadImage = () => {
     if (croppedImage) {

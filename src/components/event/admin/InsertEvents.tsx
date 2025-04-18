@@ -19,7 +19,6 @@ const InsertEvents = ({ onChange, setEventData }: InsertEventsProps) => {
     values.event_date = moment(values.event_date).format('YYYY-MM-DD')
     setEventData?.(values)
     onChange?.('businessConfig')
-    console.log('Form values: ', values)
     //
     // Xử lý gửi dữ liệu form ở đây
     // createAlbumsPost(values)
@@ -35,10 +34,8 @@ const InsertEvents = ({ onChange, setEventData }: InsertEventsProps) => {
       const body: BodyUploadToGetCdnBasePost = {
         file_data: file,
       }
-      console.log('eeee')
       try {
         const response = await uploadToGetCdnBasePost(body)
-        console.log(response)
         if (response.data) {
           setUrl(response.data.url)
           form.setFieldsValue({ album_image_url: response.data.url })

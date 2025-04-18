@@ -127,7 +127,9 @@ export default function CartPage({ repo }: InferGetServerSidePropsType<typeof ge
                   </Popconfirm>
                 </div>
                 <List.Item.Meta
-                  avatar={<img className='w-24 h-24 object-cover rounded-md' />}
+                  avatar={
+                    <img src={item.album_image_url} className='w-24 h-24 object-cover rounded-md' />
+                  }
                   title={<span className='text-blue-500 text-base font-medium'>Ảnh đơn</span>}
                   description={
                     <div>

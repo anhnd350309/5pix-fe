@@ -92,7 +92,6 @@ const Header = ({ bgColor }: { bgColor: string }) => {
       merchant_type: values.merchant_type as MerchantType, // Ensure correct type
       years_of_experience: values.years_of_experience as MerchantYearsOfExperience, // Ensure correct type
     }
-    console.log('Received values:', formData)
     createMerchantsPost(formData)
     // Handle form submission here
     // setIsModalVisible(false)
@@ -105,7 +104,6 @@ const Header = ({ bgColor }: { bgColor: string }) => {
       // get data from getMeMerchantsGetMeGet
       getMeMerchantsGetMeGet()
         .then((res) => {
-          console.log('getMeMerchantsGetMeGet', res)
           if (res.data?.merchant_active_status === 'waiting_for_approve') {
             setModalStep('success')
           } else {

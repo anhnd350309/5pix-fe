@@ -40,9 +40,6 @@ const Hero = () => {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  useEffect(() => {
-    console.log('Component mounted: slide')
-  }, [])
   const params: GetPubAlbumsGetParams = {
     page: 1,
     page_size: 1000,

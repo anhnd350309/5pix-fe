@@ -255,7 +255,6 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
 
   const handleOptionClick = (action: string, imageIndex: number) => {
     if (action === 'open') {
-      console.log('Open image', imageIndex)
       setSelectedImageIndex(imageIndex)
       setIsModalVisibleImage(true) // Mở modal khi nhấn vào ảnh
     }
