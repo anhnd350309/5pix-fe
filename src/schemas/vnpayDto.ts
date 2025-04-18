@@ -13,11 +13,7 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export interface LineResponse {
-  album_id?: number;
-  id?: number;
-  image_collection_id?: number;
-  line_price?: number;
-  order_id?: number;
-  quantity?: number;
+export interface VnpayDto {
+  Message?: string;
+  RspCode?: string;
 }

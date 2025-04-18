@@ -14,8 +14,17 @@
  */
 
 export type ListOrdersOrderListGetParams = {
+order_id?: number;
 page_size?: number;
 page?: number;
 sort_by?: string;
 order?: string;
+/**
+ * list internal_statues
+ */
+internal_statues?: string[];
+/**
+ * list category
+ */
+category?: string[];
 };

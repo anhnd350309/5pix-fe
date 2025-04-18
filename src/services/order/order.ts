@@ -12,10 +12,7 @@
         
  * OpenAPI spec version: 0.1.0
  */
-import {
-  useMutation,
-  useQuery
-} from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -27,295 +24,369 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult
+  UseQueryResult,
 } from '@tanstack/react-query'
 import type {
   AdminEditOrderOrderAdminEditPutParams,
   AdminEditOrderRequest,
   AdminPayOrderOrderAdminPayForOrderPostParams,
-  BodyListOrdersOrderListGet,
   CreateOrderRequest,
   CreateOrderResponse,
   HTTPValidationError,
   ListOrdersOrderListGetParams,
-  PageCreateOrderResponse
+  PageCreateOrderResponse,
 } from '../../schemas'
-import { defaultMutator } from '../../api/axiosInstance';
-
-
+import { defaultMutator } from '../../api/axiosInstance'
 
 /**
  * ### Tạo order cho 1 collection
  * @summary Create Order
  */
 export const createOrderOrderCreateBuyCollectionPost = (
-    createOrderRequest: CreateOrderRequest,
- signal?: AbortSignal
+  createOrderRequest: CreateOrderRequest,
+  signal?: AbortSignal,
 ) => {
-      
-      
-      return defaultMutator<CreateOrderResponse>(
-      {url: `/order/create/buy-collection`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: createOrderRequest, signal
-    },
-      );
-    }
-  
+  return defaultMutator<CreateOrderResponse>({
+    url: `/order/create/buy-collection`,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    data: createOrderRequest,
+    signal,
+  })
+}
 
+export const getCreateOrderOrderCreateBuyCollectionPostMutationOptions = <
+  TError = HTTPValidationError,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof createOrderOrderCreateBuyCollectionPost>>,
+    TError,
+    { data: CreateOrderRequest },
+    TContext
+  >
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof createOrderOrderCreateBuyCollectionPost>>,
+  TError,
+  { data: CreateOrderRequest },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {}
 
-export const getCreateOrderOrderCreateBuyCollectionPostMutationOptions = <TError = HTTPValidationError,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createOrderOrderCreateBuyCollectionPost>>, TError,{data: CreateOrderRequest}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof createOrderOrderCreateBuyCollectionPost>>, TError,{data: CreateOrderRequest}, TContext> => {
-const {mutation: mutationOptions} = options ?? {};
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof createOrderOrderCreateBuyCollectionPost>>,
+    { data: CreateOrderRequest }
+  > = (props) => {
+    const { data } = props ?? {}
 
-      
+    return createOrderOrderCreateBuyCollectionPost(data)
+  }
 
+  return { mutationFn, ...mutationOptions }
+}
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createOrderOrderCreateBuyCollectionPost>>, {data: CreateOrderRequest}> = (props) => {
-          const {data} = props ?? {};
+export type CreateOrderOrderCreateBuyCollectionPostMutationResult = NonNullable<
+  Awaited<ReturnType<typeof createOrderOrderCreateBuyCollectionPost>>
+>
+export type CreateOrderOrderCreateBuyCollectionPostMutationBody = CreateOrderRequest
+export type CreateOrderOrderCreateBuyCollectionPostMutationError = HTTPValidationError
 
-          return  createOrderOrderCreateBuyCollectionPost(data,)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type CreateOrderOrderCreateBuyCollectionPostMutationResult = NonNullable<Awaited<ReturnType<typeof createOrderOrderCreateBuyCollectionPost>>>
-    export type CreateOrderOrderCreateBuyCollectionPostMutationBody = CreateOrderRequest
-    export type CreateOrderOrderCreateBuyCollectionPostMutationError = HTTPValidationError
-
-    /**
+/**
  * @summary Create Order
  */
-export const useCreateOrderOrderCreateBuyCollectionPost = <TError = HTTPValidationError,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createOrderOrderCreateBuyCollectionPost>>, TError,{data: CreateOrderRequest}, TContext>, }
-): UseMutationResult<
-        Awaited<ReturnType<typeof createOrderOrderCreateBuyCollectionPost>>,
-        TError,
-        {data: CreateOrderRequest},
-        TContext
-      > => {
+export const useCreateOrderOrderCreateBuyCollectionPost = <
+  TError = HTTPValidationError,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof createOrderOrderCreateBuyCollectionPost>>,
+    TError,
+    { data: CreateOrderRequest },
+    TContext
+  >
+}): UseMutationResult<
+  Awaited<ReturnType<typeof createOrderOrderCreateBuyCollectionPost>>,
+  TError,
+  { data: CreateOrderRequest },
+  TContext
+> => {
+  const mutationOptions = getCreateOrderOrderCreateBuyCollectionPostMutationOptions(options)
 
-      const mutationOptions = getCreateOrderOrderCreateBuyCollectionPostMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions)
+}
+/**
  * ### Tạo order cho 1 collection
  * @summary List Orders
  */
 export const listOrdersOrderListGet = (
-    bodyListOrdersOrderListGet: BodyListOrdersOrderListGet,
-    params?: ListOrdersOrderListGetParams,
- signal?: AbortSignal
+  params?: ListOrdersOrderListGetParams,
+  signal?: AbortSignal,
 ) => {
-      
-      
-      return defaultMutator<PageCreateOrderResponse>(
-      {url: `/order/list`, method: 'GET',
-      headers: {'Content-Type': 'application/json', },
-        params, signal
-    },
-      );
-    }
-  
-
-export const getListOrdersOrderListGetQueryKey = (bodyListOrdersOrderListGet: BodyListOrdersOrderListGet,
-    params?: ListOrdersOrderListGetParams,) => {
-    return [`/order/list`, ...(params ? [params]: []), bodyListOrdersOrderListGet] as const;
-    }
-
-    
-export const getListOrdersOrderListGetQueryOptions = <TData = Awaited<ReturnType<typeof listOrdersOrderListGet>>, TError = HTTPValidationError>(bodyListOrdersOrderListGet: BodyListOrdersOrderListGet,
-    params?: ListOrdersOrderListGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listOrdersOrderListGet>>, TError, TData>>, }
-) => {
-
-const {query: queryOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getListOrdersOrderListGetQueryKey(bodyListOrdersOrderListGet,params);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof listOrdersOrderListGet>>> = ({ signal }) => listOrdersOrderListGet(bodyListOrdersOrderListGet,params, signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listOrdersOrderListGet>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+  return defaultMutator<PageCreateOrderResponse>({
+    url: `/order/list`,
+    method: 'GET',
+    params,
+    signal,
+  })
 }
 
-export type ListOrdersOrderListGetQueryResult = NonNullable<Awaited<ReturnType<typeof listOrdersOrderListGet>>>
+export const getListOrdersOrderListGetQueryKey = (params?: ListOrdersOrderListGetParams) => {
+  return [`/order/list`, ...(params ? [params] : [])] as const
+}
+
+export const getListOrdersOrderListGetQueryOptions = <
+  TData = Awaited<ReturnType<typeof listOrdersOrderListGet>>,
+  TError = HTTPValidationError,
+>(
+  params?: ListOrdersOrderListGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof listOrdersOrderListGet>>, TError, TData>
+    >
+  },
+) => {
+  const { query: queryOptions } = options ?? {}
+
+  const queryKey = queryOptions?.queryKey ?? getListOrdersOrderListGetQueryKey(params)
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof listOrdersOrderListGet>>> = ({ signal }) =>
+    listOrdersOrderListGet(params, signal)
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof listOrdersOrderListGet>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type ListOrdersOrderListGetQueryResult = NonNullable<
+  Awaited<ReturnType<typeof listOrdersOrderListGet>>
+>
 export type ListOrdersOrderListGetQueryError = HTTPValidationError
 
-
-export function useListOrdersOrderListGet<TData = Awaited<ReturnType<typeof listOrdersOrderListGet>>, TError = HTTPValidationError>(
- bodyListOrdersOrderListGet: BodyListOrdersOrderListGet,
-    params: undefined |  ListOrdersOrderListGetParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof listOrdersOrderListGet>>, TError, TData>> & Pick<
+export function useListOrdersOrderListGet<
+  TData = Awaited<ReturnType<typeof listOrdersOrderListGet>>,
+  TError = HTTPValidationError,
+>(
+  params: undefined | ListOrdersOrderListGetParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof listOrdersOrderListGet>>, TError, TData>
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof listOrdersOrderListGet>>,
           TError,
           TData
-        > , 'initialData'
-      >, }
-
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useListOrdersOrderListGet<TData = Awaited<ReturnType<typeof listOrdersOrderListGet>>, TError = HTTPValidationError>(
- bodyListOrdersOrderListGet: BodyListOrdersOrderListGet,
-    params?: ListOrdersOrderListGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listOrdersOrderListGet>>, TError, TData>> & Pick<
+        >,
+        'initialData'
+      >
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useListOrdersOrderListGet<
+  TData = Awaited<ReturnType<typeof listOrdersOrderListGet>>,
+  TError = HTTPValidationError,
+>(
+  params?: ListOrdersOrderListGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof listOrdersOrderListGet>>, TError, TData>
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof listOrdersOrderListGet>>,
           TError,
           TData
-        > , 'initialData'
-      >, }
-
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useListOrdersOrderListGet<TData = Awaited<ReturnType<typeof listOrdersOrderListGet>>, TError = HTTPValidationError>(
- bodyListOrdersOrderListGet: BodyListOrdersOrderListGet,
-    params?: ListOrdersOrderListGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listOrdersOrderListGet>>, TError, TData>>, }
-
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+        >,
+        'initialData'
+      >
+  },
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useListOrdersOrderListGet<
+  TData = Awaited<ReturnType<typeof listOrdersOrderListGet>>,
+  TError = HTTPValidationError,
+>(
+  params?: ListOrdersOrderListGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof listOrdersOrderListGet>>, TError, TData>
+    >
+  },
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary List Orders
  */
 
-export function useListOrdersOrderListGet<TData = Awaited<ReturnType<typeof listOrdersOrderListGet>>, TError = HTTPValidationError>(
- bodyListOrdersOrderListGet: BodyListOrdersOrderListGet,
-    params?: ListOrdersOrderListGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listOrdersOrderListGet>>, TError, TData>>, }
+export function useListOrdersOrderListGet<
+  TData = Awaited<ReturnType<typeof listOrdersOrderListGet>>,
+  TError = HTTPValidationError,
+>(
+  params?: ListOrdersOrderListGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof listOrdersOrderListGet>>, TError, TData>
+    >
+  },
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+  const queryOptions = getListOrdersOrderListGetQueryOptions(params, options)
 
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData>
+  }
 
-  const queryOptions = getListOrdersOrderListGetQueryOptions(bodyListOrdersOrderListGet,params,options)
+  query.queryKey = queryOptions.queryKey
 
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
+  return query
 }
-
-
 
 /**
  * ### Update thông tin đơn hàng , chủ yếu là sửa owner email và status
  * @summary Admin Edit Order
  */
 export const adminEditOrderOrderAdminEditPut = (
-    adminEditOrderRequest: AdminEditOrderRequest,
-    params: AdminEditOrderOrderAdminEditPutParams,
- ) => {
-      
-      
-      return defaultMutator<CreateOrderResponse>(
-      {url: `/order/admin/edit`, method: 'PUT',
-      headers: {'Content-Type': 'application/json', },
-      data: adminEditOrderRequest,
-        params
-    },
-      );
-    }
-  
+  adminEditOrderRequest: AdminEditOrderRequest,
+  params: AdminEditOrderOrderAdminEditPutParams,
+) => {
+  return defaultMutator<CreateOrderResponse>({
+    url: `/order/admin/edit`,
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    data: adminEditOrderRequest,
+    params,
+  })
+}
 
+export const getAdminEditOrderOrderAdminEditPutMutationOptions = <
+  TError = HTTPValidationError,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof adminEditOrderOrderAdminEditPut>>,
+    TError,
+    { data: AdminEditOrderRequest; params: AdminEditOrderOrderAdminEditPutParams },
+    TContext
+  >
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof adminEditOrderOrderAdminEditPut>>,
+  TError,
+  { data: AdminEditOrderRequest; params: AdminEditOrderOrderAdminEditPutParams },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {}
 
-export const getAdminEditOrderOrderAdminEditPutMutationOptions = <TError = HTTPValidationError,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminEditOrderOrderAdminEditPut>>, TError,{data: AdminEditOrderRequest;params: AdminEditOrderOrderAdminEditPutParams}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof adminEditOrderOrderAdminEditPut>>, TError,{data: AdminEditOrderRequest;params: AdminEditOrderOrderAdminEditPutParams}, TContext> => {
-const {mutation: mutationOptions} = options ?? {};
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof adminEditOrderOrderAdminEditPut>>,
+    { data: AdminEditOrderRequest; params: AdminEditOrderOrderAdminEditPutParams }
+  > = (props) => {
+    const { data, params } = props ?? {}
 
-      
+    return adminEditOrderOrderAdminEditPut(data, params)
+  }
 
+  return { mutationFn, ...mutationOptions }
+}
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof adminEditOrderOrderAdminEditPut>>, {data: AdminEditOrderRequest;params: AdminEditOrderOrderAdminEditPutParams}> = (props) => {
-          const {data,params} = props ?? {};
+export type AdminEditOrderOrderAdminEditPutMutationResult = NonNullable<
+  Awaited<ReturnType<typeof adminEditOrderOrderAdminEditPut>>
+>
+export type AdminEditOrderOrderAdminEditPutMutationBody = AdminEditOrderRequest
+export type AdminEditOrderOrderAdminEditPutMutationError = HTTPValidationError
 
-          return  adminEditOrderOrderAdminEditPut(data,params,)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type AdminEditOrderOrderAdminEditPutMutationResult = NonNullable<Awaited<ReturnType<typeof adminEditOrderOrderAdminEditPut>>>
-    export type AdminEditOrderOrderAdminEditPutMutationBody = AdminEditOrderRequest
-    export type AdminEditOrderOrderAdminEditPutMutationError = HTTPValidationError
-
-    /**
+/**
  * @summary Admin Edit Order
  */
-export const useAdminEditOrderOrderAdminEditPut = <TError = HTTPValidationError,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminEditOrderOrderAdminEditPut>>, TError,{data: AdminEditOrderRequest;params: AdminEditOrderOrderAdminEditPutParams}, TContext>, }
-): UseMutationResult<
-        Awaited<ReturnType<typeof adminEditOrderOrderAdminEditPut>>,
-        TError,
-        {data: AdminEditOrderRequest;params: AdminEditOrderOrderAdminEditPutParams},
-        TContext
-      > => {
+export const useAdminEditOrderOrderAdminEditPut = <
+  TError = HTTPValidationError,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof adminEditOrderOrderAdminEditPut>>,
+    TError,
+    { data: AdminEditOrderRequest; params: AdminEditOrderOrderAdminEditPutParams },
+    TContext
+  >
+}): UseMutationResult<
+  Awaited<ReturnType<typeof adminEditOrderOrderAdminEditPut>>,
+  TError,
+  { data: AdminEditOrderRequest; params: AdminEditOrderOrderAdminEditPutParams },
+  TContext
+> => {
+  const mutationOptions = getAdminEditOrderOrderAdminEditPutMutationOptions(options)
 
-      const mutationOptions = getAdminEditOrderOrderAdminEditPutMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions)
+}
+/**
  * ### Admin thanh toán đơn hàng , thanh toán thủ công thay cho VNPAY
  * @summary Admin Pay Order
  */
 export const adminPayOrderOrderAdminPayForOrderPost = (
-    params: AdminPayOrderOrderAdminPayForOrderPostParams,
- signal?: AbortSignal
+  params: AdminPayOrderOrderAdminPayForOrderPostParams,
+  signal?: AbortSignal,
 ) => {
-      
-      
-      return defaultMutator<CreateOrderResponse>(
-      {url: `/order/admin/pay-for-order`, method: 'POST',
-        params, signal
-    },
-      );
-    }
-  
+  return defaultMutator<CreateOrderResponse>({
+    url: `/order/admin/pay-for-order`,
+    method: 'POST',
+    params,
+    signal,
+  })
+}
 
+export const getAdminPayOrderOrderAdminPayForOrderPostMutationOptions = <
+  TError = HTTPValidationError,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof adminPayOrderOrderAdminPayForOrderPost>>,
+    TError,
+    { params: AdminPayOrderOrderAdminPayForOrderPostParams },
+    TContext
+  >
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof adminPayOrderOrderAdminPayForOrderPost>>,
+  TError,
+  { params: AdminPayOrderOrderAdminPayForOrderPostParams },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {}
 
-export const getAdminPayOrderOrderAdminPayForOrderPostMutationOptions = <TError = HTTPValidationError,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminPayOrderOrderAdminPayForOrderPost>>, TError,{params: AdminPayOrderOrderAdminPayForOrderPostParams}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof adminPayOrderOrderAdminPayForOrderPost>>, TError,{params: AdminPayOrderOrderAdminPayForOrderPostParams}, TContext> => {
-const {mutation: mutationOptions} = options ?? {};
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof adminPayOrderOrderAdminPayForOrderPost>>,
+    { params: AdminPayOrderOrderAdminPayForOrderPostParams }
+  > = (props) => {
+    const { params } = props ?? {}
 
-      
+    return adminPayOrderOrderAdminPayForOrderPost(params)
+  }
 
+  return { mutationFn, ...mutationOptions }
+}
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof adminPayOrderOrderAdminPayForOrderPost>>, {params: AdminPayOrderOrderAdminPayForOrderPostParams}> = (props) => {
-          const {params} = props ?? {};
+export type AdminPayOrderOrderAdminPayForOrderPostMutationResult = NonNullable<
+  Awaited<ReturnType<typeof adminPayOrderOrderAdminPayForOrderPost>>
+>
 
-          return  adminPayOrderOrderAdminPayForOrderPost(params,)
-        }
+export type AdminPayOrderOrderAdminPayForOrderPostMutationError = HTTPValidationError
 
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type AdminPayOrderOrderAdminPayForOrderPostMutationResult = NonNullable<Awaited<ReturnType<typeof adminPayOrderOrderAdminPayForOrderPost>>>
-    
-    export type AdminPayOrderOrderAdminPayForOrderPostMutationError = HTTPValidationError
-
-    /**
+/**
  * @summary Admin Pay Order
  */
-export const useAdminPayOrderOrderAdminPayForOrderPost = <TError = HTTPValidationError,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminPayOrderOrderAdminPayForOrderPost>>, TError,{params: AdminPayOrderOrderAdminPayForOrderPostParams}, TContext>, }
-): UseMutationResult<
-        Awaited<ReturnType<typeof adminPayOrderOrderAdminPayForOrderPost>>,
-        TError,
-        {params: AdminPayOrderOrderAdminPayForOrderPostParams},
-        TContext
-      > => {
+export const useAdminPayOrderOrderAdminPayForOrderPost = <
+  TError = HTTPValidationError,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof adminPayOrderOrderAdminPayForOrderPost>>,
+    TError,
+    { params: AdminPayOrderOrderAdminPayForOrderPostParams },
+    TContext
+  >
+}): UseMutationResult<
+  Awaited<ReturnType<typeof adminPayOrderOrderAdminPayForOrderPost>>,
+  TError,
+  { params: AdminPayOrderOrderAdminPayForOrderPostParams },
+  TContext
+> => {
+  const mutationOptions = getAdminPayOrderOrderAdminPayForOrderPostMutationOptions(options)
 
-      const mutationOptions = getAdminPayOrderOrderAdminPayForOrderPostMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    
+  return useMutation(mutationOptions)
+}

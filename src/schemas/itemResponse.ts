@@ -16,7 +16,11 @@
 export interface ItemResponse {
   album_id?: number;
   album_image_id?: number;
+  album_image_name?: string;
+  album_image_url?: string;
   collection_name?: string;
   id: number;
+  name?: string;
+  order_id?: number;
   owner_id?: number;
 }

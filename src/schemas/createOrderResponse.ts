@@ -18,6 +18,8 @@ import type { LineResponse } from './lineResponse';
 
 export interface CreateOrderResponse {
   category?: OrderCategory;
+  first_line_album_id?: number;
+  first_line_collection_id?: number;
   id?: number;
   internal_status?: OrderInternalStatus;
   line_items?: LineResponse[];

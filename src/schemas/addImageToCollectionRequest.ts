@@ -15,5 +15,6 @@
 
 export interface AddImageToCollectionRequest {
   album_id?: number;
+  collection_id?: number;
   image_ids?: number[];
 }

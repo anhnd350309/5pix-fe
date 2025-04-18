@@ -241,7 +241,7 @@ const Header = ({ bgColor }: { bgColor: string }) => {
                   <ShoppingCartOutlined
                     style={{ fontSize: '24px' }}
                     onClick={() => {
-                      router.push('/checkout')
+                      router.push('/orders')
                     }}
                   />
                   |

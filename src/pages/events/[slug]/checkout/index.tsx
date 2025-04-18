@@ -6,11 +6,12 @@ import { AlbumItemResponsePublic, ItemResponse } from '@/schemas'
 import { detailPubAlbumsAlbumSlugGet } from '@/services/public-album/public-album'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import {
-  addImageImageCollectionRemoveImageDelete,
   getImageCollectionCollectionItemGet,
   getImageCollectionGet,
+  removeImageImageCollectionRemoveImageDelete,
 } from '@/services/image-collection/image-collection'
 import { DeleteOutlined } from '@ant-design/icons'
+import { createOrderOrderCreateBuyCollectionPost } from '@/services/order/order'
 
 const total = '1.030.000 đ'
 type Repo = {
@@ -33,6 +34,7 @@ export const getServerSideProps = (async (context) => {
 export default function CartPage({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [item, setItem] = useState<ItemResponse[]>([])
   const [loading, setLoading] = useState(false)
+  const [collectionId, setCollectionId] = useState<number>(0)
   const { event } = repo
   const fetchImage = async () => {
     try {
@@ -44,6 +46,7 @@ export default function CartPage({ repo }: InferGetServerSidePropsType<typeof ge
         sort_by: 'id',
         order: 'desc',
       })
+      setCollectionId(data.data[0].id)
       const collection = await getImageCollectionCollectionItemGet({
         collection_id: data.data[0].id,
       })
@@ -61,11 +64,11 @@ export default function CartPage({ repo }: InferGetServerSidePropsType<typeof ge
 
   const confirm = async (itemId?: number) => {
     try {
-      const data = await getImageCollectionGet({
-        album_id: event?.id,
-      })
-      addImageImageCollectionRemoveImageDelete({
-        collection_id: data.data[0].id,
+      // const data = await getImageCollectionGet({
+      //   album_id: event?.id,
+      // })
+      removeImageImageCollectionRemoveImageDelete({
+        collection_id: collectionId,
         image_ids: [itemId || 0],
       }).then((res) => {
         if (res) {
@@ -80,7 +83,17 @@ export default function CartPage({ repo }: InferGetServerSidePropsType<typeof ge
       fetchImage()
     }
   }
-
+  const createOrder = () => {
+    createOrderOrderCreateBuyCollectionPost({
+      collection_id: collectionId,
+    }).then((res) => {
+      if (res) {
+        router.push(`/orders/${res.id}`)
+      } else {
+        message.error('Có lỗi xảy ra khi tạo đơn hàng')
+      }
+    })
+  }
   return (
     <div
       className=' py-8 px-4 w-[100vw]'
@@ -152,11 +165,7 @@ export default function CartPage({ repo }: InferGetServerSidePropsType<typeof ge
               (Không có mã khuyến mại, bạn có thể áp dụng ở trang thanh toán)
             </p>
           </div>
-          <Button
-            type='primary'
-            className='rounded-full px-8 py-2'
-            onClick={() => router.push(`/events/${event.album_slug}/checkout/pay`)}
-          >
+          <Button type='primary' className='rounded-full px-8 py-2' onClick={createOrder}>
             Thanh toán
           </Button>
         </div>
