@@ -15,8 +15,8 @@ export async function middleware(req: NextRequest) {
   const subdomain = hostname.split('.')[0]
   const url = req.nextUrl.clone()
   // const isAuthenticated = !!token
-  const admin = process.env.NEXT_ENV === 'dev' ? 'admin-dev' : 'admin'
-  const merchant = process.env.NEXT_ENV === 'dev' ? 'merchant-dev' : 'merchant'
+  const admin = process.env.NEXT_PUBLIC_ENV === 'dev' ? 'admin-dev' : 'admin'
+  const merchant = process.env.NEXT_PUBLIC_ENV === 'dev' ? 'merchant-dev' : 'merchant'
 
   // Chuyển hướng nếu chưa đăng nhập
   // if (!isAuthenticated) {

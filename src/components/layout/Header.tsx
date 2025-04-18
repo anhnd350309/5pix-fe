@@ -43,17 +43,18 @@ const Header = ({ bgColor }: { bgColor: string }) => {
   const [form] = Form.useForm()
   const router = useRouter()
   const navigateManage = () => {
+    console.log(process.env.NEXT_PUBLIC_ENV)
     if (session) {
       const userRole = session.role // Assuming `role` is part of the session user object
       if (userRole === 'admin') {
         window.location.assign(
-          process.env.NEXT_ENV === 'dev'
+          process.env.NEXT_PUBLIC_ENV === 'dev'
             ? 'https://admin-dev.5pix.org/home'
             : 'http://admin.5pix.org/home',
         )
       } else if (userRole === 'merchant') {
         window.location.assign(
-          process.env.NEXT_ENV === 'dev'
+          process.env.NEXT_PUBLIC_ENV === 'dev'
             ? 'https://merchant-dev.5pix.org/home'
             : 'http://merchant.5pix.org/home',
         )
