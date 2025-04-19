@@ -18,6 +18,7 @@ export interface AlbumDetailResponse {
   album_5pix_status?: Album5pixStatus;
   album_5pix_status_reason?: string;
   album_display_status?: number;
+  album_ftp_account?: string;
   album_image_price?: number;
   album_image_url: string;
   album_name: string;

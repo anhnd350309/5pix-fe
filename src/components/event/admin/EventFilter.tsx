@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Input, Button, Dropdown, Menu, notification } from 'antd'
 import Link from 'next/link'
 import {
@@ -13,6 +13,7 @@ import {
   loadImageAlbumsAlbumIdLoadImagePost,
 } from '@/services/album/album'
 import { AlbumDetailResponse } from '@/schemas'
+import JsonDetailModal from '@/components/common/JsonDetailModal'
 
 interface DetailEventFilterProps {
   eventName: string
@@ -22,6 +23,7 @@ interface DetailEventFilterProps {
 
 const DetailEventFilter: React.FC<DetailEventFilterProps> = ({ eventName, id, event }) => {
   const [api, contextHolder] = notification.useNotification()
+  const [isJsonModalVisible, setIsJsonModalVisible] = useState(false)
   const openNotificationWithIcon = (
     type: 'success' | 'info' | 'warning' | 'error',
     message: string,
@@ -60,6 +62,7 @@ const DetailEventFilter: React.FC<DetailEventFilterProps> = ({ eventName, id, ev
         key='4'
         icon={<CloudUploadOutlined />}
         className='hover:bg-[#E0F2FE] text-[#2563EB] font-bold'
+        onClick={() => setIsJsonModalVisible(true)}
       >
         Tải hình ảnh bằng FTP
       </Menu.Item>
@@ -152,6 +155,11 @@ const DetailEventFilter: React.FC<DetailEventFilterProps> = ({ eventName, id, ev
           </div>
         </div>
       </div>
+      <JsonDetailModal
+        open={isJsonModalVisible}
+        onClose={() => setIsJsonModalVisible(false)}
+        rawJson={event?.album_ftp_account || ''}
+      />
     </div>
   )
 }
