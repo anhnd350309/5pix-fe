@@ -13,15 +13,8 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export interface ItemResponse {
-  album_id?: number;
-  album_image_id?: number;
-  album_image_name?: string;
-  album_image_url?: string;
-  album_name?: string;
-  collection_name?: string;
-  id: number;
-  name?: string;
-  order_id?: number;
-  owner_id?: number;
+export interface AlbumLinkItemResponse {
+  album_id: number;
+  hash_text: string;
+  keyword: string;
 }

@@ -1,19 +1,20 @@
 import React, { useRef, useEffect, useState } from 'react'
 import { Modal, Carousel, Button, Card } from 'antd'
 import { DownloadOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons'
-import { AlbumImageItemResponse } from '@/schemas'
+import { AlbumImageItemResponse, AlbumImageItemResponsePublic } from '@/schemas'
 import { useRouter } from 'next/router'
 import AddToCartModal from './AddToCartModal'
 interface ImageModalProps {
   visible: boolean
   onCancel: () => void
-  images: AlbumImageItemResponse[]
+  images: AlbumImageItemResponsePublic[] | AlbumImageItemResponse[]
   selectedImageIndex: number
   setSelectedImageIndex: (index: number) => void
   bibNum?: string
   albumSlug?: string
   isFree?: number
   albumId: number
+  price?: number
 }
 
 const ImageModal: React.FC<ImageModalProps> = ({
@@ -26,6 +27,7 @@ const ImageModal: React.FC<ImageModalProps> = ({
   albumSlug,
   isFree,
   albumId,
+  price,
 }) => {
   const router = useRouter()
   const carouselRef = useRef<any>(null)
@@ -120,7 +122,7 @@ const ImageModal: React.FC<ImageModalProps> = ({
             {images.map((image, index) => (
               <div className='flex justify-center items-center h-[85dvh]' key={index}>
                 <img
-                  src={image?.s3_image_url || '/assets/images/DetailEvent.png'}
+                  src={'/assets/images/DetailEvent.png'}
                   alt={`Image ${index}`}
                   style={{
                     maxWidth: '100%',
@@ -191,7 +193,9 @@ const ImageModal: React.FC<ImageModalProps> = ({
         hidePopup={hidePopup}
         slug={albumSlug as string}
         imageId={images[selectedImageIndex]?.id as number}
+        imgName={images[selectedImageIndex]?.image_name}
         albumId={albumId}
+        price={price}
       />
     </>
   )

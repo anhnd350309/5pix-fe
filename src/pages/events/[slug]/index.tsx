@@ -18,9 +18,8 @@ import { useSearchParams } from 'next/navigation'
 import SEOHead from '@/components/seo'
 import { InferGetServerSidePropsType, GetServerSideProps } from 'next'
 import ImageModal from '@/components/common/ImageModal'
-import { fi } from '@faker-js/faker/.'
-import AddToCartModal from '@/components/common/AddToCartModal'
-import { signIn, useSession } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
+import useCurrency from '@/hooks/useCurrency'
 type Repo = {
   event?: AlbumItemResponsePublic
   images: AlbumImageItemResponsePublic[]
@@ -75,6 +74,7 @@ export const getServerSideProps = (async (context) => {
 }) satisfies GetServerSideProps<{ repo: Repo }>
 const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const event = repo.event
+  const formatter = useCurrency('đ')
   // event.is_album_free = 0
   console.log('even neeeeee', event)
   const searchParams = useSearchParams()
@@ -337,7 +337,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
                         textAlign: 'center',
                       }}
                     >
-                      150.000 VND
+                      {formatter(event?.album_price ?? 0)}
                     </h3>
                     <Button type='primary' shape='round' onClick={showPopup}>
                       Kiểm tra giỏ hàng
@@ -395,6 +395,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
         albumSlug={event.album_slug}
         isFree={event.is_album_free}
         albumId={event.id}
+        price={event.album_image_price}
       />
     </React.Fragment>
   )

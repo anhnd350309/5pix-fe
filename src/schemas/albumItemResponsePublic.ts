@@ -14,12 +14,15 @@
  */
 
 export interface AlbumItemResponsePublic {
+  album_image_price?: number;
   album_image_url: string;
   album_name: string;
+  album_price?: number;
   album_slug?: string;
   event_date: string;
   id: number;
   is_album_free?: number;
+  is_find_all_image?: number;
   is_highlight: number;
   total_image?: number;
 }

@@ -2,6 +2,7 @@ import React from 'react'
 import { Modal, Button, Card, notification } from 'antd'
 import { useRouter } from 'next/router'
 import { addImageImageCollectionAddImagePost } from '@/services/image-collection/image-collection'
+import useCurrency from '@/hooks/useCurrency'
 
 interface AddToCartModalProps {
   isPopupVisible: boolean
@@ -9,6 +10,8 @@ interface AddToCartModalProps {
   slug: string
   imageId: number
   albumId?: number
+  imgName?: string
+  price?: number
 }
 
 const AddToCartModal: React.FC<AddToCartModalProps> = ({
@@ -17,7 +20,10 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({
   slug,
   imageId,
   albumId,
+  imgName,
+  price,
 }) => {
+  const formatter = useCurrency('đ')
   const [api, contextHolder] = notification.useNotification()
   const openNotificationWithIcon = (
     type: 'success' | 'info' | 'warning' | 'error',
@@ -58,25 +64,48 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({
     <>
       {contextHolder}
       <Modal
-        title='Thêm vào giỏ hàng'
         open={isPopupVisible}
         onCancel={hidePopup}
-        footer={[
-          <Button
-            key='back'
-            className='rounded-[20px]'
-            onClick={() => router.push(`/events/${slug}/checkout`)}
-          >
-            Kiểm tra giỏ hàng
-          </Button>,
-          <Button key='submit' className='rounded-[20px]' type='primary' onClick={addCart}>
-            {isLoading ? 'Đang thêm vào giỏ hàng...' : 'Thêm vào giỏ hàng'}
-          </Button>,
-        ]}
+        footer={null}
+        // centered
+        closable
+        className=' top-[10%] rounded-2xl [&_.ant-modal-content]:rounded-2xl p-4'
       >
-        <Card>
-          <p>Đây là thông tin chi tiết về photobook.</p>
-        </Card>
+        <div className='text-center'>
+          <h2 className='text-xl font-semibold mb-6'>Thêm vào giỏ hàng của bạn</h2>
+
+          <div className='text-left space-y-4 mb-6'>
+            <div className='flex justify-between'>
+              <span className='inline-block max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap'>
+                {imgName}
+              </span>
+              <span>{formatter(price || 0)}</span>
+            </div>
+
+            <div className='border-t pt-4 flex justify-between font-bold text-base'>
+              <span>Tổng</span>
+              <span>{formatter(price || 0)}</span>
+            </div>
+          </div>
+
+          <div className='flex flex-col gap-3'>
+            <Button
+              type='primary'
+              className='h-12 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-base font-semibold'
+              onClick={() => router.push(`/events/${slug}/checkout`)}
+              block
+            >
+              Thanh toán ngay
+            </Button>
+            <Button
+              className='h-12 rounded-full bg-blue-100 hover:bg-blue-200 text-blue-600 text-base font-semibold border-none'
+              onClick={addCart}
+              block
+            >
+              {isLoading ? 'Đang thêm vào giỏ hàng...' : 'Tiếp tục mua hàng'}
+            </Button>
+          </div>
+        </div>
       </Modal>
     </>
   )

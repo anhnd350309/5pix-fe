@@ -113,7 +113,7 @@ export const BannerEvent: ({
   }
 
   return (
-    <div className='flex flex-col items-start gap-8 bg-gradient-to-r mx-auto mb-20 rounded-lg max-w-4xl text-white'>
+    <div className='bg-white flex flex-col items-start gap-8 mx-auto mb-20 rounded-lg max-w-4xl text-gray-800'>
       {/* Banner */}
       <div className='flex items-center gap-4 w-full'>
         <div className='relative flex-1 w-full max-w-sm aspect-video'>
@@ -121,7 +121,7 @@ export const BannerEvent: ({
         </div>
         <div className='flex flex-col flex-1 gap-2'>
           <h1 className='font-bold text-xl sm:text-2xl'>{album_name}</h1>
-          <div className='sm:flex items-center gap-6 text-gray-300'>
+          <div className='sm:flex items-center gap-6 text-gray-800'>
             <div className='flex items-center gap-1'>
               <SvgDate width={16} />
               <span>{new Date(event_date || '').toLocaleDateString('en-GB')}</span>

@@ -109,6 +109,7 @@ export const useSearchPubImagesPost = <TError = HTTPValidationError,
  * ### API get detail Image by id
 
 - Nếu image chưa có cdn_image_url --> chưa thể public --> không cho phép get
+- Nếu album là public thì mới trả về s3_image_url
  * @summary Detail Image
  */
 export const detailImagePubImagesImageIdGet = (

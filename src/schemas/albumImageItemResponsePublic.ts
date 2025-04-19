@@ -17,4 +17,5 @@ export interface AlbumImageItemResponsePublic {
   cdn_image_url: string;
   id: number;
   image_name: string;
+  s3_image_url?: string;
 }

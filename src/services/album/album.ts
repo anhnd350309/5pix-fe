@@ -196,7 +196,12 @@ export const useCreateAlbumsPost = <TError = HTTPValidationError,
       return useMutation(mutationOptions);
     }
     /**
- * API Detail Album
+ * ### API Get detail Album
+
+- total_image là số lượng tất cả các ảnh đã thêm vào hệ thống, kể cả đã nhận dạng hoặc chưa nhận dạng 
+- loaded là số lượng ảnh đã được upload lên hệ thống nhưng chưa nhận dạng 
+- indexing là số lượng ảnh đang trong quá trình nhận dạng 
+- index_complete là số lượng ảnh đã được nhận dạng xong
  * @summary Detail
  */
 export const detailAlbumsAlbumIdGet = (
