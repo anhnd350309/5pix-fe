@@ -38,6 +38,50 @@ export const getLoginAccessTokenLoginPostMockHandler = (overrideResponse?: DataR
       })
   })
 }
+
+export const getLoginLoginGoogleGetMockHandler = (overrideResponse?: unknown | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<unknown> | unknown)) => {
+  return http.get('*/login/google', async (info) => {await delay(1000);
+  if (typeof overrideResponse === 'function') {await overrideResponse(info); }
+    return new HttpResponse(null,
+      { status: 200,
+        
+      })
+  })
+}
+
+export const getAuthLoginAuthGetMockHandler = (overrideResponse?: unknown | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<unknown> | unknown)) => {
+  return http.get('*/login/auth', async (info) => {await delay(1000);
+  if (typeof overrideResponse === 'function') {await overrideResponse(info); }
+    return new HttpResponse(null,
+      { status: 200,
+        
+      })
+  })
+}
+
+export const getGoogleCallbackLoginGoogleCallbackGetMockHandler = (overrideResponse?: unknown | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<unknown> | unknown)) => {
+  return http.get('*/login/google/callback', async (info) => {await delay(1000);
+  if (typeof overrideResponse === 'function') {await overrideResponse(info); }
+    return new HttpResponse(null,
+      { status: 200,
+        
+      })
+  })
+}
+
+export const getLogoutLoginLogoutGetMockHandler = (overrideResponse?: unknown | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<unknown> | unknown)) => {
+  return http.get('*/login/logout', async (info) => {await delay(1000);
+  if (typeof overrideResponse === 'function') {await overrideResponse(info); }
+    return new HttpResponse(null,
+      { status: 200,
+        
+      })
+  })
+}
 export const getLoginMock = () => [
-  getLoginAccessTokenLoginPostMockHandler()
+  getLoginAccessTokenLoginPostMockHandler(),
+  getLoginLoginGoogleGetMockHandler(),
+  getAuthLoginAuthGetMockHandler(),
+  getGoogleCallbackLoginGoogleCallbackGetMockHandler(),
+  getLogoutLoginLogoutGetMockHandler()
 ]

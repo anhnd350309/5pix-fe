@@ -32,6 +32,7 @@ import type {
 import type {
   AlbumCreateRequest,
   AlbumUpdateRequest,
+  DataResponseAlbumDetailResponse,
   DataResponseAlbumItemResponse,
   DataResponseStr,
   GetAlbumsGetParams,
@@ -204,7 +205,7 @@ export const detailAlbumsAlbumIdGet = (
 ) => {
       
       
-      return defaultMutator<DataResponseAlbumItemResponse>(
+      return defaultMutator<DataResponseAlbumDetailResponse>(
       {url: `/albums/${albumId}`, method: 'GET', signal
     },
       );

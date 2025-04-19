@@ -1,12 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-<url><loc>https://5pix.org</loc><lastmod>2025-04-09T16:44:38.562Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://5pix.org/auth/login</loc><lastmod>2025-04-09T16:44:38.563Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://5pix.org/checkout</loc><lastmod>2025-04-09T16:44:38.563Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://5pix.org/checkout/pay</loc><lastmod>2025-04-09T16:44:38.563Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://5pix.org/list_events</loc><lastmod>2025-04-09T16:44:38.563Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://5pix.org/personal_info</loc><lastmod>2025-04-09T16:44:38.563Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://5pix.org/unauthorized</loc><lastmod>2025-04-09T16:44:38.563Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://5pix.org/vi/auth/login</loc><lastmod>2025-04-09T16:44:38.563Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://5pix.org/vi</loc><lastmod>2025-04-09T16:44:38.563Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://5pix.org</loc><lastmod>2025-04-18T17:38:17.554Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://5pix.org/admin/credit</loc><lastmod>2025-04-18T17:38:17.554Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://5pix.org/admin/dashboard</loc><lastmod>2025-04-18T17:38:17.554Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://5pix.org/admin/home</loc><lastmod>2025-04-18T17:38:17.554Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://5pix.org/admin/orders</loc><lastmod>2025-04-18T17:38:17.554Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://5pix.org/admin/users</loc><lastmod>2025-04-18T17:38:17.554Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://5pix.org/auth/login</loc><lastmod>2025-04-18T17:38:17.554Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://5pix.org/auth/register</loc><lastmod>2025-04-18T17:38:17.554Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://5pix.org/list_events</loc><lastmod>2025-04-18T17:38:17.554Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://5pix.org/merchant/credit</loc><lastmod>2025-04-18T17:38:17.554Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://5pix.org/merchant/dashboard</loc><lastmod>2025-04-18T17:38:17.554Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://5pix.org/merchant/home</loc><lastmod>2025-04-18T17:38:17.554Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://5pix.org/merchant/orders</loc><lastmod>2025-04-18T17:38:17.554Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://5pix.org/payment/callback</loc><lastmod>2025-04-18T17:38:17.554Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://5pix.org/payment/failure</loc><lastmod>2025-04-18T17:38:17.554Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://5pix.org/payment/success</loc><lastmod>2025-04-18T17:38:17.554Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://5pix.org/personal_info</loc><lastmod>2025-04-18T17:38:17.554Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://5pix.org/unauthorized</loc><lastmod>2025-04-18T17:38:17.554Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://5pix.org/vi/admin/home</loc><lastmod>2025-04-18T17:38:17.554Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://5pix.org/vi/auth/register</loc><lastmod>2025-04-18T17:38:17.554Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://5pix.org/vi/auth/login</loc><lastmod>2025-04-18T17:38:17.554Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://5pix.org/vi/merchant/home</loc><lastmod>2025-04-18T17:38:17.554Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://5pix.org/vi</loc><lastmod>2025-04-18T17:38:17.554Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
 </urlset>

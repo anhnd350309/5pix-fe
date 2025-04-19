@@ -17,5 +17,4 @@ export interface CreateOrderRequest {
   album_id?: number;
   collection_id?: number;
   credit_amount?: number;
-  email?: string;
 }

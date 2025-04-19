@@ -9,8 +9,8 @@ export const RegisterForm: React.FC = () => {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
-  const admin = process.env.NEXT_ENV === 'dev' ? 'admin-dev' : 'admin'
-  const merchant = process.env.NEXT_ENV === 'dev' ? 'merchant-dev' : 'merchant'
+  const admin = process.env.NEXT_PUBLIC_ENV === 'dev' ? 'admin-dev' : 'admin'
+  const merchant = process.env.NEXT_PUBLIC_ENV === 'dev' ? 'merchant-dev' : 'merchant'
   const onSubmit = async (values: any) => {
     try {
       setIsLoading(true)

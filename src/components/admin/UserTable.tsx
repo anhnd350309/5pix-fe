@@ -59,7 +59,6 @@ const UserTable: React.FC<UserTableProps> = () => {
     fetchUsers()
   }, [currentPage, activeTab])
   const approveMerchant = () => {
-    console.log('Approve merchant clicked')
     approveMerchantMerchantsApproveMerchantPost({
       merchant_active_status: 'approved',
       merchant_id: selectedRow ?? 0,
@@ -69,7 +68,6 @@ const UserTable: React.FC<UserTableProps> = () => {
     })
   }
   const rejectMerchant = () => {
-    console.log('Approve merchant clicked')
     approveMerchantMerchantsApproveMerchantPost({
       merchant_active_status: 'rejected',
       merchant_id: selectedRow ?? 0,
@@ -143,7 +141,6 @@ const UserTable: React.FC<UserTableProps> = () => {
   ]
 
   const expandedRowRender = (record: MerchantDetailResponse) => {
-    console.log(record)
     if (isLoadingDetail) {
       return <Spin /> // Hiển thị loading khi đang tải detail
     }

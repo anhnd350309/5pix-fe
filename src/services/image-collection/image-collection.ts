@@ -30,15 +30,18 @@ import type {
   UseQueryResult
 } from '@tanstack/react-query'
 import type {
+  AddImageImageCollectionClearOrderPutParams,
   AddImageResponse,
   AddImageToCollectionRequest,
   CollectionImageCreateRequest,
   CollectionImageResponse,
   GetImageCollectionCollectionItemGetParams,
   GetImageCollectionGetParams,
+  GetOwnedImagesImageCollectionOwnedImagesGetParams,
   HTTPValidationError,
   ItemResponse,
   PageCollectionImageResponse,
+  PageOwnedImageResponse,
   RemoveImageRequest,
   RemoveImageResponse
 } from '../../schemas'
@@ -345,9 +348,9 @@ export const useAddImageImageCollectionAddImagePost = <TError = HTTPValidationEr
     }
     /**
  * ### API Xóa images trong 1 collection cụ thể
- * @summary Add Image
+ * @summary Remove Image
  */
-export const addImageImageCollectionRemoveImageDelete = (
+export const removeImageImageCollectionRemoveImageDelete = (
     removeImageRequest: RemoveImageRequest,
  ) => {
       
@@ -362,18 +365,18 @@ export const addImageImageCollectionRemoveImageDelete = (
   
 
 
-export const getAddImageImageCollectionRemoveImageDeleteMutationOptions = <TError = HTTPValidationError,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof addImageImageCollectionRemoveImageDelete>>, TError,{data: RemoveImageRequest}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof addImageImageCollectionRemoveImageDelete>>, TError,{data: RemoveImageRequest}, TContext> => {
+export const getRemoveImageImageCollectionRemoveImageDeleteMutationOptions = <TError = HTTPValidationError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof removeImageImageCollectionRemoveImageDelete>>, TError,{data: RemoveImageRequest}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof removeImageImageCollectionRemoveImageDelete>>, TError,{data: RemoveImageRequest}, TContext> => {
 const {mutation: mutationOptions} = options ?? {};
 
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof addImageImageCollectionRemoveImageDelete>>, {data: RemoveImageRequest}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof removeImageImageCollectionRemoveImageDelete>>, {data: RemoveImageRequest}> = (props) => {
           const {data} = props ?? {};
 
-          return  addImageImageCollectionRemoveImageDelete(data,)
+          return  removeImageImageCollectionRemoveImageDelete(data,)
         }
 
         
@@ -381,23 +384,170 @@ const {mutation: mutationOptions} = options ?? {};
 
   return  { mutationFn, ...mutationOptions }}
 
-    export type AddImageImageCollectionRemoveImageDeleteMutationResult = NonNullable<Awaited<ReturnType<typeof addImageImageCollectionRemoveImageDelete>>>
-    export type AddImageImageCollectionRemoveImageDeleteMutationBody = RemoveImageRequest
-    export type AddImageImageCollectionRemoveImageDeleteMutationError = HTTPValidationError
+    export type RemoveImageImageCollectionRemoveImageDeleteMutationResult = NonNullable<Awaited<ReturnType<typeof removeImageImageCollectionRemoveImageDelete>>>
+    export type RemoveImageImageCollectionRemoveImageDeleteMutationBody = RemoveImageRequest
+    export type RemoveImageImageCollectionRemoveImageDeleteMutationError = HTTPValidationError
 
     /**
- * @summary Add Image
+ * @summary Remove Image
  */
-export const useAddImageImageCollectionRemoveImageDelete = <TError = HTTPValidationError,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof addImageImageCollectionRemoveImageDelete>>, TError,{data: RemoveImageRequest}, TContext>, }
+export const useRemoveImageImageCollectionRemoveImageDelete = <TError = HTTPValidationError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof removeImageImageCollectionRemoveImageDelete>>, TError,{data: RemoveImageRequest}, TContext>, }
 ): UseMutationResult<
-        Awaited<ReturnType<typeof addImageImageCollectionRemoveImageDelete>>,
+        Awaited<ReturnType<typeof removeImageImageCollectionRemoveImageDelete>>,
         TError,
         {data: RemoveImageRequest},
         TContext
       > => {
 
-      const mutationOptions = getAddImageImageCollectionRemoveImageDeleteMutationOptions(options);
+      const mutationOptions = getRemoveImageImageCollectionRemoveImageDeleteMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
+ * ### API lấy danh sách ảnh đang sở hữu
+ * @summary Get Owned Images
+ */
+export const getOwnedImagesImageCollectionOwnedImagesGet = (
+    params?: GetOwnedImagesImageCollectionOwnedImagesGetParams,
+ signal?: AbortSignal
+) => {
+      
+      
+      return defaultMutator<PageOwnedImageResponse>(
+      {url: `/image-collection/owned-images`, method: 'GET',
+        params, signal
+    },
+      );
+    }
+  
+
+export const getGetOwnedImagesImageCollectionOwnedImagesGetQueryKey = (params?: GetOwnedImagesImageCollectionOwnedImagesGetParams,) => {
+    return [`/image-collection/owned-images`, ...(params ? [params]: [])] as const;
+    }
+
+    
+export const getGetOwnedImagesImageCollectionOwnedImagesGetQueryOptions = <TData = Awaited<ReturnType<typeof getOwnedImagesImageCollectionOwnedImagesGet>>, TError = HTTPValidationError>(params?: GetOwnedImagesImageCollectionOwnedImagesGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getOwnedImagesImageCollectionOwnedImagesGet>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetOwnedImagesImageCollectionOwnedImagesGetQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getOwnedImagesImageCollectionOwnedImagesGet>>> = ({ signal }) => getOwnedImagesImageCollectionOwnedImagesGet(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getOwnedImagesImageCollectionOwnedImagesGet>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type GetOwnedImagesImageCollectionOwnedImagesGetQueryResult = NonNullable<Awaited<ReturnType<typeof getOwnedImagesImageCollectionOwnedImagesGet>>>
+export type GetOwnedImagesImageCollectionOwnedImagesGetQueryError = HTTPValidationError
+
+
+export function useGetOwnedImagesImageCollectionOwnedImagesGet<TData = Awaited<ReturnType<typeof getOwnedImagesImageCollectionOwnedImagesGet>>, TError = HTTPValidationError>(
+ params: undefined |  GetOwnedImagesImageCollectionOwnedImagesGetParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getOwnedImagesImageCollectionOwnedImagesGet>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getOwnedImagesImageCollectionOwnedImagesGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetOwnedImagesImageCollectionOwnedImagesGet<TData = Awaited<ReturnType<typeof getOwnedImagesImageCollectionOwnedImagesGet>>, TError = HTTPValidationError>(
+ params?: GetOwnedImagesImageCollectionOwnedImagesGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getOwnedImagesImageCollectionOwnedImagesGet>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getOwnedImagesImageCollectionOwnedImagesGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetOwnedImagesImageCollectionOwnedImagesGet<TData = Awaited<ReturnType<typeof getOwnedImagesImageCollectionOwnedImagesGet>>, TError = HTTPValidationError>(
+ params?: GetOwnedImagesImageCollectionOwnedImagesGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getOwnedImagesImageCollectionOwnedImagesGet>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+/**
+ * @summary Get Owned Images
+ */
+
+export function useGetOwnedImagesImageCollectionOwnedImagesGet<TData = Awaited<ReturnType<typeof getOwnedImagesImageCollectionOwnedImagesGet>>, TError = HTTPValidationError>(
+ params?: GetOwnedImagesImageCollectionOwnedImagesGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getOwnedImagesImageCollectionOwnedImagesGet>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+
+  const queryOptions = getGetOwnedImagesImageCollectionOwnedImagesGetQueryOptions(params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+/**
+ * ### Hủy 1 order của collection , order bị hủy sẽ có status CANCELLED
+                     Collect giữ nguyên , và có thể edit lại như cũ
+ * @summary Add Image
+ */
+export const addImageImageCollectionClearOrderPut = (
+    params: AddImageImageCollectionClearOrderPutParams,
+ ) => {
+      
+      
+      return defaultMutator<AddImageResponse>(
+      {url: `/image-collection/clear-order`, method: 'PUT',
+        params
+    },
+      );
+    }
+  
+
+
+export const getAddImageImageCollectionClearOrderPutMutationOptions = <TError = HTTPValidationError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof addImageImageCollectionClearOrderPut>>, TError,{params: AddImageImageCollectionClearOrderPutParams}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof addImageImageCollectionClearOrderPut>>, TError,{params: AddImageImageCollectionClearOrderPutParams}, TContext> => {
+const {mutation: mutationOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof addImageImageCollectionClearOrderPut>>, {params: AddImageImageCollectionClearOrderPutParams}> = (props) => {
+          const {params} = props ?? {};
+
+          return  addImageImageCollectionClearOrderPut(params,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AddImageImageCollectionClearOrderPutMutationResult = NonNullable<Awaited<ReturnType<typeof addImageImageCollectionClearOrderPut>>>
+    
+    export type AddImageImageCollectionClearOrderPutMutationError = HTTPValidationError
+
+    /**
+ * @summary Add Image
+ */
+export const useAddImageImageCollectionClearOrderPut = <TError = HTTPValidationError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof addImageImageCollectionClearOrderPut>>, TError,{params: AddImageImageCollectionClearOrderPutParams}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof addImageImageCollectionClearOrderPut>>,
+        TError,
+        {params: AddImageImageCollectionClearOrderPutParams},
+        TContext
+      > => {
+
+      const mutationOptions = getAddImageImageCollectionClearOrderPutMutationOptions(options);
 
       return useMutation(mutationOptions);
     }

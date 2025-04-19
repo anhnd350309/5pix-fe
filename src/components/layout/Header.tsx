@@ -43,17 +43,18 @@ const Header = ({ bgColor }: { bgColor: string }) => {
   const [form] = Form.useForm()
   const router = useRouter()
   const navigateManage = () => {
+    console.log(process.env.NEXT_PUBLIC_ENV)
     if (session) {
       const userRole = session.role // Assuming `role` is part of the session user object
       if (userRole === 'admin') {
         window.location.assign(
-          process.env.NEXT_ENV === 'dev'
+          process.env.NEXT_PUBLIC_ENV === 'dev'
             ? 'https://admin-dev.5pix.org/home'
             : 'http://admin.5pix.org/home',
         )
       } else if (userRole === 'merchant') {
         window.location.assign(
-          process.env.NEXT_ENV === 'dev'
+          process.env.NEXT_PUBLIC_ENV === 'dev'
             ? 'https://merchant-dev.5pix.org/home'
             : 'http://merchant.5pix.org/home',
         )
@@ -92,7 +93,6 @@ const Header = ({ bgColor }: { bgColor: string }) => {
       merchant_type: values.merchant_type as MerchantType, // Ensure correct type
       years_of_experience: values.years_of_experience as MerchantYearsOfExperience, // Ensure correct type
     }
-    console.log('Received values:', formData)
     createMerchantsPost(formData)
     // Handle form submission here
     // setIsModalVisible(false)
@@ -105,7 +105,6 @@ const Header = ({ bgColor }: { bgColor: string }) => {
       // get data from getMeMerchantsGetMeGet
       getMeMerchantsGetMeGet()
         .then((res) => {
-          console.log('getMeMerchantsGetMeGet', res)
           if (res.data?.merchant_active_status === 'waiting_for_approve') {
             setModalStep('success')
           } else {
@@ -241,7 +240,7 @@ const Header = ({ bgColor }: { bgColor: string }) => {
                   <ShoppingCartOutlined
                     style={{ fontSize: '24px' }}
                     onClick={() => {
-                      router.push('/checkout')
+                      router.push('/orders')
                     }}
                   />
                   |

@@ -40,7 +40,6 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({
         image_ids: [imageId],
       }).then((res) => {
         if (res.id) {
-          console.log('Added to cart successfully:', res)
           openNotificationWithIcon('success', 'Thành công', 'Đã thêm ảnh vào giỏ hàng.')
         } else {
           openNotificationWithIcon('error', 'Thất bại', 'Có lỗi xảy ra khi thêm ảnh vào giỏ hàng.')

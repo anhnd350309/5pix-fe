@@ -12,20 +12,20 @@
         
  * OpenAPI spec version: 0.1.0
  */
-import type { Enum } from './enum'
+import type { Enum } from './enum';
 
 export interface MerchantDetailResponse {
-  address: string
-  date_of_birth?: string
-  email: string
-  events_attended?: string
-  full_name?: string
-  id: number
-  merchant_active_status?: Enum
-  merchant_active_status_note?: string
-  merchant_type: string
-  phone_number: string
-  sample_photo_link?: string
-  social_media_link?: string
-  years_of_experience?: string
+  address: string;
+  date_of_birth?: string;
+  email: string;
+  events_attended?: string;
+  full_name?: string;
+  id: number;
+  merchant_active_status?: Enum;
+  merchant_active_status_note?: string;
+  merchant_type: Enum;
+  phone_number: string;
+  sample_photo_link?: string;
+  social_media_link?: string;
+  years_of_experience?: Enum;
 }

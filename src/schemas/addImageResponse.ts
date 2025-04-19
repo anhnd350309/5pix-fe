@@ -20,5 +20,6 @@ export interface AddImageResponse {
   collection_item_ids?: number[];
   id?: number;
   name?: string;
+  order_id?: number;
   owner_id?: number;
 }

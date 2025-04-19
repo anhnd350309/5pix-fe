@@ -255,7 +255,6 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
 
   const handleOptionClick = (action: string, imageIndex: number) => {
     if (action === 'open') {
-      console.log('Open image', imageIndex)
       setSelectedImageIndex(imageIndex)
       setIsModalVisibleImage(true) // Mở modal khi nhấn vào ảnh
     }
@@ -301,7 +300,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
                         src={image?.cdn_image_url || 'assets/images/DetailEvent.png'}
                         key={index}
                         alt={image?.image_name || 'image'}
-                        extra={image?.s3_image_url || 'assets/images/DetailEvent.png'}
+                        extra={image?.cdn_image_url || 'assets/images/DetailEvent.png'}
                         width={600}
                         height={400}
                         onClick={() => handleOptionClick('open', index)}

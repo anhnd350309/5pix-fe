@@ -17,7 +17,6 @@ const UpdateEvent: React.FC<UpdateEventProps> = ({ event, setShowModalUpdate }) 
   const handleSubmit = (values: any) => {
     //conver time to yyyy-mm-dd format
     values.event_date = moment(values.event_date).format('YYYY-MM-DD')
-    console.log('Form values: ', values)
     //
     // Xử lý gửi dữ liệu form ở đây
     if (event?.id !== undefined) {
@@ -38,10 +37,8 @@ const UpdateEvent: React.FC<UpdateEventProps> = ({ event, setShowModalUpdate }) 
       const body: BodyUploadToGetCdnBasePost = {
         file_data: file,
       }
-      console.log('eeee')
       try {
         const response = await uploadToGetCdnBasePost(body)
-        console.log(response)
         if (response.data) {
           setUrl(response.data.url)
           form.setFieldsValue({ album_image_url: response.data.url })

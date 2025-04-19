@@ -24,6 +24,7 @@ export const OrderInternalStatus = {
   NEW: 'NEW',
   WAIT_FOR_PAYMENT: 'WAIT_FOR_PAYMENT',
   PROCESSING: 'PROCESSING',
+  PAY_GATE_FAIL: 'PAY_GATE_FAIL',
   COMPLETE: 'COMPLETE',
   CANCELLED: 'CANCELLED',
 } as const;

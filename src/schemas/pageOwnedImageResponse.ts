@@ -12,12 +12,12 @@
         
  * OpenAPI spec version: 0.1.0
  */
+import type { OwnedImageResponse } from './ownedImageResponse';
+import type { MetadataSchema } from './metadataSchema';
 
-export interface LineResponse {
-  album_id?: number;
-  id?: number;
-  image_collection_id?: number;
-  line_price?: number;
-  order_id?: number;
-  quantity?: number;
+export interface PageOwnedImageResponse {
+  code?: string;
+  data: OwnedImageResponse[];
+  message?: string;
+  metadata: MetadataSchema;
 }

@@ -40,9 +40,6 @@ const Hero = () => {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  useEffect(() => {
-    console.log('Component mounted: slide')
-  }, [])
   const params: GetPubAlbumsGetParams = {
     page: 1,
     page_size: 1000,
@@ -153,8 +150,8 @@ const Hero = () => {
               {/* <span className='text-gray-700'>Tìm kiếm giải chạy</span> */}
             </SelectTrigger>
             <SelectContent>
-              {events.map((event) => (
-                <SelectItem key={event.id} value={event.id.toString()}>
+              {events.map((event, index) => (
+                <SelectItem key={index} value={event.id.toString()}>
                   {event.album_name}
                 </SelectItem>
               ))}

@@ -12,11 +12,18 @@
         
  * OpenAPI spec version: 0.1.0
  */
+import type { OrderInternalStatus } from './orderInternalStatus';
 
 export interface CollectionImageResponse {
   album_id?: number;
+  album_image_price?: number;
+  album_name?: string;
+  album_price?: number;
+  album_slug?: string;
   estimate_price?: number;
   id: number;
   name: string;
+  order_id?: number;
+  order_internal_status?: OrderInternalStatus;
   owner_id: number;
 }
