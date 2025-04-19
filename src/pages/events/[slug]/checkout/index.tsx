@@ -12,8 +12,8 @@ import {
 } from '@/services/image-collection/image-collection'
 import { DeleteOutlined } from '@ant-design/icons'
 import { createOrderOrderCreateBuyCollectionPost } from '@/services/order/order'
+import useCurrency from '@/hooks/useCurrency'
 
-const total = '1.030.000 đ'
 type Repo = {
   event?: AlbumItemResponsePublic
 }
@@ -33,9 +33,12 @@ export const getServerSideProps = (async (context) => {
 }) satisfies GetServerSideProps<{ repo: Repo }>
 export default function CartPage({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [item, setItem] = useState<ItemResponse[]>([])
+  const [price, setPrice] = useState<number>(0)
+  const [total, setTotal] = useState<number>(0)
   const [loading, setLoading] = useState(false)
   const [collectionId, setCollectionId] = useState<number>(0)
   const { event } = repo
+  const formatter = useCurrency('đ')
   const fetchImage = async () => {
     try {
       setLoading(true)
@@ -46,11 +49,16 @@ export default function CartPage({ repo }: InferGetServerSidePropsType<typeof ge
         sort_by: 'id',
         order: 'desc',
       })
-      setCollectionId(data.data[0].id)
-      const collection = await getImageCollectionCollectionItemGet({
-        collection_id: data.data[0].id,
-      })
-      setItem(collection)
+
+      if (data.data[0].order_internal_status !== 'COMPLETE') {
+        setPrice(data.data[0].album_image_price || 0)
+        setTotal(data.data[0].estimate_price || 0)
+        setCollectionId(data.data[0].id)
+        const collection = await getImageCollectionCollectionItemGet({
+          collection_id: data.data[0].id,
+        })
+        setItem(collection)
+      }
     } catch (error) {
       console.error('Error fetching data:', error)
     } finally {
@@ -140,7 +148,7 @@ export default function CartPage({ repo }: InferGetServerSidePropsType<typeof ge
                 />
 
                 <div className='absolute bottom-2 right-2'>
-                  <p className='text-blue-500 font-bold'>{item.id} đ</p>
+                  <p className='text-blue-500 font-bold'>{formatter(price)}</p>
                 </div>
               </List.Item>
             )}
@@ -149,7 +157,11 @@ export default function CartPage({ repo }: InferGetServerSidePropsType<typeof ge
                 <div className='flex flex-col text-center py-8 items-center gap-3'>
                   <SvgNoCart width={128} />
                   <p className='text-gray-500'>Chưa có sản phẩm trong giỏ hàng</p>
-                  <Button type='primary' className='rounded-full'>
+                  <Button
+                    type='primary'
+                    className='rounded-full'
+                    onClick={() => window.history.back()}
+                  >
                     Tìm kiếm ảnh ngay
                   </Button>
                 </div>
@@ -162,7 +174,7 @@ export default function CartPage({ repo }: InferGetServerSidePropsType<typeof ge
         <div className='bg-white rounded-lg shadow p-4 flex justify-between items-center'>
           <div>
             <p className='text-sm text-gray-500'>Tổng tiền</p>
-            <p className='text-xl font-bold text-blue-500'>{total}</p>
+            <p className='text-xl font-bold text-blue-500'>{formatter(total)}</p>
             <p className='text-xs text-gray-400 mt-1'>
               (Không có mã khuyến mại, bạn có thể áp dụng ở trang thanh toán)
             </p>

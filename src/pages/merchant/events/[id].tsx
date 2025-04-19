@@ -4,12 +4,13 @@ import { useRouter } from 'next/router'
 import DetailEventFilter from '@/components/event/admin/EventFilter'
 import LayoutMerchant from '@/components/layout/merchant/LayoutMerchant'
 import { detailAlbumsAlbumIdGet } from '@/services/album/album'
+import { AlbumDetailResponse } from '@/schemas'
 
 const EventAdmin = () => {
   const router = useRouter()
   const { id } = router.query
   const [eventName, setEventName] = useState<string>('')
-
+  const [event, setEvent] = useState<AlbumDetailResponse | undefined>(undefined)
   useEffect(() => {
     const fetchEventName = async () => {
       if (id) {
@@ -17,6 +18,8 @@ const EventAdmin = () => {
           const albumId = parseInt(Array.isArray(id) ? id[0] : id, 10)
           const response = await detailAlbumsAlbumIdGet(albumId)
           if (response?.data) {
+            console.log('Event name:', response.data)
+            setEvent(response.data)
             setEventName(response.data.album_name)
           } else {
             console.error('Failed to fetch event name:', response)
@@ -36,6 +39,7 @@ const EventAdmin = () => {
       <DetailEventFilter
         eventName={eventName}
         id={id ? parseInt(Array.isArray(id) ? id[0] : id, 10) : 0}
+        event={event}
       />
       {id && <ListEventsDetailAdmin id={Array.isArray(id) ? id[0] : id} />}
     </>

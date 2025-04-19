@@ -1,17 +1,50 @@
 import { useState } from 'react'
-import { Radio, Input, Button, Select } from 'antd'
+import { Radio, Input, Button, Select, message } from 'antd'
+import { AlbumItemResponse } from '@/schemas'
 
 const { Option } = Select
-
-const PriceConfig = () => {
-  const [paymentType, setPaymentType] = useState('charge')
-  const [price, setPrice] = useState('')
-  const [photobookPrice, setPhotobookPrice] = useState('')
+interface PriceConfigProps {
+  onSavePrice: (value: any) => void
+  onFinish: () => void
+  event?: AlbumItemResponse
+}
+const PriceConfig = ({ onSavePrice, onFinish, event }: PriceConfigProps) => {
+  const [paymentType, setPaymentType] = useState(event?.is_album_free ? 'free' : 'charge')
+  const [price, setPrice] = useState(event?.album_image_price ? event?.album_image_price : '')
+  const [photobookPrice, setPhotobookPrice] = useState(event?.album_price ? event?.album_price : '')
   const [bank, setBank] = useState('')
   const [accountNumber, setAccountNumber] = useState('')
   const [accountHolder, setAccountHolder] = useState('')
   const [paymentMethod, setPaymentMethod] = useState('auto')
+  const handleSave = () => {
+    if (paymentType === 'charge') {
+      if (!price) {
+        message.error('Vui lòng nhập giá bán lẻ!')
+        return
+      }
+      if (!photobookPrice) {
+        message.error('Vui lòng nhập giá Photobook!')
+        return
+      }
+      if (paymentMethod === 'manual') {
+        if (!bank || !accountNumber || !accountHolder) {
+          message.error('Vui lòng nhập đầy đủ thông tin tài khoản ngân hàng!')
+          return
+        }
+      }
+    }
+    const data = {
+      paymentType,
+      price,
+      photobookPrice,
+      bank,
+      accountNumber,
+      accountHolder,
+      paymentMethod,
+    }
 
+    onSavePrice(data)
+  }
   return (
     <div className='max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md'>
       <div className='mb-6'>
@@ -125,8 +158,17 @@ const PriceConfig = () => {
       )}
 
       <div className='flex justify-end space-x-4'>
-        <Button className='border-blue-600 text-blue-600 hover:bg-blue-50'>Lưu lại</Button>
-        <Button type='primary' className='bg-blue-600 hover:bg-blue-700'>
+        <Button onClick={handleSave} className='border-blue-600 text-blue-600 hover:bg-blue-50'>
+          Lưu lại
+        </Button>
+        <Button
+          type='primary'
+          className='bg-blue-600 hover:bg-blue-700'
+          onClick={() => {
+            handleSave()
+            onFinish()
+          }}
+        >
           Hoàn thành
         </Button>
       </div>

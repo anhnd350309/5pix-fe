@@ -1,4 +1,5 @@
 import axiosInstance from '@/api/axiosInstance'
+import { LoadingOutlined } from '@ant-design/icons'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
@@ -37,11 +38,20 @@ export default function PaymentCallbackPage() {
   }, [router.isReady, router.query])
 
   if (checking) {
-    return <div>Đang xác thực thanh toán...</div>
+    return (
+      <div className='flex flex-col items-center justify-center h-96 text-lg font-semibold'>
+        <LoadingOutlined spin style={{ fontSize: 32 }} />
+        <div className='mt-4'>Đang xác thực thanh toán...</div>
+      </div>
+    )
   }
 
   if (error) {
-    return <div className='text-red-500'>{error}</div>
+    return (
+      <div className='flex items-center justify-center h-96 text-lg font-semibold text-red-500'>
+        {error}
+      </div>
+    )
   }
 
   return null

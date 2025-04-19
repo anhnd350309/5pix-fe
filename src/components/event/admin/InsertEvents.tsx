@@ -15,13 +15,13 @@ const InsertEvents = ({ onChange, setEventData }: InsertEventsProps) => {
   const [form] = Form.useForm()
   const [url, setUrl] = useState('')
   const handleSubmit = (values: any) => {
-    //conver time to yyyy-mm-dd format
     values.event_date = moment(values.event_date).format('YYYY-MM-DD')
+    values.is_find_all_image = values.is_find_all_image ? 1 : 0
+    values.is_find_by_face = values.is_find_by_face ? 1 : 0
+    values.is_find_by_metadata = values.is_find_by_metadata ? 1 : 0
+    console.log('Form values:', values)
     setEventData?.(values)
     onChange?.('businessConfig')
-    //
-    // Xử lý gửi dữ liệu form ở đây
-    // createAlbumsPost(values)
   }
   const handleFileSelect = () => {
     if (fileInputRef.current) {
@@ -125,7 +125,7 @@ const InsertEvents = ({ onChange, setEventData }: InsertEventsProps) => {
           >
             <Input placeholder='Nhập tên sự kiện' />
           </Form.Item>
-          <Form.Item
+          {/* <Form.Item
             name='event_type'
             label='Loại sự kiện'
             rules={[{ required: true, message: 'Vui lòng chọn loại sự kiện!' }]}
@@ -141,7 +141,7 @@ const InsertEvents = ({ onChange, setEventData }: InsertEventsProps) => {
               <Option value='Basketball - Bóng chuyền'>Basketball - Bóng chuyền</Option>
               <Option value='Other - Khác'>Other - Khác</Option>
             </Select>
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item
             name='album_slug'
             label='Slug sự kiện'
@@ -159,13 +159,27 @@ const InsertEvents = ({ onChange, setEventData }: InsertEventsProps) => {
           </Form.Item>
 
           <Form.Item
-            name='location'
+            name='event_address'
             rules={[{ required: true, message: 'Vui lòng nhập địa điểm!' }]}
             label='Địa điểm diễn ra'
           >
             <Input placeholder='Nhập vào địa điểm sự kiện' />
           </Form.Item>
+          <div className='mb-2 font-bold'>Tùy chọn tìm ảnh</div>
+
+          <Form.Item name='is_find_all_image' label='Tìm tất cả ảnh' valuePropName='checked'>
+            <Switch />
+          </Form.Item>
+
+          <Form.Item name='is_find_by_face' label='Tìm theo khuôn mặt' valuePropName='checked'>
+            <Switch />
+          </Form.Item>
+
+          <Form.Item name='is_find_by_metadata' label='Tìm theo metadata' valuePropName='checked'>
+            <Switch />
+          </Form.Item>
         </div>
+
         <div className='flex justify-end gap-2'>
           <Button
             size='large'

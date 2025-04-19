@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Input, Spin, Dropdown, Menu } from 'antd'
-import { MoreOutlined, SearchOutlined } from '@ant-design/icons'
+import { EditOutlined, MoreOutlined, SearchOutlined } from '@ant-design/icons'
 import { AlbumItemResponse, GetPubAlbumsGetParams } from '@/schemas'
 import Link from 'next/link'
 import EventCardAdmin from '@/components/shared/EvenCardAdmin'
@@ -9,10 +9,16 @@ import { getAlbumsGet } from '@/services/album/album'
 interface AllEventsAdminProps {
   setIsModalUpdate: (visible: boolean) => void
   setEvent?: any
+  currentPage: number
+  setCurrentPage: (page: any) => void
 }
 
-const AllEventsAdmin: React.FC<AllEventsAdminProps> = ({ setIsModalUpdate, setEvent }) => {
-  const [currentPage, setCurrentPage] = useState(1)
+const AllEventsAdmin: React.FC<AllEventsAdminProps> = ({
+  setIsModalUpdate,
+  setEvent,
+  currentPage,
+  setCurrentPage,
+}) => {
   const [loadedEvents, setLoadedEvents] = useState<AlbumItemResponse[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [isLoadingMore, setIsLoadingMore] = useState(false)
@@ -50,7 +56,7 @@ const AllEventsAdmin: React.FC<AllEventsAdminProps> = ({ setIsModalUpdate, setEv
 
   const handleLoadMore = () => {
     setIsLoadingMore(true)
-    setCurrentPage((prevPage) => prevPage + 1)
+    setCurrentPage((prevPage: number) => prevPage + 1)
   }
 
   return (
@@ -76,7 +82,7 @@ const AllEventsAdmin: React.FC<AllEventsAdminProps> = ({ setIsModalUpdate, setEv
                 imageUrl={event.album_image_url}
               />
             </Link>
-            <div className='absolute right-0 top-0 flex items-center gap-2  h-full'>
+            <div className='absolute right-0 top-0 flex items-center gap-2  h-full p-4'>
               {/* Dropdown for mobile */}
               <Dropdown
                 overlay={
@@ -109,14 +115,15 @@ const AllEventsAdmin: React.FC<AllEventsAdminProps> = ({ setIsModalUpdate, setEv
               {/* Buttons for larger screens */}
               <Button
                 size='large'
-                className='bg-white text-[#0A347D] border-[#0A347D] border-2 font-bold w-full sm:w-auto hidden sm:inline-flex'
+                className='bg-white h-8 text-[#2563EB] border-[#2563EB] border-1 rounded-3xl font-bold w-full sm:w-auto hidden sm:inline-flex font-sans text-sm'
                 onClick={() => {}}
               >
                 Vô hiệu
               </Button>
               <Button
+                icon={<EditOutlined />}
                 size='large'
-                className='bg-[#0A347D] text-emerald-50 font-bold w-full sm:w-auto hidden sm:inline-flex'
+                className='bg-white h-8 text-[#2563EB] border-[#2563EB] border-1 rounded-3xl font-bold w-full sm:w-auto hidden sm:inline-flex font-sans text-sm'
                 onClick={() => {
                   setEvent(event)
                   setIsModalUpdate(true)

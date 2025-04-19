@@ -75,7 +75,7 @@ export const getServerSideProps = (async (context) => {
 }) satisfies GetServerSideProps<{ repo: Repo }>
 const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const event = repo.event
-  event.is_album_free = 0
+  // event.is_album_free = 0
   console.log('even neeeeee', event)
   const searchParams = useSearchParams()
   const router = useRouter()

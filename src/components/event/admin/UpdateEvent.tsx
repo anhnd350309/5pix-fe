@@ -134,6 +134,7 @@ const UpdateEvent: React.FC<UpdateEventProps> = ({ event, setShowModalUpdate }) 
           is_find_by_face: event?.is_find_by_face,
           is_find_by_metadata: event?.is_find_by_metadata,
           event_date: moment(event?.event_date),
+          event_address: event?.event_address,
         }}
         autoComplete='off'
         layout='horizontal'
@@ -152,7 +153,7 @@ const UpdateEvent: React.FC<UpdateEventProps> = ({ event, setShowModalUpdate }) 
           >
             <Input placeholder='Nhập tên sự kiện' />
           </Form.Item>
-          <Form.Item
+          {/* <Form.Item
             name='event_type'
             label='Loại sự kiện'
             rules={[{ required: true, message: 'Vui lòng chọn loại sự kiện!' }]}
@@ -168,7 +169,7 @@ const UpdateEvent: React.FC<UpdateEventProps> = ({ event, setShowModalUpdate }) 
               <Option value='Basketball - Bóng chuyền'>Basketball - Bóng chuyền</Option>
               <Option value='Other - Khác'>Other - Khác</Option>
             </Select>
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item
             name='album_slug'
             label='Slug sự kiện'
@@ -186,11 +187,24 @@ const UpdateEvent: React.FC<UpdateEventProps> = ({ event, setShowModalUpdate }) 
           </Form.Item>
 
           <Form.Item
-            name='location'
+            name='event_address'
             rules={[{ required: true, message: 'Vui lòng nhập địa điểm!' }]}
             label='Địa điểm diễn ra'
           >
             <Input placeholder='Nhập vào địa điểm sự kiện' />
+          </Form.Item>
+          <div className='mb-2 font-bold'>Tùy chọn tìm ảnh</div>
+
+          <Form.Item name='is_find_all_image' label='Tìm tất cả ảnh' valuePropName='checked'>
+            <Switch />
+          </Form.Item>
+
+          <Form.Item name='is_find_by_face' label='Tìm theo khuôn mặt' valuePropName='checked'>
+            <Switch />
+          </Form.Item>
+
+          <Form.Item name='is_find_by_metadata' label='Tìm theo metadata' valuePropName='checked'>
+            <Switch />
           </Form.Item>
         </div>
         <div className='flex justify-end gap-2'>

@@ -12,13 +12,15 @@ import {
   indexImageAlbumsAlbumIdIndexImagePost,
   loadImageAlbumsAlbumIdLoadImagePost,
 } from '@/services/album/album'
+import { AlbumDetailResponse } from '@/schemas'
 
 interface DetailEventFilterProps {
   eventName: string
   id: number
+  event?: AlbumDetailResponse
 }
 
-const DetailEventFilter: React.FC<DetailEventFilterProps> = ({ eventName, id }) => {
+const DetailEventFilter: React.FC<DetailEventFilterProps> = ({ eventName, id, event }) => {
   const [api, contextHolder] = notification.useNotification()
   const openNotificationWithIcon = (
     type: 'success' | 'info' | 'warning' | 'error',
@@ -132,6 +134,23 @@ const DetailEventFilter: React.FC<DetailEventFilterProps> = ({ eventName, id }) 
         <Button className='bg-[#C7DBFF] font-inter font-bold text-[14px] leading-[20px] tracking-[-0.2%] w-full sm:w-auto'>
           Tìm kiếm bằng hình ảnh
         </Button>
+      </div>
+      <div className='bg-white shadow-lg rounded-xl p-6 w-full text-center'>
+        <div className='grid grid-cols-2 gap-4 text-gray-700'>
+          <div className='text-sm'>
+            📸 Tổng số ảnh: <span className='font-semibold'>{event?.total_image}</span>
+          </div>
+          <div className='text-sm'>
+            🔎 Đang nhận dạng: <span className='font-semibold'>{event?.indexing}</span>
+          </div>
+          <div className='text-sm'>
+            ✅ Ảnh đã load thành công: <span className='font-semibold'>{event?.loaded}</span>
+          </div>
+          <div className='text-sm'>
+            🏁 Đã nhận dạng thành công:{' '}
+            <span className='font-semibold'>{event?.index_complete}</span>
+          </div>
+        </div>
       </div>
     </div>
   )
