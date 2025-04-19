@@ -18,8 +18,10 @@ export default function PaymentCallbackPage() {
       }
 
       try {
-        const res = await axiosInstance.get('/vnpay/check', router.query)
-        if (res.data?.code === '00') {
+        console.log('Payment check query:', router.query)
+        const res = await axiosInstance.get('/vnpay/check', { params: router.query })
+        console.log('Payment check response:', res)
+        if (res.data?.RspCode === '00') {
           router.push('/payment/success')
         } else {
           router.push('/payment/failure')

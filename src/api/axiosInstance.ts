@@ -47,7 +47,7 @@ axiosInstance.interceptors.response.use(
         message: 'Có lỗi xảy ra',
         description: error.response?.data?.message || 'Có lỗi xảy ra',
       })
-      window.history.back()
+      // window.history.back()
       // window.location.href = '/404'
     }
     if (error.response?.status === 500) {

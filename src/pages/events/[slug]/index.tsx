@@ -26,10 +26,6 @@ type Repo = {
   images: AlbumImageItemResponsePublic[]
 }
 export const getServerSideProps = (async (context) => {
-  // const searchParams = useSearchParams()
-  // const router = useRouter()
-  // const { slug } = router.query
-  // const bibNumber = searchParams.get('bib_number')
   const slug = context.params?.slug
   const bibNumber = context.query.bib_number
   const res = await detailPubAlbumsAlbumSlugGet(slug as string)
@@ -79,6 +75,8 @@ export const getServerSideProps = (async (context) => {
 }) satisfies GetServerSideProps<{ repo: Repo }>
 const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const event = repo.event
+  event.is_album_free = 0
+  console.log('even neeeeee', event)
   const searchParams = useSearchParams()
   const router = useRouter()
   const { slug } = router.query
@@ -256,7 +254,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
   const handleOptionClick = (action: string, imageIndex: number) => {
     if (action === 'open') {
       setSelectedImageIndex(imageIndex)
-      setIsModalVisibleImage(true) // Mở modal khi nhấn vào ảnh
+      setIsModalVisibleImage(true)
     }
   }
 
@@ -295,7 +293,6 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
                     </span>
                   ) : (
                     loadedImgs?.map((image, index: number) => (
-                      // In the file where you use the ImageViewer component
                       <ImgViewer
                         src={image?.cdn_image_url || 'assets/images/DetailEvent.png'}
                         key={index}
@@ -309,46 +306,45 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
                   )}
                 </div>
               </div>
-              <div className='w-fit'>
-                <Card
-                  title='Photobook'
-                  // Tùy chỉnh giao diện phần header
-                  headStyle={{
-                    backgroundColor: '#E6F7FF',
-                    borderBottom: 'none',
-                    fontWeight: 700,
-                    fontSize: '18px',
-                    padding: '8px 16px',
-                    textAlign: 'center',
-                  }}
-                  // Tùy chỉnh giao diện phần khung Card
-                  style={{
-                    width: 200,
-                    borderRadius: 8,
-                    overflow: 'hidden',
-                    border: '1px solid #d9d9d9',
-                  }}
-                  // Tùy chỉnh phần nội dung bên trong Card
-                  bodyStyle={{
-                    padding: '16px',
-                  }}
-                >
-                  <p>Tất cả 110 ảnh khoảnh khắc định dạng kỹ thuật số (JPG)</p>
-                  <h3
-                    style={{
-                      margin: '16px 0',
+              {event.is_album_free === 0 && (
+                <div className='w-fit'>
+                  <Card
+                    title='Photobook'
+                    headStyle={{
+                      backgroundColor: '#E6F7FF',
+                      borderBottom: 'none',
+                      fontWeight: 700,
                       fontSize: '18px',
-                      fontWeight: 'bold',
+                      padding: '8px 16px',
                       textAlign: 'center',
                     }}
+                    style={{
+                      width: 200,
+                      borderRadius: 8,
+                      overflow: 'hidden',
+                      border: '1px solid #d9d9d9',
+                    }}
+                    bodyStyle={{
+                      padding: '16px',
+                    }}
                   >
-                    150.000 VND
-                  </h3>
-                  <Button type='primary' shape='round' onClick={showPopup}>
-                    Kiểm tra giỏ hàng
-                  </Button>
-                </Card>
-              </div>
+                    <p>Tất cả 110 ảnh khoảnh khắc định dạng kỹ thuật số (JPG)</p>
+                    <h3
+                      style={{
+                        margin: '16px 0',
+                        fontSize: '18px',
+                        fontWeight: 'bold',
+                        textAlign: 'center',
+                      }}
+                    >
+                      150.000 VND
+                    </h3>
+                    <Button type='primary' shape='round' onClick={showPopup}>
+                      Kiểm tra giỏ hàng
+                    </Button>
+                  </Card>
+                </div>
+              )}
             </div>
           </React.Fragment>
         )}
@@ -397,10 +393,9 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
         setSelectedImageIndex={setSelectedImageIndex}
         bibNum={bibNum}
         albumSlug={event.album_slug}
-        isFree={false}
+        isFree={event.is_album_free}
         albumId={event.id}
       />
-      {/* <AddToCartModal isPopupVisible={isPopupVisible} hidePopup={hidePopup} slug={slug as string} /> */}
     </React.Fragment>
   )
 }

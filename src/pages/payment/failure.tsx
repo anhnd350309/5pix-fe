@@ -5,7 +5,7 @@ export default function PaymentFailurePage() {
   const router = useRouter()
 
   return (
-    <div className='min-h-screen flex flex-col justify-center items-center bg-red-50 p-4'>
+    <div className='h-[calc(100vh-88px-288px)] flex flex-col justify-center items-center bg-red-50 p-4'>
       <div className='bg-white shadow-md rounded-2xl p-8 text-center max-w-md w-full'>
         <h1 className='text-2xl font-bold text-red-600 mb-4'>Thanh toán thất bại!</h1>
         <p className='text-gray-700 mb-6'>
@@ -15,7 +15,7 @@ export default function PaymentFailurePage() {
           onClick={() => router.push('/personal_info')}
           className='bg-red-600 hover:bg-red-700 w-full'
         >
-          Quay lại giỏ hàng
+          Quay lại danh sách đơn hàng
         </Button>
       </div>
     </div>

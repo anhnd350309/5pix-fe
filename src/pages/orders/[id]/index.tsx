@@ -102,7 +102,7 @@ const Orders = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>
       >
         <div className='flex flex-wrap mx-auto'>
           <div className='w-full xl:w-3/5 lg:px-3 space-y-2 md:space-y-6 flex flex-col items-end '>
-            {order?.internal_status === 'SUCCESS' && (
+            {order?.internal_status === 'COMPLETE' && (
               <div
                 className='max-w-3xl p-5 pb-0 w-full flex flex-row items-center justify-start gap-2 '
                 style={{

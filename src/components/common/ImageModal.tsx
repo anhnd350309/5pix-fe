@@ -12,7 +12,7 @@ interface ImageModalProps {
   setSelectedImageIndex: (index: number) => void
   bibNum?: string
   albumSlug?: string
-  isFree?: boolean
+  isFree?: number
   albumId: number
 }
 
@@ -108,13 +108,9 @@ const ImageModal: React.FC<ImageModalProps> = ({
           alignItems: 'center',
           borderRadius: '10px',
         }}
-        mask={false} // Tắt mask để tự xử lý sự kiện đóng modal
+        mask={false}
       >
-        <div
-          className='w-full relative'
-          onClick={onCancel} // Đóng modal khi nhấp vào nền
-          style={{ cursor: 'pointer' }}
-        >
+        <div className='w-full relative' onClick={onCancel} style={{ cursor: 'pointer' }}>
           <Carousel
             ref={carouselRef}
             initialSlide={selectedImageIndex || 0}
@@ -147,10 +143,9 @@ const ImageModal: React.FC<ImageModalProps> = ({
             icon={<LeftOutlined />}
           />
 
-          {/* Nút chuyển ảnh phải */}
           <Button
             onClick={(e) => {
-              e.stopPropagation() // Ngăn sự kiện lan truyền
+              e.stopPropagation()
               carouselRef.current?.next()
             }}
             className='absolute right-[-20px] top-1/2 transform -translate-y-1/2 bg-gray-500 text-white rounded-full flex items-center justify-center'
@@ -169,7 +164,7 @@ const ImageModal: React.FC<ImageModalProps> = ({
           }}
           className='ejehhhe'
         >
-          {isFree ? (
+          {isFree === 1 ? (
             <Button type='primary' icon={<DownloadOutlined />} onClick={handleDownload}>
               Tải về
             </Button>
@@ -184,7 +179,7 @@ const ImageModal: React.FC<ImageModalProps> = ({
             </>
           )}
 
-          {bibNum && isFree && (
+          {bibNum && isFree === 1 && (
             <Button type='primary' onClick={handleGetResult}>
               Lấy ảnh kèm kết quả
             </Button>

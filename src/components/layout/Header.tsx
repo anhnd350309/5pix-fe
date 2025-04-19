@@ -2,25 +2,15 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React, { useState } from 'react'
 import { Link as LinkScroll } from 'react-scroll'
-import { useSession, signIn, signOut } from 'next-auth/react'
-import {
-  Dropdown,
-  Menu,
-  Modal,
-  Button as AntButton,
-  Form,
-  Select,
-  Input,
-  DatePicker,
-  Button,
-} from 'antd' // Import Dropdown, Menu và Modal
+import { useSession, signIn } from 'next-auth/react'
+import { Dropdown, Menu, Modal, Form, Select, DatePicker, Button } from 'antd' // Import Dropdown, Menu và Modal
 import moment from 'moment'
 import { createMerchantsPost, getMeMerchantsGetMeGet } from '@/services/merchants/merchants'
 import { MerchantType, MerchantYearsOfExperience } from '@/schemas'
 import SvgUser from '../icons/icons/User'
-import SvgCart from '../icons/icons/Cart'
-import { CheckCircleTwoTone, ShoppingCartOutlined } from '@ant-design/icons'
+import { CheckCircleTwoTone } from '@ant-design/icons'
 import { useRouter } from 'next/router'
+import { Input } from '../ui/input'
 const { Option } = Select
 
 interface RegistrationFormValues {
@@ -39,7 +29,7 @@ const Header = ({ bgColor }: { bgColor: string }) => {
   const [activeLink, setActiveLink] = useState<string>('')
   const { data: session } = useSession()
   const [isModalVisible, setIsModalVisible] = useState(false)
-  const [modalStep, setModalStep] = useState<'form' | 'success'>('success')
+  const [modalStep, setModalStep] = useState<'form' | 'success'>('form')
   const [form] = Form.useForm()
   const router = useRouter()
   const navigateManage = () => {
@@ -99,26 +89,25 @@ const Header = ({ bgColor }: { bgColor: string }) => {
     setModalStep('success')
     form.resetFields()
   }
-  const onClickMerchant = () => {
-    // check login
+  const onClickMerchant = async () => {
     if (session) {
-      // get data from getMeMerchantsGetMeGet
-      getMeMerchantsGetMeGet()
-        .then((res) => {
+      try {
+        getMeMerchantsGetMeGet().then((res) => {
+          console.log('getMeMerchantsGetMeGet', res)
           if (res.data?.merchant_active_status === 'waiting_for_approve') {
             setModalStep('success')
           } else {
             setModalStep('form')
           }
         })
-        .catch((err) => {
-          console.log('getMeMerchantsGetMeGet', err)
-        })
+      } catch {
+        setModalStep('form')
+      }
 
       setIsModalVisible(true)
     } else {
-      // redirect to login page
-      signIn()
+      // signIn()
+      console.log('Chưa đăng nhập')
     }
   }
   return (
@@ -143,7 +132,6 @@ const Header = ({ bgColor }: { bgColor: string }) => {
           >
             <Link
               href='/'
-              prefetch
               className={`animation-hover mx-2 inline-block cursor-pointer px-4 py-2 relative${
                 activeLink === 'about'
                   ? ' animation-active text-template-orange-500 '
@@ -159,7 +147,6 @@ const Header = ({ bgColor }: { bgColor: string }) => {
             </Link>
             <Link
               href='/list_events'
-              prefetch
               className={`animation-hover mx-2 inline-block cursor-pointer px-4 py-2 relative${
                 activeLink === 'feature'
                   ? ' animation-active text-template-orange-500 '
@@ -195,7 +182,6 @@ const Header = ({ bgColor }: { bgColor: string }) => {
 
             <Link
               href='https://5bib.com/'
-              prefetch
               className={`animation-hover mx-2 inline-block cursor-pointer px-4 py-2 relative${
                 activeLink === 'buyticket'
                   ? ' animation-active text-template-orange-500 '
@@ -237,13 +223,13 @@ const Header = ({ bgColor }: { bgColor: string }) => {
             {session ? (
               <div className='flex flex-row gap-4'>
                 <div className='flex flex-row items-center'>
-                  <ShoppingCartOutlined
+                  {/* <ShoppingCartOutlined
                     style={{ fontSize: '24px' }}
                     onClick={() => {
                       router.push('/orders')
                     }}
                   />
-                  |
+                  | */}
                   <Dropdown overlay={partnerMenu} trigger={['click']}>
                     <SvgUser width={24} />
                   </Dropdown>
@@ -257,7 +243,7 @@ const Header = ({ bgColor }: { bgColor: string }) => {
               </div>
             ) : (
               <button
-                className='bg-template-orange-500 hover:bg-template-orange-700 text-white font-bold py-2 px-4 rounded'
+                className='bg-[#2563EB] text-white font-bold py-1 px-4 rounded-3xl'
                 onClick={() => signIn()}
               >
                 Đăng nhập
@@ -300,7 +286,10 @@ const Header = ({ bgColor }: { bgColor: string }) => {
                   labelCol={{ span: 8, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
                   wrapperCol={{ span: 14 }}
                 >
-                  <Select placeholder='Chọn'>
+                  <Select
+                    placeholder='Chọn'
+                    className='rounded-2xl [&_.ant-select-selector]:rounded-2xl'
+                  >
                     <Option value='individual'>Cá nhân</Option>
                     <Option value='company'>Doanh nghiệp</Option>
                     <Option value='other'>Khác</Option>
@@ -327,7 +316,7 @@ const Header = ({ bgColor }: { bgColor: string }) => {
                 >
                   <DatePicker
                     format='DD/MM/YYYY'
-                    style={{ width: '100%' }}
+                    style={{ width: '100%', borderRadius: '1rem' }}
                     placeholder='15/06/1990'
                   />
                 </Form.Item>
@@ -352,7 +341,7 @@ const Header = ({ bgColor }: { bgColor: string }) => {
                 <Form.Item
                   className='mb-6'
                   name='phone_number'
-                  label='Số điện thoại'
+                  label='Số điện thoại liên hệ'
                   rules={[{ required: true, message: 'Vui lòng nhập số điện thoại!' }]}
                   labelCol={{ span: 8, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
                   wrapperCol={{ span: 14 }}
@@ -379,7 +368,10 @@ const Header = ({ bgColor }: { bgColor: string }) => {
                   labelCol={{ span: 8, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
                   wrapperCol={{ span: 14 }}
                 >
-                  <Select placeholder='Chọn kinh nghiệm'>
+                  <Select
+                    placeholder='Chọn kinh nghiệm'
+                    className='rounded-2xl [&_.ant-select-selector]:rounded-2xl'
+                  >
                     <Option value='< 1'>Ít hơn 1 năm</Option>
                     <Option value='1-3'>Từ 1 đến 3 năm</Option>
                     <Option value='3-5'>Từ 3 đến 5 năm</Option>
