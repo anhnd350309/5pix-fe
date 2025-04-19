@@ -49,7 +49,7 @@ export default function CartPage({ repo }: InferGetServerSidePropsType<typeof ge
         sort_by: 'id',
         order: 'desc',
       })
-
+      console.log('data', data)
       if (data.data[0].order_internal_status !== 'COMPLETE') {
         setPrice(data.data[0].album_image_price || 0)
         setTotal(data.data[0].estimate_price || 0)

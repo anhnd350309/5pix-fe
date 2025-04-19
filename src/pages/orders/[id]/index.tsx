@@ -69,6 +69,7 @@ const Orders = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>
       })
       detailPubAlbumsAlbumSlugGet(order.first_line_album_id).then((res) => {
         setAlbumName(res.data?.album_name || '')
+        console.log('res', res.data?.album_name)
       })
     } catch (error) {
       console.error('Error fetching data:', error)
@@ -128,7 +129,7 @@ const Orders = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>
             )}
             <CheckoutInfo
               isLoading={isLoading}
-              price={order.line_items[0].line_price}
+              price={order.line_items[0].line_price / items.length}
               items={items}
               album_name={albumName}
             />

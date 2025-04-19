@@ -495,7 +495,7 @@ export function useGetOwnedImagesImageCollectionOwnedImagesGet<TData = Awaited<R
 
 /**
  * ### Hủy 1 order của collection , order bị hủy sẽ có status CANCELLED
-                     Collect giữ nguyên , và có thể edit lại như cũ
+                    Collect giữ nguyên , và có thể edit lại như cũ
  * @summary Add Image
  */
 export const addImageImageCollectionClearOrderPut = (

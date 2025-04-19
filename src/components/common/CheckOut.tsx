@@ -80,7 +80,7 @@ export default function CheckoutInfo({ isLoading, price, items, album_name }: Ch
   return (
     <div className='max-w-3xl w-full '>
       <Card className='shadow rounded-lg'>
-        <h2 className='text-lg font-semibold mb-4'>Sản phẩm</h2>
+        <h2 className='text-lg font-semibold mb-4'>Sản phẩm của album: {album_name}</h2>
         <hr className='mb-4 border-gray-200' />
         <div className='overflow-x-auto'>
           <Table

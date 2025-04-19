@@ -11,6 +11,7 @@ import {
 } from '@/services/login/login'
 import { detailMeUsersMeGet } from '@/services/user/user'
 import { UserRole } from '@/schemas/userRole'
+import axiosInstance from '@/api/axiosInstance'
 
 declare module 'next-auth' {
   interface Session {
@@ -63,12 +64,17 @@ export const authOptions: AuthOptions = {
           })
           const token = res?.data?.access_token
 
-          const userData = await detailMeUsersMeGet({
-            baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || 'https://api.5pix.org',
+          const userData = await axiosInstance.get('/users/me', {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           })
+          //  detailMeUsersMeGet({
+          //   baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || 'https://api.5pix.org',
+          //   headers: {
+          //     Authorization: `Bearer ${token}`,
+          //   },
+          // })
           const user = {
             id: userData?.data?.data?.id?.toString() || '',
             name: userData?.data?.data?.full_name,

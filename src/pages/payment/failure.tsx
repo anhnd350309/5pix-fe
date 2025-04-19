@@ -12,6 +12,12 @@ export default function PaymentFailurePage() {
           Đã có lỗi xảy ra trong quá trình thanh toán. Vui lòng kiểm tra ở trang cá nhân.
         </p>
         <Button
+          onClick={() => router.push('/')}
+          className='bg-red-600 hover:bg-red-700 w-full mb-4'
+        >
+          Về trang chủ
+        </Button>
+        <Button
           onClick={() => router.push('/personal_info')}
           className='bg-red-600 hover:bg-red-700 w-full'
         >

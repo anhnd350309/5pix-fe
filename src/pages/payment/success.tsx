@@ -11,8 +11,17 @@ export default function PaymentSuccessPage() {
         <p className='text-gray-700 mb-6'>
           Cảm ơn bạn đã thanh toán. Đơn hàng của bạn đang được xử lý.
         </p>
-        <Button onClick={() => router.push('/')} className='bg-green-600 hover:bg-green-700 w-full'>
+        <Button
+          onClick={() => router.push('/')}
+          className='bg-green-600 hover:bg-green-700 w-full mb-4'
+        >
           Về trang chủ
+        </Button>
+        <Button
+          onClick={() => router.push('/personal_info')}
+          className='bg-green-600 hover:bg-green-700 w-full'
+        >
+          Quay lại danh sách đơn hàng
         </Button>
       </div>
     </div>

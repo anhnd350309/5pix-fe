@@ -6,7 +6,8 @@ import { use, useEffect, useState } from 'react'
 import { set } from 'react-hook-form'
 import { getImageCollectionCollectionItemGet } from '@/services/image-collection/image-collection'
 import router from 'next/router'
-
+import dayjs from 'dayjs'
+import useCurrency from '@/hooks/useCurrency'
 interface Transaction {
   id: string
   event: string
@@ -39,7 +40,7 @@ export const PurchaseHistory: React.FC = () => {
   const [totalTransactions, setTotalTransactions] = useState<number>(0)
   const [loading, setLoading] = useState<boolean>(true)
   const pageSize = 5
-
+  const formatter = useCurrency('đ')
   useEffect(() => {
     async function fetchData() {
       setLoading(true)
@@ -48,6 +49,7 @@ export const PurchaseHistory: React.FC = () => {
           page: currentPage,
           page_size: pageSize,
         })
+        console.log('orderListData', orderListData)
         if (orderListData?.data) {
           setTotalTransactions(orderListData.metadata.total_items)
 
@@ -71,6 +73,7 @@ export const PurchaseHistory: React.FC = () => {
           })
 
           const transactionsWithImages = await Promise.all(transactionsPromises)
+          console.log('transactionsWithImages', transactionsWithImages)
           setTransactions(transactionsWithImages)
         }
       } catch (error) {
@@ -83,7 +86,7 @@ export const PurchaseHistory: React.FC = () => {
   }, [currentPage, pageSize])
 
   return (
-    <div className='space-y-4'>
+    <div className='space-y-4 font-sans'>
       {/* Header */}
       <Card className='flex justify-between items-center shadow'>
         <div className='flex items-center gap-2 text-lg font-semibold'>
@@ -108,20 +111,23 @@ export const PurchaseHistory: React.FC = () => {
               text: 'Không xác định',
               color: 'default',
             }
+            const price = (tx.order.line_items?.[0]?.line_price ?? 0) / (tx.data.length || 1)
             return (
               <Card
                 key={idx}
-                className='shadow border border-gray-100'
+                className='shadow border border-gray-100 font-sans'
                 onClick={() => {
                   router.push(`/orders/${tx.order.id}`)
                 }}
               >
                 <div className='flex justify-between items-start'>
                   <div className='flex flex-col space-y-1'>
-                    <span className='font-semibold'>{tx.order.category}</span>
+                    <span className='font-semibold'>{tx.data[0].name}</span>
                     <div className='flex items-center justify-between'>
                       <span className='text-xs text-gray-500 pr-10'>{tx.order.name}</span>
-                      <span className='text-xs text-gray-500'>20:00 • 17/09/2025</span>
+                      <span className='text-xs text-gray-500'>
+                        {dayjs(tx.order.updated_at).format('HH:mm • DD/MM/YYYY')}
+                      </span>
                     </div>
                   </div>
                   <Tag color={status.color}>{status.text}</Tag>
@@ -137,7 +143,7 @@ export const PurchaseHistory: React.FC = () => {
                           {photo.album_image_name}
                         </div>
                         <div key={idx} className='text-gray-600'>
-                          1.200.000
+                          {formatter(price)}
                         </div>
                       </div>
                     ))}

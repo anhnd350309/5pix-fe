@@ -18,6 +18,7 @@ import type { LineResponse } from './lineResponse';
 
 export interface CreateOrderResponse {
   category?: OrderCategory;
+  created_at?: string;
   first_line_album_id?: number;
   first_line_collection_id?: number;
   id?: number;
@@ -25,4 +26,5 @@ export interface CreateOrderResponse {
   line_items?: LineResponse[];
   name?: string;
   owner_email?: string;
+  updated_at?: string;
 }

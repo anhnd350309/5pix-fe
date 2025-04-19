@@ -19,4 +19,8 @@ page_size?: number;
 page?: number;
 sort_by?: string;
 order?: string;
+/**
+ * list internal_statues
+ */
+order_internal_statues?: string[];
 };
