@@ -2,9 +2,14 @@ version: '3.8'
 
 services:
   web:
-    image: huupb/5pix:1.3
+    image: huupb/5pix:1.4.0
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - '3000:3000'
+    env_file:
+      - .env.local
     environment:
       - NODE_ENV=production
     restart: unless-stopped
