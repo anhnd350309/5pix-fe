@@ -10,7 +10,7 @@ export const RegisterForm: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const admin = process.env.NEXT_PUBLIC_ENV === 'dev' ? 'admin-dev' : 'admin'
-  const merchant = process.env.NEXT_PUBLIC_ENV === 'dev' ? 'merchant-dev' : 'merchant'
+  const merchant = process.env.NEXT_PUBLIC_ENV === 'dev' ? 'merchant-dev' : 'doitac'
   const onSubmit = async (values: any) => {
     try {
       setIsLoading(true)

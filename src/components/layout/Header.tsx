@@ -46,7 +46,7 @@ const Header = ({ bgColor }: { bgColor: string }) => {
         window.location.assign(
           process.env.NEXT_PUBLIC_ENV === 'dev'
             ? 'https://merchant-dev.5pix.org/home'
-            : 'http://merchant.5pix.org/home',
+            : 'http://doitac.5pix.org/home',
         )
       } else {
         console.error('User role is not recognized.')

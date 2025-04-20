@@ -122,7 +122,7 @@ const ImageModal: React.FC<ImageModalProps> = ({
             {images.map((image, index) => (
               <div className='flex justify-center items-center h-[85dvh]' key={index}>
                 <img
-                  src={'/assets/images/DetailEvent.png'}
+                  src={image.s3_image_url || '/assets/images/DetailEvent.png'}
                   alt={`Image ${index}`}
                   style={{
                     maxWidth: '100%',

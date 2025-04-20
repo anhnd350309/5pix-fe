@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { getToken } from 'next-auth/jwt'
-import { signIn } from 'next-auth/react'
 
 export async function middleware(req: NextRequest) {
   console.log('Middleware triggered for:', req.nextUrl.pathname)
@@ -17,7 +16,7 @@ export async function middleware(req: NextRequest) {
   const url = req.nextUrl.clone()
   // const isAuthenticated = !!token
   const admin = process.env.NEXT_PUBLIC_ENV === 'dev' ? 'admin-dev' : 'admin'
-  const merchant = process.env.NEXT_PUBLIC_ENV === 'dev' ? 'merchant-dev' : 'merchant'
+  const merchant = process.env.NEXT_PUBLIC_ENV === 'dev' ? 'merchant-dev' : 'doitac'
 
   // Chuyển hướng nếu chưa đăng nhập
   // if (!isAuthenticated) {
@@ -66,15 +65,15 @@ export async function middleware(req: NextRequest) {
     // Chuyển hướng đến trang merchant
 
     // Nếu URL không bắt đầu bằng /merchant, thì để rewrites xử lý
-    if (!req.nextUrl.pathname.startsWith('/merchant') && !req.nextUrl.pathname.endsWith('/login')) {
-      console.log(`Rewriting ${req.nextUrl.pathname} to /merchant${req.nextUrl.pathname}`)
-      url.pathname = `/merchant${req.nextUrl.pathname}`
+    if (!req.nextUrl.pathname.startsWith('/doitac') && !req.nextUrl.pathname.endsWith('/login')) {
+      console.log(`Rewriting ${req.nextUrl.pathname} to /doitac${req.nextUrl.pathname}`)
+      url.pathname = `/doitac${req.nextUrl.pathname}`
       return NextResponse.rewrite(url) // Rewrite nội bộ
     }
   }
 
   // Ngăn chặn truy cập trực tiếp vào các thư mục admin và merchant từ domain chính
-  if (!['admin', 'merchant'].includes(subdomain)) {
+  if (!['admin', 'doitac'].includes(subdomain)) {
     if (req.nextUrl.pathname.startsWith('/admin')) {
       console.log('Redirecting admin path to admin subdomain')
       url.hostname = `admin.${hostname.replace(subdomain + '.', '')}`
@@ -82,10 +81,10 @@ export async function middleware(req: NextRequest) {
       if (url.pathname === '') url.pathname = '/'
       return NextResponse.redirect(url)
     }
-    if (req.nextUrl.pathname.startsWith('/merchant')) {
+    if (req.nextUrl.pathname.startsWith('/doitac')) {
       console.log('Redirecting merchant path to merchant subdomain')
-      url.hostname = `merchant.${hostname.replace(subdomain + '.', '')}`
-      url.pathname = req.nextUrl.pathname.replace('/merchant', '')
+      url.hostname = `doitac.${hostname.replace(subdomain + '.', '')}`
+      url.pathname = req.nextUrl.pathname.replace('/doitac', '')
       if (url.pathname === '') url.pathname = '/'
       return NextResponse.redirect(url)
     }

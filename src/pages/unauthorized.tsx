@@ -12,7 +12,7 @@ const Unauthorized = () => {
     if (session?.role === 'admin') {
       router.push('/admin/home')
     } else if (session?.role === 'merchant') {
-      router.push('/merchant/home')
+      router.push('/doitac/home')
     } else {
       router.push('/')
     }
