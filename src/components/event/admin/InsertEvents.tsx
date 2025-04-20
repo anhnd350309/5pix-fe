@@ -4,6 +4,7 @@ import { AlbumCreateRequest, AlbumItemResponse, BodyUploadToGetCdnBasePost } fro
 import { uploadToGetCdnBasePost } from '@/services/base/base'
 import moment from 'moment'
 import { createAlbumsPost } from '@/services/album/album'
+import { normalizeString } from '@/lib/utils'
 interface InsertEventsProps {
   onChange?: (value: string) => void
   setEventData?: (value: AlbumItemResponse) => void
@@ -16,6 +17,8 @@ const InsertEvents = ({ onChange, setEventData }: InsertEventsProps) => {
   const [url, setUrl] = useState('')
   const handleSubmit = (values: any) => {
     values.event_date = moment(values.event_date).format('YYYY-MM-DD')
+    values.album_slug = normalizeString(values.album_slug)
+
     values.is_find_all_image = values.is_find_all_image ? 1 : 0
     values.is_find_by_face = values.is_find_by_face ? 1 : 0
     values.is_find_by_metadata = values.is_find_by_metadata ? 1 : 0

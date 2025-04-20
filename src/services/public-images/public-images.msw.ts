@@ -27,6 +27,8 @@ import type {
 
 export const getSearchPubImagesPostResponseMock = (overrideResponse: Partial< PageAlbumImageItemResponsePublic > = {}): PageAlbumImageItemResponsePublic => ({code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), data: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({cdn_image_url: faker.string.alpha(20), id: faker.number.int({min: undefined, max: undefined}), image_name: faker.string.alpha(20), s3_image_url: faker.helpers.arrayElement([faker.string.alpha(20), undefined])})), message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), metadata: {current_page: faker.number.int({min: undefined, max: undefined}), page_size: faker.number.int({min: undefined, max: undefined}), total_items: faker.number.int({min: undefined, max: undefined})}, ...overrideResponse})
 
+export const getSearchByAlbumLinkPubImagessearchByLinkPostResponseMock = (overrideResponse: Partial< PageAlbumImageItemResponsePublic > = {}): PageAlbumImageItemResponsePublic => ({code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), data: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({cdn_image_url: faker.string.alpha(20), id: faker.number.int({min: undefined, max: undefined}), image_name: faker.string.alpha(20), s3_image_url: faker.helpers.arrayElement([faker.string.alpha(20), undefined])})), message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), metadata: {current_page: faker.number.int({min: undefined, max: undefined}), page_size: faker.number.int({min: undefined, max: undefined}), total_items: faker.number.int({min: undefined, max: undefined})}, ...overrideResponse})
+
 export const getDetailImagePubImagesImageIdGetResponseMock = (overrideResponse: Partial< DataResponseAlbumImageItemResponsePublic > = {}): DataResponseAlbumImageItemResponsePublic => ({code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), data: faker.helpers.arrayElement([{cdn_image_url: faker.string.alpha(20), id: faker.number.int({min: undefined, max: undefined}), image_name: faker.string.alpha(20), s3_image_url: faker.helpers.arrayElement([faker.string.alpha(20), undefined])}, undefined]), message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), ...overrideResponse})
 
 
@@ -36,6 +38,18 @@ export const getSearchPubImagesPostMockHandler = (overrideResponse?: PageAlbumIm
     return new HttpResponse(JSON.stringify(overrideResponse !== undefined 
             ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse) 
             : getSearchPubImagesPostResponseMock()),
+      { status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      })
+  })
+}
+
+export const getSearchByAlbumLinkPubImagessearchByLinkPostMockHandler = (overrideResponse?: PageAlbumImageItemResponsePublic | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<PageAlbumImageItemResponsePublic> | PageAlbumImageItemResponsePublic)) => {
+  return http.post('*/pub/imagessearch-by-link', async (info) => {await delay(1000);
+  
+    return new HttpResponse(JSON.stringify(overrideResponse !== undefined 
+            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse) 
+            : getSearchByAlbumLinkPubImagessearchByLinkPostResponseMock()),
       { status: 200,
         headers: { 'Content-Type': 'application/json' }
       })
@@ -55,5 +69,6 @@ export const getDetailImagePubImagesImageIdGetMockHandler = (overrideResponse?: 
 }
 export const getPublicImagesMock = () => [
   getSearchPubImagesPostMockHandler(),
+  getSearchByAlbumLinkPubImagessearchByLinkPostMockHandler(),
   getDetailImagePubImagesImageIdGetMockHandler()
 ]

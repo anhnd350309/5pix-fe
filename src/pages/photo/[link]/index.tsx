@@ -4,7 +4,12 @@ import React, { useEffect, useState } from 'react'
 
 import { BannerEvent } from '@/components/event/BannerEvent'
 import { detailPubAlbumsAlbumSlugGet } from '@/services/public-album/public-album'
-import { searchPubImagesPost, useSearchPubImagesPost } from '@/services/public-images/public-images'
+import {
+  searchByAlbumLinkPubImagessearchByLinkPost,
+  searchPubImagesPost,
+  useSearchByAlbumLinkPubImagessearchByLinkPost,
+  useSearchPubImagesPost,
+} from '@/services/public-images/public-images'
 import ImgViewer from '@/components/event/ImgViewer'
 
 import {
@@ -25,57 +30,36 @@ type Repo = {
   images: AlbumImageItemResponsePublic[]
 }
 export const getServerSideProps = (async (context) => {
-  const slug = context.params?.slug
-  const bibNumber = context.query.bib_number
-  const res = await detailPubAlbumsAlbumSlugGet(slug as string)
+  const link = Array.isArray(context.params?.link) ? context.params.link[0] : context.params?.link
+
+  if (!link) {
+    throw new Error('Invalid link')
+  }
+
+  const [bibNum, eventId, hash] = link.split('-')
+  const res = await detailPubAlbumsAlbumSlugGet(eventId as string)
   const event = res.data
-  if (!event) {
-    return {
-      notFound: true,
-    }
-  }
-  let params
-  let id = parseInt(slug as string, 0)
-  if (isNaN(id)) {
-    id = 0
-  }
-  if (bibNumber) {
-    params = {
-      album_id: id,
-      slug: Array.isArray(slug) ? slug[0] : slug,
-      bib_number: Array.isArray(bibNumber) ? bibNumber[0] : bibNumber,
-      search_type: 'metadata' as ImageSearchType,
-      page_size: 100,
-      page: 1,
-      sort_by: 'id',
-      order: 'desc',
-    }
-  } else {
-    params = {
-      album_id: id,
-      slug: Array.isArray(slug) ? slug[0] : slug,
-      search_type: 'all' as ImageSearchType,
-      page_size: 100,
-      page: 1,
-      sort_by: 'id',
-      order: 'desc',
-    }
-  }
-  const imagesData = await searchPubImagesPost(
-    {
-      avatar_file: '',
-    },
-    params,
-  )
+  const imagesData = await searchByAlbumLinkPubImagessearchByLinkPost({
+    album_link: Array.isArray(link) ? link[0] : link,
+  })
   const images = imagesData.data
   return {
     props: { repo: { event, images } },
   }
 }) satisfies GetServerSideProps<{ repo: Repo }>
 const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const images = repo.images
   const event = repo.event
   const formatter = useCurrency('đ')
   // event.is_album_free = 0
+  const {
+    mutate,
+    data: imagesData,
+    error: imagesError,
+    isPending,
+  } = useSearchByAlbumLinkPubImagessearchByLinkPost()
+  const [showTotal, setShowTotal] = useState(false)
+  const [file, setFile] = useState<File | null>(null)
   console.log('even neeeeee', event)
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -84,22 +68,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
   const [currentPage, setCurrentPage] = useState(1)
   const [curLoading, setCurLoading] = useState(false)
   const [isLoadingMore, setIsLoadingMore] = useState(false)
-  const [file, setFile] = useState<File | null>(null)
-  const { status } = useSession()
-  const [isPopupVisible, setIsPopupVisible] = useState(false)
-  const hidePopup = () => {
-    setIsPopupVisible(false)
-  }
-  const showPopup = () => {
-    router.push(`/events/${slug}/checkout`)
-  }
-
-  // const { data, error, isLoading } = useDetailPubAlbumsAlbumSlugGet(slug as string, {
-  //   query: {},
-  // })
-  const { mutate, data: imagesData, error: imagesError, isPending } = useSearchPubImagesPost()
-  const [showTotal, setShowTotal] = useState(false)
-  const [loadedImgs, setLoadedImgs] = useState<AlbumImageItemResponsePublic[]>(repo.images)
+  const [loadedImgs, setLoadedImgs] = useState<AlbumImageItemResponsePublic[]>(images)
   const [totalPages, setTotalPages] = useState(1)
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null)
   const [isModalVisibleImage, setIsModalVisibleImage] = useState(false)
@@ -111,114 +80,43 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
   if (isNaN(id)) {
     id = 0
   }
+  // setLoadedImgs(imagesData?.data?.data || [])
   const [totalEvents, setTotalEvents] = useState<number | null>(null)
-  useEffect(() => {
-    setTotalEvents(imagesData?.metadata.total_items ?? null)
-    setTotalPages(Math.ceil((imagesData?.metadata.total_items ?? 0) / 100))
-  }, [imagesData])
+
   useEffect(() => {
     const fetchEvents = async () => {
-      if (bibNum) {
-        try {
-          if (slug) {
-            const params = {
-              album_id: id,
-              slug: Array.isArray(slug) ? slug[0] : slug,
-              bib_number: bibNum,
-              search_type: 'metadata' as ImageSearchType,
-              page_size: 100,
-              page: currentPage,
-              sort_by: 'id',
-              order: 'desc',
-            }
+      if (currentPage === 1) setCurLoading(true)
+      // setError(null)
 
-            setShowTotal(true)
-            mutate({
-              data: {
-                avatar_file: '',
-              },
-              params: params,
-            })
+      try {
+        if (id || slug) {
+          const body: BodySearchPubImagesPost = {
+            avatar_file: '',
           }
-        } catch (err: any) {
-          console.log(err)
-        } finally {
-          setCurLoading(false)
-          setIsLoadingMore(false)
-        }
-      } else if (file) {
-        if (currentPage === 1) setCurLoading(true)
-        // setError(null)
-
-        try {
-          if (id || slug) {
-            const body: BodySearchPubImagesPost = {
-              avatar_file: file,
-            }
-            const params: SearchPubImagesPostParams = {
-              album_id: id,
-              slug: slug as string,
-              search_type: 'index_face',
-              page: currentPage,
-              page_size: 100,
-              sort_by: 'id',
-              order: 'desc',
-            }
-            const newImgs = await searchPubImagesPost(body, params)
-            setLoadedImgs(newImgs.data)
-            setTotalEvents(newImgs?.metadata.total_items ?? null)
-            setTotalPages(Math.ceil(newImgs?.metadata.total_items / 100))
+          const params: SearchPubImagesPostParams = {
+            album_id: id,
+            slug: slug as string,
+            search_type: 'all',
+            page: currentPage,
+            page_size: 100,
+            sort_by: 'id',
+            order: 'desc',
           }
-        } catch (err: any) {
-          // setError(err.message || 'Something went wrong')
-          console.log(err)
-        } finally {
-          setCurLoading(false)
-          setIsLoadingMore(false)
+          const newImgs = await searchPubImagesPost(body, params)
+          setLoadedImgs(newImgs.data)
+          setTotalEvents(newImgs?.metadata.total_items ?? null)
+          setTotalPages(Math.ceil(newImgs?.metadata.total_items / 100))
         }
-      } else {
-        if (currentPage === 1) setCurLoading(true)
-        // setError(null)
-
-        try {
-          if (id || slug) {
-            const body: BodySearchPubImagesPost = {
-              avatar_file: '',
-            }
-            const params: SearchPubImagesPostParams = {
-              album_id: id,
-              slug: slug as string,
-              search_type: 'all',
-              page: currentPage,
-              page_size: 100,
-              sort_by: 'id',
-              order: 'desc',
-            }
-            const newImgs = await searchPubImagesPost(body, params)
-            setLoadedImgs(newImgs.data)
-            setTotalEvents(newImgs?.metadata.total_items ?? null)
-            setTotalPages(Math.ceil(newImgs?.metadata.total_items / 100))
-          }
-        } catch (err: any) {
-          // setError(err.message || 'Something went wrong')
-          console.log(err)
-        } finally {
-          setCurLoading(false)
-          setIsLoadingMore(false)
-        }
+      } catch (err: any) {
+        // setError(err.message || 'Something went wrong')
+        console.log(err)
+      } finally {
+        setCurLoading(false)
+        setIsLoadingMore(false)
       }
-    }
-    if (file) {
-      console.log('file', file, currentPage)
     }
     fetchEvents()
   }, [currentPage, id])
-  useEffect(() => {
-    if (imagesData) {
-      setLoadedImgs(imagesData?.data || [])
-      setTotalEvents(imagesData.metadata.total_items ?? null)
-    }
-  }, [imagesData])
   const handlePreviousPage = () => {
     if (currentPage > 1) {
       setIsLoadingMore(true)
@@ -231,6 +129,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
     if (currentPage < totalPages) {
       setIsLoadingMore(true)
       setCurrentPage((prevPage) => prevPage + 1)
+      // handleLoadMore(currentPage + 1)
     }
   }
 
@@ -252,15 +151,14 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
       setIsModalVisibleImage(true)
     }
   }
-
+  const showPopup = () => {
+    console.log('hehe')
+  }
   return (
     <React.Fragment>
-      {event.album_slug && (
-        <SEOHead templateTitle={event.album_name} image={event.album_image_url} />
-      )}
       <div className='space-y-5 mx-1 sm:mx-16 mt-4 px-4 xl:px-16 center pb-[40px]'>
         <BannerEvent
-          event={event}
+          event={event!}
           id={id}
           mutate={mutate}
           setShowTotal={setShowTotal}
@@ -268,18 +166,14 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
           setBibNum={setBibNum}
           setFile={setFile}
           setCurrentPage={setCurrentPage}
+          type='link'
         />
-        {isPending ? (
+
+        {curLoading ? (
           <Spin className='flex justify-center items-center h-24' />
         ) : (
           <React.Fragment>
-            {showTotal && loadedImgs.length > 0 && (
-              <span className='text-center'>
-                Tìm thấy {loadedImgs.length} ảnh của bạn, trong tổng số {event?.total_image} ảnh
-              </span>
-            )}
             <div className='flex flex-col xl:flex-row gap-4'>
-              {/* Phần grid ảnh (giữ nguyên code của bạn) */}
               <div className='flex-1'>
                 <div className='gap-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5  min-h-[300px] '>
                   {loadedImgs.length === 0 ? (
@@ -301,7 +195,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
                   )}
                 </div>
               </div>
-              {event.is_album_free === 0 && (
+              {event?.is_album_free === 0 && (
                 <div className='w-fit'>
                   <Card
                     title='Photobook'
@@ -335,7 +229,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
                       {formatter(event?.album_price ?? 0)}
                     </h3>
                     <Button type='primary' shape='round' onClick={showPopup}>
-                      Kiểm tra giỏ hàng
+                      Mua toàn bộ ảnh
                     </Button>
                   </Card>
                 </div>
@@ -387,10 +281,10 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
         selectedImageIndex={selectedImageIndex || 0}
         setSelectedImageIndex={setSelectedImageIndex}
         bibNum={bibNum}
-        albumSlug={event.album_slug}
-        isFree={event.is_album_free}
-        albumId={event.id}
-        price={event.album_image_price}
+        albumSlug={event?.album_slug}
+        isFree={event?.is_album_free}
+        albumId={event?.id || 0}
+        price={event?.album_image_price}
       />
     </React.Fragment>
   )

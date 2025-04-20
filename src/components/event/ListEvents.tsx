@@ -7,6 +7,7 @@ import { AlbumItemResponsePublic, GetPubAlbumsGetParams } from '@/schemas'
 import { getPubAlbumsGet } from '@/services/public-album/public-album'
 
 import EventCard from '../shared/EventCard'
+import { normalizeString } from '@/lib/utils'
 
 export const ListEvents: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1)
@@ -54,7 +55,7 @@ export const ListEvents: React.FC = () => {
       <div className='grid gap-x-8 gap-y-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'>
         {loadedEvents?.map((event) => (
           <Link
-            href={`/events/${event.album_slug ? event.album_slug : event.id}`}
+            href={`/events/${event.album_slug ? normalizeString(event.album_slug) : event.id}`}
             key={event.id}
             style={{ width: 'fit-content' }}
           >

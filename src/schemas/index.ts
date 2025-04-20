@@ -101,6 +101,7 @@ export * from './removeImageRequest';
 export * from './removeImageResponse';
 export * from './responseSchemaBase';
 export * from './searchAlbumImagesGetParams';
+export * from './searchByAlbumLinkPubImagessearchByLinkPostParams';
 export * from './searchPubImagesPostParams';
 export * from './setHideAlbumImagesHideImagePostParams';
 export * from './setImageMetadataAlbumImagesSetImageMetadataPutParams';

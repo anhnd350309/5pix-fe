@@ -22,6 +22,7 @@ export interface BannerEventProps {
   setBibNum: any
   setFile?: any
   setCurrentPage?: any
+  type?: string
 }
 
 export const BannerEvent: ({
@@ -33,6 +34,7 @@ export const BannerEvent: ({
   setBibNum,
   setFile,
   setCurrentPage,
+  type,
 }: BannerEventProps) => JSX.Element = ({
   event: { album_image_url, album_name, event_date, total_image, album_slug },
   id,
@@ -42,6 +44,7 @@ export const BannerEvent: ({
   setBibNum: setBibNumber,
   setFile,
   setCurrentPage,
+  type,
 }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
@@ -133,42 +136,43 @@ export const BannerEvent: ({
           </div>
         </div>
       </div>
-
-      <div className='flex flex-col items-center space-y-4 sm:bg-white shadow p-2 rounded-full w-full'>
-        <div className='flex sm:flex-row flex-col sm:justify-between gap-4 rounded-full w-full'>
-          <div className='bg-white border-l-2 rounded-full w-full sm:w-80'>
-            <Input
-              placeholder='Nhập số BIB'
-              value={bibNumber}
-              onChange={(e) => setBibNumber(e.target.value)} // Update BIB state
-              className='!ml-0 border-none w-full sm:w-64 !important text-black'
-            />
-          </div>
-          <div className='flex gap-1 w-full sm:w-auto'>
-            <Button
-              onClick={handleSubmit}
-              className='flex items-center bg-blue-500 rounded-full w-3/4 sm:w-[200px] text-white'
-            >
-              <SvgSearch width={16} stroke='white' /> Tìm ảnh
-            </Button>
-            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-              {' '}
-              {/* Điều khiển mở dialog */}
-              <DialogTrigger asChild>
-                <Button
-                  className='flex items-center bg-blue-100 rounded-full w-full sm:w-[220px] text-blue-600'
-                  onClick={() => setIsDialogOpen(true)} // Mở dialog khi nhấn nút
-                >
-                  <SvgImage width={16} stroke='#2563EB' /> Tìm kiếm bằng hình ảnh
-                </Button>
-              </DialogTrigger>
-              <DialogContent className='sm:max-w-[700px]'>
-                <UploadImageComponent onFileChange={handleFileChange} onDone={handleDone} />
-              </DialogContent>
-            </Dialog>
+      {!type && (
+        <div className='flex flex-col items-center space-y-4 sm:bg-white shadow p-2 rounded-full w-full'>
+          <div className='flex sm:flex-row flex-col sm:justify-between gap-4 rounded-full w-full'>
+            <div className='bg-white border-l-2 rounded-full w-full sm:w-80'>
+              <Input
+                placeholder='Nhập số BIB'
+                value={bibNumber}
+                onChange={(e) => setBibNumber(e.target.value)} // Update BIB state
+                className='!ml-0 border-none w-full sm:w-64 !important text-black'
+              />
+            </div>
+            <div className='flex gap-1 w-full sm:w-auto'>
+              <Button
+                onClick={handleSubmit}
+                className='flex items-center bg-blue-500 rounded-full w-3/4 sm:w-[200px] text-white'
+              >
+                <SvgSearch width={16} stroke='white' /> Tìm ảnh
+              </Button>
+              <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                {' '}
+                {/* Điều khiển mở dialog */}
+                <DialogTrigger asChild>
+                  <Button
+                    className='flex items-center bg-blue-100 rounded-full w-full sm:w-[220px] text-blue-600'
+                    onClick={() => setIsDialogOpen(true)} // Mở dialog khi nhấn nút
+                  >
+                    <SvgImage width={16} stroke='#2563EB' /> Tìm kiếm bằng hình ảnh
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className='sm:max-w-[700px]'>
+                  <UploadImageComponent onFileChange={handleFileChange} onDone={handleDone} />
+                </DialogContent>
+              </Dialog>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }

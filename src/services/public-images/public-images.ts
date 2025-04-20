@@ -34,6 +34,7 @@ import type {
   DataResponseAlbumImageItemResponsePublic,
   HTTPValidationError,
   PageAlbumImageItemResponsePublic,
+  SearchByAlbumLinkPubImagessearchByLinkPostParams,
   SearchPubImagesPostParams
 } from '../../schemas'
 import { defaultMutator } from '../../api/axiosInstance';
@@ -102,6 +103,64 @@ export const useSearchPubImagesPost = <TError = HTTPValidationError,
       > => {
 
       const mutationOptions = getSearchPubImagesPostMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
+ * API Search Album Image
+ * @summary Search By Album Link
+ */
+export const searchByAlbumLinkPubImagessearchByLinkPost = (
+    params?: SearchByAlbumLinkPubImagessearchByLinkPostParams,
+ signal?: AbortSignal
+) => {
+      
+      
+      return defaultMutator<PageAlbumImageItemResponsePublic>(
+      {url: `/pub/imagessearch-by-link`, method: 'POST',
+        params, signal
+    },
+      );
+    }
+  
+
+
+export const getSearchByAlbumLinkPubImagessearchByLinkPostMutationOptions = <TError = HTTPValidationError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof searchByAlbumLinkPubImagessearchByLinkPost>>, TError,{params?: SearchByAlbumLinkPubImagessearchByLinkPostParams}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof searchByAlbumLinkPubImagessearchByLinkPost>>, TError,{params?: SearchByAlbumLinkPubImagessearchByLinkPostParams}, TContext> => {
+const {mutation: mutationOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof searchByAlbumLinkPubImagessearchByLinkPost>>, {params?: SearchByAlbumLinkPubImagessearchByLinkPostParams}> = (props) => {
+          const {params} = props ?? {};
+
+          return  searchByAlbumLinkPubImagessearchByLinkPost(params,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type SearchByAlbumLinkPubImagessearchByLinkPostMutationResult = NonNullable<Awaited<ReturnType<typeof searchByAlbumLinkPubImagessearchByLinkPost>>>
+    
+    export type SearchByAlbumLinkPubImagessearchByLinkPostMutationError = HTTPValidationError
+
+    /**
+ * @summary Search By Album Link
+ */
+export const useSearchByAlbumLinkPubImagessearchByLinkPost = <TError = HTTPValidationError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof searchByAlbumLinkPubImagessearchByLinkPost>>, TError,{params?: SearchByAlbumLinkPubImagessearchByLinkPostParams}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof searchByAlbumLinkPubImagessearchByLinkPost>>,
+        TError,
+        {params?: SearchByAlbumLinkPubImagessearchByLinkPostParams},
+        TContext
+      > => {
+
+      const mutationOptions = getSearchByAlbumLinkPubImagessearchByLinkPostMutationOptions(options);
 
       return useMutation(mutationOptions);
     }
