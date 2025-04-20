@@ -1,22 +1,26 @@
 import { useState } from 'react'
-import { Radio, Input, Button, Select, message } from 'antd'
-import { AlbumItemResponse } from '@/schemas'
+import { Radio, Input, Button, Select, message, notification } from 'antd'
+import { AlbumCreateRequest, AlbumItemResponse } from '@/schemas'
+import { createAlbumsPost, updateAlbumsAlbumIdPut } from '@/services/album/album'
+import { useRouter } from 'next/router'
 
 const { Option } = Select
 interface PriceConfigProps {
-  onSavePrice: (value: any) => void
-  onFinish: () => void
+  type: string
   event?: AlbumItemResponse
+  setIsModalVisible: (value: boolean) => void
+  setCurrentPage: (value: number) => void
 }
-const PriceConfig = ({ onSavePrice, onFinish, event }: PriceConfigProps) => {
+const PriceConfig = ({ event, setIsModalVisible, setCurrentPage, type }: PriceConfigProps) => {
+  const router = useRouter()
   const [paymentType, setPaymentType] = useState(event?.is_album_free ? 'free' : 'charge')
-  const [price, setPrice] = useState(event?.album_image_price ? event?.album_image_price : '')
-  const [photobookPrice, setPhotobookPrice] = useState(event?.album_price ? event?.album_price : '')
+  const [price, setPrice] = useState(event?.album_image_price ? event?.album_image_price : 0)
+  const [photobookPrice, setPhotobookPrice] = useState(event?.album_price ? event?.album_price : 0)
   const [bank, setBank] = useState('')
   const [accountNumber, setAccountNumber] = useState('')
   const [accountHolder, setAccountHolder] = useState('')
   const [paymentMethod, setPaymentMethod] = useState('auto')
-  const handleSave = () => {
+  const handleSubmit = async () => {
     if (paymentType === 'charge') {
       if (!price) {
         message.error('Vui lòng nhập giá bán lẻ!')
@@ -42,8 +46,59 @@ const PriceConfig = ({ onSavePrice, onFinish, event }: PriceConfigProps) => {
       accountHolder,
       paymentMethod,
     }
+    console.log('hehe', data)
+    if (type === 'add') {
+      await handleAdd(data)
+    } else {
+      await handleSave(data)
+    }
+  }
+  const handleAdd = async (priceData: any) => {
+    if (!event || !priceData) {
+      console.error('Missing event or price data')
+      return
+    }
 
-    onSavePrice(data)
+    const payload: AlbumCreateRequest = {
+      ...event,
+      album_image_price: priceData.price as number,
+      album_price: priceData.photobookPrice as number,
+      is_album_free: priceData.paymentType === 'charge' ? 0 : 1,
+    } as AlbumCreateRequest
+    try {
+      const response = await createAlbumsPost(payload)
+      if (response.code !== '000') {
+        message.error('error')
+        return
+      }
+      notification.success({ message: 'Success create' })
+      console.log('Event created successfully:', response)
+    } catch (error) {
+      message.error('error')
+    }
+    setIsModalVisible(false)
+    setCurrentPage(1)
+    router.push('/home')
+  }
+  const handleSave = async (priceData: any) => {
+    if (!event || !priceData) {
+      console.error('Missing event or price data')
+      return
+    }
+
+    const payload: AlbumCreateRequest = {
+      ...event,
+      album_image_price: priceData.price as number,
+      album_price: priceData.photobookPrice as number,
+      is_album_free: priceData.paymentType === 'charge' ? 0 : 1,
+    } as AlbumCreateRequest
+    updateAlbumsAlbumIdPut(event.id, payload).then(() => {
+      notification.success({ message: 'Success update' })
+    })
+
+    setIsModalVisible(false)
+    setCurrentPage(1)
+    router.push('/home')
   }
   return (
     <div className='max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md'>
@@ -74,7 +129,7 @@ const PriceConfig = ({ onSavePrice, onFinish, event }: PriceConfigProps) => {
               <Input
                 type='number'
                 value={price}
-                onChange={(e) => setPrice(e.target.value)}
+                onChange={(e) => setPrice(parseFloat(e.target.value) || 0)}
                 placeholder='Nhập giá bán 0 nếu miễn phí'
                 className='w-full rounded-md'
               />
@@ -86,7 +141,7 @@ const PriceConfig = ({ onSavePrice, onFinish, event }: PriceConfigProps) => {
               <Input
                 type='number'
                 value={photobookPrice}
-                onChange={(e) => setPhotobookPrice(e.target.value)}
+                onChange={(e) => setPhotobookPrice(parseFloat(e.target.value) || 0)}
                 placeholder='Nhập số lượng 0 nếu không bán Photobook'
                 className='w-full rounded-md'
               />
@@ -158,17 +213,10 @@ const PriceConfig = ({ onSavePrice, onFinish, event }: PriceConfigProps) => {
       )}
 
       <div className='flex justify-end space-x-4'>
-        <Button onClick={handleSave} className='border-blue-600 text-blue-600 hover:bg-blue-50'>
+        <Button onClick={handleSubmit} className='border-blue-600 text-blue-600 hover:bg-blue-50'>
           Lưu lại
         </Button>
-        <Button
-          type='primary'
-          className='bg-blue-600 hover:bg-blue-700'
-          onClick={() => {
-            handleSave()
-            onFinish()
-          }}
-        >
+        <Button type='primary' className='bg-blue-600 hover:bg-blue-700' onClick={handleSubmit}>
           Hoàn thành
         </Button>
       </div>

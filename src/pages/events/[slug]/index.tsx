@@ -328,7 +328,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
                       padding: '16px',
                     }}
                   >
-                    <p>Tất cả 110 ảnh khoảnh khắc định dạng kỹ thuật số (JPG)</p>
+                    <p>Tất cả ảnh của bạn định dạng kỹ thuật số (JPG) chỉ với</p>
                     <h3
                       style={{
                         margin: '16px 0',

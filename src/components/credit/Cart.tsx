@@ -94,10 +94,6 @@ const Cart: FC<CartProps> = ({
           <div className='flex-1 text-[#667085]'>{'Tổng tiền sản phẩm'}</div>
           <div className='flex-end font-bold'>{formatter(total)}</div>
         </div>
-        {/* <div className='flex flex-row items-center font-inter '>
-          <div className='flex-1 text-[#667085]'>{'Giảm giá'}</div>
-          <div className='flex-end font-bold'>{formatter(finalDiscount)}</div>
-        </div> */}
         {type !== CheckoutType.ENTERPRISE_GROUP_BUY && (
           <InputVoucher
             onSubmit={handleCheckingVoucher}

@@ -1,30 +1,48 @@
 import React, { useRef, useState } from 'react'
 import { Button, Form, Input, DatePicker, Switch, Select } from 'antd'
-import { AlbumItemResponse, BodyUploadToGetCdnBasePost } from '@/schemas'
+import { AlbumCreateRequest, AlbumItemResponse, BodyUploadToGetCdnBasePost } from '@/schemas'
 import { uploadToGetCdnBasePost } from '@/services/base/base'
 import moment from 'moment'
 import { updateAlbumsAlbumIdPut } from '@/services/album/album'
 const { Option } = Select
 interface UpdateEventProps {
-  // setIsModalUpdate?: void
+  onChange?: (value: string) => void
   event?: AlbumItemResponse
   setShowModalUpdate: (visible: boolean) => void
+  setEventData?: (value: AlbumItemResponse) => void
 }
-const UpdateEvent: React.FC<UpdateEventProps> = ({ event, setShowModalUpdate }) => {
+const UpdateEvent: React.FC<UpdateEventProps> = ({
+  event,
+  setShowModalUpdate,
+  setEventData,
+  onChange,
+}) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const [form] = Form.useForm()
-  const [url, setUrl] = useState(event?.album_image_url)
-  const handleSubmit = (values: any) => {
-    //conver time to yyyy-mm-dd format
-    values.event_date = moment(values.event_date).format('YYYY-MM-DD')
-    //
-    // Xử lý gửi dữ liệu form ở đây
-    if (event?.id !== undefined) {
-      updateAlbumsAlbumIdPut(event.id, values)
-      setShowModalUpdate(false)
-    } else {
-      console.error('Event ID is undefined')
+  const [url, setUrl] = useState(event?.album_image_url || '')
+  const handleSubmit = (values: AlbumItemResponse) => {
+    const updatedValues = {
+      ...values,
+      event_date: moment(values.event_date).format('YYYY-MM-DD'),
+      is_find_all_image: values.is_find_all_image ? 1 : 0,
+      is_find_by_face: values.is_find_by_face ? 1 : 0,
+      is_find_by_metadata: values.is_find_by_metadata ? 1 : 0,
+      album_image_url: url || '',
     }
+
+    const newEventData = { ...event }
+
+    Object.keys(updatedValues).forEach((key) => {
+      const value = updatedValues[key as keyof AlbumCreateRequest]
+      if (event?.[key as keyof AlbumCreateRequest] !== value) {
+        ;(newEventData as any)[key] = value ?? ''
+      }
+    })
+
+    console.log('Form values:', updatedValues, 'New Event Data:', newEventData)
+
+    setEventData?.(newEventData as AlbumItemResponse)
+    onChange?.('businessConfig')
   }
   const handleFileSelect = () => {
     if (fileInputRef.current) {
@@ -220,7 +238,7 @@ const UpdateEvent: React.FC<UpdateEventProps> = ({ event, setShowModalUpdate }) 
             className='bg-[#275FC1] text-white border-[#275FC1] border-2 font-bold'
             htmlType='submit'
           >
-            Xuất bản
+            Tiếp tục
           </Button>
         </div>
         <Form.Item name='album_image_url'></Form.Item>

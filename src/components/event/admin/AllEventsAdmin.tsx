@@ -5,16 +5,15 @@ import { AlbumItemResponse, GetPubAlbumsGetParams } from '@/schemas'
 import Link from 'next/link'
 import EventCardAdmin from '@/components/shared/EvenCardAdmin'
 import { getAlbumsGet } from '@/services/album/album'
+import { useRouter } from 'next/router'
 
 interface AllEventsAdminProps {
-  setIsModalUpdate: (visible: boolean) => void
-  setEvent?: any
+  setEvent: (event: AlbumItemResponse) => void
   currentPage: number
   setCurrentPage: (page: any) => void
 }
 
 const AllEventsAdmin: React.FC<AllEventsAdminProps> = ({
-  setIsModalUpdate,
   setEvent,
   currentPage,
   setCurrentPage,
@@ -24,7 +23,7 @@ const AllEventsAdmin: React.FC<AllEventsAdminProps> = ({
   const [isLoadingMore, setIsLoadingMore] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [totalEvents, setTotalEvents] = useState<number | null>(null)
-
+  const router = useRouter()
   const params: GetPubAlbumsGetParams = {
     page: currentPage,
     page_size: 10,
@@ -38,7 +37,10 @@ const AllEventsAdmin: React.FC<AllEventsAdminProps> = ({
       try {
         const response = await getAlbumsGet(params)
         const newEvents = response.data
-        setLoadedEvents((prevEvents) => [...prevEvents, ...newEvents])
+        setLoadedEvents((prevEvents) => {
+          if (currentPage === 1) return newEvents
+          return [...prevEvents, ...newEvents]
+        })
         setTotalEvents(response.metadata.total_items)
       } catch (err: any) {
         setError(err.message || 'Something went wrong')
@@ -60,7 +62,7 @@ const AllEventsAdmin: React.FC<AllEventsAdminProps> = ({
   }
 
   return (
-    <div className=''>
+    <div>
       {/* Search Input */}
       <Input
         size='large'
@@ -72,29 +74,24 @@ const AllEventsAdmin: React.FC<AllEventsAdminProps> = ({
       {/* Events List */}
       <div className='flex flex-col gap-4 py-4'>
         {loadedEvents?.map((event) => (
-          <div className='relative bg-white shadow-md rounded-lg '>
-            <Link href={`/events/${event.id}`} key={event.id}>
+          <div className='relative bg-white shadow-md rounded-lg' key={event.id}>
+            <Link href={`/events/${event.id}`}>
               <EventCardAdmin
-                key={event.id}
                 title={event.album_name}
                 date={event.event_date}
                 imageCount={event.total_image ?? 0}
                 imageUrl={event.album_image_url}
               />
             </Link>
-            <div className='absolute right-0 top-0 flex items-center gap-2  h-full p-4'>
+            <div className='absolute right-0 top-0 flex items-center gap-2 h-full p-4'>
               {/* Dropdown for mobile */}
               <Dropdown
                 overlay={
                   <Menu>
-                    <Menu.Item key='disable' onClick={() => {}}>
-                      Vô hiệu
-                    </Menu.Item>
                     <Menu.Item
                       key='edit'
                       onClick={() => {
-                        setEvent(event)
-                        setIsModalUpdate(true)
+                        router.push(`/events/${event.id}/update`)
                       }}
                     >
                       Chỉnh sửa
@@ -112,21 +109,12 @@ const AllEventsAdmin: React.FC<AllEventsAdminProps> = ({
                 </Button>
               </Dropdown>
 
-              {/* Buttons for larger screens */}
-              <Button
-                size='large'
-                className='bg-white h-8 text-[#2563EB] border-[#2563EB] border-1 rounded-3xl font-bold w-full sm:w-auto hidden sm:inline-flex font-sans text-sm'
-                onClick={() => {}}
-              >
-                Vô hiệu
-              </Button>
               <Button
                 icon={<EditOutlined />}
                 size='large'
                 className='bg-white h-8 text-[#2563EB] border-[#2563EB] border-1 rounded-3xl font-bold w-full sm:w-auto hidden sm:inline-flex font-sans text-sm'
                 onClick={() => {
-                  setEvent(event)
-                  setIsModalUpdate(true)
+                  router.push(`/events/${event.id}/update`)
                 }}
               >
                 Chỉnh sửa

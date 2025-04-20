@@ -57,7 +57,7 @@ const Orders = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>
   const { order } = repo
   const formatter = useCurrency('đ')
   console.log('order', order)
-  let totalPrice = 0
+  const totalPrice = order.line_items[0].line_price
   useEffect(() => {
     try {
       setIsLoading(true)
@@ -65,7 +65,7 @@ const Orders = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>
         collection_id: order?.first_line_collection_id,
       }).then((res) => {
         setItems(res)
-        totalPrice = order.line_items[0].line_price * res.length
+        // totalPrice = order.line_items[0].line_price * res.length
       })
       detailPubAlbumsAlbumSlugGet(order.first_line_album_id).then((res) => {
         setAlbumName(res.data?.album_name || '')

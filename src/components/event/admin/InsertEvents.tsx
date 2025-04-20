@@ -1,12 +1,12 @@
 import React, { useRef, useState } from 'react'
 import { Button, Form, Input, DatePicker, Switch, Select } from 'antd'
-import { AlbumCreateRequest, BodyUploadToGetCdnBasePost } from '@/schemas'
+import { AlbumCreateRequest, AlbumItemResponse, BodyUploadToGetCdnBasePost } from '@/schemas'
 import { uploadToGetCdnBasePost } from '@/services/base/base'
 import moment from 'moment'
 import { createAlbumsPost } from '@/services/album/album'
 interface InsertEventsProps {
   onChange?: (value: string) => void
-  setEventData?: (value: AlbumCreateRequest) => void
+  setEventData?: (value: AlbumItemResponse) => void
 }
 const { Option } = Select
 
