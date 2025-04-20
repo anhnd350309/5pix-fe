@@ -39,6 +39,7 @@
     "classnames": "^2.3.2",
     "clsx": "^2.1.1",
     "croppie": "^2.6.5",
+    "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-react": "^8.5.1",
     "faker": "^6.6.6",
     "framer-motion": "^10.12.3",

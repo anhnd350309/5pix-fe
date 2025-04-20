@@ -29,6 +29,7 @@ import { ListEvents } from '../event/ListEvents'
 import EventCard from '../shared/EventCard'
 import { Spin } from 'antd'
 import { normalizeString } from '@/lib/utils'
+import Autoplay from 'embla-carousel-autoplay'
 
 const Hero = () => {
   const { t } = useTranslation('common')
@@ -140,10 +141,33 @@ const Hero = () => {
   return (
     <div className='flex flex-col space-y-5 sm:mx-16 mt-4 px-8 xl:px-16 center' id='about'>
       <div className='flex flex-col justify-center items-center space-y-5 row-start-1'>
-        <h1 className='text-center font-extrabold text-4xl md:text-5xl'>
-          Nhiếp ảnh
-          <br /> mang lại trải nghiệm khác biệt
-        </h1>
+        <Carousel
+          opts={{
+            align: 'center',
+            loop: true,
+          }}
+          plugins={[
+            Autoplay({
+              delay: 5000, // 3 giây chuyển ảnh
+              stopOnInteraction: false, // khi user kéo tay không dừng lại
+            }),
+          ]}
+          className='w-full'
+        >
+          <CarouselContent>
+            {[1, 2, 3].map((item, index) => (
+              <CarouselItem key={index} className='flex justify-center'>
+                <img
+                  src={`/assets/images/main${item}.jpg`}
+                  alt={`Banner ${item}`}
+                  className='rounded-lg object-cover w-[90%] h-[400px] md:h-[500px]'
+                />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
         <div className='flex sm:flex-row flex-col items-center sm:space-x-4 space-y-4 sm:space-y-0 sm:bg-white shadow p-2 rounded-full'>
           <Select onValueChange={(value: string) => setAlbumId(value)}>
             <SelectTrigger className='bg-white border-none rounded-full text-center !w-[300px]'>
