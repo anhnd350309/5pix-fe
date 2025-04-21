@@ -30,7 +30,7 @@ type Repo = {
   images: AlbumImageItemResponsePublic[]
 }
 export const getServerSideProps = (async (context) => {
-  const link = Array.isArray(context.params?.link) ? context.params.link[0] : context.params?.link
+  const link = Array.isArray(context.params?.link) ? context.params?.link[0] : context.params?.link
 
   if (!link) {
     throw new Error('Invalid link')
