@@ -14,21 +14,21 @@ export async function middleware(req: NextRequest) {
   const hostname = req.headers.get('host') || ''
   const subdomain = hostname.split('.')[0]
   const url = req.nextUrl.clone()
-  // const isAuthenticated = !!token
+  const isAuthenticated = !!token
   const admin = process.env.NEXT_PUBLIC_ENV === 'dev' ? 'admin-dev' : 'admin'
   const merchant = process.env.NEXT_PUBLIC_ENV === 'dev' ? 'merchant-dev' : 'doitac'
 
   // Chuyển hướng nếu chưa đăng nhập
-  // if (!isAuthenticated) {
-  //   console.log('User not authenticated, redirecting to login')
-  //   url.pathname = '/auth/login'
-  //   return NextResponse.redirect(url)
-  // }
+  if (!isAuthenticated) {
+    console.log('User not authenticated, redirecting to login')
+    url.pathname = '/auth/login'
+    return NextResponse.redirect(url)
+  }
 
   // Kiểm tra phân quyền dựa trên subdomain
   if (subdomain === admin) {
     console.log(`Admin subdomain detected, user role: ${token?.role}`)
-    if (req.nextUrl.pathname === '/') {
+    if (req.nextUrl.pathname === '/' || req.nextUrl.pathname === '') {
       console.log('Redirecting to admin home')
       url.pathname = '/home'
       return NextResponse.redirect(url)
@@ -50,7 +50,8 @@ export async function middleware(req: NextRequest) {
     }
   } else if (subdomain === merchant) {
     console.log(`Merchant subdomain detected, user role: ${token?.role}`)
-    if (req.nextUrl.pathname === '/') {
+    console.log('ehehehe', req.nextUrl.pathname)
+    if (req.nextUrl.pathname === '/' || req.nextUrl.pathname === '') {
       console.log('Redirecting to merchant home')
       url.pathname = '/home'
       return NextResponse.redirect(url)
