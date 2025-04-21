@@ -30,6 +30,7 @@ jobs:
           sed -i "s|image: anhnd/5pix:.*|image: anhnd/5pix:${{ env.NEW_VERSION }}|" docker-compose.yml
 
       - name: Commit and push updated VERSION and docker-compose.yml
+
         uses: EndBug/add-and-commit@v9
         with:
           author_name: github-actions
