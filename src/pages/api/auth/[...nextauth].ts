@@ -110,7 +110,9 @@ export const authOptions = (baseUrl: string): AuthOptions => ({
         const data = await googleCallbackLoginGoogleCallbackGet({
           id_token_params: account.id_token as string,
         })
-        const googleData = data as { data: { access_token: string } }
+        console.log(data)
+        const googleData = data as { data: { access_token: string; user: { role: string } } }
+        token.accessToken = googleData.data.user.role
         token.accessToken = googleData.data.access_token
       }
       return token
