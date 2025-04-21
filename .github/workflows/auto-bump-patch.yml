@@ -34,7 +34,7 @@ jobs:
         with:
           author_name: github-actions
           author_email: actions@github.com
-          message: "chore: bump version to ${{ env.NEW_VERSION }}"
+          message: 'chore: bump version to ${{ env.NEW_VERSION }}'
           add: |
             VERSION
             docker-compose.yml
