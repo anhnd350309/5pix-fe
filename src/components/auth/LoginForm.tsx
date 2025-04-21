@@ -21,6 +21,7 @@ export const LoginForm: React.FC = () => {
       if (result?.error) {
         setError(result.error)
       } else {
+        router.push('/')
       }
     } catch (error) {
       console.error('Error:', error)
