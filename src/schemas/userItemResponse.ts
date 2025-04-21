@@ -12,6 +12,7 @@
         
  * OpenAPI spec version: 0.1.0
  */
+import type { UserRole } from './userRole';
 
 export interface UserItemResponse {
   email: string;
@@ -19,5 +20,5 @@ export interface UserItemResponse {
   id: number;
   is_active: boolean;
   last_login?: string;
-  role: string;
+  role: UserRole;
 }

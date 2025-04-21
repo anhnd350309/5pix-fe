@@ -32,6 +32,7 @@ import type {
 import type {
   AlbumCreateRequest,
   AlbumUpdateRequest,
+  DataResponseAlbumDetailResponse,
   DataResponseAlbumItemResponse,
   DataResponseStr,
   GetAlbumsGetParams,
@@ -43,7 +44,11 @@ import { defaultMutator } from '../../api/axiosInstance';
 
 
 /**
- * API Get list Album
+ * ### API Get list Album của người dùng hiện tại
+
+- Nếu role là merchant thì chỉ load ra album của chính merchant 
+- Nếu role là admin thì load hết
+- Role khác ko hiển thị gì
  * @summary Get
  */
 export const getAlbumsGet = (
@@ -191,7 +196,12 @@ export const useCreateAlbumsPost = <TError = HTTPValidationError,
       return useMutation(mutationOptions);
     }
     /**
- * API Detail Album
+ * ### API Get detail Album
+
+- total_image là số lượng tất cả các ảnh đã thêm vào hệ thống, kể cả đã nhận dạng hoặc chưa nhận dạng 
+- loaded là số lượng ảnh đã được upload lên hệ thống nhưng chưa nhận dạng 
+- indexing là số lượng ảnh đang trong quá trình nhận dạng 
+- index_complete là số lượng ảnh đã được nhận dạng xong
  * @summary Detail
  */
 export const detailAlbumsAlbumIdGet = (
@@ -200,7 +210,7 @@ export const detailAlbumsAlbumIdGet = (
 ) => {
       
       
-      return defaultMutator<DataResponseAlbumItemResponse>(
+      return defaultMutator<DataResponseAlbumDetailResponse>(
       {url: `/albums/${albumId}`, method: 'GET', signal
     },
       );
@@ -390,6 +400,126 @@ export const useProcessImageAlbumsAlbumIdProcessImagePut = <TError = HTTPValidat
       > => {
 
       const mutationOptions = getProcessImageAlbumsAlbumIdProcessImagePutMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
+ * ### API load image from sever or google driver to S3 and save data to DB
+
+Logic: Tuỳ theo cấu hình của album là load từ google drive hay từ server mà thực hiện lấy ảnh lên S3
+- Nếu là từ google drive thì sẽ sync (kèm check trùng) ảnh từ google drive về sever -> S3 -> insert DB album_image
+- Nếu là từ sever thì sẽ lấy ảnh từ sever lên S3 -> insert DB album_image
+ * @summary Load Image
+ */
+export const loadImageAlbumsAlbumIdLoadImagePost = (
+    albumId: number,
+ signal?: AbortSignal
+) => {
+      
+      
+      return defaultMutator<DataResponseStr>(
+      {url: `/albums/${albumId}/load-image`, method: 'POST', signal
+    },
+      );
+    }
+  
+
+
+export const getLoadImageAlbumsAlbumIdLoadImagePostMutationOptions = <TError = HTTPValidationError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof loadImageAlbumsAlbumIdLoadImagePost>>, TError,{albumId: number}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof loadImageAlbumsAlbumIdLoadImagePost>>, TError,{albumId: number}, TContext> => {
+const {mutation: mutationOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof loadImageAlbumsAlbumIdLoadImagePost>>, {albumId: number}> = (props) => {
+          const {albumId} = props ?? {};
+
+          return  loadImageAlbumsAlbumIdLoadImagePost(albumId,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type LoadImageAlbumsAlbumIdLoadImagePostMutationResult = NonNullable<Awaited<ReturnType<typeof loadImageAlbumsAlbumIdLoadImagePost>>>
+    
+    export type LoadImageAlbumsAlbumIdLoadImagePostMutationError = HTTPValidationError
+
+    /**
+ * @summary Load Image
+ */
+export const useLoadImageAlbumsAlbumIdLoadImagePost = <TError = HTTPValidationError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof loadImageAlbumsAlbumIdLoadImagePost>>, TError,{albumId: number}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof loadImageAlbumsAlbumIdLoadImagePost>>,
+        TError,
+        {albumId: number},
+        TContext
+      > => {
+
+      const mutationOptions = getLoadImageAlbumsAlbumIdLoadImagePostMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
+ * ### API index image
+
+Logic: lấy list ảnh chưa index -> chuyển sang trạng thái INDEXING -> Tạo row trong credit để trừ tiền -> push các ảnh lên msq -> msq thực hiện index & update ảnh sang COMPLETED
+ * @summary Index Image
+ */
+export const indexImageAlbumsAlbumIdIndexImagePost = (
+    albumId: number,
+ signal?: AbortSignal
+) => {
+      
+      
+      return defaultMutator<DataResponseStr>(
+      {url: `/albums/${albumId}/index-image`, method: 'POST', signal
+    },
+      );
+    }
+  
+
+
+export const getIndexImageAlbumsAlbumIdIndexImagePostMutationOptions = <TError = HTTPValidationError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof indexImageAlbumsAlbumIdIndexImagePost>>, TError,{albumId: number}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof indexImageAlbumsAlbumIdIndexImagePost>>, TError,{albumId: number}, TContext> => {
+const {mutation: mutationOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof indexImageAlbumsAlbumIdIndexImagePost>>, {albumId: number}> = (props) => {
+          const {albumId} = props ?? {};
+
+          return  indexImageAlbumsAlbumIdIndexImagePost(albumId,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type IndexImageAlbumsAlbumIdIndexImagePostMutationResult = NonNullable<Awaited<ReturnType<typeof indexImageAlbumsAlbumIdIndexImagePost>>>
+    
+    export type IndexImageAlbumsAlbumIdIndexImagePostMutationError = HTTPValidationError
+
+    /**
+ * @summary Index Image
+ */
+export const useIndexImageAlbumsAlbumIdIndexImagePost = <TError = HTTPValidationError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof indexImageAlbumsAlbumIdIndexImagePost>>, TError,{albumId: number}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof indexImageAlbumsAlbumIdIndexImagePost>>,
+        TError,
+        {albumId: number},
+        TContext
+      > => {
+
+      const mutationOptions = getIndexImageAlbumsAlbumIdIndexImagePostMutationOptions(options);
 
       return useMutation(mutationOptions);
     }

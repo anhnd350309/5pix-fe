@@ -5,37 +5,45 @@ import FacebookProvider from 'next-auth/providers/facebook'
 import GithubProvider from 'next-auth/providers/github'
 import GoogleProvider from 'next-auth/providers/google'
 import TwitterProvider from 'next-auth/providers/twitter'
-import { loginAccessTokenLoginPost } from '@/services/login/login'
+import {
+  googleCallbackLoginGoogleCallbackGet,
+  loginAccessTokenLoginPost,
+} from '@/services/login/login'
 import { detailMeUsersMeGet } from '@/services/user/user'
+import { UserRole } from '@/schemas/userRole'
+import axiosInstance from '@/api/axiosInstance'
+
 declare module 'next-auth' {
   interface Session {
     accessToken?: string
     id?: string
+    role?: string
   }
 }
 
 declare module 'next-auth' {
   interface User {
     accessToken?: string
+    role?: string
+  }
+}
+
+declare module 'next-auth/jwt' {
+  interface JWT {
+    accessToken?: string
+    role?: string
   }
 }
 
 export const authOptions: AuthOptions = {
   session: {
     strategy: 'jwt',
-    // Seconds - How long until an idle session expires and is no longer valid.
-    maxAge: 24 * 60 * 60, // 1 day
+    maxAge: 24 * 60 * 60,
   },
   secret: process.env.NEXTAUTH_SECRET,
-  // Configure one or more authentication providers
   providers: [
     CredentialsProvider({
-      // The name to display on the sign in form (e.g. "Sign in with...")
       name: 'Credentials',
-      // `credentials` is used to generate a form on the sign in page.
-      // You can specify which fields should be submitted, by adding keys to the `credentials` object.
-      // e.g. domain, username, password, 2FA token, etc.
-      // You can pass any HTML attribute to the <input> tag through the object.
       credentials: {
         email: { label: 'Email', type: 'email', placeholder: 'Please input your email' },
         password: {
@@ -55,33 +63,35 @@ export const authOptions: AuthOptions = {
             password: credentials.password,
           })
           const token = res?.data?.access_token
-          // how to save token to session here
 
-          const userData = await detailMeUsersMeGet({
-            baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || 'https://api.5pix.org',
+          const userData = await axiosInstance.get('/users/me', {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           })
+          //  detailMeUsersMeGet({
+          //   baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || 'https://api.5pix.org',
+          //   headers: {
+          //     Authorization: `Bearer ${token}`,
+          //   },
+          // })
           const user = {
             id: userData?.data?.data?.id?.toString() || '',
             name: userData?.data?.data?.full_name,
             email: userData?.data?.data?.email,
             accessToken: token,
+            role: userData?.data?.data?.role || 'user',
           }
 
-          // If no user was found, return null
           if (!user) {
             return null
           }
 
-          // Return user object if authentication was successful
           return user
         } catch (error) {
           console.error('Error during authentication:', error)
           return null
         }
-        // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
       },
     }),
     FacebookProvider({
@@ -113,19 +123,31 @@ export const authOptions: AuthOptions = {
     async redirect({ url, baseUrl }) {
       return url.startsWith(baseUrl) ? url : baseUrl
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user, account }) {
       if (user) {
         token.accessToken = user.accessToken
+        token.role = user.role
+      }
+      if (account?.provider === 'google') {
+        const data = await googleCallbackLoginGoogleCallbackGet({
+          id_token_params: account?.id_token as string,
+        })
+        const googleData = data as { data: { access_token: string } }
+        token.accessToken = googleData.data.access_token
       }
       return token
     },
     async session({ session, token }) {
       session.accessToken = token.accessToken as string
+      session.role = token.role as string
       return session
     },
   },
   pages: {
-    signIn: '/auth/login', // custom login page
+    signIn: '/auth/login',
+    error: '/auth/error',
+    signOut: '/auth/signout',
+    newUser: '/auth/new-user',
   },
 }
 

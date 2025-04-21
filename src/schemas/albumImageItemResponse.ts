@@ -12,14 +12,16 @@
         
  * OpenAPI spec version: 0.1.0
  */
+import type { AlbumImageIndexStatus } from './albumImageIndexStatus';
 
 export interface AlbumImageItemResponse {
-  cdn_image_url?: string
-  created_at?: string
-  id: number
-  image_metadata?: string
-  image_name: string
-  is_hide?: number
-  s3_image_url?: string
-  updated_at?: string
+  album_image_index_status?: AlbumImageIndexStatus;
+  cdn_image_url?: string;
+  created_at: string;
+  id: number;
+  image_metadata?: string;
+  image_name: string;
+  is_hide?: number;
+  s3_image_url?: string;
+  updated_at: string;
 }

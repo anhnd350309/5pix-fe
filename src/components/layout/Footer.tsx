@@ -5,8 +5,8 @@ import React from 'react'
 const Footer = () => {
   return (
     <div
-      className='bg-template-white-300 pb-10 pt-10'
-      style={{ backgroundImage: "url('/assets/images/BG.webp')" }}
+      className='bg-white pb-10 pt-10'
+      // style={{ backgroundImage: "url('/assets/images/BG.webp')" }}
     >
       <div className='container mx-auto grid w-full grid-flow-row grid-cols-3 grid-rows-4 gap-4 px-8 sm:grid-flow-col sm:grid-cols-12 sm:grid-rows-1 xl:px-16'>
         <div className='col-span-12 flex flex-col items-center sm:items-start sm:col-span-4 sm:col-end-6 '>
@@ -19,20 +19,20 @@ const Footer = () => {
           />
         </div>
         <div className='col-span-12 row-span-2 flex flex-col sm:col-span-2 sm:col-start-7 sm:col-end-10 gap-4'>
-          <p className='font-sans text-xl font-bold leading-7 tracking-[0.005em] text-left underline-offset-auto [text-decoration-skip-ink:none] text-white'>
+          <p className='font-sans text-xl font-bold leading-7 tracking-[0.005em] text-left underline-offset-auto [text-decoration-skip-ink:none] text-gray-800'>
             Contact
           </p>
           <ul className='text-template-black-500 gap-y-4 '>
             <li className='font-sans text-base font-normal leading-6 tracking-[0.002em] text-left underline-offset-auto [text-decoration-skip-ink:none] mb-3'>
               <div className='flex items-center space-x-3'>
                 <Image
-                  className='h-6 w-6 text-white'
+                  className='h-6 w-6 text-gray-800'
                   src='/assets/icons/template/phone.svg'
                   alt='phone'
                   height={30}
                   width={30}
                 />
-                <span className='text-sm text-white'>098 6587 345</span>
+                <span className='text-sm text-gray-800'>098 6587 345</span>
               </div>
             </li>
             <li className='font-sans text-base font-normal leading-6 tracking-[0.002em] text-left underline-offset-auto [text-decoration-skip-ink:none] mb-3'>
@@ -44,7 +44,7 @@ const Footer = () => {
                   height={30}
                   width={30}
                 />
-                <span className='text-sm text-white'>danny@5bib.com</span>
+                <span className='text-sm text-gray-800'>danny@5bib.com</span>
               </div>
             </li>
             <li className='font-sans text-base font-normal leading-6 tracking-[0.002em] text-left underline-offset-auto [text-decoration-skip-ink:none] mb-3'>
@@ -56,7 +56,7 @@ const Footer = () => {
                   height={30}
                   width={30}
                 />
-                <span className='text-sm text-white'>
+                <span className='text-sm text-gray-800'>
                   Tầng 9, Hồ Gươm Plaza (tòa văn phòng), Số 102 Trần Phú, Quận Hà Đông, Thành Phố Hà
                   Nội , Việt Nam.
                 </span>
@@ -66,7 +66,7 @@ const Footer = () => {
         </div>
 
         <div className='col-span-12 flex flex-col sm:col-span-3 sm:col-start-10 sm:col-end-13'>
-          <p className='font-sans text-xl font-bold leading-7 tracking-[0.005em] text-left underline-offset-auto [text-decoration-skip-ink:none] text-white'>
+          <p className='font-sans text-xl font-bold leading-7 tracking-[0.005em] text-left underline-offset-auto [text-decoration-skip-ink:none] text-gray-800'>
             Social media
           </p>
           <div className='-mx-2 mb-8 mt-2 flex w-full'>

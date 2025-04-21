@@ -1,5 +1,5 @@
 @import 'antd/dist/reset.css';
-
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -25,11 +25,11 @@ body {
 } */
 
 html {
-  font-family: 'Rubik', sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
 body {
-  /* @apply bg-template-white-500; */
+  font-family: 'Inter', sans-serif;
 }
 
 p {
@@ -99,4 +99,18 @@ p {
   body {
     @apply bg-background text-foreground;
   }
+}
+.custom-table .ant-table-thead > tr > th {
+  background-color: #d0d5dd !important;
+  color: #16489f !important;
+}
+.custom-modal .ant-modal-content {
+  padding: 0 !important;
+
+  width: 968px;
+}
+
+.custom-modal {
+  width: 968px !important;
+  top: 30px !important;
 }

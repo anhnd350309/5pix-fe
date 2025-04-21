@@ -13,20 +13,31 @@
  * OpenAPI spec version: 0.1.0
  */
 import {
-  useMutation
+  useMutation,
+  useQuery
 } from '@tanstack/react-query'
 import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
   MutationFunction,
+  QueryFunction,
+  QueryKey,
+  UndefinedInitialDataOptions,
   UseMutationOptions,
-  UseMutationResult
+  UseMutationResult,
+  UseQueryOptions,
+  UseQueryResult
 } from '@tanstack/react-query'
 import type {
   BodyGetAlbumImagesPost,
+  DataResponseAlbumImageItemResponse,
   DataResponseStr,
   GetAlbumImagesPostParams,
   HTTPValidationError,
   PageAlbumImageItemResponse,
-  SetHideAlbumImagesHideImagePostParams
+  SetHideAlbumImagesHideImagePostParams,
+  SetImageMetadataAlbumImagesSetImageMetadataPutParams
 } from '../../schemas'
 import { defaultMutator } from '../../api/axiosInstance';
 
@@ -155,4 +166,152 @@ export const useSetHideAlbumImagesHideImagePost = <TError = HTTPValidationError,
 
       return useMutation(mutationOptions);
     }
+    /**
+ * ### API set image metadata - sử dụng cho Admin và Merchant
+
+- Lưu ý: ghi đè trực tiếp metadata (KHÔNG PHẢI APPEND), cần cẩn thận không sẽ xoá metadata của ảnh
+ * @summary Set Image Metadata
+ */
+export const setImageMetadataAlbumImagesSetImageMetadataPut = (
+    params?: SetImageMetadataAlbumImagesSetImageMetadataPutParams,
+ ) => {
+      
+      
+      return defaultMutator<DataResponseStr>(
+      {url: `/album-images/set-image-metadata`, method: 'PUT',
+        params
+    },
+      );
+    }
+  
+
+
+export const getSetImageMetadataAlbumImagesSetImageMetadataPutMutationOptions = <TError = HTTPValidationError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof setImageMetadataAlbumImagesSetImageMetadataPut>>, TError,{params?: SetImageMetadataAlbumImagesSetImageMetadataPutParams}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof setImageMetadataAlbumImagesSetImageMetadataPut>>, TError,{params?: SetImageMetadataAlbumImagesSetImageMetadataPutParams}, TContext> => {
+const {mutation: mutationOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof setImageMetadataAlbumImagesSetImageMetadataPut>>, {params?: SetImageMetadataAlbumImagesSetImageMetadataPutParams}> = (props) => {
+          const {params} = props ?? {};
+
+          return  setImageMetadataAlbumImagesSetImageMetadataPut(params,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type SetImageMetadataAlbumImagesSetImageMetadataPutMutationResult = NonNullable<Awaited<ReturnType<typeof setImageMetadataAlbumImagesSetImageMetadataPut>>>
     
+    export type SetImageMetadataAlbumImagesSetImageMetadataPutMutationError = HTTPValidationError
+
+    /**
+ * @summary Set Image Metadata
+ */
+export const useSetImageMetadataAlbumImagesSetImageMetadataPut = <TError = HTTPValidationError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof setImageMetadataAlbumImagesSetImageMetadataPut>>, TError,{params?: SetImageMetadataAlbumImagesSetImageMetadataPutParams}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof setImageMetadataAlbumImagesSetImageMetadataPut>>,
+        TError,
+        {params?: SetImageMetadataAlbumImagesSetImageMetadataPutParams},
+        TContext
+      > => {
+
+      const mutationOptions = getSetImageMetadataAlbumImagesSetImageMetadataPutMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
+ * ### API get detail Image by id - sử dụng cho Admin và Merchant
+
+- Cho phép get Image kèm AlbumImageIndexStatus
+ * @summary Detail Image
+ */
+export const detailImageAlbumImagesImageIdGet = (
+    imageId: number,
+ signal?: AbortSignal
+) => {
+      
+      
+      return defaultMutator<DataResponseAlbumImageItemResponse>(
+      {url: `/album-images/${imageId}`, method: 'GET', signal
+    },
+      );
+    }
+  
+
+export const getDetailImageAlbumImagesImageIdGetQueryKey = (imageId: number,) => {
+    return [`/album-images/${imageId}`] as const;
+    }
+
+    
+export const getDetailImageAlbumImagesImageIdGetQueryOptions = <TData = Awaited<ReturnType<typeof detailImageAlbumImagesImageIdGet>>, TError = HTTPValidationError>(imageId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailImageAlbumImagesImageIdGet>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getDetailImageAlbumImagesImageIdGetQueryKey(imageId);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof detailImageAlbumImagesImageIdGet>>> = ({ signal }) => detailImageAlbumImagesImageIdGet(imageId, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(imageId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof detailImageAlbumImagesImageIdGet>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type DetailImageAlbumImagesImageIdGetQueryResult = NonNullable<Awaited<ReturnType<typeof detailImageAlbumImagesImageIdGet>>>
+export type DetailImageAlbumImagesImageIdGetQueryError = HTTPValidationError
+
+
+export function useDetailImageAlbumImagesImageIdGet<TData = Awaited<ReturnType<typeof detailImageAlbumImagesImageIdGet>>, TError = HTTPValidationError>(
+ imageId: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailImageAlbumImagesImageIdGet>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof detailImageAlbumImagesImageIdGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useDetailImageAlbumImagesImageIdGet<TData = Awaited<ReturnType<typeof detailImageAlbumImagesImageIdGet>>, TError = HTTPValidationError>(
+ imageId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailImageAlbumImagesImageIdGet>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof detailImageAlbumImagesImageIdGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useDetailImageAlbumImagesImageIdGet<TData = Awaited<ReturnType<typeof detailImageAlbumImagesImageIdGet>>, TError = HTTPValidationError>(
+ imageId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailImageAlbumImagesImageIdGet>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+/**
+ * @summary Detail Image
+ */
+
+export function useDetailImageAlbumImagesImageIdGet<TData = Awaited<ReturnType<typeof detailImageAlbumImagesImageIdGet>>, TError = HTTPValidationError>(
+ imageId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailImageAlbumImagesImageIdGet>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+
+  const queryOptions = getDetailImageAlbumImagesImageIdGetQueryOptions(imageId,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+

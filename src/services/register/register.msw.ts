@@ -20,11 +20,14 @@ import {
   delay,
   http
 } from 'msw'
+import {
+  UserRole
+} from '../../schemas'
 import type {
   DataResponseUserItemResponse
 } from '../../schemas'
 
-export const getRegisterRegisterPostResponseMock = (overrideResponse: Partial< DataResponseUserItemResponse > = {}): DataResponseUserItemResponse => ({code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), data: faker.helpers.arrayElement([{email: faker.internet.email(), full_name: faker.string.alpha(20), id: faker.number.int({min: undefined, max: undefined}), is_active: faker.datatype.boolean(), last_login: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), role: faker.string.alpha(20)}, undefined]), message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), ...overrideResponse})
+export const getRegisterRegisterPostResponseMock = (overrideResponse: Partial< DataResponseUserItemResponse > = {}): DataResponseUserItemResponse => ({code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), data: faker.helpers.arrayElement([{email: faker.internet.email(), full_name: faker.string.alpha(20), id: faker.number.int({min: undefined, max: undefined}), is_active: faker.datatype.boolean(), last_login: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), role: faker.helpers.arrayElement(Object.values(UserRole))}, undefined]), message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), ...overrideResponse})
 
 
 export const getRegisterRegisterPostMockHandler = (overrideResponse?: DataResponseUserItemResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<DataResponseUserItemResponse> | DataResponseUserItemResponse)) => {

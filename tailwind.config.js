@@ -1,4 +1,3 @@
-/** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ['class'],
   important: true, // This is needed to some cases that Tailwind need to override Antd
@@ -10,7 +9,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Cabin', 'sans-serif'], // Gán Cabin làm font chính
+        sans: ['Inter', 'sans-serif'], // Gán Inter làm font chính
+        inter: ['Inter', 'sans-serif'], // Alias cho Inter (nếu cần)
         'reddit-sans': ['"Reddit Sans"', 'sans-serif'],
       },
       colors: {

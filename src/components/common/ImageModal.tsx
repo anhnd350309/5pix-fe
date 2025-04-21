@@ -1,16 +1,20 @@
-import React, { useRef, useEffect } from 'react'
-import { Modal, Carousel, Button } from 'antd'
+import React, { useRef, useEffect, useState } from 'react'
+import { Modal, Carousel, Button, Card } from 'antd'
 import { DownloadOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons'
-import { AlbumImageItemResponse } from '@/schemas'
+import { AlbumImageItemResponse, AlbumImageItemResponsePublic } from '@/schemas'
 import { useRouter } from 'next/router'
+import AddToCartModal from './AddToCartModal'
 interface ImageModalProps {
   visible: boolean
   onCancel: () => void
-  images: AlbumImageItemResponse[]
+  images: AlbumImageItemResponsePublic[] | AlbumImageItemResponse[]
   selectedImageIndex: number
   setSelectedImageIndex: (index: number) => void
   bibNum?: string
   albumSlug?: string
+  isFree?: number
+  albumId: number
+  price?: number
 }
 
 const ImageModal: React.FC<ImageModalProps> = ({
@@ -21,9 +25,13 @@ const ImageModal: React.FC<ImageModalProps> = ({
   setSelectedImageIndex,
   bibNum,
   albumSlug,
+  isFree,
+  albumId,
+  price,
 }) => {
   const router = useRouter()
   const carouselRef = useRef<any>(null)
+  const [isPopupVisible, setIsPopupVisible] = useState(false)
 
   useEffect(() => {
     if (carouselRef.current) {
@@ -60,6 +68,13 @@ const ImageModal: React.FC<ImageModalProps> = ({
   const getCurrentImageUrl = () => {
     return images[selectedImageIndex]?.s3_image_url || '/assets/images/DetailEvent.png'
   }
+  const showPopup = () => {
+    setIsPopupVisible(true)
+  }
+
+  const hidePopup = () => {
+    setIsPopupVisible(false)
+  }
   return (
     <>
       <style>
@@ -95,13 +110,9 @@ const ImageModal: React.FC<ImageModalProps> = ({
           alignItems: 'center',
           borderRadius: '10px',
         }}
-        mask={false} // Tắt mask để tự xử lý sự kiện đóng modal
+        mask={false}
       >
-        <div
-          className='w-full relative'
-          onClick={onCancel} // Đóng modal khi nhấp vào nền
-          style={{ cursor: 'pointer' }}
-        >
+        <div className='w-full relative' onClick={onCancel} style={{ cursor: 'pointer' }}>
           <Carousel
             ref={carouselRef}
             initialSlide={selectedImageIndex || 0}
@@ -111,7 +122,7 @@ const ImageModal: React.FC<ImageModalProps> = ({
             {images.map((image, index) => (
               <div className='flex justify-center items-center h-[85dvh]' key={index}>
                 <img
-                  src={image?.s3_image_url || '/assets/images/DetailEvent.png'}
+                  src={image.s3_image_url || '/assets/images/DetailEvent.png'}
                   alt={`Image ${index}`}
                   style={{
                     maxWidth: '100%',
@@ -134,10 +145,9 @@ const ImageModal: React.FC<ImageModalProps> = ({
             icon={<LeftOutlined />}
           />
 
-          {/* Nút chuyển ảnh phải */}
           <Button
             onClick={(e) => {
-              e.stopPropagation() // Ngăn sự kiện lan truyền
+              e.stopPropagation()
               carouselRef.current?.next()
             }}
             className='absolute right-[-20px] top-1/2 transform -translate-y-1/2 bg-gray-500 text-white rounded-full flex items-center justify-center'
@@ -156,16 +166,37 @@ const ImageModal: React.FC<ImageModalProps> = ({
           }}
           className='ejehhhe'
         >
-          <Button type='primary' icon={<DownloadOutlined />} onClick={handleDownload}>
-            Tải về
-          </Button>
-          {bibNum && (
+          {isFree === 1 ? (
+            <Button type='primary' icon={<DownloadOutlined />} onClick={handleDownload}>
+              Tải về
+            </Button>
+          ) : (
+            <>
+              <Button type='primary' onClick={showPopup}>
+                Mua photobook
+              </Button>
+              <Button type='primary' onClick={showPopup}>
+                Mua hình ảnh
+              </Button>
+            </>
+          )}
+
+          {bibNum && isFree === 1 && (
             <Button type='primary' onClick={handleGetResult}>
               Lấy ảnh kèm kết quả
             </Button>
           )}
         </div>
       </Modal>
+      <AddToCartModal
+        isPopupVisible={isPopupVisible}
+        hidePopup={hidePopup}
+        slug={albumSlug as string}
+        imageId={images[selectedImageIndex]?.id as number}
+        imgName={images[selectedImageIndex]?.image_name}
+        albumId={albumId}
+        price={price}
+      />
     </>
   )
 }

@@ -1,5 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const jsonServer = require('json-server')
+const { customMiddleware } = require('./middleware') // Import middleware tùy chỉnh
 
 const server = jsonServer.create()
 const router = jsonServer.router('db.json')
@@ -7,7 +8,7 @@ const middlewares = jsonServer.defaults()
 
 // Set default middlewares (logger, static, cors and no-cache)
 server.use(middlewares)
-
+server.use(customMiddleware)
 // Add custom routes before JSON Server router
 server.get('/echo', (req, res) => {
   res.jsonp(req.query)

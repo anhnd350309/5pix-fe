@@ -13,17 +13,28 @@
  * OpenAPI spec version: 0.1.0
  */
 import {
-  useMutation
+  useMutation,
+  useQuery
 } from '@tanstack/react-query'
 import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
   MutationFunction,
+  QueryFunction,
+  QueryKey,
+  UndefinedInitialDataOptions,
   UseMutationOptions,
-  UseMutationResult
+  UseMutationResult,
+  UseQueryOptions,
+  UseQueryResult
 } from '@tanstack/react-query'
 import type {
   BodySearchPubImagesPost,
+  DataResponseAlbumImageItemResponsePublic,
   HTTPValidationError,
   PageAlbumImageItemResponsePublic,
+  SearchByAlbumLinkPubImagessearchByLinkPostParams,
   SearchPubImagesPostParams
 } from '../../schemas'
 import { defaultMutator } from '../../api/axiosInstance';
@@ -95,4 +106,152 @@ export const useSearchPubImagesPost = <TError = HTTPValidationError,
 
       return useMutation(mutationOptions);
     }
+    /**
+ * API Search Album Image
+ * @summary Search By Album Link
+ */
+export const searchByAlbumLinkPubImagessearchByLinkPost = (
+    params?: SearchByAlbumLinkPubImagessearchByLinkPostParams,
+ signal?: AbortSignal
+) => {
+      
+      
+      return defaultMutator<PageAlbumImageItemResponsePublic>(
+      {url: `/pub/imagessearch-by-link`, method: 'POST',
+        params, signal
+    },
+      );
+    }
+  
+
+
+export const getSearchByAlbumLinkPubImagessearchByLinkPostMutationOptions = <TError = HTTPValidationError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof searchByAlbumLinkPubImagessearchByLinkPost>>, TError,{params?: SearchByAlbumLinkPubImagessearchByLinkPostParams}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof searchByAlbumLinkPubImagessearchByLinkPost>>, TError,{params?: SearchByAlbumLinkPubImagessearchByLinkPostParams}, TContext> => {
+const {mutation: mutationOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof searchByAlbumLinkPubImagessearchByLinkPost>>, {params?: SearchByAlbumLinkPubImagessearchByLinkPostParams}> = (props) => {
+          const {params} = props ?? {};
+
+          return  searchByAlbumLinkPubImagessearchByLinkPost(params,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type SearchByAlbumLinkPubImagessearchByLinkPostMutationResult = NonNullable<Awaited<ReturnType<typeof searchByAlbumLinkPubImagessearchByLinkPost>>>
     
+    export type SearchByAlbumLinkPubImagessearchByLinkPostMutationError = HTTPValidationError
+
+    /**
+ * @summary Search By Album Link
+ */
+export const useSearchByAlbumLinkPubImagessearchByLinkPost = <TError = HTTPValidationError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof searchByAlbumLinkPubImagessearchByLinkPost>>, TError,{params?: SearchByAlbumLinkPubImagessearchByLinkPostParams}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof searchByAlbumLinkPubImagessearchByLinkPost>>,
+        TError,
+        {params?: SearchByAlbumLinkPubImagessearchByLinkPostParams},
+        TContext
+      > => {
+
+      const mutationOptions = getSearchByAlbumLinkPubImagessearchByLinkPostMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
+ * ### API get detail Image by id
+
+- Nếu image chưa có cdn_image_url --> chưa thể public --> không cho phép get
+- Nếu album là public thì mới trả về s3_image_url
+ * @summary Detail Image
+ */
+export const detailImagePubImagesImageIdGet = (
+    imageId: number,
+ signal?: AbortSignal
+) => {
+      
+      
+      return defaultMutator<DataResponseAlbumImageItemResponsePublic>(
+      {url: `/pub/images/${imageId}`, method: 'GET', signal
+    },
+      );
+    }
+  
+
+export const getDetailImagePubImagesImageIdGetQueryKey = (imageId: number,) => {
+    return [`/pub/images/${imageId}`] as const;
+    }
+
+    
+export const getDetailImagePubImagesImageIdGetQueryOptions = <TData = Awaited<ReturnType<typeof detailImagePubImagesImageIdGet>>, TError = HTTPValidationError>(imageId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailImagePubImagesImageIdGet>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getDetailImagePubImagesImageIdGetQueryKey(imageId);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof detailImagePubImagesImageIdGet>>> = ({ signal }) => detailImagePubImagesImageIdGet(imageId, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(imageId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof detailImagePubImagesImageIdGet>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type DetailImagePubImagesImageIdGetQueryResult = NonNullable<Awaited<ReturnType<typeof detailImagePubImagesImageIdGet>>>
+export type DetailImagePubImagesImageIdGetQueryError = HTTPValidationError
+
+
+export function useDetailImagePubImagesImageIdGet<TData = Awaited<ReturnType<typeof detailImagePubImagesImageIdGet>>, TError = HTTPValidationError>(
+ imageId: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailImagePubImagesImageIdGet>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof detailImagePubImagesImageIdGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useDetailImagePubImagesImageIdGet<TData = Awaited<ReturnType<typeof detailImagePubImagesImageIdGet>>, TError = HTTPValidationError>(
+ imageId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailImagePubImagesImageIdGet>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof detailImagePubImagesImageIdGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useDetailImagePubImagesImageIdGet<TData = Awaited<ReturnType<typeof detailImagePubImagesImageIdGet>>, TError = HTTPValidationError>(
+ imageId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailImagePubImagesImageIdGet>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+/**
+ * @summary Detail Image
+ */
+
+export function useDetailImagePubImagesImageIdGet<TData = Awaited<ReturnType<typeof detailImagePubImagesImageIdGet>>, TError = HTTPValidationError>(
+ imageId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof detailImagePubImagesImageIdGet>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+
+  const queryOptions = getDetailImagePubImagesImageIdGetQueryOptions(imageId,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+

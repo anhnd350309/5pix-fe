@@ -13,16 +13,27 @@
  * OpenAPI spec version: 0.1.0
  */
 import {
-  useMutation
+  useMutation,
+  useQuery
 } from '@tanstack/react-query'
 import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
   MutationFunction,
+  QueryFunction,
+  QueryKey,
+  UndefinedInitialDataOptions,
   UseMutationOptions,
-  UseMutationResult
+  UseMutationResult,
+  UseQueryOptions,
+  UseQueryResult
 } from '@tanstack/react-query'
 import type {
   DataResponseToken,
+  GoogleCallbackLoginGoogleCallbackGetParams,
   HTTPValidationError,
+  LoginLoginGoogleGetParams,
   LoginRequest
 } from '../../schemas'
 import { defaultMutator } from '../../api/axiosInstance';
@@ -87,4 +98,353 @@ export const useLoginAccessTokenLoginPost = <TError = HTTPValidationError,
 
       return useMutation(mutationOptions);
     }
+    /**
+ * @summary Login
+ */
+export const loginLoginGoogleGet = (
+    params?: LoginLoginGoogleGetParams,
+ signal?: AbortSignal
+) => {
+      
+      
+      return defaultMutator<unknown>(
+      {url: `/login/google`, method: 'GET',
+        params, signal
+    },
+      );
+    }
+  
+
+export const getLoginLoginGoogleGetQueryKey = (params?: LoginLoginGoogleGetParams,) => {
+    return [`/login/google`, ...(params ? [params]: [])] as const;
+    }
+
     
+export const getLoginLoginGoogleGetQueryOptions = <TData = Awaited<ReturnType<typeof loginLoginGoogleGet>>, TError = HTTPValidationError>(params?: LoginLoginGoogleGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof loginLoginGoogleGet>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getLoginLoginGoogleGetQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof loginLoginGoogleGet>>> = ({ signal }) => loginLoginGoogleGet(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof loginLoginGoogleGet>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type LoginLoginGoogleGetQueryResult = NonNullable<Awaited<ReturnType<typeof loginLoginGoogleGet>>>
+export type LoginLoginGoogleGetQueryError = HTTPValidationError
+
+
+export function useLoginLoginGoogleGet<TData = Awaited<ReturnType<typeof loginLoginGoogleGet>>, TError = HTTPValidationError>(
+ params: undefined |  LoginLoginGoogleGetParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof loginLoginGoogleGet>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof loginLoginGoogleGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useLoginLoginGoogleGet<TData = Awaited<ReturnType<typeof loginLoginGoogleGet>>, TError = HTTPValidationError>(
+ params?: LoginLoginGoogleGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof loginLoginGoogleGet>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof loginLoginGoogleGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useLoginLoginGoogleGet<TData = Awaited<ReturnType<typeof loginLoginGoogleGet>>, TError = HTTPValidationError>(
+ params?: LoginLoginGoogleGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof loginLoginGoogleGet>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+/**
+ * @summary Login
+ */
+
+export function useLoginLoginGoogleGet<TData = Awaited<ReturnType<typeof loginLoginGoogleGet>>, TError = HTTPValidationError>(
+ params?: LoginLoginGoogleGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof loginLoginGoogleGet>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+
+  const queryOptions = getLoginLoginGoogleGetQueryOptions(params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+/**
+ * @summary Auth
+ */
+export const authLoginAuthGet = (
+    
+ signal?: AbortSignal
+) => {
+      
+      
+      return defaultMutator<unknown>(
+      {url: `/login/auth`, method: 'GET', signal
+    },
+      );
+    }
+  
+
+export const getAuthLoginAuthGetQueryKey = () => {
+    return [`/login/auth`] as const;
+    }
+
+    
+export const getAuthLoginAuthGetQueryOptions = <TData = Awaited<ReturnType<typeof authLoginAuthGet>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof authLoginAuthGet>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getAuthLoginAuthGetQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof authLoginAuthGet>>> = ({ signal }) => authLoginAuthGet(signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof authLoginAuthGet>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type AuthLoginAuthGetQueryResult = NonNullable<Awaited<ReturnType<typeof authLoginAuthGet>>>
+export type AuthLoginAuthGetQueryError = unknown
+
+
+export function useAuthLoginAuthGet<TData = Awaited<ReturnType<typeof authLoginAuthGet>>, TError = unknown>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof authLoginAuthGet>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof authLoginAuthGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useAuthLoginAuthGet<TData = Awaited<ReturnType<typeof authLoginAuthGet>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof authLoginAuthGet>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof authLoginAuthGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useAuthLoginAuthGet<TData = Awaited<ReturnType<typeof authLoginAuthGet>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof authLoginAuthGet>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+/**
+ * @summary Auth
+ */
+
+export function useAuthLoginAuthGet<TData = Awaited<ReturnType<typeof authLoginAuthGet>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof authLoginAuthGet>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+
+  const queryOptions = getAuthLoginAuthGetQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+/**
+ * @summary Google Callback
+ */
+export const googleCallbackLoginGoogleCallbackGet = (
+    params: GoogleCallbackLoginGoogleCallbackGetParams,
+ signal?: AbortSignal
+) => {
+      
+      
+      return defaultMutator<unknown>(
+      {url: `/login/google/callback`, method: 'GET',
+        params, signal
+    },
+      );
+    }
+  
+
+export const getGoogleCallbackLoginGoogleCallbackGetQueryKey = (params: GoogleCallbackLoginGoogleCallbackGetParams,) => {
+    return [`/login/google/callback`, ...(params ? [params]: [])] as const;
+    }
+
+    
+export const getGoogleCallbackLoginGoogleCallbackGetQueryOptions = <TData = Awaited<ReturnType<typeof googleCallbackLoginGoogleCallbackGet>>, TError = HTTPValidationError>(params: GoogleCallbackLoginGoogleCallbackGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof googleCallbackLoginGoogleCallbackGet>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGoogleCallbackLoginGoogleCallbackGetQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof googleCallbackLoginGoogleCallbackGet>>> = ({ signal }) => googleCallbackLoginGoogleCallbackGet(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof googleCallbackLoginGoogleCallbackGet>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type GoogleCallbackLoginGoogleCallbackGetQueryResult = NonNullable<Awaited<ReturnType<typeof googleCallbackLoginGoogleCallbackGet>>>
+export type GoogleCallbackLoginGoogleCallbackGetQueryError = HTTPValidationError
+
+
+export function useGoogleCallbackLoginGoogleCallbackGet<TData = Awaited<ReturnType<typeof googleCallbackLoginGoogleCallbackGet>>, TError = HTTPValidationError>(
+ params: GoogleCallbackLoginGoogleCallbackGetParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof googleCallbackLoginGoogleCallbackGet>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof googleCallbackLoginGoogleCallbackGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGoogleCallbackLoginGoogleCallbackGet<TData = Awaited<ReturnType<typeof googleCallbackLoginGoogleCallbackGet>>, TError = HTTPValidationError>(
+ params: GoogleCallbackLoginGoogleCallbackGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof googleCallbackLoginGoogleCallbackGet>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof googleCallbackLoginGoogleCallbackGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGoogleCallbackLoginGoogleCallbackGet<TData = Awaited<ReturnType<typeof googleCallbackLoginGoogleCallbackGet>>, TError = HTTPValidationError>(
+ params: GoogleCallbackLoginGoogleCallbackGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof googleCallbackLoginGoogleCallbackGet>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+/**
+ * @summary Google Callback
+ */
+
+export function useGoogleCallbackLoginGoogleCallbackGet<TData = Awaited<ReturnType<typeof googleCallbackLoginGoogleCallbackGet>>, TError = HTTPValidationError>(
+ params: GoogleCallbackLoginGoogleCallbackGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof googleCallbackLoginGoogleCallbackGet>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+
+  const queryOptions = getGoogleCallbackLoginGoogleCallbackGetQueryOptions(params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+/**
+ * @summary Logout
+ */
+export const logoutLoginLogoutGet = (
+    
+ signal?: AbortSignal
+) => {
+      
+      
+      return defaultMutator<unknown>(
+      {url: `/login/logout`, method: 'GET', signal
+    },
+      );
+    }
+  
+
+export const getLogoutLoginLogoutGetQueryKey = () => {
+    return [`/login/logout`] as const;
+    }
+
+    
+export const getLogoutLoginLogoutGetQueryOptions = <TData = Awaited<ReturnType<typeof logoutLoginLogoutGet>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof logoutLoginLogoutGet>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getLogoutLoginLogoutGetQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof logoutLoginLogoutGet>>> = ({ signal }) => logoutLoginLogoutGet(signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof logoutLoginLogoutGet>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type LogoutLoginLogoutGetQueryResult = NonNullable<Awaited<ReturnType<typeof logoutLoginLogoutGet>>>
+export type LogoutLoginLogoutGetQueryError = unknown
+
+
+export function useLogoutLoginLogoutGet<TData = Awaited<ReturnType<typeof logoutLoginLogoutGet>>, TError = unknown>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof logoutLoginLogoutGet>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof logoutLoginLogoutGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useLogoutLoginLogoutGet<TData = Awaited<ReturnType<typeof logoutLoginLogoutGet>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof logoutLoginLogoutGet>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof logoutLoginLogoutGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useLogoutLoginLogoutGet<TData = Awaited<ReturnType<typeof logoutLoginLogoutGet>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof logoutLoginLogoutGet>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+/**
+ * @summary Logout
+ */
+
+export function useLogoutLoginLogoutGet<TData = Awaited<ReturnType<typeof logoutLoginLogoutGet>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof logoutLoginLogoutGet>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+
+  const queryOptions = getLogoutLoginLogoutGetQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+

@@ -1,0 +1,34 @@
+name: Manual bump minor version
+
+on:
+  workflow_dispatch:
+
+jobs:
+  bump-minor:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get current version
+        id: get_version
+        run: echo "VERSION=$(cat VERSION)" >> $GITHUB_ENV
+
+      - name: Bump minor version
+        id: bump_minor
+        run: |
+          IFS='.' read -r major minor patch <<< "$VERSION"
+          minor=$((minor+1))
+          patch=0
+          new_version="$major.$minor.$patch"
+          echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
+          echo "$new_version" > VERSION
+
+      - name: Commit and push updated VERSION
+        uses: EndBug/add-and-commit@v9
+        with:
+          author_name: github-actions
+          author_email: actions@github.com
+          message: 'chore: bump minor version to ${{ env.NEW_VERSION }}'
+          add: 'VERSION'

@@ -12,14 +12,22 @@
         
  * OpenAPI spec version: 0.1.0
  */
+import type { Album5pixStatus } from './album5pixStatus';
 
 export interface AlbumItemResponse {
+  album_5pix_status?: Album5pixStatus;
+  album_5pix_status_reason?: string;
+  album_display_status?: number;
+  album_image_price?: number;
   album_image_url: string;
   album_name: string;
+  album_price?: number;
   album_slug?: string;
   created_at: string;
+  event_address?: string;
   event_date: string;
   id: number;
+  is_album_free?: number;
   is_find_all_image?: number;
   is_find_by_face?: number;
   is_find_by_metadata?: number;

@@ -20,14 +20,22 @@ import {
   delay,
   http
 } from 'msw'
+import {
+  AlbumImageIndexStatus
+} from '../../schemas'
 import type {
+  DataResponseAlbumImageItemResponse,
   DataResponseStr,
   PageAlbumImageItemResponse
 } from '../../schemas'
 
-export const getGetAlbumImagesPostResponseMock = (overrideResponse: Partial< PageAlbumImageItemResponse > = {}): PageAlbumImageItemResponse => ({code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), data: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({cdn_image_url: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), created_at: `${faker.date.past().toISOString().split('.')[0]}Z`, id: faker.number.int({min: undefined, max: undefined}), image_metadata: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), image_name: faker.string.alpha(20), is_hide: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), s3_image_url: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), updated_at: `${faker.date.past().toISOString().split('.')[0]}Z`})), message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), metadata: {current_page: faker.number.int({min: undefined, max: undefined}), page_size: faker.number.int({min: undefined, max: undefined}), total_items: faker.number.int({min: undefined, max: undefined})}, ...overrideResponse})
+export const getGetAlbumImagesPostResponseMock = (overrideResponse: Partial< PageAlbumImageItemResponse > = {}): PageAlbumImageItemResponse => ({code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), data: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({album_image_index_status: faker.helpers.arrayElement([faker.helpers.arrayElement(Object.values(AlbumImageIndexStatus)), undefined]), cdn_image_url: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), created_at: `${faker.date.past().toISOString().split('.')[0]}Z`, id: faker.number.int({min: undefined, max: undefined}), image_metadata: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), image_name: faker.string.alpha(20), is_hide: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), s3_image_url: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), updated_at: `${faker.date.past().toISOString().split('.')[0]}Z`})), message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), metadata: {current_page: faker.number.int({min: undefined, max: undefined}), page_size: faker.number.int({min: undefined, max: undefined}), total_items: faker.number.int({min: undefined, max: undefined})}, ...overrideResponse})
 
 export const getSetHideAlbumImagesHideImagePostResponseMock = (overrideResponse: Partial< DataResponseStr > = {}): DataResponseStr => ({code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), data: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), ...overrideResponse})
+
+export const getSetImageMetadataAlbumImagesSetImageMetadataPutResponseMock = (overrideResponse: Partial< DataResponseStr > = {}): DataResponseStr => ({code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), data: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), ...overrideResponse})
+
+export const getDetailImageAlbumImagesImageIdGetResponseMock = (overrideResponse: Partial< DataResponseAlbumImageItemResponse > = {}): DataResponseAlbumImageItemResponse => ({code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), data: faker.helpers.arrayElement([{album_image_index_status: faker.helpers.arrayElement([faker.helpers.arrayElement(Object.values(AlbumImageIndexStatus)), undefined]), cdn_image_url: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), created_at: `${faker.date.past().toISOString().split('.')[0]}Z`, id: faker.number.int({min: undefined, max: undefined}), image_metadata: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), image_name: faker.string.alpha(20), is_hide: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), s3_image_url: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), updated_at: `${faker.date.past().toISOString().split('.')[0]}Z`}, undefined]), message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), ...overrideResponse})
 
 
 export const getGetAlbumImagesPostMockHandler = (overrideResponse?: PageAlbumImageItemResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<PageAlbumImageItemResponse> | PageAlbumImageItemResponse)) => {
@@ -53,7 +61,33 @@ export const getSetHideAlbumImagesHideImagePostMockHandler = (overrideResponse?:
       })
   })
 }
+
+export const getSetImageMetadataAlbumImagesSetImageMetadataPutMockHandler = (overrideResponse?: DataResponseStr | ((info: Parameters<Parameters<typeof http.put>[1]>[0]) => Promise<DataResponseStr> | DataResponseStr)) => {
+  return http.put('*/album-images/set-image-metadata', async (info) => {await delay(1000);
+  
+    return new HttpResponse(JSON.stringify(overrideResponse !== undefined 
+            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse) 
+            : getSetImageMetadataAlbumImagesSetImageMetadataPutResponseMock()),
+      { status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      })
+  })
+}
+
+export const getDetailImageAlbumImagesImageIdGetMockHandler = (overrideResponse?: DataResponseAlbumImageItemResponse | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<DataResponseAlbumImageItemResponse> | DataResponseAlbumImageItemResponse)) => {
+  return http.get('*/album-images/:imageId', async (info) => {await delay(1000);
+  
+    return new HttpResponse(JSON.stringify(overrideResponse !== undefined 
+            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse) 
+            : getDetailImageAlbumImagesImageIdGetResponseMock()),
+      { status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      })
+  })
+}
 export const getImagesMock = () => [
   getGetAlbumImagesPostMockHandler(),
-  getSetHideAlbumImagesHideImagePostMockHandler()
+  getSetHideAlbumImagesHideImagePostMockHandler(),
+  getSetImageMetadataAlbumImagesSetImageMetadataPutMockHandler(),
+  getDetailImageAlbumImagesImageIdGetMockHandler()
 ]
