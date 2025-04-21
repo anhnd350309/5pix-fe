@@ -19,7 +19,12 @@ type Repo = {
   order: CreateOrderResponse
 }
 export const getServerSideProps = (async (context) => {
-  const session = await getServerSession(context.req, context.res, authOptions)
+  const proto =
+    context.req.headers['x-forwarded-proto'] ||
+    (process.env.NODE_ENV === 'production' ? 'https' : 'http')
+  const host = context.req.headers.host || ''
+  const baseUrl = `${proto}://${host}`
+  const session = await getServerSession(context.req, context.res, authOptions(baseUrl))
   const id = context.params?.id
 
   if (!session) {
