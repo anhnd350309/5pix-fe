@@ -29,7 +29,8 @@ export default function PaymentCallbackPage() {
         }
       } catch (err) {
         console.error('Payment check error:', err)
-        setError('Something went wrong.')
+        router.push('/payment/failure')
+        // setError('Something went wrong.')
         setChecking(false)
       }
     }
