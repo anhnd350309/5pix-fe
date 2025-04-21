@@ -29,6 +29,7 @@ const ImageModal: React.FC<ImageModalProps> = ({
   albumId,
   price,
 }) => {
+  if (isFree === null) isFree = 1
   const router = useRouter()
   const carouselRef = useRef<any>(null)
   const [isPopupVisible, setIsPopupVisible] = useState(false)
