@@ -26,14 +26,21 @@ jobs:
           new_version="$major.$minor.$patch"
           echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
           echo "$new_version" > VERSION
+      - name: Update docker-compose.yml image version
+        run: |
+          sed -i "s|image: anhnd/5pix:.*|image: anhnd/5pix:${{ env.NEW_VERSION }}|" docker-compose.yml
 
-      - name: Commit and push updated VERSION
+      - name: Commit and push updated VERSION and docker-compose.yml
         uses: EndBug/add-and-commit@v9
         with:
           author_name: github-actions
           author_email: actions@github.com
-          message: 'chore: bump version to ${{ env.NEW_VERSION }}'
-          add: 'VERSION'
+          message: "chore: bump version to ${{ env.NEW_VERSION }}"
+          add: |
+            VERSION
+            docker-compose.yml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup environment variables
         run: |
