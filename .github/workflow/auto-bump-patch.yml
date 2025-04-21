@@ -1,0 +1,51 @@
+name: Auto bump patch version and push Docker image
+
+on:
+  push:
+    branches:
+      - master
+      - dev
+
+jobs:
+  bump-version-build-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get current version
+        id: get_version
+        run: echo "VERSION=$(cat VERSION)" >> $GITHUB_ENV
+
+      - name: Bump patch version
+        id: bump_patch
+        run: |
+          IFS='.' read -r major minor patch <<< "$VERSION"
+          patch=$((patch+1))
+          new_version="$major.$minor.$patch"
+          echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
+          echo "$new_version" > VERSION
+
+      - name: Commit and push updated VERSION
+        uses: EndBug/add-and-commit@v9
+        with:
+          author_name: github-actions
+          author_email: actions@github.com
+          message: 'chore: bump version to ${{ env.NEW_VERSION }}'
+          add: 'VERSION'
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/5pix:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/5pix:${{ env.NEW_VERSION }}
