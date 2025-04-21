@@ -94,13 +94,13 @@ const DetailEventFilter: React.FC<DetailEventFilterProps> = ({ eventName, id, ev
     <div className='p-4'>
       {contextHolder}
       <div className='text-[#475467] breadcrumb flex gap-2 pb-6'>
-        <Link href='/home'>Trang chủ</Link>
+        <Link href='/'>Trang chủ</Link>
         <div> &gt; </div>
-        <Link href='/home'>Danh sách sự kiện</Link>
+        <Link href='/'>Danh sách sự kiện</Link>
         <div> &gt; </div>
-        <Link href='/home'>{eventName}</Link>
+        <Link href='/'>{eventName}</Link>
         <div> &gt; </div>
-        <Link href='/home'>Album ảnh</Link>
+        <Link href='/'>Album ảnh</Link>
       </div>
       <div className='flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4'>
         <h1 className='font-inter font-medium text-[24px] leading-[100%] tracking-[0%] mb-2 sm:mb-0'>

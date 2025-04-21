@@ -24,6 +24,7 @@ const nextConfig = {
       'd6cffu4vfbu1e.cloudfront.net',
       '5pix-thumbnail-image.s3.ap-southeast-1.amazonaws.com',
       'cdn.5pix.org',
+      'placeimg.com',
     ],
   },
   webpack: (config) => {

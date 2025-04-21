@@ -10,9 +10,9 @@ const Unauthorized = () => {
   const handleGoHome = () => {
     // Chuyển hướng dựa trên role
     if (session?.role === 'admin') {
-      router.push('/admin/home')
+      router.push('/admin/')
     } else if (session?.role === 'merchant') {
-      router.push('/doitac/home')
+      router.push('/doitac/')
     } else {
       router.push('/')
     }

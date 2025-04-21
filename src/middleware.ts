@@ -18,21 +18,10 @@ export async function middleware(req: NextRequest) {
   const admin = process.env.NEXT_PUBLIC_ENV === 'dev' ? 'admin-dev' : 'admin'
   const merchant = process.env.NEXT_PUBLIC_ENV === 'dev' ? 'merchant-dev' : 'doitac'
 
-  // Chuyển hướng nếu chưa đăng nhập
-  if (!isAuthenticated) {
-    console.log('User not authenticated, redirecting to login')
-    url.pathname = '/auth/login'
-    return NextResponse.redirect(url)
-  }
-
   // Kiểm tra phân quyền dựa trên subdomain
   if (subdomain === admin) {
     console.log(`Admin subdomain detected, user role: ${token?.role}`)
-    if (req.nextUrl.pathname === '/' || req.nextUrl.pathname === '') {
-      console.log('Redirecting to admin home')
-      url.pathname = '/home'
-      return NextResponse.redirect(url)
-    }
+
     // Chỉ cho phép role admin truy cập subdomain admin
     if (token?.role !== 'admin') {
       console.log('User not admin, redirecting to unauthorized')
@@ -49,13 +38,6 @@ export async function middleware(req: NextRequest) {
       return NextResponse.rewrite(url) // Rewrite nội bộ
     }
   } else if (subdomain === merchant) {
-    console.log(`Merchant subdomain detected, user role: ${token?.role}`)
-    console.log('ehehehe', req.nextUrl.pathname)
-    if (req.nextUrl.pathname === '/' || req.nextUrl.pathname === '') {
-      console.log('Redirecting to merchant home')
-      url.pathname = '/home'
-      return NextResponse.redirect(url)
-    }
     // Chỉ cho phép role merchant truy cập subdomain merchant
     if (!(token?.role === 'merchant' || token?.role === 'admin')) {
       console.log('User not merchant, redirecting to unauthorized')
@@ -104,6 +86,7 @@ export const config = {
      * 4. /examples (inside public)
      * 5. all root files inside public (e.g. /favicon.ico)
      */
+    '/',
     '/((?!api|_next|fonts|assets|favicon|examples|auth|[\\w-]+\\.\\w+).*)',
   ],
 }

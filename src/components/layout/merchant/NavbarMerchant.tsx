@@ -14,7 +14,7 @@ const NavbarMerchant = () => {
       label: 'Tổng quan',
     },
     {
-      key: '/home',
+      key: '/',
       icon: <SvgListAlbums width={16} height={16} className='text-lg' />,
       label: 'Danh sách album',
     },

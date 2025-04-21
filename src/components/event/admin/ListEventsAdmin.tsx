@@ -213,9 +213,9 @@ const ListEventsAdmin = () => {
   return (
     <div className='flex flex-col gap-4 p-4'>
       <div className='text-[#475467] breadcrumb flex gap-2'>
-        <Link href='/home'>Trang chủ</Link>
+        <Link href='/'>Trang chủ</Link>
         <div> &gt; </div>
-        <Link href='/home'>Danh sách sự kiện</Link>
+        <Link href='/'>Danh sách sự kiện</Link>
       </div>
 
       {/* Header */}

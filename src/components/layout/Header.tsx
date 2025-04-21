@@ -39,14 +39,14 @@ const Header = ({ bgColor }: { bgColor: string }) => {
       if (userRole === 'admin') {
         window.location.assign(
           process.env.NEXT_PUBLIC_ENV === 'dev'
-            ? 'https://admin-dev.5pix.org/home'
-            : 'http://admin.5pix.org/home',
+            ? 'https://admin-dev.5pix.org/'
+            : 'http://admin.5pix.org/',
         )
       } else if (userRole === 'merchant') {
         window.location.assign(
           process.env.NEXT_PUBLIC_ENV === 'dev'
-            ? 'https://merchant-dev.5pix.org/home'
-            : 'http://doitac.5pix.org/home',
+            ? 'https://merchant-dev.5pix.org/'
+            : 'http://doitac.5pix.org/',
         )
       } else {
         console.error('User role is not recognized.')

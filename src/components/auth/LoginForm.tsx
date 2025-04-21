@@ -21,13 +21,6 @@ export const LoginForm: React.FC = () => {
       if (result?.error) {
         setError(result.error)
       } else {
-        const hostname = window.location.hostname
-        const subdomain = hostname.split('.')[0]
-        if (subdomain === admin || subdomain === merchant) {
-          router.push('/home')
-        } else {
-          router.push('/')
-        }
       }
     } catch (error) {
       console.error('Error:', error)
