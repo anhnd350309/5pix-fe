@@ -39,7 +39,7 @@ jobs:
       - name: Update docker-compose.yml image version
         if: github.ref != 'refs/heads/master'
         run: |
-          sed -i "s|image: anhnd/5pix-${NODE_ENV}:.*|image: anhnd/5pix-${NODE_ENV}:${{ env.NEW_VERSION }}|" docker-compose.yml
+          sed -i "s|image: anhnd39/5pix-${NODE_ENV}:.*|image: anhnd39/5pix-${NODE_ENV}:${{ env.NEW_VERSION }}|" docker-compose.yml
 
       - name: Commit and push updated VERSION and docker-compose.yml
         if: github.ref != 'refs/heads/master'
