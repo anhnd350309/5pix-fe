@@ -1,4 +1,5 @@
-import NextAuth, { AuthOptions, Session, User } from 'next-auth'
+import type { NextApiRequest, NextApiResponse } from 'next'
+import NextAuth, { AuthOptions } from 'next-auth'
 import Auth0Provider from 'next-auth/providers/auth0'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import FacebookProvider from 'next-auth/providers/facebook'
@@ -9,8 +10,6 @@ import {
   googleCallbackLoginGoogleCallbackGet,
   loginAccessTokenLoginPost,
 } from '@/services/login/login'
-import { detailMeUsersMeGet } from '@/services/user/user'
-import { UserRole } from '@/schemas/userRole'
 import axiosInstance from '@/api/axiosInstance'
 
 declare module 'next-auth' {
@@ -19,9 +18,6 @@ declare module 'next-auth' {
     id?: string
     role?: string
   }
-}
-
-declare module 'next-auth' {
   interface User {
     accessToken?: string
     role?: string
@@ -35,120 +31,110 @@ declare module 'next-auth/jwt' {
   }
 }
 
-export const authOptions: AuthOptions = {
-  session: {
-    strategy: 'jwt',
-    maxAge: 24 * 60 * 60,
-  },
-  secret: process.env.NEXTAUTH_SECRET,
-  providers: [
-    CredentialsProvider({
-      name: 'Credentials',
-      credentials: {
-        email: { label: 'Email', type: 'email', placeholder: 'Please input your email' },
-        password: {
-          label: 'Password',
-          type: 'password',
-          placeholder: 'Please input your password',
+export default async function authHandler(req: NextApiRequest, res: NextApiResponse) {
+  // Build dynamic base URL from incoming request
+  const host = req.headers.host || ''
+  const proto =
+    req.headers['x-forwarded-proto'] || (process.env.NODE_ENV === 'production' ? 'https' : 'http')
+  const baseUrl = `${proto}://${host}`
+
+  const options: AuthOptions = {
+    session: { strategy: 'jwt', maxAge: 24 * 60 * 60 },
+    secret: process.env.NEXTAUTH_SECRET,
+    providers: [
+      CredentialsProvider({
+        name: 'Credentials',
+        credentials: {
+          email: { label: 'Email', type: 'email', placeholder: 'Please input your email' },
+          password: {
+            label: 'Password',
+            type: 'password',
+            placeholder: 'Please input your password',
+          },
         },
+        async authorize(credentials) {
+          if (!credentials) return null
+          try {
+            const resToken = await loginAccessTokenLoginPost({
+              username: credentials.email,
+              password: credentials.password,
+            })
+            const token = resToken?.data?.access_token
+            const userResp = await axiosInstance.get('/users/me', {
+              headers: { Authorization: `Bearer ${token}` },
+            })
+            const u = userResp.data.data
+            if (!u || !token) return null
+            return {
+              id: u.id?.toString() || '',
+              name: u.full_name,
+              email: u.email,
+              accessToken: token,
+              role: u.role || 'user',
+            }
+          } catch (error) {
+            console.error('Authorize error:', error)
+            return null
+          }
+        },
+      }),
+      FacebookProvider({
+        clientId: process.env.FACEBOOK_ID!,
+        clientSecret: process.env.FACEBOOK_SECRET!,
+      }),
+      GithubProvider({
+        clientId: process.env.GITHUB_ID!,
+        clientSecret: process.env.GITHUB_SECRET!,
+      }),
+      GoogleProvider({
+        clientId: process.env.GOOGLE_ID!,
+        clientSecret: process.env.GOOGLE_SECRET!,
+        authorization: {
+          params: { redirect_uri: `${baseUrl}/api/auth/callback/google` },
+        },
+      }),
+      TwitterProvider({
+        clientId: process.env.TWITTER_ID!,
+        clientSecret: process.env.TWITTER_SECRET!,
+      }),
+      Auth0Provider({
+        clientId: process.env.AUTH0_ID!,
+        clientSecret: process.env.AUTH0_SECRET!,
+        issuer: process.env.AUTH0_ISSUER,
+      }),
+    ],
+    callbacks: {
+      async redirect({ url, baseUrl: bUrl }) {
+        return url.startsWith(bUrl) ? url : bUrl
       },
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      async authorize(credentials, req) {
-        try {
-          if (!credentials) {
-            return null
-          }
-          const res = await loginAccessTokenLoginPost({
-            username: credentials.email,
-            password: credentials.password,
-          })
-          const token = res?.data?.access_token
-
-          const userData = await axiosInstance.get('/users/me', {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          })
-          //  detailMeUsersMeGet({
-          //   baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || 'https://api.5pix.org',
-          //   headers: {
-          //     Authorization: `Bearer ${token}`,
-          //   },
-          // })
-          const user = {
-            id: userData?.data?.data?.id?.toString() || '',
-            name: userData?.data?.data?.full_name,
-            email: userData?.data?.data?.email,
-            accessToken: token,
-            role: userData?.data?.data?.role || 'user',
-          }
-
-          if (!user) {
-            return null
-          }
-
-          return user
-        } catch (error) {
-          console.error('Error during authentication:', error)
-          return null
+      async jwt({ token, user, account }) {
+        if (user) {
+          token.accessToken = (user as any).accessToken
+          token.role = (user as any).role
         }
+        if (account?.provider === 'google') {
+          const data = await googleCallbackLoginGoogleCallbackGet({
+            id_token_params: account.id_token as string,
+          })
+          const googleData = data as { data: { access_token: string } }
+          token.accessToken = googleData.data.access_token
+        }
+        return token
       },
-    }),
-    FacebookProvider({
-      clientId: process.env.FACEBOOK_ID as string,
-      clientSecret: process.env.FACEBOOK_SECRET as string,
-    }),
-    GithubProvider({
-      clientId: process.env.GITHUB_ID as string,
-      clientSecret: process.env.GITHUB_SECRET as string,
-    }),
-    GoogleProvider({
-      clientId: process.env.GOOGLE_ID as string,
-      clientSecret: process.env.GOOGLE_SECRET as string,
-    }),
-    TwitterProvider({
-      clientId: process.env.TWITTER_ID as string,
-      clientSecret: process.env.TWITTER_SECRET as string,
-    }),
-    Auth0Provider({
-      clientId: process.env.AUTH0_ID as string,
-      clientSecret: process.env.AUTH0_SECRET as string,
-      issuer: process.env.AUTH0_ISSUER,
-    }),
-  ],
-  theme: {
-    colorScheme: 'light',
-  },
-  callbacks: {
-    async redirect({ url, baseUrl }) {
-      return url.startsWith(baseUrl) ? url : baseUrl
+      async session({ session, token }) {
+        session.accessToken = token.accessToken as string
+        session.role = token.role as string
+        return session
+      },
     },
-    async jwt({ token, user, account }) {
-      if (user) {
-        token.accessToken = user.accessToken
-        token.role = user.role
-      }
-      if (account?.provider === 'google') {
-        const data = await googleCallbackLoginGoogleCallbackGet({
-          id_token_params: account?.id_token as string,
-        })
-        const googleData = data as { data: { access_token: string } }
-        token.accessToken = googleData.data.access_token
-      }
-      return token
+    pages: {
+      signIn: `${baseUrl}/auth/login`,
+      error: `${baseUrl}/auth/error`,
+      signOut: `${baseUrl}/auth/signout`,
+      newUser: `${baseUrl}/auth/new-user`,
     },
-    async session({ session, token }) {
-      session.accessToken = token.accessToken as string
-      session.role = token.role as string
-      return session
-    },
-  },
-  pages: {
-    signIn: '/auth/login',
-    error: '/auth/error',
-    signOut: '/auth/signout',
-    newUser: '/auth/new-user',
-  },
-}
+    theme: { colorScheme: 'light' },
+  }
 
-export default NextAuth(authOptions)
+  return NextAuth(req, res, options)
+}
