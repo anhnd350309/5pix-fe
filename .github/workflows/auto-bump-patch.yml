@@ -3,7 +3,6 @@ name: Auto bump patch version and push Docker image
 on:
   push:
     branches:
-      - master
       - dev
 
 jobs:
