@@ -3,6 +3,7 @@ name: Auto bump patch version and push Docker image
 on:
   push:
     branches:
+      - master
       - dev
 
 jobs:
@@ -17,7 +18,17 @@ jobs:
         id: get_version
         run: echo "VERSION=$(cat VERSION)" >> $GITHUB_ENV
 
+      - name: Get current environment
+        id: get_env
+        run: |
+          if [ "${{ github.ref }}" = "refs/heads/master" ]; then
+            echo "NEXT_PUBLIC_ENV=prod" >> $GITHUB_ENV
+          else
+            echo "NEXT_PUBLIC_ENV=development" >> $GITHUB_ENV
+          fi
+
       - name: Bump patch version
+        if: github.ref != 'refs/heads/master'
         id: bump_patch
         run: |
           IFS='.' read -r major minor patch <<< "$VERSION"
@@ -26,11 +37,12 @@ jobs:
           echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
           echo "$new_version" > VERSION
       - name: Update docker-compose.yml image version
+        if: github.ref != 'refs/heads/master'
         run: |
-          sed -i "s|image: anhnd/5pix:.*|image: anhnd/5pix:${{ env.NEW_VERSION }}|" docker-compose.yml
+          sed -i "s|image: anhnd39/5pix-${NODE_ENV}:.*|image: anhnd39/5pix-${NODE_ENV}:${{ env.NEW_VERSION }}|" docker-compose.yml
 
       - name: Commit and push updated VERSION and docker-compose.yml
-
+        if: github.ref != 'refs/heads/master'
         uses: EndBug/add-and-commit@v9
         with:
           author_name: github-actions
@@ -47,14 +59,13 @@ jobs:
           echo "GOOGLE_ID=${{ secrets.GOOGLE_ID }}" >> .env.local
           echo "GOOGLE_SECRET=${{ secrets.GOOGLE_SECRET }}" >> .env.local
           echo "NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}" >> .env.local
+          echo ${{ env.NEXT_PUBLIC_ENV }} > .env.local
           if [ "${{ github.ref }}" = "refs/heads/master" ]; then
             echo "NEXTAUTH_URL=https://5pix.org/" >> .env.local
             echo "NEXT_PUBLIC_API_BASE_URL=https://api.5pix.org" >> .env.local
-            echo "NEXT_PUBLIC_ENV=prod" >> .env.local
           else
             echo "NEXTAUTH_URL=https://fe-dev.5pix.org/" >> .env.local
             echo "NEXT_PUBLIC_API_BASE_URL=https://dapi.5pix.org" >> .env.local
-            echo "NEXT_PUBLIC_ENV=development" >> .env.local
           fi
 
       - name: Login to Docker Hub
@@ -69,5 +80,5 @@ jobs:
           context: .
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/5pix:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/5pix:${{ env.NEW_VERSION }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/5pix-${{ env.NEXT_PUBLIC_ENV}}:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/5pix-${{env.NEXT_PUBLIC_ENV}}:${{ env.NEW_VERSION }}
