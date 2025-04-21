@@ -39,26 +39,7 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({
   const router = useRouter()
   const [isLoading, setIsLoading] = React.useState(false)
   const addCart = () => {
-    try {
-      setIsLoading(true)
-      addImageImageCollectionAddImagePost({
-        album_id: albumId,
-        image_ids: [imageId],
-      }).then((res) => {
-        if (res.id) {
-          openNotificationWithIcon('success', 'Thành công', 'Đã thêm ảnh vào giỏ hàng.')
-        } else {
-          openNotificationWithIcon('error', 'Thất bại', 'Có lỗi xảy ra khi thêm ảnh vào giỏ hàng.')
-          console.error('Error adding to cart:', res)
-        }
-      })
-    } catch (error) {
-      console.error('Error adding to cart:', error)
-    } finally {
-      setIsLoading(false)
-
-      hidePopup()
-    }
+    hidePopup()
   }
   return (
     <>

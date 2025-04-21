@@ -1,9 +1,10 @@
 import React, { useRef, useEffect, useState } from 'react'
-import { Modal, Carousel, Button, Card } from 'antd'
+import { Modal, Carousel, Button, Card, notification } from 'antd'
 import { DownloadOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons'
 import { AlbumImageItemResponse, AlbumImageItemResponsePublic } from '@/schemas'
 import { useRouter } from 'next/router'
 import AddToCartModal from './AddToCartModal'
+import { addImageImageCollectionAddImagePost } from '@/services/image-collection/image-collection'
 interface ImageModalProps {
   visible: boolean
   onCancel: () => void
@@ -69,8 +70,37 @@ const ImageModal: React.FC<ImageModalProps> = ({
   const getCurrentImageUrl = () => {
     return images[selectedImageIndex]?.s3_image_url || '/assets/images/DetailEvent.png'
   }
+
+  const [api, contextHolder] = notification.useNotification()
+  const openNotificationWithIcon = (
+    type: 'success' | 'info' | 'warning' | 'error',
+    message: string,
+    description?: string,
+  ) => {
+    api[type]({
+      message: message,
+      description: description,
+      placement: 'topRight',
+    })
+  }
   const showPopup = () => {
-    setIsPopupVisible(true)
+    try {
+      addImageImageCollectionAddImagePost({
+        album_id: albumId,
+        image_ids: [images[selectedImageIndex]?.id as number],
+      }).then((res) => {
+        if (res.id) {
+          openNotificationWithIcon('success', 'Thành công', 'Đã thêm ảnh vào giỏ hàng.')
+        } else {
+          openNotificationWithIcon('error', 'Thất bại', 'Có lỗi xảy ra khi thêm ảnh vào giỏ hàng.')
+          console.error('Error adding to cart:', res)
+        }
+      })
+    } catch (error) {
+      console.error('Error adding to cart:', error)
+    } finally {
+      setIsPopupVisible(true)
+    }
   }
 
   const hidePopup = () => {
@@ -78,6 +108,7 @@ const ImageModal: React.FC<ImageModalProps> = ({
   }
   return (
     <>
+      {contextHolder}
       <style>
         {`
           .custom-modal .ant-modal-content {

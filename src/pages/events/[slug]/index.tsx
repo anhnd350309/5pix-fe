@@ -94,9 +94,6 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
     router.push(`/events/${slug}/checkout`)
   }
 
-  // const { data, error, isLoading } = useDetailPubAlbumsAlbumSlugGet(slug as string, {
-  //   query: {},
-  // })
   const { mutate, data: imagesData, error: imagesError, isPending } = useSearchPubImagesPost()
   const [showTotal, setShowTotal] = useState(false)
   const [loadedImgs, setLoadedImgs] = useState<AlbumImageItemResponsePublic[]>(repo.images)
