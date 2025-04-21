@@ -289,7 +289,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
                         src={image?.cdn_image_url || 'assets/images/DetailEvent.png'}
                         key={index}
                         alt={image?.image_name || 'image'}
-                        extra={image?.cdn_image_url || 'assets/images/DetailEvent.png'}
+                        extra={image?.s3_image_url || image?.cdn_image_url}
                         width={600}
                         height={400}
                         onClick={() => handleOptionClick('open', index)}

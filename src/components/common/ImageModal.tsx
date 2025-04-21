@@ -42,7 +42,8 @@ const ImageModal: React.FC<ImageModalProps> = ({
   }, [selectedImageIndex])
   const handleDownload = () => {
     const link = document.createElement('a')
-    link.href = images[selectedImageIndex]?.s3_image_url || '/assets/images/DetailEvent.png'
+    link.href =
+      images[selectedImageIndex]?.s3_image_url || images[selectedImageIndex]?.cdn_image_url || ''
     link.setAttribute('download', images[selectedImageIndex]?.image_name || 'download')
     link.setAttribute('target', '_blank')
     document.body.appendChild(link)
@@ -55,7 +56,7 @@ const ImageModal: React.FC<ImageModalProps> = ({
   }
   const handleGetResult = async () => {
     const currentImage =
-      images[selectedImageIndex]?.s3_image_url || '/assets/images/DetailEvent.png'
+      images[selectedImageIndex]?.s3_image_url || images[selectedImageIndex]?.cdn_image_url
     window.open(`/events/${albumSlug}/result?image=${currentImage}&bibNum=${bibNum}`, '_blank')
     // try {
     //   const data = await genCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePost({
@@ -154,7 +155,7 @@ const ImageModal: React.FC<ImageModalProps> = ({
             {images.map((image, index) => (
               <div className='flex justify-center items-center h-[85dvh]' key={index}>
                 <img
-                  src={image.s3_image_url || '/assets/images/DetailEvent.png'}
+                  src={image.s3_image_url || image.cdn_image_url}
                   alt={`Image ${index}`}
                   style={{
                     maxWidth: '100%',
