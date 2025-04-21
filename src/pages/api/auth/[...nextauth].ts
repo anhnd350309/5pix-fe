@@ -112,7 +112,7 @@ export const authOptions = (baseUrl: string): AuthOptions => ({
         })
         console.log(data)
         const googleData = data as { data: { access_token: string; user: { role: string } } }
-        token.accessToken = googleData.data.user.role
+        token.role = googleData.data.user.role
         token.accessToken = googleData.data.access_token
       }
       return token
