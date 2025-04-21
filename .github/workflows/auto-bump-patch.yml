@@ -35,6 +35,21 @@ jobs:
           message: 'chore: bump version to ${{ env.NEW_VERSION }}'
           add: 'VERSION'
 
+      - name: Setup environment variables
+        run: |
+          echo "GOOGLE_ID=${{ secrets.GOOGLE_ID }}" >> .env.local
+          echo "GOOGLE_SECRET=${{ secrets.GOOGLE_SECRET }}" >> .env.local
+          echo "NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}" >> .env.local
+          if [ "${{ github.ref }}" = "refs/heads/master" ]; then
+            echo "NEXTAUTH_URL=https://5pix.org/" >> .env.local
+            echo "NEXT_PUBLIC_API_BASE_URL=https://api.5pix.org" >> .env.local
+            echo "NEXT_PUBLIC_ENV=prod" >> .env.local
+          else
+            echo "NEXTAUTH_URL=https://fe-dev.5pix.org/" >> .env.local
+            echo "NEXT_PUBLIC_API_BASE_URL=https://dapi.5pix.org" >> .env.local
+            echo "NEXT_PUBLIC_ENV=development" >> .env.local
+          fi
+
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
