@@ -39,6 +39,7 @@ export async function middleware(req: NextRequest) {
     }
   } else if (subdomain === merchant) {
     // Chỉ cho phép role merchant truy cập subdomain merchant
+    console.log(`Merchant subdomain detected, user role: ${token}`)
     if (!(token?.role === 'merchant' || token?.role === 'admin')) {
       console.log('User not merchant, redirecting to unauthorized')
       url.pathname = '/auth/login'
