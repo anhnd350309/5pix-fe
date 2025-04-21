@@ -61,14 +61,16 @@ jobs:
 
       - name: Setup environment variables
         run: |
-          echo "GOOGLE_ID=${{ secrets.GOOGLE_ID }}" >> .env.local
-          echo "GOOGLE_SECRET=${{ secrets.GOOGLE_SECRET }}" >> .env.local
           echo "NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}" >> .env.local
           echo ${{ env.NEXT_PUBLIC_ENV }} > .env.local
           if [ "${{ github.ref }}" = "refs/heads/master" ]; then
+            echo "GOOGLE_ID=${{ secrets.GOOGLE_ID }}" >> .env.local
+            echo "GOOGLE_SECRET=${{ secrets.GOOGLE_SECRET }}" >> .env.local
             echo "NEXTAUTH_URL=https://5pix.org/" >> .env.local
             echo "NEXT_PUBLIC_API_BASE_URL=https://api.5pix.org" >> .env.local
           else
+            echo "GOOGLE_ID=${{ secrets.GOOGLE_ID_DEV }}" >> .env.local
+            echo "GOOGLE_SECRET=${{ secrets.GOOGLE_SECRET_DEV }}" >> .env.local
             echo "NEXTAUTH_URL=https://fe-dev.5pix.org/" >> .env.local
             echo "NEXT_PUBLIC_API_BASE_URL=https://dapi.5pix.org" >> .env.local
           fi
