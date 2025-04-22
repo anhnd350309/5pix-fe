@@ -5,9 +5,9 @@ import React, { useEffect, useState } from 'react'
 import { BannerEvent } from '@/components/event/BannerEvent'
 import { detailPubAlbumsAlbumSlugGet } from '@/services/public-album/public-album'
 import {
-  searchByAlbumLinkPubImagessearchByLinkPost,
+  searchByAlbumLinkPubImagesSearchByLinkPost,
   searchPubImagesPost,
-  useSearchByAlbumLinkPubImagessearchByLinkPost,
+  useSearchByAlbumLinkPubImagesSearchByLinkPost,
   useSearchPubImagesPost,
 } from '@/services/public-images/public-images'
 import ImgViewer from '@/components/event/ImgViewer'
@@ -42,7 +42,7 @@ export const getServerSideProps = (async (context) => {
 
   console.log('event', event)
   console.log('linkkkkk', Array.isArray(link) ? link[0] : link)
-  const imagesData = await searchByAlbumLinkPubImagessearchByLinkPost({
+  const imagesData = await searchByAlbumLinkPubImagesSearchByLinkPost({
     album_link: Array.isArray(link) ? link[0] : link,
   })
   console.log('imgaaa', imagesData)
@@ -61,7 +61,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
     data: imagesData,
     error: imagesError,
     isPending,
-  } = useSearchByAlbumLinkPubImagessearchByLinkPost()
+  } = useSearchByAlbumLinkPubImagesSearchByLinkPost()
   const [showTotal, setShowTotal] = useState(false)
   const [file, setFile] = useState<File | null>(null)
   console.log('even neeeeee', event)
