@@ -9,6 +9,9 @@ import {
 } from '@ant-design/icons'
 import { signOut, useSession } from 'next-auth/react'
 import { PurchaseHistory } from '@/components/personal_info/purchase_history'
+import { GetStaticProps, InferGetStaticPropsType } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import LayoutAdmin from '@/components/layout/admin/LayoutAdmin'
 
 type MenuItem = Required<MenuProps>['items'][number]
 
@@ -59,8 +62,20 @@ interface UserInfo {
   image?: string
   email: string
 }
+type Props = {}
 
-const ProfilePage: React.FC = () => {
+export const getStaticProps: GetStaticProps<Props> = async ({ locale }) => ({
+  props: {
+    ...(await serverSideTranslations(locale ?? 'en', ['common'])),
+  },
+})
+interface ProfilePageProps extends React.FC {
+  requireAuth?: boolean
+  requiredRoles?: string[]
+  getLayout?: (page: React.ReactNode) => React.ReactNode
+}
+
+const ProfilePage: ProfilePageProps = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
   const [selectedKey, setSelectedKey] = useState<string>('history')
   const [isLogoutModalVisible, setIsLogoutModalVisible] = useState(false)
   const { data: session, status } = useSession()
@@ -130,4 +145,10 @@ const ProfilePage: React.FC = () => {
   )
 }
 
+// export default ProfilePage
+ProfilePage.requireAuth = true
+ProfilePage.requiredRoles = ['admin']
+
 export default ProfilePage
+export const getLayout = (page: React.ReactNode) => <LayoutAdmin>{page}</LayoutAdmin>
+ProfilePage.getLayout = getLayout

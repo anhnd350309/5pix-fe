@@ -9,7 +9,7 @@ interface PriceConfigProps {
   type: string
   event?: AlbumItemResponse
   setIsModalVisible: (value: boolean) => void
-  setCurrentPage: (value: number) => void
+  setCurrentPage: (page: number) => void
 }
 const PriceConfig = ({ event, setIsModalVisible, setCurrentPage, type }: PriceConfigProps) => {
   const router = useRouter()
