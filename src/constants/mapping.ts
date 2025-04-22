@@ -8,3 +8,12 @@ export const statusMapping: { [key: string]: { text: string; color: string } } =
   waiting_for_approve: { text: 'Chờ duyệt', color: 'yellow' },
   rejected: { text: 'Vô hiệu', color: 'red' },
 }
+
+export const statusOrderMapping: { [key: string]: { text: string; color: string } } = {
+  NEW: { text: 'Mới', color: 'blue' },
+  WAIT_FOR_PAYMENT: { text: 'Chờ thanh toán', color: 'yellow' },
+  PROCESSING: { text: 'Đang xử lý', color: 'orange' },
+  PAY_GATE_FAIL: { text: 'Thanh toán lỗi', color: 'red' },
+  COMPLETE: { text: 'Hoàn thành', color: 'green' },
+  CANCELLED: { text: 'Đã hủy', color: 'red' },
+}

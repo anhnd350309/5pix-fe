@@ -12,14 +12,19 @@
         
  * OpenAPI spec version: 0.1.0
  */
-import type { AlbumImageIndexStatus } from './albumImageIndexStatus';
 
-export interface OwnedImageResponse {
-  album_id: number;
-  album_image_id: number;
-  album_image_index_status?: AlbumImageIndexStatus;
-  cdn_image_url?: string;
-  image_metadata?: string;
-  is_hide?: number;
-  s3_image_url?: string;
-}
+export type MerchantListOrdersOrderMerchantListGetParams = {
+order_id?: number;
+page_size?: number;
+page?: number;
+sort_by?: string;
+order?: string;
+/**
+ * list internal_statues
+ */
+internal_statues?: string[];
+/**
+ * list category
+ */
+category?: string[];
+};

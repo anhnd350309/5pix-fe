@@ -37,6 +37,7 @@ import type {
   CreateOrderResponse,
   HTTPValidationError,
   ListOrdersOrderListGetParams,
+  MerchantListOrdersOrderMerchantListGetParams,
   PageCreateOrderResponse
 } from '../../schemas'
 import { defaultMutator } from '../../api/axiosInstance';
@@ -103,7 +104,7 @@ export const useCreateOrderOrderCreateBuyCollectionPost = <TError = HTTPValidati
       return useMutation(mutationOptions);
     }
     /**
- * ### Tạo order cho 1 collection
+ * ### Fetch order
  * @summary List Orders
  */
 export const listOrdersOrderListGet = (
@@ -309,4 +310,92 @@ export const useAdminPayOrderOrderAdminPayForOrderPost = <TError = HTTPValidatio
 
       return useMutation(mutationOptions);
     }
+    /**
+ * ### Fetch theo album.owner_id
+ * @summary Merchant List Orders
+ */
+export const merchantListOrdersOrderMerchantListGet = (
+    params?: MerchantListOrdersOrderMerchantListGetParams,
+ signal?: AbortSignal
+) => {
+      
+      
+      return defaultMutator<PageCreateOrderResponse>(
+      {url: `/order/merchant/list`, method: 'GET',
+        params, signal
+    },
+      );
+    }
+  
+
+export const getMerchantListOrdersOrderMerchantListGetQueryKey = (params?: MerchantListOrdersOrderMerchantListGetParams,) => {
+    return [`/order/merchant/list`, ...(params ? [params]: [])] as const;
+    }
+
     
+export const getMerchantListOrdersOrderMerchantListGetQueryOptions = <TData = Awaited<ReturnType<typeof merchantListOrdersOrderMerchantListGet>>, TError = HTTPValidationError>(params?: MerchantListOrdersOrderMerchantListGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof merchantListOrdersOrderMerchantListGet>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getMerchantListOrdersOrderMerchantListGetQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof merchantListOrdersOrderMerchantListGet>>> = ({ signal }) => merchantListOrdersOrderMerchantListGet(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof merchantListOrdersOrderMerchantListGet>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type MerchantListOrdersOrderMerchantListGetQueryResult = NonNullable<Awaited<ReturnType<typeof merchantListOrdersOrderMerchantListGet>>>
+export type MerchantListOrdersOrderMerchantListGetQueryError = HTTPValidationError
+
+
+export function useMerchantListOrdersOrderMerchantListGet<TData = Awaited<ReturnType<typeof merchantListOrdersOrderMerchantListGet>>, TError = HTTPValidationError>(
+ params: undefined |  MerchantListOrdersOrderMerchantListGetParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof merchantListOrdersOrderMerchantListGet>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof merchantListOrdersOrderMerchantListGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useMerchantListOrdersOrderMerchantListGet<TData = Awaited<ReturnType<typeof merchantListOrdersOrderMerchantListGet>>, TError = HTTPValidationError>(
+ params?: MerchantListOrdersOrderMerchantListGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof merchantListOrdersOrderMerchantListGet>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof merchantListOrdersOrderMerchantListGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useMerchantListOrdersOrderMerchantListGet<TData = Awaited<ReturnType<typeof merchantListOrdersOrderMerchantListGet>>, TError = HTTPValidationError>(
+ params?: MerchantListOrdersOrderMerchantListGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof merchantListOrdersOrderMerchantListGet>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+/**
+ * @summary Merchant List Orders
+ */
+
+export function useMerchantListOrdersOrderMerchantListGet<TData = Awaited<ReturnType<typeof merchantListOrdersOrderMerchantListGet>>, TError = HTTPValidationError>(
+ params?: MerchantListOrdersOrderMerchantListGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof merchantListOrdersOrderMerchantListGet>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+
+  const queryOptions = getMerchantListOrdersOrderMerchantListGetQueryOptions(params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
