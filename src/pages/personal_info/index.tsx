@@ -104,13 +104,13 @@ const MyImages: React.FC = () => {
             <div className='flex flex-col xl:flex-row gap-4'>
               {/* Phần grid ảnh (giữ nguyên code của bạn) */}
               <div className='flex-1'>
-                <div className='gap-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5  min-h-[300px] '>
-                  {loadedImages.length === 0 ? (
-                    <span className='flex justify-center items-center w-[85vw]'>
-                      Không tìm thấy hình ảnh nào của bạn
-                    </span>
-                  ) : (
-                    loadedImages?.map((image, index: number) => (
+                {loadedImages.length === 0 ? (
+                  <span className='flex justify-center items-center w-full'>
+                    Không tìm thấy hình ảnh nào của bạn
+                  </span>
+                ) : (
+                  <div className='gap-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5  min-h-[300px] '>
+                    {loadedImages?.map((image, index: number) => (
                       <ImageViewer
                         src={image?.cdn_image_url || 'assets/images/DetailEvent.png'}
                         alt='image'
@@ -120,9 +120,9 @@ const MyImages: React.FC = () => {
                         height={400}
                         // onClick={() => handleOptionClick('open', index)}
                       />
-                    ))
-                  )}
-                </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </React.Fragment>
