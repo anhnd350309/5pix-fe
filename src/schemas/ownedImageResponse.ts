@@ -12,11 +12,12 @@
         
  * OpenAPI spec version: 0.1.0
  */
+import type { AlbumImageIndexStatus } from './albumImageIndexStatus';
 
 export interface OwnedImageResponse {
   album_id: number;
   album_image_id: number;
-  album_image_index_status?: string;
+  album_image_index_status?: AlbumImageIndexStatus;
   cdn_image_url?: string;
   image_metadata?: string;
   is_hide?: number;

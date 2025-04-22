@@ -24,7 +24,7 @@ const NavbarMerchant = () => {
       label: 'Quản lí đơn hàng',
     },
   ]
-  const selectedKey = router.pathname.replace(/^\/doitac/, '') || '/dashboard'
+  const selectedKey = router.pathname.replace(/^\/doitac/, '') || '/'
   const handleMenuClick = ({ key }: { key: string }) => {
     router.push(key)
   }

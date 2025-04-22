@@ -37,6 +37,8 @@ export const getAdminEditOrderOrderAdminEditPutResponseMock = (overrideResponse:
 
 export const getAdminPayOrderOrderAdminPayForOrderPostResponseMock = (overrideResponse: Partial< CreateOrderResponse > = {}): CreateOrderResponse => ({category: faker.helpers.arrayElement([faker.helpers.arrayElement(Object.values(OrderCategory)), undefined]), created_at: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), first_line_album_id: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), first_line_collection_id: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), id: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), internal_status: faker.helpers.arrayElement([faker.helpers.arrayElement(Object.values(OrderInternalStatus)), undefined]), line_items: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({album_id: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), id: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), image_collection_id: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), line_price: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), order_id: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), quantity: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined])})), undefined]), name: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), owner_email: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), updated_at: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), ...overrideResponse})
 
+export const getMerchantListOrdersOrderMerchantListGetResponseMock = (overrideResponse: Partial< PageCreateOrderResponse > = {}): PageCreateOrderResponse => ({code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), data: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({category: faker.helpers.arrayElement([faker.helpers.arrayElement(Object.values(OrderCategory)), undefined]), created_at: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined]), first_line_album_id: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), first_line_collection_id: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), id: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), internal_status: faker.helpers.arrayElement([faker.helpers.arrayElement(Object.values(OrderInternalStatus)), undefined]), line_items: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({album_id: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), id: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), image_collection_id: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), line_price: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), order_id: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), quantity: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined])})), undefined]), name: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), owner_email: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), updated_at: faker.helpers.arrayElement([`${faker.date.past().toISOString().split('.')[0]}Z`, undefined])})), message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), metadata: {current_page: faker.number.int({min: undefined, max: undefined}), page_size: faker.number.int({min: undefined, max: undefined}), total_items: faker.number.int({min: undefined, max: undefined})}, ...overrideResponse})
+
 
 export const getCreateOrderOrderCreateBuyCollectionPostMockHandler = (overrideResponse?: CreateOrderResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<CreateOrderResponse> | CreateOrderResponse)) => {
   return http.post('*/order/create/buy-collection', async (info) => {await delay(1000);
@@ -85,9 +87,22 @@ export const getAdminPayOrderOrderAdminPayForOrderPostMockHandler = (overrideRes
       })
   })
 }
+
+export const getMerchantListOrdersOrderMerchantListGetMockHandler = (overrideResponse?: PageCreateOrderResponse | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<PageCreateOrderResponse> | PageCreateOrderResponse)) => {
+  return http.get('*/order/merchant/list', async (info) => {await delay(1000);
+  
+    return new HttpResponse(JSON.stringify(overrideResponse !== undefined 
+            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse) 
+            : getMerchantListOrdersOrderMerchantListGetResponseMock()),
+      { status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      })
+  })
+}
 export const getOrderMock = () => [
   getCreateOrderOrderCreateBuyCollectionPostMockHandler(),
   getListOrdersOrderListGetMockHandler(),
   getAdminEditOrderOrderAdminEditPutMockHandler(),
-  getAdminPayOrderOrderAdminPayForOrderPostMockHandler()
+  getAdminPayOrderOrderAdminPayForOrderPostMockHandler(),
+  getMerchantListOrdersOrderMerchantListGetMockHandler()
 ]

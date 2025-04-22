@@ -72,7 +72,7 @@ const ListEventsAdmin = () => {
             ),
           },
           {
-            label: 'Nháp',
+            label: 'Đã xuất bản',
             key: '2',
             children: (
               <AllEventsAdmin
@@ -80,11 +80,12 @@ const ListEventsAdmin = () => {
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
                 reloadTrigger={reloadAllEventsTrigger}
+                status='approved'
               />
             ),
           },
           {
-            label: 'Đã xuất bản',
+            label: 'Bản nháp',
             key: '3',
             children: (
               <AllEventsAdmin
@@ -92,6 +93,20 @@ const ListEventsAdmin = () => {
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
                 reloadTrigger={reloadAllEventsTrigger}
+                status='draft'
+              />
+            ),
+          },
+          {
+            label: 'Đợi duyệt',
+            key: '4',
+            children: (
+              <AllEventsAdmin
+                setEvent={setEvent}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                reloadTrigger={reloadAllEventsTrigger}
+                status='waiting_for_approve'
               />
             ),
           },

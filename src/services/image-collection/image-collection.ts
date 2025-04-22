@@ -35,6 +35,7 @@ import type {
   AddImageToCollectionRequest,
   CollectionImageCreateRequest,
   CollectionImageResponse,
+  CreateByLinkImageCollectionCreateByLinkPostParams,
   GetImageCollectionCollectionItemGetParams,
   GetImageCollectionGetParams,
   GetOwnedImagesImageCollectionOwnedImagesGetParams,
@@ -228,7 +229,7 @@ export function useGetImageCollectionCollectionItemGet<TData = Awaited<ReturnTyp
 
 
 /**
- * ### API Tao collection cho imageCollection chứa ảnh trong 1 album cụ thể  
+ * ### API tạo collection cho imageCollection chứa ảnh trong 1 album cụ thể  
 Owner là requester
  * @summary Create
  */
@@ -284,6 +285,68 @@ export const useCreateImageCollectionCreatePost = <TError = HTTPValidationError,
       > => {
 
       const mutationOptions = getCreateImageCollectionCreatePostMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
+ * ### API Tạo collection theo album_link
+
+- Album_link là link của 1 album đã được tạo trước đó
+- Sử dụng khi User click mua toàn bộ ảnh theo link đã được gen  
+- Logic: check link --> album_images --> add to collection
+ * @summary Create By Link
+ */
+export const createByLinkImageCollectionCreateByLinkPost = (
+    params: CreateByLinkImageCollectionCreateByLinkPostParams,
+ signal?: AbortSignal
+) => {
+      
+      
+      return defaultMutator<CollectionImageResponse>(
+      {url: `/image-collection/create-by-link`, method: 'POST',
+        params, signal
+    },
+      );
+    }
+  
+
+
+export const getCreateByLinkImageCollectionCreateByLinkPostMutationOptions = <TError = HTTPValidationError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createByLinkImageCollectionCreateByLinkPost>>, TError,{params: CreateByLinkImageCollectionCreateByLinkPostParams}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof createByLinkImageCollectionCreateByLinkPost>>, TError,{params: CreateByLinkImageCollectionCreateByLinkPostParams}, TContext> => {
+const {mutation: mutationOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createByLinkImageCollectionCreateByLinkPost>>, {params: CreateByLinkImageCollectionCreateByLinkPostParams}> = (props) => {
+          const {params} = props ?? {};
+
+          return  createByLinkImageCollectionCreateByLinkPost(params,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateByLinkImageCollectionCreateByLinkPostMutationResult = NonNullable<Awaited<ReturnType<typeof createByLinkImageCollectionCreateByLinkPost>>>
+    
+    export type CreateByLinkImageCollectionCreateByLinkPostMutationError = HTTPValidationError
+
+    /**
+ * @summary Create By Link
+ */
+export const useCreateByLinkImageCollectionCreateByLinkPost = <TError = HTTPValidationError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createByLinkImageCollectionCreateByLinkPost>>, TError,{params: CreateByLinkImageCollectionCreateByLinkPostParams}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof createByLinkImageCollectionCreateByLinkPost>>,
+        TError,
+        {params: CreateByLinkImageCollectionCreateByLinkPostParams},
+        TContext
+      > => {
+
+      const mutationOptions = getCreateByLinkImageCollectionCreateByLinkPostMutationOptions(options);
 
       return useMutation(mutationOptions);
     }

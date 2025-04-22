@@ -13,10 +13,18 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type SearchByAlbumLinkPubImagesSearchByLinkPostParams = {
-album_link?: string;
+export type MerchantListOrdersOrderMerchantListGetParams = {
+order_id?: number;
 page_size?: number;
 page?: number;
 sort_by?: string;
 order?: string;
+/**
+ * list internal_statues
+ */
+internal_statues?: string[];
+/**
+ * list category
+ */
+category?: string[];
 };
