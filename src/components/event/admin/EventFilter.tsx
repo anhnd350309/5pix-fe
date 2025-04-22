@@ -9,6 +9,7 @@ import {
   UploadOutlined,
 } from '@ant-design/icons'
 import {
+  detailAlbumsAlbumIdGet,
   indexImageAlbumsAlbumIdIndexImagePost,
   loadImageAlbumsAlbumIdLoadImagePost,
 } from '@/services/album/album'
@@ -24,6 +25,8 @@ interface DetailEventFilterProps {
 const DetailEventFilter: React.FC<DetailEventFilterProps> = ({ eventName, id, event }) => {
   const [api, contextHolder] = notification.useNotification()
   const [isJsonModalVisible, setIsJsonModalVisible] = useState(false)
+
+  const [eventD, setEventD] = useState<AlbumDetailResponse | undefined>(event)
   const openNotificationWithIcon = (
     type: 'success' | 'info' | 'warning' | 'error',
     message: string,
@@ -90,6 +93,23 @@ const DetailEventFilter: React.FC<DetailEventFilterProps> = ({ eventName, id, ev
       }
     })
   }
+  const reloadEventDetail = async () => {
+    try {
+      const res = await detailAlbumsAlbumIdGet(event?.id ?? 0)
+      if (res?.code === '000' && res?.data) {
+        setEventD(res.data)
+        openNotificationWithIcon(
+          'success',
+          'Reload thành công',
+          'Thông tin album đã được cập nhật.',
+        )
+      } else {
+        openNotificationWithIcon('error', 'Reload thất bại', 'Không thể cập nhật album.')
+      }
+    } catch (error) {
+      openNotificationWithIcon('error', 'Reload thất bại', 'Đã xảy ra lỗi khi cập nhật album.')
+    }
+  }
   return (
     <div className='p-4'>
       {contextHolder}
@@ -138,20 +158,27 @@ const DetailEventFilter: React.FC<DetailEventFilterProps> = ({ eventName, id, ev
           Tìm kiếm bằng hình ảnh
         </Button>
       </div>
-      <div className='bg-white shadow-lg rounded-xl p-6 w-full text-center'>
+      <div className='bg-white shadow-lg rounded-xl p-6 w-full text-center relative'>
+        <Button
+          onClick={reloadEventDetail}
+          className='absolute right-4 top-4 bg-[#2563EB] text-white font-bold'
+          size='small'
+        >
+          Reload
+        </Button>
         <div className='grid grid-cols-2 gap-4 text-gray-700'>
           <div className='text-sm'>
-            📸 Tổng số ảnh: <span className='font-semibold'>{event?.total_image}</span>
+            📸 Tổng số ảnh: <span className='font-semibold'>{eventD?.total_image}</span>
           </div>
           <div className='text-sm'>
-            🔎 Đang nhận dạng: <span className='font-semibold'>{event?.indexing}</span>
+            🔎 Đang nhận dạng: <span className='font-semibold'>{eventD?.indexing}</span>
           </div>
           <div className='text-sm'>
-            ✅ Ảnh đã load thành công: <span className='font-semibold'>{event?.loaded}</span>
+            ✅ Ảnh đã load thành công: <span className='font-semibold'>{eventD?.loaded}</span>
           </div>
           <div className='text-sm'>
             🏁 Đã nhận dạng thành công:{' '}
-            <span className='font-semibold'>{event?.index_complete}</span>
+            <span className='font-semibold'>{eventD?.index_complete}</span>
           </div>
         </div>
       </div>

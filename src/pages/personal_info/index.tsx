@@ -6,6 +6,7 @@ import {
   ShoppingCartOutlined,
   InfoCircleOutlined,
   LogoutOutlined,
+  FileImageOutlined,
 } from '@ant-design/icons'
 import { signOut, useSession } from 'next-auth/react'
 import { PurchaseHistory } from '@/components/personal_info/purchase_history'
@@ -15,6 +16,7 @@ type MenuItem = Required<MenuProps>['items'][number]
 const menuItems: MenuItem[] = [
   { label: 'Tài khoản', key: 'account', icon: <UserOutlined /> },
   { label: 'Lịch sử mua hàng', key: 'history', icon: <ShoppingCartOutlined /> },
+  { label: 'Ảnh của tôi', key: 'images', icon: <FileImageOutlined /> },
   { label: 'Thông tin chung', key: 'info', icon: <InfoCircleOutlined /> },
   { label: 'Đăng xuất', key: 'logout', icon: <LogoutOutlined />, danger: true },
 ]
@@ -36,7 +38,14 @@ const GeneralInfo: React.FC = () => {
     </div>
   )
 }
-
+const MyImages: React.FC = () => {
+  return (
+    <div>
+      <h2 className='text-lg font-semibold mb-2'>Thông tin chung</h2>
+      <p>Một số thông tin chung, hướng dẫn, cài đặt, v.v.</p>
+    </div>
+  )
+}
 interface RenderRightContentProps {
   menuKey: string
 }
@@ -49,6 +58,8 @@ const RenderRightContent: React.FC<RenderRightContentProps> = ({ menuKey }) => {
       return <PurchaseHistory />
     case 'info':
       return <GeneralInfo />
+    case 'images':
+      return <MyImages />
     default:
       return <AccountInfo />
   }

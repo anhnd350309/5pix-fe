@@ -11,12 +11,14 @@ interface AllEventsAdminProps {
   setEvent: (event: AlbumItemResponse) => void
   currentPage: number
   setCurrentPage: (page: any) => void
+  reloadTrigger: number
 }
 
 const AllEventsAdmin: React.FC<AllEventsAdminProps> = ({
   setEvent,
   currentPage,
   setCurrentPage,
+  reloadTrigger,
 }) => {
   const [loadedEvents, setLoadedEvents] = useState<AlbumItemResponse[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -51,7 +53,7 @@ const AllEventsAdmin: React.FC<AllEventsAdminProps> = ({
     }
 
     fetchEvents()
-  }, [currentPage])
+  }, [currentPage, reloadTrigger])
 
   if (isLoading && currentPage === 1) return <Spin />
   if (error) return <div>Error: {error}</div>

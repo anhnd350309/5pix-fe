@@ -30,7 +30,7 @@ const NavbarAdmin = () => {
       label: 'Danh sách đối tác',
     },
   ]
-  const selectedKey = router.pathname.replace(/^\/admin/, '') || '/dashboard'
+  const selectedKey = router.pathname.replace(/^\/admin/, '') || '/'
   const handleMenuClick = ({ key }: { key: string }) => {
     router.push(key)
   }
