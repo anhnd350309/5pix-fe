@@ -1,7 +1,32 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
-
+const Column = ({
+  title,
+  links,
+  className,
+}: {
+  title: string
+  links: Array<{ name: string; href: string }>
+  className?: string
+}) => {
+  return (
+    <div className={`lg:mx-auto font-medium ${className}`}>
+      <h2 className='uppercase mb-6 text-sm font-semibold dark:text-black text-[#101828]'>
+        {title}
+      </h2>
+      <ul className='space-y-4 text-sm text-[#101828]'>
+        {links.map(({ name, href }) => (
+          <li key={name}>
+            <Link href={href} className='hover:underline'>
+              {name}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
 const Footer = () => {
   return (
     <div
@@ -9,13 +34,45 @@ const Footer = () => {
       // style={{ backgroundImage: "url('/assets/images/BG.webp')" }}
     >
       <div className='container mx-auto grid w-full grid-flow-row grid-cols-3 grid-rows-4 gap-4 px-8 sm:grid-flow-col sm:grid-cols-12 sm:grid-rows-1 xl:px-16'>
-        <div className='col-span-12 flex flex-col items-center sm:items-start sm:col-span-4 sm:col-end-6 '>
+        <div className='col-span-12 flex flex-col items-center sm:items-start sm:col-span-4 sm:col-end-2 '>
           <Image
             className='mb-6 h-[80px] w-[180px]'
             src='/assets/images/Logo.svg'
             alt='Logo'
             height={80}
             width={180}
+          />
+        </div>
+        <div className='col-span-12 row-span-2 flex flex-col sm:col-span-2 sm:col-start-3 sm:col-end-6 gap-4'>
+          <Column
+            className='col-span-6 md:col-span-2'
+            title={'Pháp lý'}
+            links={[
+              {
+                name: 'Quy chế 5bib.com',
+                href: `/privacy/quy-che-5bib-com`,
+              },
+              {
+                name: 'Chính sách bảo mật thông tin',
+                href: `/privacy/chinh-sach-bao-mat-thong-tin`,
+              },
+              {
+                name: 'Chính sách bảo mật thông tin thanh toán',
+                href: `/privacy/chinh-sach-bao-mat-thong-tin-thanh-toan`,
+              },
+              {
+                name: 'Chính sách thanh toán',
+                href: `/privacy/chinh-sach-thanh-toan`,
+              },
+              {
+                name: 'Thông tin về chủ sở hữu',
+                href: `/privacy/thong-tin-ve-chu-so-huu`,
+              },
+              {
+                name: 'Quy trình giải quyết tranh chấp, khiếu nại',
+                href: `/privacy/quy-trinh-giai-quyet-tranh-chap-khieu-nai`,
+              },
+            ]}
           />
         </div>
         <div className='col-span-12 row-span-2 flex flex-col sm:col-span-2 sm:col-start-7 sm:col-end-10 gap-4'>

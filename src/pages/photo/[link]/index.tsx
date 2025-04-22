@@ -39,9 +39,13 @@ export const getServerSideProps = (async (context) => {
   const [bibNum, eventId, hash] = link.split('-')
   const res = await detailPubAlbumsAlbumSlugGet(eventId as string)
   const event = res.data
+
+  console.log('event', event)
+  console.log('linkkkkk', Array.isArray(link) ? link[0] : link)
   const imagesData = await searchByAlbumLinkPubImagessearchByLinkPost({
     album_link: Array.isArray(link) ? link[0] : link,
   })
+  console.log('imgaaa', imagesData)
   const images = imagesData.data
   return {
     props: { repo: { event, images } },

@@ -72,6 +72,7 @@ const ImageModal: React.FC<ImageModalProps> = ({
     return images[selectedImageIndex]?.s3_image_url || '/assets/images/DetailEvent.png'
   }
 
+  const [isDisabled, setIsDisabled] = useState(false)
   const [api, contextHolder] = notification.useNotification()
   const openNotificationWithIcon = (
     type: 'success' | 'info' | 'warning' | 'error',
@@ -83,6 +84,28 @@ const ImageModal: React.FC<ImageModalProps> = ({
       description: description,
       placement: 'topRight',
     })
+  }
+  const handleNext = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation()
+    if (isDisabled) return // nếu đang disabled thì không làm gì
+
+    setIsDisabled(true) // khóa nút
+    carouselRef.current?.next()
+
+    setTimeout(() => {
+      setIsDisabled(false) // mở lại sau 500ms
+    }, 500)
+  }
+  const handlePrev = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation()
+    if (isDisabled) return // nếu đang disabled thì không làm gì
+
+    setIsDisabled(true) // khóa nút
+    carouselRef.current?.prev()
+
+    setTimeout(() => {
+      setIsDisabled(false) // mở lại sau 500ms
+    }, 3000)
   }
   const showPopup = () => {
     try {
@@ -169,20 +192,16 @@ const ImageModal: React.FC<ImageModalProps> = ({
 
           {/* Nút chuyển ảnh trái */}
           <Button
-            onClick={(e) => {
-              e.stopPropagation() // Ngăn sự kiện lan truyền
-              carouselRef.current?.prev()
-            }}
+            onClick={handlePrev}
+            disabled={isDisabled}
             className='absolute left-[-20px] top-1/2 transform -translate-y-1/2 bg-gray-500 text-white rounded-full flex items-center justify-center'
             style={{ width: '60px', height: '60px' }}
             icon={<LeftOutlined />}
           />
 
           <Button
-            onClick={(e) => {
-              e.stopPropagation()
-              carouselRef.current?.next()
-            }}
+            onClick={handleNext}
+            disabled={isDisabled}
             className='absolute right-[-20px] top-1/2 transform -translate-y-1/2 bg-gray-500 text-white rounded-full flex items-center justify-center'
             style={{ width: '60px', height: '60px' }}
             icon={<RightOutlined />}

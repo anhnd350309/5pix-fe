@@ -26,7 +26,7 @@ export interface BannerEventProps {
 }
 
 export const BannerEvent: ({
-  event: { album_image_url, album_name, event_date, total_image },
+  event,
   id,
   mutate,
   setShowTotal,
@@ -36,7 +36,7 @@ export const BannerEvent: ({
   setCurrentPage,
   type,
 }: BannerEventProps) => JSX.Element = ({
-  event: { album_image_url, album_name, event_date, total_image, album_slug },
+  event,
   id,
   mutate,
   setShowTotal,
@@ -48,7 +48,7 @@ export const BannerEvent: ({
 }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
-
+  console.log(event.is_find_all_image)
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
     if (file) {
@@ -73,7 +73,7 @@ export const BannerEvent: ({
     const params = {
       album_id: id,
       bib_number: bibNumber,
-      slug: album_slug,
+      slug: event.album_slug,
       search_type: 'all' as ImageSearchType,
       page_size: 100,
       page: 1,
@@ -120,23 +120,28 @@ export const BannerEvent: ({
       {/* Banner */}
       <div className='flex items-center gap-4 w-full'>
         <div className='relative flex-1 w-full max-w-sm aspect-video'>
-          <Image src={album_image_url} alt={album_name} fill className='rounded-md object-cover' />
+          <Image
+            src={event.album_image_url}
+            alt={event.album_name}
+            fill
+            className='rounded-md object-cover'
+          />
         </div>
         <div className='flex flex-col flex-1 gap-2'>
-          <h1 className='font-bold text-xl sm:text-2xl'>{album_name}</h1>
+          <h1 className='font-bold text-xl sm:text-2xl'>{event.album_name}</h1>
           <div className='sm:flex items-center gap-6 text-gray-800'>
             <div className='flex items-center gap-1'>
               <SvgDate width={16} />
-              <span>{new Date(event_date || '').toLocaleDateString('en-GB')}</span>
+              <span>{new Date(event.event_date || '').toLocaleDateString('en-GB')}</span>
             </div>
             <div className='flex items-center gap-1'>
               <SvgImage width={16} />
-              <span>{total_image?.toLocaleString()} Ảnh</span>
+              <span>{event.total_image?.toLocaleString()} Ảnh</span>
             </div>
           </div>
         </div>
       </div>
-      {!type && (
+      {!type && event.is_find_all_image === 1 && (
         <div className='flex flex-col items-center space-y-4 sm:bg-white shadow p-2 rounded-full w-full'>
           <div className='flex sm:flex-row flex-col sm:justify-between gap-4 rounded-full w-full'>
             <div className='bg-white border-l-2 rounded-full w-full sm:w-80'>
