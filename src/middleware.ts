@@ -23,11 +23,11 @@ export async function middleware(req: NextRequest) {
     console.log(`Admin subdomain detected, user role: ${token?.role}`)
 
     // Chỉ cho phép role admin truy cập subdomain admin
-    if (token?.role !== 'admin') {
-      console.log('User not admin, redirecting to unauthorized')
-      url.pathname = '/auth/login'
-      return NextResponse.redirect(url)
-    }
+    // if (token?.role !== 'admin') {
+    //   console.log('User not admin, redirecting to unauthorized')
+    //   url.pathname = '/auth/login'
+    //   return NextResponse.redirect(url)
+    // }
 
     // Chuyển hướng đến trang admin
 
@@ -40,11 +40,11 @@ export async function middleware(req: NextRequest) {
   } else if (subdomain === merchant) {
     // Chỉ cho phép role merchant truy cập subdomain merchant
     console.log(`Merchant subdomain detected, user role: ${token}`)
-    if (!(token?.role === 'merchant' || token?.role === 'admin')) {
-      console.log('User not merchant, redirecting to unauthorized')
-      url.pathname = '/auth/login'
-      return NextResponse.redirect(url)
-    }
+    // if (!(token?.role === 'merchant' || token?.role === 'admin')) {
+    //   console.log('User not merchant, redirecting to unauthorized')
+    //   url.pathname = '/auth/login'
+    //   return NextResponse.redirect(url)
+    // }
 
     // Chuyển hướng đến trang merchant
 
