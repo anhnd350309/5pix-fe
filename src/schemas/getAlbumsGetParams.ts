@@ -12,9 +12,13 @@
         
  * OpenAPI spec version: 0.1.0
  */
+import type { Album5pixStatus } from './album5pixStatus';
 
 export type GetAlbumsGetParams = {
 highlight?: boolean;
+album_5pix_status?: Album5pixStatus;
+album_display_status?: number;
+is_album_free?: number;
 page_size?: number;
 page?: number;
 sort_by?: string;

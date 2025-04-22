@@ -38,6 +38,8 @@ export const getGetImageCollectionCollectionItemGetResponseMock = (): ItemRespon
 
 export const getCreateImageCollectionCreatePostResponseMock = (overrideResponse: Partial< CollectionImageResponse > = {}): CollectionImageResponse => ({album_id: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), album_image_price: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), album_name: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), album_price: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), album_slug: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), estimate_price: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), id: faker.number.int({min: undefined, max: undefined}), name: faker.string.alpha(20), order_id: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), order_internal_status: faker.helpers.arrayElement([faker.helpers.arrayElement(Object.values(OrderInternalStatus)), undefined]), owner_id: faker.number.int({min: undefined, max: undefined}), ...overrideResponse})
 
+export const getCreateByLinkImageCollectionCreateByLinkPostResponseMock = (overrideResponse: Partial< CollectionImageResponse > = {}): CollectionImageResponse => ({album_id: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), album_image_price: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), album_name: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), album_price: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), album_slug: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), estimate_price: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), id: faker.number.int({min: undefined, max: undefined}), name: faker.string.alpha(20), order_id: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), order_internal_status: faker.helpers.arrayElement([faker.helpers.arrayElement(Object.values(OrderInternalStatus)), undefined]), owner_id: faker.number.int({min: undefined, max: undefined}), ...overrideResponse})
+
 export const getAddImageImageCollectionAddImagePostResponseMock = (overrideResponse: Partial< AddImageResponse > = {}): AddImageResponse => ({album_id: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), album_images_id: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => (faker.number.int({min: undefined, max: undefined}))), undefined]), album_name: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), collection_item_ids: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => (faker.number.int({min: undefined, max: undefined}))), undefined]), id: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), name: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), order_id: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), owner_id: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), ...overrideResponse})
 
 export const getRemoveImageImageCollectionRemoveImageDeleteResponseMock = (overrideResponse: Partial< RemoveImageResponse > = {}): RemoveImageResponse => ({album_images_id: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => (faker.number.int({min: undefined, max: undefined}))), undefined]), album_name: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), collection_id: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), collection_item_ids: faker.helpers.arrayElement([Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => (faker.number.int({min: undefined, max: undefined}))), undefined]), ...overrideResponse})
@@ -77,6 +79,18 @@ export const getCreateImageCollectionCreatePostMockHandler = (overrideResponse?:
     return new HttpResponse(JSON.stringify(overrideResponse !== undefined 
             ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse) 
             : getCreateImageCollectionCreatePostResponseMock()),
+      { status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      })
+  })
+}
+
+export const getCreateByLinkImageCollectionCreateByLinkPostMockHandler = (overrideResponse?: CollectionImageResponse | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<CollectionImageResponse> | CollectionImageResponse)) => {
+  return http.post('*/image-collection/create-by-link', async (info) => {await delay(1000);
+  
+    return new HttpResponse(JSON.stringify(overrideResponse !== undefined 
+            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse) 
+            : getCreateByLinkImageCollectionCreateByLinkPostResponseMock()),
       { status: 200,
         headers: { 'Content-Type': 'application/json' }
       })
@@ -134,6 +148,7 @@ export const getImageCollectionMock = () => [
   getGetImageCollectionGetMockHandler(),
   getGetImageCollectionCollectionItemGetMockHandler(),
   getCreateImageCollectionCreatePostMockHandler(),
+  getCreateByLinkImageCollectionCreateByLinkPostMockHandler(),
   getAddImageImageCollectionAddImagePostMockHandler(),
   getRemoveImageImageCollectionRemoveImageDeleteMockHandler(),
   getGetOwnedImagesImageCollectionOwnedImagesGetMockHandler(),

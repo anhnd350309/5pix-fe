@@ -408,7 +408,7 @@ export const useProcessImageAlbumsAlbumIdProcessImagePut = <TError = HTTPValidat
 
 Logic: Tuỳ theo cấu hình của album là load từ google drive hay từ server mà thực hiện lấy ảnh lên S3
 - Nếu là từ google drive thì sẽ sync (kèm check trùng) ảnh từ google drive về sever -> S3 -> insert DB album_image
-- Nếu là từ sever thì sẽ lấy ảnh từ sever lên S3 -> insert DB album_image
+- Nếu là từ sever thì sẽ lấy ảnh từ sever lên S3 -> insert DB album_image- API này phải gọi cách nhau ít nhất là 30s
  * @summary Load Image
  */
 export const loadImageAlbumsAlbumIdLoadImagePost = (

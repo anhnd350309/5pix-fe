@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Input, Spin, Dropdown, Menu } from 'antd'
 import { EditOutlined, MoreOutlined, SearchOutlined } from '@ant-design/icons'
-import { AlbumItemResponse, GetPubAlbumsGetParams } from '@/schemas'
+import {
+  Album5pixStatus,
+  AlbumItemResponse,
+  GetAlbumsGetParams,
+  GetPubAlbumsGetParams,
+} from '@/schemas'
 import Link from 'next/link'
 import EventCardAdmin from '@/components/shared/EvenCardAdmin'
 import { getAlbumsGet } from '@/services/album/album'
@@ -12,6 +17,7 @@ interface AllEventsAdminProps {
   currentPage: number
   setCurrentPage: (page: any) => void
   reloadTrigger: number
+  status?: string
 }
 
 const AllEventsAdmin: React.FC<AllEventsAdminProps> = ({
@@ -19,6 +25,7 @@ const AllEventsAdmin: React.FC<AllEventsAdminProps> = ({
   currentPage,
   setCurrentPage,
   reloadTrigger,
+  status,
 }) => {
   const [loadedEvents, setLoadedEvents] = useState<AlbumItemResponse[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -26,9 +33,10 @@ const AllEventsAdmin: React.FC<AllEventsAdminProps> = ({
   const [error, setError] = useState<string | null>(null)
   const [totalEvents, setTotalEvents] = useState<number | null>(null)
   const router = useRouter()
-  const params: GetPubAlbumsGetParams = {
+  const params: GetAlbumsGetParams = {
     page: currentPage,
     page_size: 10,
+    album_5pix_status: status as Album5pixStatus | undefined,
   }
 
   useEffect(() => {
@@ -75,6 +83,7 @@ const AllEventsAdmin: React.FC<AllEventsAdminProps> = ({
 
       {/* Events List */}
       <div className='flex flex-col gap-4 py-4'>
+        {loadedEvents.length === 0 && <span>Không tìm thấy album</span>}
         {loadedEvents?.map((event) => (
           <div className='relative bg-white shadow-md rounded-lg' key={event.id}>
             <Link href={`/events/${event.id}`}>
