@@ -3,12 +3,30 @@ import Link from 'next/link'
 import React, { useState } from 'react'
 import { Link as LinkScroll } from 'react-scroll'
 import { useSession, signIn } from 'next-auth/react'
-import { Dropdown, Menu, Modal, Form, Select, DatePicker, Button } from 'antd' // Import Dropdown, Menu và Modal
+import {
+  Dropdown,
+  Menu,
+  Modal,
+  Form,
+  Select,
+  DatePicker,
+  Button,
+  Card,
+  Avatar,
+  MenuProps,
+} from 'antd' // Import Dropdown, Menu và Modal
 import moment from 'moment'
 import { createMerchantsPost, getMeMerchantsGetMeGet } from '@/services/merchants/merchants'
 import { MerchantType, MerchantYearsOfExperience } from '@/schemas'
 import SvgUser from '../icons/icons/User'
-import { CheckCircleTwoTone } from '@ant-design/icons'
+import {
+  CheckCircleTwoTone,
+  FileImageOutlined,
+  InfoCircleOutlined,
+  LogoutOutlined,
+  ShoppingCartOutlined,
+  UserOutlined,
+} from '@ant-design/icons'
 import { useRouter } from 'next/router'
 import { Input } from '../ui/input'
 const { Option } = Select
@@ -25,13 +43,36 @@ interface RegistrationFormValues {
   social_media_link: string
   sample_photo_link: string
 }
+interface UserInfo {
+  name: string
+  image?: string
+  email: string
+}
+type MenuItem = Required<MenuProps>['items'][number]
+const menuItems: MenuItem[] = [
+  { label: 'Tài khoản', key: 'account', icon: <UserOutlined /> },
+  { label: 'Lịch sử mua hàng', key: 'history', icon: <ShoppingCartOutlined /> },
+  { label: 'Ảnh của tôi', key: 'images', icon: <FileImageOutlined /> },
+  { label: 'Thông tin chung', key: 'info', icon: <InfoCircleOutlined /> },
+  { label: 'Đăng xuất', key: 'logout', icon: <LogoutOutlined />, danger: true },
+]
 const Header = ({ bgColor }: { bgColor: string }) => {
   const [activeLink, setActiveLink] = useState<string>('')
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [modalStep, setModalStep] = useState<'form' | 'success'>('form')
   const [form] = Form.useForm()
   const router = useRouter()
+  const userInfo: UserInfo = session?.user as UserInfo
+  const menuItems: MenuItem[] = [
+    { label: 'Tài khoản', key: 'account', icon: <UserOutlined /> },
+    { label: 'Lịch sử mua hàng', key: 'history', icon: <ShoppingCartOutlined /> },
+    { label: 'Ảnh của tôi', key: 'images', icon: <FileImageOutlined /> },
+    { label: 'Thông tin chung', key: 'info', icon: <InfoCircleOutlined /> },
+  ]
+  const onMenuClick: MenuProps['onClick'] = (e) => {
+    router.push(`/personal_info/${e.key}`)
+  }
   const navigateManage = () => {
     console.log(process.env.NEXT_PUBLIC_ENV)
     if (session) {
@@ -57,19 +98,29 @@ const Header = ({ bgColor }: { bgColor: string }) => {
   }
   // Menu dành cho dropdown
   const partnerMenu = (
-    <Menu>
-      <Menu.Item
-        key='self'
-        onClick={() => {
-          router.push('/personal_info')
+    <Card className='mb-4  rounded-lg'>
+      <div className='flex flex-col items-center justify-center p-6'>
+        {status === 'loading' ? (
+          <Avatar size={80} className='mb-2' icon={<UserOutlined />} />
+        ) : (
+          <>
+            <Avatar src={userInfo.image} size={80} className='mb-2' icon={<UserOutlined />} />
+            <h3 className='text-lg font-semibold'>{userInfo.name}</h3>
+            <p className='text-sm text-gray-500'>{userInfo.email}</p>
+          </>
+        )}
+      </div>
+
+      <Menu
+        mode='inline'
+        onClick={onMenuClick}
+        className='border-t pt-2'
+        style={{
+          borderInlineEnd: 'none',
         }}
-      >
-        Cá nhân
-      </Menu.Item>
-      <Menu.Item key='manage' onClick={navigateManage}>
-        Quản lý
-      </Menu.Item>
-    </Menu>
+        items={menuItems}
+      />
+    </Card>
   )
 
   const onFinish = (values: RegistrationFormValues) => {
@@ -223,13 +274,13 @@ const Header = ({ bgColor }: { bgColor: string }) => {
             {session ? (
               <div className='flex flex-row gap-4'>
                 <div className='flex flex-row items-center'>
-                  {/* <ShoppingCartOutlined
+                  <ShoppingCartOutlined
                     style={{ fontSize: '24px' }}
                     onClick={() => {
-                      router.push('/orders')
+                      router.push('/personal_info/history')
                     }}
                   />
-                  | */}
+                  |
                   <Dropdown overlay={partnerMenu} trigger={['click']}>
                     <SvgUser width={24} />
                   </Dropdown>

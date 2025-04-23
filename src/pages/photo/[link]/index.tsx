@@ -25,9 +25,12 @@ import { InferGetServerSidePropsType, GetServerSideProps } from 'next'
 import ImageModal from '@/components/common/ImageModal'
 import { useSession } from 'next-auth/react'
 import useCurrency from '@/hooks/useCurrency'
+import { createByLinkImageCollectionCreateByLinkPost } from '@/services/image-collection/image-collection'
 type Repo = {
   event?: AlbumItemResponsePublic
   images: AlbumImageItemResponsePublic[]
+  link?: string
+  eventId: number
 }
 export const getServerSideProps = (async (context) => {
   const link = Array.isArray(context.params?.link) ? context.params?.link[0] : context.params?.link
@@ -37,7 +40,7 @@ export const getServerSideProps = (async (context) => {
   }
 
   const [bibNum, eventId, hash] = link.split('-')
-  const res = await detailPubAlbumsAlbumSlugGet(eventId as string)
+  const res = await detailPubAlbumsAlbumSlugGet(eventId)
   const event = res.data
 
   console.log('event', event)
@@ -48,7 +51,7 @@ export const getServerSideProps = (async (context) => {
   console.log('imgaaa', imagesData)
   const images = imagesData.data
   return {
-    props: { repo: { event, images } },
+    props: { repo: { event, images, eventId: parseInt(eventId, 10), link } },
   }
 }) satisfies GetServerSideProps<{ repo: Repo }>
 const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
@@ -67,6 +70,9 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
   console.log('even neeeeee', event)
   const searchParams = useSearchParams()
   const router = useRouter()
+  const eventId = repo.eventId
+  const link = repo.link
+  console.log(link)
   const { slug } = router.query
   const bibNumber = searchParams.get('bib_number')
   const [currentPage, setCurrentPage] = useState(1)
@@ -155,8 +161,10 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
       setIsModalVisibleImage(true)
     }
   }
-  const showPopup = () => {
-    console.log('hehe')
+  const showPopup = async () => {
+    await createByLinkImageCollectionCreateByLinkPost({
+      album_link: typeof link === 'string' ? link : '',
+    }).then(() => router.push(`/events/${eventId}/checkout`))
   }
   return (
     <React.Fragment>
