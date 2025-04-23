@@ -67,7 +67,7 @@ export const getServerSideProps = (async (context) => {
     },
     params,
   )
-  const images = imagesData.data
+  const images = event.is_find_all_image === 1 ? imagesData.data : []
   return {
     props: { repo: { event, images } },
   }
@@ -162,9 +162,11 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
               order: 'desc',
             }
             const newImgs = await searchPubImagesPost(body, params)
-            setLoadedImgs(newImgs.data)
-            setTotalEvents(newImgs?.metadata.total_items ?? null)
-            setTotalPages(Math.ceil(newImgs?.metadata.total_items / 100))
+            if (event.is_find_all_image === 1) {
+              setLoadedImgs(newImgs.data)
+              setTotalEvents(newImgs?.metadata.total_items ?? null)
+              setTotalPages(Math.ceil(newImgs?.metadata.total_items / 100))
+            }
           }
         } catch (err: any) {
           // setError(err.message || 'Something went wrong')
@@ -192,9 +194,11 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
               order: 'desc',
             }
             const newImgs = await searchPubImagesPost(body, params)
-            setLoadedImgs(newImgs.data)
-            setTotalEvents(newImgs?.metadata.total_items ?? null)
-            setTotalPages(Math.ceil(newImgs?.metadata.total_items / 100))
+            if (event.is_find_all_image === 1) {
+              setLoadedImgs(newImgs.data)
+              setTotalEvents(newImgs?.metadata.total_items ?? null)
+              setTotalPages(Math.ceil(newImgs?.metadata.total_items / 100))
+            }
           }
         } catch (err: any) {
           // setError(err.message || 'Something went wrong')
@@ -212,8 +216,10 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
   }, [currentPage, id])
   useEffect(() => {
     if (imagesData) {
-      setLoadedImgs(imagesData?.data || [])
-      setTotalEvents(imagesData.metadata.total_items ?? null)
+      if (event.is_find_all_image === 1) {
+        setLoadedImgs(imagesData?.data || [])
+        setTotalEvents(imagesData.metadata.total_items ?? null)
+      }
     }
   }, [imagesData])
   const handlePreviousPage = () => {

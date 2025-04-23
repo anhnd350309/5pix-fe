@@ -14,6 +14,7 @@ import { getOwnedImagesImageCollectionOwnedImagesGet } from '@/services/image-co
 import { GetOwnedImagesImageCollectionOwnedImagesGetParams, OwnedImageResponse } from '@/schemas'
 import ImageViewer from '@/components/event/ImgViewer'
 import ImageModal from '@/components/common/ImageModal'
+import { useRouter } from 'next/router'
 
 type MenuItem = Required<MenuProps>['items'][number]
 
@@ -193,11 +194,18 @@ interface UserInfo {
 }
 
 const ProfilePage: React.FC = () => {
-  const [selectedKey, setSelectedKey] = useState<string>('history')
   const [isLogoutModalVisible, setIsLogoutModalVisible] = useState(false)
   const { data: session, status } = useSession()
   const userInfo: UserInfo = session?.user as UserInfo
-
+  const router = useRouter()
+  const { key } = router.query
+  console.log(String(key))
+  const [selectedKey, setSelectedKey] = useState<string>(key ? String(key) : 'order')
+  useEffect(() => {
+    if (!router.isReady) return
+    setSelectedKey(key ? String(key) : 'order')
+    console.log('change key')
+  }, [key, router.isReady])
   const handleLogout = () => {
     signOut({ callbackUrl: '/' })
   }
