@@ -104,9 +104,9 @@ const Header = ({ bgColor }: { bgColor: string }) => {
           <Avatar size={80} className='mb-2' icon={<UserOutlined />} />
         ) : (
           <>
-            <Avatar src={userInfo.image} size={80} className='mb-2' icon={<UserOutlined />} />
-            <h3 className='text-lg font-semibold'>{userInfo.name}</h3>
-            <p className='text-sm text-gray-500'>{userInfo.email}</p>
+            <Avatar src={userInfo?.image} size={80} className='mb-2' icon={<UserOutlined />} />
+            <h3 className='text-lg font-semibold'>{userInfo?.name}</h3>
+            <p className='text-sm text-gray-500'>{userInfo?.email}</p>
           </>
         )}
       </div>
