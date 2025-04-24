@@ -189,6 +189,20 @@ const Footer = () => {
               />
             </div>
           </div>
+          <Link
+            href='https://docs.google.com/document/d/1ssIgm_bx2Siv67RnPe1gY4nBVJbEYRhdzwdl03XjO2o/edit?tab=t.0#heading=h.m7h3lh225zga'
+            target='_blank'
+            className='font-sans text-base font-medium leading-7 tracking-[0.005em] text-left underline-offset-auto text-gray-800'
+          >
+            Hướng dẫn thanh toán VNPAY
+          </Link>
+          <Image
+            className='mb-6 w-[180px]'
+            src='/assets/images/vnpaydoc.png'
+            alt='Logo'
+            height={80}
+            width={180}
+          />
         </div>
       </div>
     </div>
