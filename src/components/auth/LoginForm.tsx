@@ -3,6 +3,8 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { signIn } from 'next-auth/react'
+import { usePathname, useSearchParams } from 'next/navigation'
+import { R } from 'msw/lib/core/HttpResponse-DzhqZzTK'
 
 export const LoginForm: React.FC = () => {
   const router = useRouter()
@@ -10,6 +12,11 @@ export const LoginForm: React.FC = () => {
   const [error, setError] = useState('')
   const admin = process.env.NEXT_PUBLIC_ENV === 'dev' ? 'admin-dev' : 'admin'
   const merchant = process.env.NEXT_PUBLIC_ENV === 'dev' ? 'merchant-dev' : 'doitac'
+
+  const searchParams = useSearchParams()
+  const redirectPath = searchParams.get('callbackUrl') ?? '/'
+  const pathname = usePathname()
+  console.log(redirectPath, pathname)
   const onSubmit = async (values: any) => {
     try {
       setIsLoading(true)
@@ -17,11 +24,12 @@ export const LoginForm: React.FC = () => {
         redirect: false,
         email: values.email,
         password: values.password,
+        callbackUrl: redirectPath ? redirectPath : '/',
       })
       if (result?.error) {
         setError(result.error)
       } else {
-        router.push('/')
+        redirectPath ? router.replace(redirectPath) : router.replace('/')
       }
     } catch (error) {
       console.error('Error:', error)
@@ -87,7 +95,12 @@ export const LoginForm: React.FC = () => {
             </button>
           </Form.Item>
           <button
-            onClick={() => signIn('google', { callbackUrl: '/' })}
+            onClick={() =>
+              signIn('google', {
+                redirect: true,
+                callbackUrl: redirectPath !== '/' ? `${redirectPath}` : `/${pathname}`,
+              })
+            }
             className='flex w-full items-center justify-center rounded-lg border border-gray-300 py-3 text-sm font-medium text-gray-700 hover:bg-gray-100 focus:outline-none'
           >
             <img src='/assets/icons/google.svg' alt='Google Logo' className='mr-2 h-5' />
