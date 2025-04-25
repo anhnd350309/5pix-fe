@@ -29,12 +29,12 @@ const Column = ({
 }
 const Footer = () => {
   return (
-    <div className='bg-white pb-10 pt-10'>
-      <div className='mx-auto grid w-full grid-flow-row grid-cols-3 grid-rows-5 gap-4 px-8 sm:grid-flow-col sm:grid-cols-12 sm:grid-rows-1 xl:px-16'>
+    <div className='bg-white pt-10'>
+      <div className='mx-auto grid w-full grid-cols-3  gap-4 px-8 sm:grid-flow-col sm:grid-cols-12  xl:px-16'>
         {/* Logo + Info */}
         <div className='col-span-12 flex flex-col items-center sm:items-start sm:col-span-4 sm:col-end-4'>
           <Image
-            className='mb-6 h-[80px] w-[180px]'
+            className='mb-6  w-[180px]'
             src='/assets/images/Logo.svg'
             alt='Logo'
             height={80}
@@ -70,7 +70,7 @@ const Footer = () => {
         </div>
 
         {/* Column - Pháp lý */}
-        <div className='col-span-12 row-span-2 flex flex-col sm:col-span-2 sm:col-start-4 sm:col-end-7 gap-4'>
+        <div className='col-span-12 flex flex-col sm:col-span-2 sm:col-start-4 sm:col-end-7 gap-4'>
           <Column
             className='col-span-6 md:col-span-2'
             title={'Pháp lý'}
@@ -95,7 +95,7 @@ const Footer = () => {
         </div>
 
         {/* Contact */}
-        <div className='col-span-12 row-span-2 flex flex-col sm:col-span-2 sm:col-start-7 sm:col-end-10 gap-4'>
+        <div className='col-span-12  flex flex-col sm:col-span-2 sm:col-start-7 sm:col-end-10 gap-4'>
           <p className='font-sans text-xl font-bold leading-7 tracking-[0.005em] text-left underline-offset-auto text-gray-800'>
             Contact
           </p>
@@ -189,20 +189,22 @@ const Footer = () => {
               />
             </div>
           </div>
-          <Link
-            href='https://docs.google.com/document/d/1ssIgm_bx2Siv67RnPe1gY4nBVJbEYRhdzwdl03XjO2o/edit?tab=t.0#heading=h.m7h3lh225zga'
-            target='_blank'
-            className='font-sans text-base font-medium leading-7 tracking-[0.005em] text-left underline-offset-auto text-gray-800'
-          >
-            Hướng dẫn thanh toán VNPAY
-          </Link>
-          <Image
-            className='mb-6 w-[180px]'
-            src='/assets/images/vnpaydoc.png'
-            alt='Logo'
-            height={80}
-            width={180}
-          />
+          <div>
+            <Link
+              href='https://docs.google.com/document/d/1ssIgm_bx2Siv67RnPe1gY4nBVJbEYRhdzwdl03XjO2o/edit?tab=t.0#heading=h.m7h3lh225zga'
+              target='_blank'
+              className='flex items-center gap-4 border border-gray-400 rounded-2xl p-4 mb-4'
+            >
+              <Image
+                className='w-[50px]'
+                src='/assets/images/vnpaydoc.png'
+                alt='Logo'
+                height={80}
+                width={180}
+              />
+              Hướng dẫn thanh toán VNPAY
+            </Link>
+          </div>
         </div>
       </div>
     </div>

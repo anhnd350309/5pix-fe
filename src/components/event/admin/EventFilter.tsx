@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Input, Button, Dropdown, Menu, notification } from 'antd'
 import Link from 'next/link'
 import {
@@ -110,6 +110,9 @@ const DetailEventFilter: React.FC<DetailEventFilterProps> = ({ eventName, id, ev
       openNotificationWithIcon('error', 'Reload thất bại', 'Đã xảy ra lỗi khi cập nhật album.')
     }
   }
+  useEffect(() => {
+    if (event?.id) reloadEventDetail()
+  }, [event])
   return (
     <div className='p-4'>
       {contextHolder}
@@ -128,13 +131,13 @@ const DetailEventFilter: React.FC<DetailEventFilterProps> = ({ eventName, id, ev
         </h1>
         <div className='flex flex-col sm:flex-row items-center space-x-0 sm:space-x-2 space-y-2 sm:space-y-0'>
           <Button
-            className='bg-[#C7DBFF] font-inter font-bold text-[14px] leading-[20px] tracking-[-0.2%] w-full sm:w-auto'
+            className='bg-[#EDF4FF] text-blue-500 font-inter font-bold text-[14px] leading-[20px] tracking-[-0.2%] w-full sm:w-auto'
             onClick={handleLoadAlbum}
           >
             Load album
           </Button>
           <Button
-            className='bg-[#C7DBFF] font-inter font-bold text-[14px] leading-[20px] tracking-[-0.2%] w-full sm:w-auto'
+            className='bg-[#EDF4FF] text-blue-500 font-inter font-bold text-[14px] leading-[20px] tracking-[-0.2%] w-full sm:w-auto'
             onClick={handleIndexImage}
           >
             Xử lý ảnh và gửi duyệt
@@ -154,7 +157,7 @@ const DetailEventFilter: React.FC<DetailEventFilterProps> = ({ eventName, id, ev
         <Button className='text-white bg-black font-inter font-bold text-[14px] leading-[20px] tracking-[-0.2%] w-full sm:w-auto'>
           Tìm ảnh
         </Button>
-        <Button className='bg-[#C7DBFF] font-inter font-bold text-[14px] leading-[20px] tracking-[-0.2%] w-full sm:w-auto'>
+        <Button className='bg-[#EDF4FF] text-blue-500 font-inter font-bold text-[14px] leading-[20px] tracking-[-0.2%] w-full sm:w-auto'>
           Tìm kiếm bằng hình ảnh
         </Button>
       </div>
