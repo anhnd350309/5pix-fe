@@ -98,8 +98,15 @@ export const authOptions = (baseUrl: string): AuthOptions => ({
     }),
   ],
   callbacks: {
-    async redirect({ url, baseUrl: bUrl }) {
-      return url.startsWith(bUrl) ? url : bUrl
+    async redirect({ url, baseUrl }) {
+      const allowed = (process.env.NEXTAUTH_URL_ALLOW_LIST || '')
+        .split(',')
+        .map((url) => url.trim())
+        .filter(Boolean)
+      if (allowed.some((domain) => url.startsWith(domain))) {
+        return url
+      }
+      return baseUrl
     },
     async jwt({ token, user, account }) {
       if (user) {

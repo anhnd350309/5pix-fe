@@ -19,11 +19,10 @@ export const ProtectedLayout = ({ children, requiredRoles = [] }: Props): JSX.El
   useEffect(() => {
     // check if the session is loading or the router is not ready
     if (loading || !router.isReady) return
-
-    // if the user is not authorized, redirect to the login page
+    console.log('ehehehe', window.location.href)
     if (unAuthorized) {
       // router.replace('/auth/login')
-      signIn()
+      signIn(undefined, { callbackUrl: window.location.href })
       return
     }
 
