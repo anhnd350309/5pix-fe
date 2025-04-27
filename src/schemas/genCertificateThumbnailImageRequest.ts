@@ -14,6 +14,6 @@
  */
 
 export interface GenCertificateThumbnailImageRequest {
-  album_slug: string;
-  bib_number: string;
+  album_slug?: string
+  bib_number?: string
 }

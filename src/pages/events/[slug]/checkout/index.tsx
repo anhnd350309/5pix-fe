@@ -40,7 +40,7 @@ export default function CartPage({ repo }: InferGetServerSidePropsType<typeof ge
   const [query, setQuery] = useState<CollectionImageWithQueryResponseImageQueries>()
   const [price, setPrice] = useState<number>(0)
   const [albumPrice, setAlbumPrice] = useState<number>(0)
-  const [key, setKey] = useState<string>('')
+  const [key, setKey] = useState<string[]>([])
   const [total, setTotal] = useState<number>(0)
   const [loading, setLoading] = useState(false)
   const [collectionId, setCollectionId] = useState<number>(0)
@@ -66,7 +66,7 @@ export default function CartPage({ repo }: InferGetServerSidePropsType<typeof ge
         })
         setItem(collection.images || [])
         setQuery(collection.image_queries)
-        setKey(collection.image_queries ? Object.keys(collection.image_queries)[0] : '')
+        setKey(collection.image_queries ? Object.keys(collection.image_queries) : [])
         setAlbumPrice(
           (data.data[0].album_image_price ?? 0) *
             (collection.image_queries?.[Object.keys(collection.image_queries)[0]]?.length ?? 0),
@@ -91,7 +91,7 @@ export default function CartPage({ repo }: InferGetServerSidePropsType<typeof ge
         collection_id: collectionId,
         queries: [
           {
-            keyword: key,
+            keyword: key[0],
             keyword_type: 'bib_number',
           },
         ],
@@ -210,37 +210,41 @@ export default function CartPage({ repo }: InferGetServerSidePropsType<typeof ge
                 ),
               }}
             />
-            <div className='mb-4 bg-white rounded-lg shadow p-4 items-center relative'>
-              <div className='absolute top-2 right-2'>
-                <Popconfirm
-                  title='Bạn có chắc chắn muốn xóa album này khỏi giỏ hàng?'
-                  onConfirm={deleteAlbum}
-                  okText='Có'
-                  cancelText='Không'
-                  className='bg-gray-200 rounded-full'
-                >
-                  <Button type='text' style={{ color: '#344054' }} icon={<DeleteOutlined />} />
-                </Popconfirm>
-              </div>
+            {key?.map((bib: string) => (
+              <div className='mb-4 bg-white rounded-lg shadow p-4 items-center relative'>
+                <div className='absolute top-2 right-2'>
+                  <Popconfirm
+                    title='Bạn có chắc chắn muốn xóa album này khỏi giỏ hàng?'
+                    onConfirm={deleteAlbum}
+                    okText='Có'
+                    cancelText='Không'
+                    className='bg-gray-200 rounded-full'
+                  >
+                    <Button type='text' style={{ color: '#344054' }} icon={<DeleteOutlined />} />
+                  </Popconfirm>
+                </div>
 
-              <div className='flex items-center gap-4'>
-                {query && query[key] && query[key][0] && (
-                  <img
-                    src={query[key][0].album_image_url}
-                    className='w-24 h-24 object-cover rounded-md'
-                  />
-                )}
-                <div className='flex flex-col'>
-                  <span className='text-blue-500 text-base font-medium'>Album</span>
-                  {/* <p className='text-sm text-gray-700'>{item.album_image_id}</p> */}
-                  <p className='text-sm text-gray-400'>{event.album_name}</p>
+                <div className='flex items-center gap-4'>
+                  {query && query[bib] && query[bib][0] && (
+                    <img
+                      src={query[bib][0].album_image_url}
+                      className='w-24 h-24 object-cover rounded-md'
+                    />
+                  )}
+                  <div className='flex flex-col'>
+                    <span className='text-blue-500 text-base font-medium'>Album của {bib}</span>
+                    {/* <p className='text-sm text-gray-700'>{item.album_image_id}</p> */}
+                    <p className='text-sm text-gray-400'>{event.album_name}</p>
+                  </div>
+                </div>
+
+                <div className='absolute bottom-2 right-2'>
+                  <p className='text-blue-500 font-bold'>
+                    {formatter(price * (query?.[bib]?.length ?? 0))}
+                  </p>
                 </div>
               </div>
-
-              <div className='absolute bottom-2 right-2'>
-                <p className='text-blue-500 font-bold'>{formatter(albumPrice)}</p>
-              </div>
-            </div>
+            ))}
           </>
         )}
 

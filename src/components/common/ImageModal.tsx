@@ -252,9 +252,12 @@ const ImageModal: React.FC<ImageModalProps> = ({
             </Button>
           ) : (
             <>
-              <Button type='primary' onClick={buyPhotobook}>
-                Mua photobook
-              </Button>
+              {bibNum && (
+                <Button type='primary' onClick={buyPhotobook}>
+                  Mua photobook
+                </Button>
+              )}
+
               <Button type='primary' onClick={showPopup}>
                 Mua hình ảnh
               </Button>
