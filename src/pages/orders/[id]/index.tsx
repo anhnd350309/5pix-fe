@@ -69,7 +69,7 @@ const Orders = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>
       getImageCollectionCollectionItemGet({
         collection_id: order?.first_line_collection_id,
       }).then((res) => {
-        setItems(res)
+        setItems(res.images ?? [])
         // totalPrice = order.line_items[0].line_price * res.length
       })
       detailPubAlbumsAlbumSlugGet(order.first_line_album_id).then((res) => {
