@@ -140,7 +140,7 @@ export const PurchaseHistory: React.FC = () => {
                     {tx.data.map((photo, idx) => (
                       <div className='flex items-center justify-between' key={idx}>
                         <div key={idx} className='text-gray-600'>
-                          {photo.album_image_name}
+                          {`${(photo.album_image_name ?? '').slice(0, 10)}...${(photo.album_image_name ?? '').slice(-10)}`}
                         </div>
                         <div key={idx} className='text-gray-600'>
                           {formatter(price)}

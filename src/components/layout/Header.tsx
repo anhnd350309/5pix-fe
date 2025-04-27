@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React, { useState } from 'react'
 import { Link as LinkScroll } from 'react-scroll'
-import { useSession, signIn } from 'next-auth/react'
+import { useSession, signIn, signOut } from 'next-auth/react'
 import {
   Dropdown,
   Menu,
@@ -69,9 +69,28 @@ const Header = ({ bgColor }: { bgColor: string }) => {
     { label: 'Lịch sử mua hàng', key: 'history', icon: <ShoppingCartOutlined /> },
     { label: 'Ảnh của tôi', key: 'images', icon: <FileImageOutlined /> },
     { label: 'Thông tin chung', key: 'info', icon: <InfoCircleOutlined /> },
+    { label: 'Đăng xuất', key: 'logout', icon: <LogoutOutlined />, danger: true },
   ]
+
+  const [isLogoutModalVisible, setIsLogoutModalVisible] = useState(false)
+
+  const handleLogout = () => {
+    signOut({ callbackUrl: '/' })
+  }
+
+  const showLogoutConfirm = () => {
+    setIsLogoutModalVisible(true)
+  }
+
+  const hideLogoutConfirm = () => {
+    setIsLogoutModalVisible(false)
+  }
   const onMenuClick: MenuProps['onClick'] = (e) => {
-    router.push(`/personal_info/${e.key}`)
+    if (e.key === 'logout') {
+      showLogoutConfirm()
+    } else {
+      router.push(`/personal_info/${e.key}`)
+    }
   }
   const navigateManage = () => {
     console.log(process.env.NEXT_PUBLIC_ENV)
@@ -163,6 +182,16 @@ const Header = ({ bgColor }: { bgColor: string }) => {
   }
   return (
     <>
+      <Modal
+        title='Xác nhận đăng xuất'
+        open={isLogoutModalVisible}
+        onOk={handleLogout}
+        onCancel={hideLogoutConfirm}
+        okText='Đăng xuất'
+        cancelText='Hủy'
+      >
+        Bạn có chắc chắn muốn đăng xuất?
+      </Modal>
       <header className={`top-0 z-30 w-full bg-transparent transition-all pt-4`}>
         <nav className='container mx-auto grid grid-flow-col px-8 py-3 sm:py-4 xl:px-16 relative z-10'>
           <div className='col-start-1 col-end-2 flex items-center'>
