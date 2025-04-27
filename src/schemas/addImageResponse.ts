@@ -12,6 +12,7 @@
         
  * OpenAPI spec version: 0.1.0
  */
+import type { ImageQueryDTO } from './imageQueryDTO';
 
 export interface AddImageResponse {
   album_id?: number;
@@ -22,4 +23,5 @@ export interface AddImageResponse {
   name?: string;
   order_id?: number;
   owner_id?: number;
+  queries?: ImageQueryDTO[];
 }

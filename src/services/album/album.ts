@@ -30,6 +30,7 @@ import type {
   UseQueryResult
 } from '@tanstack/react-query'
 import type {
+  AlbumApproveRequest,
   AlbumCreateRequest,
   AlbumUpdateRequest,
   DataResponseAlbumDetailResponse,
@@ -344,6 +345,68 @@ export const useUpdateAlbumsAlbumIdPut = <TError = HTTPValidationError,
       > => {
 
       const mutationOptions = getUpdateAlbumsAlbumIdPutMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
+ * ### API approve album
+
+- Chỉ admin mới có quyền approve album
+- Các trạng thái: 'draft' 'approved' 'rejected'
+ * @summary Approve Album
+ */
+export const approveAlbumAlbumsApproveAlbumPost = (
+    albumApproveRequest: AlbumApproveRequest,
+ signal?: AbortSignal
+) => {
+      
+      
+      return defaultMutator<DataResponseStr>(
+      {url: `/albums/approve-album`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: albumApproveRequest, signal
+    },
+      );
+    }
+  
+
+
+export const getApproveAlbumAlbumsApproveAlbumPostMutationOptions = <TError = HTTPValidationError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof approveAlbumAlbumsApproveAlbumPost>>, TError,{data: AlbumApproveRequest}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof approveAlbumAlbumsApproveAlbumPost>>, TError,{data: AlbumApproveRequest}, TContext> => {
+const {mutation: mutationOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof approveAlbumAlbumsApproveAlbumPost>>, {data: AlbumApproveRequest}> = (props) => {
+          const {data} = props ?? {};
+
+          return  approveAlbumAlbumsApproveAlbumPost(data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type ApproveAlbumAlbumsApproveAlbumPostMutationResult = NonNullable<Awaited<ReturnType<typeof approveAlbumAlbumsApproveAlbumPost>>>
+    export type ApproveAlbumAlbumsApproveAlbumPostMutationBody = AlbumApproveRequest
+    export type ApproveAlbumAlbumsApproveAlbumPostMutationError = HTTPValidationError
+
+    /**
+ * @summary Approve Album
+ */
+export const useApproveAlbumAlbumsApproveAlbumPost = <TError = HTTPValidationError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof approveAlbumAlbumsApproveAlbumPost>>, TError,{data: AlbumApproveRequest}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof approveAlbumAlbumsApproveAlbumPost>>,
+        TError,
+        {data: AlbumApproveRequest},
+        TContext
+      > => {
+
+      const mutationOptions = getApproveAlbumAlbumsApproveAlbumPostMutationOptions(options);
 
       return useMutation(mutationOptions);
     }

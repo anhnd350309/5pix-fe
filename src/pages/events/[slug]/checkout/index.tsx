@@ -2,7 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { List, Button, Spin, Popconfirm, message } from 'antd'
 import SvgNoCart from '@/components/icons/icons/NoCart'
 import { useRouter } from 'next/router'
-import { AlbumItemResponsePublic, ItemResponse } from '@/schemas'
+import {
+  AlbumItemResponsePublic,
+  CollectionImageWithQueryResponseImageQueries,
+  ItemResponse,
+} from '@/schemas'
 import { detailPubAlbumsAlbumSlugGet } from '@/services/public-album/public-album'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import {
@@ -33,7 +37,10 @@ export const getServerSideProps = (async (context) => {
 }) satisfies GetServerSideProps<{ repo: Repo }>
 export default function CartPage({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [item, setItem] = useState<ItemResponse[]>([])
+  const [query, setQuery] = useState<CollectionImageWithQueryResponseImageQueries>()
   const [price, setPrice] = useState<number>(0)
+  const [albumPrice, setAlbumPrice] = useState<number>(0)
+  const [key, setKey] = useState<string>('')
   const [total, setTotal] = useState<number>(0)
   const [loading, setLoading] = useState(false)
   const [collectionId, setCollectionId] = useState<number>(0)
@@ -57,7 +64,13 @@ export default function CartPage({ repo }: InferGetServerSidePropsType<typeof ge
         const collection = await getImageCollectionCollectionItemGet({
           collection_id: data.data[0].id,
         })
-        setItem(collection)
+        setItem(collection.images || [])
+        setQuery(collection.image_queries)
+        setKey(collection.image_queries ? Object.keys(collection.image_queries)[0] : '')
+        setAlbumPrice(
+          (data.data[0].album_image_price ?? 0) *
+            (collection.image_queries?.[Object.keys(collection.image_queries)[0]]?.length ?? 0),
+        )
       }
     } catch (error) {
       console.error('Error fetching data:', error)
@@ -69,7 +82,32 @@ export default function CartPage({ repo }: InferGetServerSidePropsType<typeof ge
     fetchImage()
   }, [])
   const router = useRouter()
-
+  const deleteAlbum = async () => {
+    try {
+      // const data = await getImageCollectionGet({
+      //   album_id: event?.id,
+      // })
+      removeImageImageCollectionRemoveImageDelete({
+        collection_id: collectionId,
+        queries: [
+          {
+            keyword: key,
+            keyword_type: 'bib_number',
+          },
+        ],
+      }).then((res) => {
+        if (res) {
+          message.success('Đã xóa album khỏi giỏ hàng')
+        } else {
+          message.error('Có lỗi xảy ra khi xóa khỏi giỏ hàng')
+        }
+      })
+    } catch (error) {
+      console.error('Error removing from cart:', error)
+    } finally {
+      fetchImage()
+    }
+  }
   const confirm = async (itemId?: number) => {
     try {
       // const data = await getImageCollectionGet({
@@ -118,56 +156,92 @@ export default function CartPage({ repo }: InferGetServerSidePropsType<typeof ge
             <Spin />
           </div>
         ) : (
-          <List
-            itemLayout='horizontal'
-            dataSource={item}
-            renderItem={(item) => (
-              <List.Item className='mb-4 bg-white rounded-lg shadow p-4 items-center relative'>
-                <div className='absolute top-2 right-2'>
-                  <Popconfirm
-                    title='Bạn có chắc chắn muốn xóa ảnh này khỏi giỏ hàng?'
-                    onConfirm={() => confirm(item.album_image_id)}
-                    okText='Có'
-                    cancelText='Không'
-                    className='bg-gray-200 rounded-full'
-                  >
-                    <Button type='text' style={{ color: '#344054' }} icon={<DeleteOutlined />} />
-                  </Popconfirm>
-                </div>
-                <List.Item.Meta
-                  avatar={
-                    <img src={item.album_image_url} className='w-24 h-24 object-cover rounded-md' />
-                  }
-                  title={<span className='text-blue-500 text-base font-medium'>Ảnh đơn</span>}
-                  description={
-                    <div>
-                      <p className='text-sm text-gray-700'>{item.album_image_id}</p>
-                      <p className='text-sm text-gray-400'>{event.album_name}</p>
-                    </div>
-                  }
-                />
+          <>
+            <List
+              itemLayout='horizontal'
+              dataSource={item}
+              renderItem={(item) => (
+                <List.Item className='mb-4 bg-white rounded-lg shadow p-4 items-center relative'>
+                  <div className='absolute top-2 right-2'>
+                    <Popconfirm
+                      title='Bạn có chắc chắn muốn xóa ảnh này khỏi giỏ hàng?'
+                      onConfirm={() => confirm(item.album_image_id)}
+                      okText='Có'
+                      cancelText='Không'
+                      className='bg-gray-200 rounded-full'
+                    >
+                      <Button type='text' style={{ color: '#344054' }} icon={<DeleteOutlined />} />
+                    </Popconfirm>
+                  </div>
+                  <List.Item.Meta
+                    avatar={
+                      <img
+                        src={item.album_image_url}
+                        className='w-24 h-24 object-cover rounded-md'
+                      />
+                    }
+                    title={<span className='text-blue-500 text-base font-medium'>Ảnh đơn</span>}
+                    description={
+                      <div>
+                        <p className='text-sm text-gray-700'>{item.album_image_id}</p>
+                        <p className='text-sm text-gray-400'>{event.album_name}</p>
+                      </div>
+                    }
+                  />
 
-                <div className='absolute bottom-2 right-2'>
-                  <p className='text-blue-500 font-bold'>{formatter(price)}</p>
+                  <div className='absolute bottom-2 right-2'>
+                    <p className='text-blue-500 font-bold'>{formatter(price)}</p>
+                  </div>
+                </List.Item>
+              )}
+              locale={{
+                emptyText: (
+                  <div className='flex flex-col text-center py-8 items-center gap-3'>
+                    <SvgNoCart width={128} />
+                    <p className='text-gray-500'>Chưa có sản phẩm trong giỏ hàng</p>
+                    <Button
+                      type='primary'
+                      className='rounded-full'
+                      onClick={() => window.history.back()}
+                    >
+                      Tìm kiếm ảnh ngay
+                    </Button>
+                  </div>
+                ),
+              }}
+            />
+            <div className='mb-4 bg-white rounded-lg shadow p-4 items-center relative'>
+              <div className='absolute top-2 right-2'>
+                <Popconfirm
+                  title='Bạn có chắc chắn muốn xóa album này khỏi giỏ hàng?'
+                  onConfirm={deleteAlbum}
+                  okText='Có'
+                  cancelText='Không'
+                  className='bg-gray-200 rounded-full'
+                >
+                  <Button type='text' style={{ color: '#344054' }} icon={<DeleteOutlined />} />
+                </Popconfirm>
+              </div>
+
+              <div className='flex items-center gap-4'>
+                {query && query[key] && query[key][0] && (
+                  <img
+                    src={query[key][0].album_image_url}
+                    className='w-24 h-24 object-cover rounded-md'
+                  />
+                )}
+                <div className='flex flex-col'>
+                  <span className='text-blue-500 text-base font-medium'>Album</span>
+                  {/* <p className='text-sm text-gray-700'>{item.album_image_id}</p> */}
+                  <p className='text-sm text-gray-400'>{event.album_name}</p>
                 </div>
-              </List.Item>
-            )}
-            locale={{
-              emptyText: (
-                <div className='flex flex-col text-center py-8 items-center gap-3'>
-                  <SvgNoCart width={128} />
-                  <p className='text-gray-500'>Chưa có sản phẩm trong giỏ hàng</p>
-                  <Button
-                    type='primary'
-                    className='rounded-full'
-                    onClick={() => window.history.back()}
-                  >
-                    Tìm kiếm ảnh ngay
-                  </Button>
-                </div>
-              ),
-            }}
-          />
+              </div>
+
+              <div className='absolute bottom-2 right-2'>
+                <p className='text-blue-500 font-bold'>{formatter(albumPrice)}</p>
+              </div>
+            </div>
+          </>
         )}
 
         {/* Khối tổng tiền + nút thanh toán */}

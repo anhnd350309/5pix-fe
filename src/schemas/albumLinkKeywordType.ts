@@ -12,11 +12,14 @@
         
  * OpenAPI spec version: 0.1.0
  */
-import type { ImageQueryDTO } from './imageQueryDTO';
 
-export interface CreateOrderRequest {
-  album_id?: number;
-  collection_id?: number;
-  credit_amount?: number;
-  image_queries?: ImageQueryDTO[];
-}
+/**
+ * An enumeration.
+ */
+export type AlbumLinkKeywordType = typeof AlbumLinkKeywordType[keyof typeof AlbumLinkKeywordType];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AlbumLinkKeywordType = {
+  bib_number: 'bib_number',
+} as const;

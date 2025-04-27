@@ -18,6 +18,7 @@ export type SearchPubImagesPostParams = {
 album_id?: number;
 search_type?: ImageSearchType;
 bib_number?: string;
+avatar_name?: string;
 slug?: string;
 page_size?: number;
 page?: number;

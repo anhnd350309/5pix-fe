@@ -38,6 +38,8 @@ export const getDetailAlbumsAlbumIdGetResponseMock = (overrideResponse: Partial<
 
 export const getUpdateAlbumsAlbumIdPutResponseMock = (overrideResponse: Partial< DataResponseAlbumItemResponse > = {}): DataResponseAlbumItemResponse => ({code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), data: faker.helpers.arrayElement([{album_5pix_status: faker.helpers.arrayElement([faker.helpers.arrayElement(Object.values(Album5pixStatus)), undefined]), album_5pix_status_reason: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), album_display_status: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), album_image_price: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), album_image_url: faker.string.alpha(20), album_name: faker.string.alpha(20), album_price: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), album_slug: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), created_at: `${faker.date.past().toISOString().split('.')[0]}Z`, event_address: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), event_date: `${faker.date.past().toISOString().split('.')[0]}Z`, id: faker.number.int({min: undefined, max: undefined}), is_album_free: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), is_find_all_image: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), is_find_by_face: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), is_find_by_metadata: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), is_highlight: faker.number.int({min: undefined, max: undefined}), total_image: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), updated_at: `${faker.date.past().toISOString().split('.')[0]}Z`}, undefined]), message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), ...overrideResponse})
 
+export const getApproveAlbumAlbumsApproveAlbumPostResponseMock = (overrideResponse: Partial< DataResponseStr > = {}): DataResponseStr => ({code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), data: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), ...overrideResponse})
+
 export const getProcessImageAlbumsAlbumIdProcessImagePutResponseMock = (overrideResponse: Partial< DataResponseStr > = {}): DataResponseStr => ({code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), data: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), ...overrideResponse})
 
 export const getLoadImageAlbumsAlbumIdLoadImagePostResponseMock = (overrideResponse: Partial< DataResponseStr > = {}): DataResponseStr => ({code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), data: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), ...overrideResponse})
@@ -93,6 +95,18 @@ export const getUpdateAlbumsAlbumIdPutMockHandler = (overrideResponse?: DataResp
   })
 }
 
+export const getApproveAlbumAlbumsApproveAlbumPostMockHandler = (overrideResponse?: DataResponseStr | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<DataResponseStr> | DataResponseStr)) => {
+  return http.post('*/albums/approve-album', async (info) => {await delay(1000);
+  
+    return new HttpResponse(JSON.stringify(overrideResponse !== undefined 
+            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse) 
+            : getApproveAlbumAlbumsApproveAlbumPostResponseMock()),
+      { status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      })
+  })
+}
+
 export const getProcessImageAlbumsAlbumIdProcessImagePutMockHandler = (overrideResponse?: DataResponseStr | ((info: Parameters<Parameters<typeof http.put>[1]>[0]) => Promise<DataResponseStr> | DataResponseStr)) => {
   return http.put('*/albums/:albumId/process-image', async (info) => {await delay(1000);
   
@@ -133,6 +147,7 @@ export const getAlbumMock = () => [
   getCreateAlbumsPostMockHandler(),
   getDetailAlbumsAlbumIdGetMockHandler(),
   getUpdateAlbumsAlbumIdPutMockHandler(),
+  getApproveAlbumAlbumsApproveAlbumPostMockHandler(),
   getProcessImageAlbumsAlbumIdProcessImagePutMockHandler(),
   getLoadImageAlbumsAlbumIdLoadImagePostMockHandler(),
   getIndexImageAlbumsAlbumIdIndexImagePostMockHandler()

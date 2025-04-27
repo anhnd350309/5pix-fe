@@ -130,6 +130,17 @@ export function useGetCreditGet<TData = Awaited<ReturnType<typeof getCreditGet>>
 
 
 /**
+ * ### API Update credit cho người dùng
+
+- Chỉ admin mới có quyền update credit cho người dùng khác
+
+        Category:
+
+        INCREASE = 'INCREASE'
+
+        DECREASE = 'DECREASE'
+
+        NO_CHANGE = 'NO_CHANGE'
  * @summary Update Credit
  */
 export const updateCreditCreditAdminUpdateCreditPut = (

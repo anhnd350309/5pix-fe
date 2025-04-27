@@ -35,12 +35,12 @@ import type {
   AddImageToCollectionRequest,
   CollectionImageCreateRequest,
   CollectionImageResponse,
+  CollectionImageWithQueryResponse,
   CreateByLinkImageCollectionCreateByLinkPostParams,
   GetImageCollectionCollectionItemGetParams,
   GetImageCollectionGetParams,
   GetOwnedImagesImageCollectionOwnedImagesGetParams,
   HTTPValidationError,
-  ItemResponse,
   PageCollectionImageResponse,
   PageOwnedImageResponse,
   RemoveImageRequest,
@@ -149,7 +149,7 @@ export const getImageCollectionCollectionItemGet = (
 ) => {
       
       
-      return defaultMutator<ItemResponse[]>(
+      return defaultMutator<CollectionImageWithQueryResponse>(
       {url: `/image-collection/collection-item`, method: 'GET',
         params, signal
     },

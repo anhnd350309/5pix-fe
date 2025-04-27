@@ -107,6 +107,34 @@ const ImageModal: React.FC<ImageModalProps> = ({
       setIsDisabled(false) // mở lại sau 500ms
     }, 3000)
   }
+  const buyPhotobook = () => {
+    try {
+      addImageImageCollectionAddImagePost({
+        album_id: albumId,
+        queries: [
+          {
+            keyword: bibNum,
+            keyword_type: 'bib_number',
+          },
+        ],
+      }).then((res) => {
+        if (res.id) {
+          openNotificationWithIcon('success', 'Thành công', 'Đã thêm photobook vào giỏ hàng.')
+        } else {
+          openNotificationWithIcon(
+            'error',
+            'Thất bại',
+            'Có lỗi xảy ra khi thêm photobook vào giỏ hàng.',
+          )
+          console.error('Error adding to cart:', res)
+        }
+      })
+    } catch (error) {
+      console.error('Error adding to cart:', error)
+    } finally {
+      setIsPopupVisible(true)
+    }
+  }
   const showPopup = () => {
     try {
       addImageImageCollectionAddImagePost({
@@ -224,7 +252,7 @@ const ImageModal: React.FC<ImageModalProps> = ({
             </Button>
           ) : (
             <>
-              <Button type='primary' onClick={showPopup}>
+              <Button type='primary' onClick={buyPhotobook}>
                 Mua photobook
               </Button>
               <Button type='primary' onClick={showPopup}>

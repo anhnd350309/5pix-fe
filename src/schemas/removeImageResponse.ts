@@ -12,10 +12,12 @@
         
  * OpenAPI spec version: 0.1.0
  */
+import type { ImageQueryDTO } from './imageQueryDTO';
 
 export interface RemoveImageResponse {
   album_images_id?: number[];
   album_name?: string;
   collection_id?: number;
   collection_item_ids?: number[];
+  queries?: ImageQueryDTO[];
 }
