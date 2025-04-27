@@ -12,9 +12,11 @@
         
  * OpenAPI spec version: 0.1.0
  */
+import type { ImageQueryDTO } from './imageQueryDTO';
 
 export interface AddImageToCollectionRequest {
   album_id?: number;
   collection_id?: number;
   image_ids?: number[];
+  queries?: ImageQueryDTO[];
 }

@@ -12,12 +12,16 @@
         
  * OpenAPI spec version: 0.1.0
  */
+import type { ImageQueryDTO } from './imageQueryDTO';
 
 export interface LineResponse {
   album_id?: number;
   id?: number;
   image_collection_id?: number;
+  image_queries?: ImageQueryDTO[];
   line_price?: number;
   order_id?: number;
   quantity?: number;
+  query_price?: number;
+  query_quantity?: number;
 }

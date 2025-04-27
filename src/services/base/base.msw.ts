@@ -24,7 +24,7 @@ import type {
   DataResponseImageCdn
 } from '../../schemas'
 
-export const getUploadToGetCdnBasePostResponseMock = (overrideResponse: Partial< DataResponseImageCdn > = {}): DataResponseImageCdn => ({code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), data: faker.helpers.arrayElement([{cdn_url: faker.string.alpha(20), url: faker.string.alpha(20)}, undefined]), message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), ...overrideResponse})
+export const getUploadToGetCdnBasePostResponseMock = (overrideResponse: Partial< DataResponseImageCdn > = {}): DataResponseImageCdn => ({code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), data: faker.helpers.arrayElement([{cdn_url: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), file_name: faker.string.alpha(20), url: faker.string.alpha(20)}, undefined]), message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), ...overrideResponse})
 
 
 export const getUploadToGetCdnBasePostMockHandler = (overrideResponse?: DataResponseImageCdn | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<DataResponseImageCdn> | DataResponseImageCdn)) => {

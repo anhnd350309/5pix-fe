@@ -12,6 +12,7 @@
         
  * OpenAPI spec version: 0.1.0
  */
+import type { ImageQueryDTO } from './imageQueryDTO';
 import type { OrderInternalStatus } from './orderInternalStatus';
 
 export interface CollectionImageResponse {
@@ -22,8 +23,11 @@ export interface CollectionImageResponse {
   album_slug?: string;
   estimate_price?: number;
   id: number;
+  image_queries?: ImageQueryDTO[];
   name: string;
   order_id?: number;
   order_internal_status?: OrderInternalStatus;
   owner_id: number;
+  query_keyword?: string;
+  query_type?: string;
 }

@@ -12,11 +12,10 @@
         
  * OpenAPI spec version: 0.1.0
  */
-import type { ImageQueryDTO } from './imageQueryDTO';
+import type { CollectionImageWithQueryResponseImageQueries } from './collectionImageWithQueryResponseImageQueries';
+import type { ItemResponse } from './itemResponse';
 
-export interface CreateOrderRequest {
-  album_id?: number;
-  collection_id?: number;
-  credit_amount?: number;
-  image_queries?: ImageQueryDTO[];
+export interface CollectionImageWithQueryResponse {
+  image_queries?: CollectionImageWithQueryResponseImageQueries;
+  images?: ItemResponse[];
 }

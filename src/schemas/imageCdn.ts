@@ -14,6 +14,7 @@
  */
 
 export interface ImageCdn {
-  cdn_url: string;
+  cdn_url?: string;
+  file_name: string;
   url: string;
 }

@@ -278,7 +278,8 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
           <React.Fragment>
             {showTotal && loadedImgs.length > 0 && (
               <span className='text-center'>
-                Tìm thấy {loadedImgs.length} ảnh của bạn, trong tổng số {event?.total_image} ảnh
+                Tìm thấy {loadedImgs.length} ảnh của bạn, trong tổng số {event?.total_image} ảnh{' '}
+                {bibNum}
               </span>
             )}
             <div className='flex flex-col xl:flex-row gap-4'>
