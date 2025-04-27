@@ -61,13 +61,13 @@ export const PurchaseHistory: React.FC = () => {
 
               return {
                 order: order,
-                data: imageCollectionData, // Assuming imageCollectionData.data is the ItemResponse[]
+                data: imageCollectionData.images ?? [], // Ensure data is always an array
               }
             } catch (error) {
               console.error(`Error fetching image collection for order ${order.id}:`, error)
               return {
                 order: order,
-                data: [], // Return empty array in case of error
+                data: [], // Ensure data is always an array
               }
             }
           })
