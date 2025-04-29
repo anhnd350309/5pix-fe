@@ -293,6 +293,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
         isFree={event?.is_album_free}
         albumId={event?.id || 0}
         price={event?.album_image_price}
+        isBuyAll={true}
       />
     </React.Fragment>
   )

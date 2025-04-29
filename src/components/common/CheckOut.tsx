@@ -25,7 +25,9 @@ const columns: ColumnsType<Product> = [
     title: 'Tên sản phẩm',
     dataIndex: 'name',
     key: 'name',
-    render: (name: string) => <>{`${name.slice(0, 14)}...${name.slice(-10)}`}</>,
+    render: (name: string) => (
+      <>{name.endsWith('.jpg') ? `${name.slice(0, 14)}...${name.slice(-10)}` : name}</>
+    ),
   },
   {
     title: 'Loại sản phẩm',
