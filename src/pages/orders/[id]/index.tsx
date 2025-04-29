@@ -8,7 +8,11 @@ import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/pages/api/auth/[...nextauth]'
 import axiosInstance from '@/api/axiosInstance'
-import { CreateOrderResponse, ItemResponse } from '@/schemas'
+import {
+  CollectionImageWithQueryResponseImageQueries,
+  CreateOrderResponse,
+  ItemResponse,
+} from '@/schemas'
 import { detailPubAlbumsAlbumSlugGet } from '@/services/public-album/public-album'
 import { getPaymentVnpayGetPaymentGet } from '@/services/vnpay-ipn/vnpay-ipn'
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons'
@@ -58,10 +62,14 @@ export const getServerSideProps = (async (context) => {
 const Orders = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [isLoading, setIsLoading] = React.useState(false)
   const [items, setItems] = useState<ItemResponse[]>([])
+
   const [albumName, setAlbumName] = useState<string>('')
   const { order } = repo
   const formatter = useCurrency('đ')
   console.log('order', order)
+  const [albums, setAlbums] = useState<CollectionImageWithQueryResponseImageQueries>(
+    order.line_items[0].image_queries || {},
+  )
   const totalPrice = order.line_items[0].line_price
   useEffect(() => {
     try {
@@ -70,7 +78,6 @@ const Orders = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>
         collection_id: order?.first_line_collection_id,
       }).then((res) => {
         setItems(res.images ?? [])
-        // totalPrice = order.line_items[0].line_price * res.length
       })
       detailPubAlbumsAlbumSlugGet(order.first_line_album_id).then((res) => {
         setAlbumName(res.data?.album_name || '')
@@ -134,9 +141,11 @@ const Orders = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>
             )}
             <CheckoutInfo
               isLoading={isLoading}
-              price={order.line_items[0].line_price / items.length}
+              price={order.line_items[0].album_image_price}
+              album_price={order.line_items[0].album_price}
               items={items}
               album_name={albumName}
+              albums={albums}
             />
           </div>
           <div className='w-full xl:w-2/5 lg:px-3 mt-2 md:mt-6 xl:mt-0 xl:sticky xl:top-4 xl:h-fit'>

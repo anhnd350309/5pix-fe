@@ -23,6 +23,7 @@ interface Transaction {
 interface Transactions {
   order: CreateOrderResponse
   data: ItemResponse[]
+  album: any
 }
 
 const statusMap = {
@@ -36,7 +37,7 @@ const statusMap = {
 
 export const PurchaseHistory: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1)
-  const [transactions, setTransactions] = useState<Transactions[]>([]) // Changed state type
+  const [transactions, setTransactions] = useState<Transactions[]>([])
   const [totalTransactions, setTotalTransactions] = useState<number>(0)
   const [loading, setLoading] = useState<boolean>(true)
   const pageSize = 5
@@ -58,23 +59,24 @@ export const PurchaseHistory: React.FC = () => {
               const imageCollectionData = await getImageCollectionCollectionItemGet({
                 collection_id: order.first_line_collection_id,
               })
-
+              console.log(order, imageCollectionData)
               return {
                 order: order,
-                data: imageCollectionData.images ?? [], // Ensure data is always an array
+                data: imageCollectionData.images ?? [],
+                album: imageCollectionData.image_queries,
               }
             } catch (error) {
               console.error(`Error fetching image collection for order ${order.id}:`, error)
               return {
                 order: order,
-                data: [], // Ensure data is always an array
+                data: [],
+                album: {},
               }
             }
           })
-
           const transactionsWithImages = await Promise.all(transactionsPromises)
-          console.log('transactionsWithImages', transactionsWithImages)
           setTransactions(transactionsWithImages)
+          console.log('transaction', transactionsWithImages)
         }
       } catch (error) {
         console.error('Error fetching order list:', error)
@@ -143,7 +145,17 @@ export const PurchaseHistory: React.FC = () => {
                           {`${(photo.album_image_name ?? '').slice(0, 10)}...${(photo.album_image_name ?? '').slice(-10)}`}
                         </div>
                         <div key={idx} className='text-gray-600'>
-                          {formatter(price)}
+                          {formatter(tx.order.line_items?.[0]?.album_image_price || 0)}
+                        </div>
+                      </div>
+                    ))}
+                    {Object.keys(tx.album).map((album: any, idx: any) => (
+                      <div className='flex items-center justify-between' key={idx}>
+                        <div key={idx} className='text-gray-600'>
+                          {`Photobook của số bib ${album}`}
+                        </div>
+                        <div key={idx} className='text-gray-600'>
+                          {formatter(tx.order.line_items?.[0]?.album_price || 0)}
                         </div>
                       </div>
                     ))}

@@ -30,10 +30,9 @@ import type {
   UseQueryResult
 } from '@tanstack/react-query'
 import type {
-  BodyGetAlbumImagesPost,
   DataResponseAlbumImageItemResponse,
   DataResponseStr,
-  GetAlbumImagesPostParams,
+  GetAlbumImagesGetParams,
   HTTPValidationError,
   PageAlbumImageItemResponse,
   SetHideAlbumImagesHideImagePostParams,
@@ -44,71 +43,98 @@ import { defaultMutator } from '../../api/axiosInstance';
 
 
 /**
- * API Search Album Image
+ * ### API Search Album Image
+
+- Để search theo image_name --> thực hiện upload ảnh với image_for_search = 1 từ API /base --> file_name --> sử dụng file_name đó truyền vào param image_name của API search này
+- Update 28/4/2025: search_type bị deprecated, có thể tìm kiếm theo cả bib_number và avatar_file và image_name
  * @summary Get
  */
-export const getAlbumImagesPost = (
-    bodyGetAlbumImagesPost: BodyGetAlbumImagesPost,
-    params?: GetAlbumImagesPostParams,
+export const getAlbumImagesGet = (
+    params?: GetAlbumImagesGetParams,
  signal?: AbortSignal
 ) => {
       
-      const formData = new FormData();
-if(bodyGetAlbumImagesPost.avatar_file !== undefined) {
- formData.append('avatar_file', bodyGetAlbumImagesPost.avatar_file)
- }
-
+      
       return defaultMutator<PageAlbumImageItemResponse>(
-      {url: `/album-images`, method: 'POST',
-      headers: {'Content-Type': 'multipart/form-data', },
-       data: formData,
+      {url: `/album-images`, method: 'GET',
         params, signal
     },
       );
     }
   
 
+export const getGetAlbumImagesGetQueryKey = (params?: GetAlbumImagesGetParams,) => {
+    return [`/album-images`, ...(params ? [params]: [])] as const;
+    }
 
-export const getGetAlbumImagesPostMutationOptions = <TError = HTTPValidationError,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof getAlbumImagesPost>>, TError,{data: BodyGetAlbumImagesPost;params?: GetAlbumImagesPostParams}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof getAlbumImagesPost>>, TError,{data: BodyGetAlbumImagesPost;params?: GetAlbumImagesPostParams}, TContext> => {
-const {mutation: mutationOptions} = options ?? {};
+    
+export const getGetAlbumImagesGetQueryOptions = <TData = Awaited<ReturnType<typeof getAlbumImagesGet>>, TError = HTTPValidationError>(params?: GetAlbumImagesGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAlbumImagesGet>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetAlbumImagesGetQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAlbumImagesGet>>> = ({ signal }) => getAlbumImagesGet(params, signal);
 
       
 
+      
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof getAlbumImagesPost>>, {data: BodyGetAlbumImagesPost;params?: GetAlbumImagesPostParams}> = (props) => {
-          const {data,params} = props ?? {};
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAlbumImagesGet>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+}
 
-          return  getAlbumImagesPost(data,params,)
-        }
-
-        
+export type GetAlbumImagesGetQueryResult = NonNullable<Awaited<ReturnType<typeof getAlbumImagesGet>>>
+export type GetAlbumImagesGetQueryError = HTTPValidationError
 
 
-  return  { mutationFn, ...mutationOptions }}
+export function useGetAlbumImagesGet<TData = Awaited<ReturnType<typeof getAlbumImagesGet>>, TError = HTTPValidationError>(
+ params: undefined |  GetAlbumImagesGetParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAlbumImagesGet>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAlbumImagesGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
 
-    export type GetAlbumImagesPostMutationResult = NonNullable<Awaited<ReturnType<typeof getAlbumImagesPost>>>
-    export type GetAlbumImagesPostMutationBody = BodyGetAlbumImagesPost
-    export type GetAlbumImagesPostMutationError = HTTPValidationError
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetAlbumImagesGet<TData = Awaited<ReturnType<typeof getAlbumImagesGet>>, TError = HTTPValidationError>(
+ params?: GetAlbumImagesGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAlbumImagesGet>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAlbumImagesGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
 
-    /**
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetAlbumImagesGet<TData = Awaited<ReturnType<typeof getAlbumImagesGet>>, TError = HTTPValidationError>(
+ params?: GetAlbumImagesGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAlbumImagesGet>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+/**
  * @summary Get
  */
-export const useGetAlbumImagesPost = <TError = HTTPValidationError,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof getAlbumImagesPost>>, TError,{data: BodyGetAlbumImagesPost;params?: GetAlbumImagesPostParams}, TContext>, }
-): UseMutationResult<
-        Awaited<ReturnType<typeof getAlbumImagesPost>>,
-        TError,
-        {data: BodyGetAlbumImagesPost;params?: GetAlbumImagesPostParams},
-        TContext
-      > => {
 
-      const mutationOptions = getGetAlbumImagesPostMutationOptions(options);
+export function useGetAlbumImagesGet<TData = Awaited<ReturnType<typeof getAlbumImagesGet>>, TError = HTTPValidationError>(
+ params?: GetAlbumImagesGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAlbumImagesGet>>, TError, TData>>, }
 
-      return useMutation(mutationOptions);
-    }
-    /**
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+
+  const queryOptions = getGetAlbumImagesGetQueryOptions(params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+/**
  * API set hide a AlbumImage
  * @summary Set Hide
  */

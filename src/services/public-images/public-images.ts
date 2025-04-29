@@ -30,83 +30,109 @@ import type {
   UseQueryResult
 } from '@tanstack/react-query'
 import type {
-  BodySearchPubImagesPost,
   DataResponseAlbumImageItemResponsePublic,
   HTTPValidationError,
   PageAlbumImageItemResponsePublic,
   SearchByAlbumLinkPubImagesSearchByLinkPostParams,
-  SearchPubImagesPostParams
+  SearchPubImagesGetParams
 } from '../../schemas'
 import { defaultMutator } from '../../api/axiosInstance';
 
 
 
 /**
- * API Search Album Image
+ * ### API Search Album Image
+
+- Để search theo image_name --> thực hiện upload ảnh với image_for_search = 1 từ API /base --> file_name --> sử dụng file_name đó truyền vào param image_name của API search này
+- Update 28/4/2025: search_type bị deprecated, có thể tìm kiếm theo cả bib_number và avatar_file và image_name
  * @summary Search
  */
-export const searchPubImagesPost = (
-    bodySearchPubImagesPost: BodySearchPubImagesPost,
-    params?: SearchPubImagesPostParams,
+export const searchPubImagesGet = (
+    params?: SearchPubImagesGetParams,
  signal?: AbortSignal
 ) => {
       
-      const formData = new FormData();
-if(bodySearchPubImagesPost.avatar_file !== undefined) {
- formData.append('avatar_file', bodySearchPubImagesPost.avatar_file)
- }
-
+      
       return defaultMutator<PageAlbumImageItemResponsePublic>(
-      {url: `/pub/images`, method: 'POST',
-      headers: {'Content-Type': 'multipart/form-data', },
-       data: formData,
+      {url: `/pub/images`, method: 'GET',
         params, signal
     },
       );
     }
   
 
+export const getSearchPubImagesGetQueryKey = (params?: SearchPubImagesGetParams,) => {
+    return [`/pub/images`, ...(params ? [params]: [])] as const;
+    }
 
-export const getSearchPubImagesPostMutationOptions = <TError = HTTPValidationError,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof searchPubImagesPost>>, TError,{data: BodySearchPubImagesPost;params?: SearchPubImagesPostParams}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof searchPubImagesPost>>, TError,{data: BodySearchPubImagesPost;params?: SearchPubImagesPostParams}, TContext> => {
-const {mutation: mutationOptions} = options ?? {};
+    
+export const getSearchPubImagesGetQueryOptions = <TData = Awaited<ReturnType<typeof searchPubImagesGet>>, TError = HTTPValidationError>(params?: SearchPubImagesGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof searchPubImagesGet>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getSearchPubImagesGetQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof searchPubImagesGet>>> = ({ signal }) => searchPubImagesGet(params, signal);
 
       
 
+      
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof searchPubImagesPost>>, {data: BodySearchPubImagesPost;params?: SearchPubImagesPostParams}> = (props) => {
-          const {data,params} = props ?? {};
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof searchPubImagesGet>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+}
 
-          return  searchPubImagesPost(data,params,)
-        }
-
-        
+export type SearchPubImagesGetQueryResult = NonNullable<Awaited<ReturnType<typeof searchPubImagesGet>>>
+export type SearchPubImagesGetQueryError = HTTPValidationError
 
 
-  return  { mutationFn, ...mutationOptions }}
+export function useSearchPubImagesGet<TData = Awaited<ReturnType<typeof searchPubImagesGet>>, TError = HTTPValidationError>(
+ params: undefined |  SearchPubImagesGetParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof searchPubImagesGet>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof searchPubImagesGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
 
-    export type SearchPubImagesPostMutationResult = NonNullable<Awaited<ReturnType<typeof searchPubImagesPost>>>
-    export type SearchPubImagesPostMutationBody = BodySearchPubImagesPost
-    export type SearchPubImagesPostMutationError = HTTPValidationError
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useSearchPubImagesGet<TData = Awaited<ReturnType<typeof searchPubImagesGet>>, TError = HTTPValidationError>(
+ params?: SearchPubImagesGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof searchPubImagesGet>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof searchPubImagesGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
 
-    /**
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useSearchPubImagesGet<TData = Awaited<ReturnType<typeof searchPubImagesGet>>, TError = HTTPValidationError>(
+ params?: SearchPubImagesGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof searchPubImagesGet>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+/**
  * @summary Search
  */
-export const useSearchPubImagesPost = <TError = HTTPValidationError,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof searchPubImagesPost>>, TError,{data: BodySearchPubImagesPost;params?: SearchPubImagesPostParams}, TContext>, }
-): UseMutationResult<
-        Awaited<ReturnType<typeof searchPubImagesPost>>,
-        TError,
-        {data: BodySearchPubImagesPost;params?: SearchPubImagesPostParams},
-        TContext
-      > => {
 
-      const mutationOptions = getSearchPubImagesPostMutationOptions(options);
+export function useSearchPubImagesGet<TData = Awaited<ReturnType<typeof searchPubImagesGet>>, TError = HTTPValidationError>(
+ params?: SearchPubImagesGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof searchPubImagesGet>>, TError, TData>>, }
 
-      return useMutation(mutationOptions);
-    }
-    /**
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+
+  const queryOptions = getSearchPubImagesGetQueryOptions(params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+/**
  * API Search Album Image
  * @summary Search By Album Link
  */

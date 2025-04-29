@@ -239,9 +239,7 @@ export default function CartPage({ repo }: InferGetServerSidePropsType<typeof ge
                 </div>
 
                 <div className='absolute bottom-2 right-2'>
-                  <p className='text-blue-500 font-bold'>
-                    {formatter(price * (query?.[bib]?.length ?? 0))}
-                  </p>
+                  <p className='text-blue-500 font-bold'>{formatter(event.album_price ?? 0)}</p>
                 </div>
               </div>
             ))}

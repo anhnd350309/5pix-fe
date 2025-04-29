@@ -6,9 +6,8 @@ import { BannerEvent } from '@/components/event/BannerEvent'
 import { detailPubAlbumsAlbumSlugGet } from '@/services/public-album/public-album'
 import {
   searchByAlbumLinkPubImagesSearchByLinkPost,
-  searchPubImagesPost,
+  searchPubImagesGet,
   useSearchByAlbumLinkPubImagesSearchByLinkPost,
-  useSearchPubImagesPost,
 } from '@/services/public-images/public-images'
 import ImgViewer from '@/components/event/ImgViewer'
 
@@ -100,19 +99,15 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
 
       try {
         if (id || slug) {
-          const body: BodySearchPubImagesPost = {
-            avatar_file: '',
-          }
           const params: SearchPubImagesPostParams = {
             album_id: id,
             slug: slug as string,
-            search_type: 'all',
             page: currentPage,
             page_size: 100,
             sort_by: 'id',
             order: 'desc',
           }
-          const newImgs = await searchPubImagesPost(body, params)
+          const newImgs = await searchPubImagesGet(params)
           setLoadedImgs(newImgs.data)
           setTotalEvents(newImgs?.metadata.total_items ?? null)
           setTotalPages(Math.ceil(newImgs?.metadata.total_items / 100))
@@ -172,13 +167,14 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
         <BannerEvent
           event={event!}
           id={id}
-          mutate={mutate}
           setShowTotal={setShowTotal}
           bibNum={bibNum}
           setBibNum={setBibNum}
-          setFile={setFile}
           setCurrentPage={setCurrentPage}
           type='link'
+          setLoadedImgs={setLoadedImgs}
+          setTotalEvents={setTotalEvents}
+          setTotalPages={setTotalPages}
         />
 
         {curLoading ? (
@@ -297,6 +293,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
         isFree={event?.is_album_free}
         albumId={event?.id || 0}
         price={event?.album_image_price}
+        isBuyAll={true}
       />
     </React.Fragment>
   )

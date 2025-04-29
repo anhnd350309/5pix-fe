@@ -52,6 +52,25 @@ const MyImages: React.FC = () => {
   const [totalImages, setTotalImages] = useState<number | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [groupedImages, setGroupedImages] = useState<Record<number, OwnedImageResponse[]>>({})
+  const [expandedAlbumId, setExpandedAlbumId] = useState<number | null>(null)
+
+  const toggleAlbum = (albumId: number) => {
+    setExpandedAlbumId((prev) => (prev === albumId ? null : albumId))
+  }
+  const groupImagesByAlbum = (images: OwnedImageResponse[]) => {
+    const grouped: Record<number, OwnedImageResponse[]> = {}
+
+    images.forEach((image) => {
+      const albumId = image.album_id
+      if (!grouped[albumId]) {
+        grouped[albumId] = []
+      }
+      grouped[albumId].push(image)
+    })
+
+    return grouped
+  }
   const fetchImages = async () => {
     setIsLoading(true)
     setError(null)
@@ -64,6 +83,8 @@ const MyImages: React.FC = () => {
       const response = await getOwnedImagesImageCollectionOwnedImagesGet(params)
       const images = response.data
       setLoadedImages(images)
+      console.log(images)
+      setGroupedImages(groupImagesByAlbum(images))
       setTotalImages(response.metadata.total_items)
       setTotalPages(Math.ceil(response?.metadata.total_items / 100))
     } catch (err: any) {
@@ -73,6 +94,7 @@ const MyImages: React.FC = () => {
       setIsLoadingMore(false)
     }
   }
+
   useEffect(() => {
     fetchImages()
   }, [currentPage])
@@ -97,7 +119,7 @@ const MyImages: React.FC = () => {
   }
   return (
     <div>
-      <div className='w-full space-y-5 mx-1 sm:mx-16 mt-4 px-4 xl:px-16 center pb-[40px]'>
+      <div className='w-full space-y-5   mt-4 center pb-[40px]'>
         {isLoading ? (
           <Spin className='flex justify-center items-center h-24' />
         ) : (
@@ -110,17 +132,32 @@ const MyImages: React.FC = () => {
                     Không tìm thấy hình ảnh nào của bạn
                   </span>
                 ) : (
-                  <div className='gap-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5  min-h-[300px] '>
-                    {loadedImages?.map((image, index: number) => (
-                      <ImageViewer
-                        src={image?.cdn_image_url || 'assets/images/DetailEvent.png'}
-                        alt='image'
-                        key={index}
-                        extra={image?.s3_image_url || image?.cdn_image_url || ''}
-                        width={600}
-                        height={400}
-                        // onClick={() => handleOptionClick('open', index)}
-                      />
+                  <div className='w-full'>
+                    {Object.entries(groupedImages).map(([albumId, images]) => (
+                      <div key={albumId} className='border p-4 rounded-md mb-4'>
+                        <div
+                          className='flex justify-between items-center cursor-pointer'
+                          onClick={() => toggleAlbum(Number(albumId))}
+                        >
+                          <h3 className='text-lg font-semibold'>Album {albumId}</h3>
+                          <span>{expandedAlbumId === Number(albumId) ? '▲' : '▼'}</span>
+                        </div>
+
+                        {expandedAlbumId === Number(albumId) && (
+                          <div className='gap-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 mt-4'>
+                            {images.map((image, idx) => (
+                              <ImageViewer
+                                key={idx}
+                                src={image?.cdn_image_url || 'assets/images/DetailEvent.png'}
+                                alt='image'
+                                extra={image?.s3_image_url || image?.cdn_image_url || ''}
+                                width={600}
+                                height={400}
+                              />
+                            ))}
+                          </div>
+                        )}
+                      </div>
                     ))}
                   </div>
                 )}

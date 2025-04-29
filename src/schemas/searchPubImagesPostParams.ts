@@ -12,13 +12,11 @@
         
  * OpenAPI spec version: 0.1.0
  */
-import type { ImageSearchType } from './imageSearchType';
 
 export type SearchPubImagesPostParams = {
 album_id?: number;
-search_type?: ImageSearchType;
 bib_number?: string;
-avatar_name?: string;
+image_name?: string;
 slug?: string;
 page_size?: number;
 page?: number;

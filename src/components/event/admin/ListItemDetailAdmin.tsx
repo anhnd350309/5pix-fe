@@ -4,7 +4,7 @@ import { Button, Modal, Popover, Spin } from 'antd'
 import Image from 'next/image'
 import { AlbumImageItemResponse } from '@/schemas'
 import {
-  getAlbumImagesPost,
+  getAlbumImagesGet,
   setImageMetadataAlbumImagesSetImageMetadataPut,
 } from '@/services/images/images'
 import ImageModal from '@/components/common/ImageModal'
@@ -30,19 +30,13 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const imgs = await getAlbumImagesPost(
-          {
-            avatar_file: '',
-          },
-          {
-            album_id: Number(id),
-            search_type: 'all',
-            page: currentPage,
-            page_size: 100,
-            sort_by: 'id',
-            order: 'desc',
-          },
-        )
+        const imgs = await getAlbumImagesGet({
+          album_id: Number(id),
+          page: currentPage,
+          page_size: 100,
+          sort_by: 'id',
+          order: 'desc',
+        })
 
         setLoadedImgs(imgs.data)
         setTotalEvents(imgs?.metadata.total_items ?? null)
@@ -180,14 +174,14 @@ const ListEventsDetailAdmin = ({ id }: ListItemDetailAdminProps) => {
           </div>
         </div>
       )}
-      <ImageModal
+      {/* <ImageModal
         visible={isModalVisibleImage}
         onCancel={() => setIsModalVisibleImage(false)}
         images={loadedImgs}
         selectedImageIndex={selectedImageIndex || 0}
         setSelectedImageIndex={setSelectedImageIndex}
         albumId={Number(id)}
-      />
+      /> */}
       <Modal
         title='Cập nhật metadata'
         open={isEditModalVisible}
