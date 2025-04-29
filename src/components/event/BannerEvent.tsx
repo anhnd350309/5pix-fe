@@ -120,7 +120,7 @@ export const BannerEvent: React.FC<BannerEventProps> = ({
       alert(`An error occurred. Please try again.${error}`)
     } finally {
       setFileName('')
-      setBibNumber('')
+      // setBibNumber('')
     }
   }
 
