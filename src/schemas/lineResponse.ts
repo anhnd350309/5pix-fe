@@ -16,6 +16,8 @@ import type { ImageQueryDTO } from './imageQueryDTO';
 
 export interface LineResponse {
   album_id?: number;
+  album_image_price?: number;
+  album_price?: number;
   id?: number;
   image_collection_id?: number;
   image_queries?: ImageQueryDTO[];

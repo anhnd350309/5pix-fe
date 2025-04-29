@@ -29,5 +29,7 @@ export interface CollectionImageResponse {
   order_internal_status?: OrderInternalStatus;
   owner_id: number;
   query_keyword?: string;
+  query_price?: number;
+  query_quantity?: number;
   query_type?: string;
 }

@@ -13,15 +13,12 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type GetImageCollectionGetParams = {
+export type GetAlbumImagesGetParams = {
 album_id?: number;
-collection_id?: number;
+bib_number?: string;
+image_name?: string;
 page_size?: number;
 page?: number;
 sort_by?: string;
 order?: string;
-/**
- * list internal_statues
- */
-order_internal_statues?: string[];
 };

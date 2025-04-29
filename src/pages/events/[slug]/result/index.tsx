@@ -20,8 +20,8 @@ const ResultPage: ResultPageType = () => {
     const handlerGetResult = async () => {
       try {
         const data = await genCertificateThumbnailImagePubAlbumsGenCertificateThumbnailImagePost({
-          album_slug: Array.isArray(slug) ? slug[0] : slug,
-          bib_number: Array.isArray(bibNum) ? bibNum[0] : bibNum,
+          album_slug: Array.isArray(slug) ? slug[0] : slug || '',
+          bib_number: Array.isArray(bibNum) ? bibNum[0] : bibNum || '',
         })
         const blob = new Blob([data as any], { type: 'image/png' })
         convertBlobToBase64(blob)

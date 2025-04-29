@@ -3,56 +3,72 @@ import Image from 'next/image'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { AlbumItemResponsePublic } from '@/schemas'
+import {
+  AlbumItemResponsePublic,
+  BodyUploadToGetCdnBasePost,
+  SearchPubImagesPostParams,
+} from '@/schemas'
 
 import SvgDate from '../icons/icons/Date'
 import SvgImage from '../icons/icons/Image'
 import SvgSearch from '../icons/icons/Search'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import UploadImageComponent from '@/components/common/UploadImageComponent'
-import { searchPubImagesPost } from '@/services/public-images/public-images'
-import { ImageSearchType } from '@/services/5pixBackend'
+import { searchPubImagesGet } from '@/services/public-images/public-images'
+import { uploadToGetCdnBasePost } from '@/services/base/base'
 
 export interface BannerEventProps {
   event: AlbumItemResponsePublic
   id: number | string
-  mutate?: any
   setShowTotal: any
   bibNum: string
   setBibNum: any
-  setFile?: any
+  fileName?: string
+  setFileName?: any
   setCurrentPage?: any
   type?: string
+  setLoadedImgs: any
+  setTotalEvents: any
+  setTotalPages: any
+  setIsBuyAll?: any
 }
 
-export const BannerEvent: ({
+export const BannerEvent: React.FC<BannerEventProps> = ({
   event,
   id,
-  mutate,
-  setShowTotal,
-  bibNum,
-  setBibNum,
-  setFile,
-  setCurrentPage,
-  type,
-}: BannerEventProps) => JSX.Element = ({
-  event,
-  id,
-  mutate,
   setShowTotal,
   bibNum: bibNumber,
   setBibNum: setBibNumber,
-  setFile,
+  fileName,
+  setFileName,
   setCurrentPage,
   type,
+  setLoadedImgs,
+  setTotalEvents,
+  setTotalPages,
+  setIsBuyAll,
 }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   console.log(event.is_find_all_image)
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
     if (file) {
       setSelectedFile(file)
+      const body: BodyUploadToGetCdnBasePost = {
+        file_data: file,
+      }
+      try {
+        const response = await uploadToGetCdnBasePost(body, { image_for_search: 1 })
+        if (response.data) {
+          setFileName(response.data.file_name)
+          console.log(response.data.file_name)
+          // setUrl(response.data.url)
+          // form.setFieldsValue({ album_image_url: response.data.url })
+        }
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 
@@ -67,51 +83,44 @@ export const BannerEvent: ({
     //   return
     // }
     setCurrentPage(1)
-    const body = {
-      avatar_file: selectedFile || '',
-    }
-    const params = {
-      album_id: id,
-      bib_number: bibNumber,
+    const body = {}
+    const params: SearchPubImagesPostParams = {
+      album_id: typeof id === 'string' ? parseInt(id, 10) : id,
+
       slug: event.album_slug,
-      search_type: 'all' as ImageSearchType,
       page_size: 100,
       page: 1,
       sort_by: 'id',
       order: 'desc',
     }
-
+    if (bibNumber) {
+      params.bib_number = bibNumber
+    }
     try {
-      if (body.avatar_file) {
-        setFile(body.avatar_file)
-        params.search_type = 'index_face'
+      if (fileName !== '') {
+        params.image_name = fileName || ''
         setShowTotal(true)
-        setBibNumber('')
+        setIsBuyAll(true)
       } else if (bibNumber) {
-        setFile(null)
         setBibNumber(bibNumber)
-        params.search_type = 'metadata'
-        setShowTotal(true)
+        setIsBuyAll(true)
       } else {
-        setFile(null)
-        params.search_type = 'all'
         setShowTotal(false)
-        setBibNumber('')
       }
-      mutate({
-        data: {
-          avatar_file: body.avatar_file,
-        },
-        params: params,
-      })
-      setSelectedFile(null)
-      // console.log('reset file', selectedFile)
-      // const response = await searchPubImagesPost(body, params)
-      // console.log('Search Results:', response.data)
-      // alert('Search successful!')
+
+      console.log('parammmmm', params, fileName)
+      const newImgs = await searchPubImagesGet(params)
+      if (event.is_find_all_image === 1) {
+        setLoadedImgs(newImgs.data)
+        setTotalEvents(newImgs?.metadata.total_items ?? null)
+        setTotalPages(Math.ceil(newImgs?.metadata.total_items / 100))
+      }
     } catch (error) {
       console.log('Error:', error)
-      alert('An error occurred. Please try again.{error}')
+      alert(`An error occurred. Please try again.${error}`)
+    } finally {
+      setFileName('')
+      setBibNumber('')
     }
   }
 

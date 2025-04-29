@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react'
 
 import { BannerEvent } from '@/components/event/BannerEvent'
 import { detailPubAlbumsAlbumSlugGet } from '@/services/public-album/public-album'
-import { searchPubImagesPost, useSearchPubImagesPost } from '@/services/public-images/public-images'
 import ImgViewer from '@/components/event/ImgViewer'
 
 import {
@@ -20,6 +19,8 @@ import { InferGetServerSidePropsType, GetServerSideProps } from 'next'
 import ImageModal from '@/components/common/ImageModal'
 import { useSession } from 'next-auth/react'
 import useCurrency from '@/hooks/useCurrency'
+import { getAlbumImagesGet } from '@/services/images/images'
+import { searchPubImagesGet, useSearchPubImagesGet } from '@/services/public-images/public-images'
 type Repo = {
   event?: AlbumItemResponsePublic
   images: AlbumImageItemResponsePublic[]
@@ -44,7 +45,6 @@ export const getServerSideProps = (async (context) => {
       album_id: id,
       slug: Array.isArray(slug) ? slug[0] : slug,
       bib_number: Array.isArray(bibNumber) ? bibNumber[0] : bibNumber,
-      search_type: 'metadata' as ImageSearchType,
       page_size: 100,
       page: 1,
       sort_by: 'id',
@@ -54,19 +54,13 @@ export const getServerSideProps = (async (context) => {
     params = {
       album_id: id,
       slug: Array.isArray(slug) ? slug[0] : slug,
-      search_type: 'all' as ImageSearchType,
       page_size: 100,
       page: 1,
       sort_by: 'id',
       order: 'desc',
     }
   }
-  const imagesData = await searchPubImagesPost(
-    {
-      avatar_file: '',
-    },
-    params,
-  )
+  const imagesData = await searchPubImagesGet(params)
   const images = event.is_find_all_image === 1 ? imagesData.data : []
   return {
     props: { repo: { event, images } },
@@ -94,13 +88,14 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
     router.push(`/events/${slug}/checkout`)
   }
 
-  const { mutate, data: imagesData, error: imagesError, isPending } = useSearchPubImagesPost()
   const [showTotal, setShowTotal] = useState(false)
+  const [isBuyAll, setIsBuyAll] = useState(false)
   const [loadedImgs, setLoadedImgs] = useState<AlbumImageItemResponsePublic[]>(repo.images)
   const [totalPages, setTotalPages] = useState(1)
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null)
   const [isModalVisibleImage, setIsModalVisibleImage] = useState(false)
   const [bibNum, setBibNum] = useState<string>('')
+  const [fileName, setFileName] = useState<string | null>('')
   if (bibNumber) {
     setBibNum(bibNumber)
   }
@@ -109,10 +104,10 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
     id = 0
   }
   const [totalEvents, setTotalEvents] = useState<number | null>(null)
-  useEffect(() => {
-    setTotalEvents(imagesData?.metadata.total_items ?? null)
-    setTotalPages(Math.ceil((imagesData?.metadata.total_items ?? 0) / 100))
-  }, [imagesData])
+  // useEffect(() => {
+  //   setTotalEvents(imagesData?.metadata.total_items ?? null)
+  //   setTotalPages(Math.ceil((imagesData?.metadata.total_items ?? 0) / 100))
+  // }, [imagesData])
   useEffect(() => {
     const fetchEvents = async () => {
       if (bibNum) {
@@ -122,7 +117,6 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
               album_id: id,
               slug: Array.isArray(slug) ? slug[0] : slug,
               bib_number: bibNum,
-              search_type: 'metadata' as ImageSearchType,
               page_size: 100,
               page: currentPage,
               sort_by: 'id',
@@ -130,12 +124,13 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
             }
 
             setShowTotal(true)
-            mutate({
-              data: {
-                avatar_file: '',
-              },
-              params: params,
-            })
+            setCurLoading(true)
+            const newImgs = await searchPubImagesGet(params)
+            if (event.is_find_all_image === 1) {
+              setLoadedImgs(newImgs.data)
+              setTotalEvents(newImgs?.metadata.total_items ?? null)
+              setTotalPages(Math.ceil(newImgs?.metadata.total_items / 100))
+            }
           }
         } catch (err: any) {
           console.log(err)
@@ -155,13 +150,12 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
             const params: SearchPubImagesPostParams = {
               album_id: id,
               slug: slug as string,
-              search_type: 'index_face',
               page: currentPage,
               page_size: 100,
               sort_by: 'id',
               order: 'desc',
             }
-            const newImgs = await searchPubImagesPost(body, params)
+            const newImgs = await searchPubImagesGet(params)
             if (event.is_find_all_image === 1) {
               setLoadedImgs(newImgs.data)
               setTotalEvents(newImgs?.metadata.total_items ?? null)
@@ -187,13 +181,12 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
             const params: SearchPubImagesPostParams = {
               album_id: id,
               slug: slug as string,
-              search_type: 'all',
               page: currentPage,
               page_size: 100,
               sort_by: 'id',
               order: 'desc',
             }
-            const newImgs = await searchPubImagesPost(body, params)
+            const newImgs = await searchPubImagesGet(params)
             if (event.is_find_all_image === 1) {
               setLoadedImgs(newImgs.data)
               setTotalEvents(newImgs?.metadata.total_items ?? null)
@@ -214,14 +207,14 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
     }
     fetchEvents()
   }, [currentPage, id])
-  useEffect(() => {
-    if (imagesData) {
-      if (event.is_find_all_image === 1) {
-        setLoadedImgs(imagesData?.data || [])
-        setTotalEvents(imagesData.metadata.total_items ?? null)
-      }
-    }
-  }, [imagesData])
+  // useEffect(() => {
+  //   if (imagesData) {
+  //     if (event.is_find_all_image === 1) {
+  //       setLoadedImgs(imagesData?.data || [])
+  //       setTotalEvents(imagesData.metadata.total_items ?? null)
+  //     }
+  //   }
+  // }, [imagesData])
   const handlePreviousPage = () => {
     if (currentPage > 1) {
       setIsLoadingMore(true)
@@ -265,14 +258,18 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
         <BannerEvent
           event={event}
           id={id}
-          mutate={mutate}
           setShowTotal={setShowTotal}
           bibNum={bibNum}
           setBibNum={setBibNum}
-          setFile={setFile}
           setCurrentPage={setCurrentPage}
+          setLoadedImgs={setLoadedImgs}
+          setTotalEvents={setTotalEvents}
+          setTotalPages={setTotalPages}
+          fileName={fileName || ''}
+          setFileName={setFileName}
+          setIsBuyAll={setIsBuyAll}
         />
-        {isPending ? (
+        {curLoading ? (
           <Spin className='flex justify-center items-center h-24' />
         ) : (
           <React.Fragment>
@@ -395,6 +392,8 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
         isFree={event.is_album_free}
         albumId={event.id}
         price={event.album_image_price}
+        fileSearch={fileName || ''}
+        isBuyAll={isBuyAll}
       />
     </React.Fragment>
   )

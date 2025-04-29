@@ -16,6 +16,8 @@ interface ImageModalProps {
   isFree?: number
   albumId: number
   price?: number
+  fileSearch?: string
+  isBuyAll?: boolean
 }
 
 const ImageModal: React.FC<ImageModalProps> = ({
@@ -29,7 +31,10 @@ const ImageModal: React.FC<ImageModalProps> = ({
   isFree,
   albumId,
   price,
+  fileSearch,
+  isBuyAll,
 }) => {
+  console.log(fileSearch, bibNum)
   if (isFree === null) isFree = 1
   const router = useRouter()
   const carouselRef = useRef<any>(null)
@@ -113,7 +118,7 @@ const ImageModal: React.FC<ImageModalProps> = ({
         album_id: albumId,
         queries: [
           {
-            keyword: bibNum,
+            keyword: bibNum === '' ? fileSearch : bibNum,
             keyword_type: 'bib_number',
           },
         ],
@@ -252,7 +257,7 @@ const ImageModal: React.FC<ImageModalProps> = ({
             </Button>
           ) : (
             <>
-              {bibNum && (
+              {isBuyAll && (
                 <Button type='primary' onClick={buyPhotobook}>
                   Mua photobook
                 </Button>

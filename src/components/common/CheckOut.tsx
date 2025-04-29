@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form, Table, Card } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
-import { ItemResponse } from '@/schemas'
+import { CollectionImageWithQueryResponseImageQueries, ItemResponse } from '@/schemas'
 
 interface Product {
   album_image_url: string
@@ -9,6 +9,7 @@ interface Product {
   price: number
   album_name?: string
   key: string
+  type: string
 }
 
 const columns: ColumnsType<Product> = [
@@ -24,13 +25,13 @@ const columns: ColumnsType<Product> = [
     title: 'Tên sản phẩm',
     dataIndex: 'name',
     key: 'name',
-    render: (name: string) => <>{`${name.slice(0, 10)}...${name.slice(-10)}`}</>,
+    render: (name: string) => <>{`${name.slice(0, 14)}...${name.slice(-10)}`}</>,
   },
-  // {
-  //   title: 'Tên album',
-  //   dataIndex: 'album_name',
-  //   key: 'album_name',
-  // },
+  {
+    title: 'Loại sản phẩm',
+    dataIndex: 'type',
+    key: 'type',
+  },
   {
     title: 'Giá',
     dataIndex: 'price',
@@ -44,9 +45,19 @@ interface CheckoutInfoProps {
   price?: number
   items?: ItemResponse[]
   album_name?: string
+  albums?: CollectionImageWithQueryResponseImageQueries
+  album_price: number
 }
-export default function CheckoutInfo({ isLoading, price, items, album_name }: CheckoutInfoProps) {
+export default function CheckoutInfo({
+  isLoading,
+  price,
+  items,
+  album_name,
+  albums,
+  album_price,
+}: CheckoutInfoProps) {
   const [form] = Form.useForm()
+  console.log(albums)
   const data: Product[] = isLoading
     ? [
         {
@@ -54,29 +65,30 @@ export default function CheckoutInfo({ isLoading, price, items, album_name }: Ch
           name: '',
           price: 0,
           album_name: '',
-          key: 'loading', // Important: Provide a key
+          key: 'loading',
+          type: 'Ảnh đơn',
         },
       ]
-    : items
-        ?.map((item, index) => ({
+    : [
+        ...(Array.isArray(albums)
+          ? albums.map((album, index) => ({
+              album_image_url: '/assets/images/FormMerchant.png',
+              name: `Photobook của bib ${album.keyword}`,
+              price: album_price || 0,
+              album_name: album_name || '',
+              key: `album-${index}`,
+              type: 'Photobook',
+            }))
+          : []),
+        ...(items || []).map((item, index) => ({
           album_image_url: item.album_image_url || '',
           name: item.album_image_name || '',
           price: price || 0,
           album_name: album_name || '',
-          key: String(index),
-        }))
-        .filter((item) => item.album_image_url && item.name) || []
-  // Tạo prefix cho số điện thoại (mã vùng), ví dụ +84
-  // const prefixSelector = (
-  //   <Form.Item name='prefix' noStyle initialValue='+84'>
-  //     <Select style={{ width: 70 }}>
-  //       <Select.Option value='+84'>+84</Select.Option>
-  //       <Select.Option value='+1'>+1</Select.Option>
-  //       <Select.Option value='+86'>+86</Select.Option>
-  //       {/* Thêm các mã vùng khác nếu cần */}
-  //     </Select>
-  //   </Form.Item>
-  // )
+          key: `item-${index}`,
+          type: 'Ảnh đơn',
+        })),
+      ].filter((item) => item.name) // Remove filter for album_image_url
 
   return (
     <div className='max-w-3xl w-full '>
