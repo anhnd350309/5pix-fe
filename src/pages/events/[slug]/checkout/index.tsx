@@ -155,67 +155,24 @@ export default function CartPage({ repo }: InferGetServerSidePropsType<typeof ge
           <div className='flex justify-center items-center p-6'>
             <Spin />
           </div>
-        ) : (
-          <>
-            <List
-              itemLayout='horizontal'
-              dataSource={item}
-              renderItem={(item) => (
-                <List.Item className='mb-4 bg-white rounded-lg shadow p-4 items-center relative'>
-                  <div className='absolute top-2 right-2'>
-                    <Popconfirm
-                      title='Bạn có chắc chắn muốn xóa ảnh này khỏi giỏ hàng?'
-                      onConfirm={() => confirm(item.album_image_id)}
-                      okText='Có'
-                      cancelText='Không'
-                      className='bg-gray-200 rounded-full'
-                    >
-                      <Button type='text' style={{ color: '#344054' }} icon={<DeleteOutlined />} />
-                    </Popconfirm>
-                  </div>
-                  <List.Item.Meta
-                    avatar={
-                      <img
-                        src={item.album_image_url}
-                        className='w-24 h-24 object-cover rounded-md'
-                      />
-                    }
-                    title={<span className='text-blue-500 text-base font-medium'>Ảnh đơn</span>}
-                    description={
-                      <div>
-                        <p className='text-sm text-gray-700'>{item.album_image_id}</p>
-                        <p className='text-sm text-gray-400'>{event.album_name}</p>
-                      </div>
-                    }
-                  />
-
-                  <div className='absolute bottom-2 right-2'>
-                    <p className='text-blue-500 font-bold'>{formatter(price)}</p>
-                  </div>
-                </List.Item>
-              )}
-              locale={{
-                emptyText: (
-                  <div className='flex flex-col text-center py-8 items-center gap-3'>
-                    <SvgNoCart width={128} />
-                    <p className='text-gray-500'>Chưa có sản phẩm trong giỏ hàng</p>
-                    <Button
-                      type='primary'
-                      className='rounded-full'
-                      onClick={() => window.history.back()}
-                    >
-                      Tìm kiếm ảnh ngay
-                    </Button>
-                  </div>
-                ),
-              }}
-            />
-            {key?.map((bib: string) => (
-              <div className='mb-4 bg-white rounded-lg shadow p-4 items-center relative'>
+        ) : item.length === 0 && key.length === 0 ? (
+          <div className='flex flex-col text-center py-8 items-center gap-3'>
+            <SvgNoCart width={128} />
+            <p className='text-gray-500'>Chưa có sản phẩm trong giỏ hàng</p>
+            <Button type='primary' className='rounded-full' onClick={() => window.history.back()}>
+              Tìm kiếm ảnh ngay
+            </Button>
+          </div>
+        ) : item.length > 0 ? (
+          <List
+            itemLayout='horizontal'
+            dataSource={item}
+            renderItem={(item) => (
+              <List.Item className='mb-4 bg-white rounded-lg shadow p-4 items-center relative'>
                 <div className='absolute top-2 right-2'>
                   <Popconfirm
-                    title='Bạn có chắc chắn muốn xóa album này khỏi giỏ hàng?'
-                    onConfirm={deleteAlbum}
+                    title='Bạn có chắc chắn muốn xóa ảnh này khỏi giỏ hàng?'
+                    onConfirm={() => confirm(item.album_image_id)}
                     okText='Có'
                     cancelText='Không'
                     className='bg-gray-200 rounded-full'
@@ -223,28 +180,62 @@ export default function CartPage({ repo }: InferGetServerSidePropsType<typeof ge
                     <Button type='text' style={{ color: '#344054' }} icon={<DeleteOutlined />} />
                   </Popconfirm>
                 </div>
-
-                <div className='flex items-center gap-4'>
-                  {query && query[bib] && query[bib][0] && (
-                    <img
-                      src={query[bib][0].album_image_url}
-                      className='w-24 h-24 object-cover rounded-md'
-                    />
-                  )}
-                  <div className='flex flex-col'>
-                    <span className='text-blue-500 text-base font-medium'>Album của {bib}</span>
-                    {/* <p className='text-sm text-gray-700'>{item.album_image_id}</p> */}
-                    <p className='text-sm text-gray-400'>{event.album_name}</p>
-                  </div>
-                </div>
+                <List.Item.Meta
+                  avatar={
+                    <img src={item.album_image_url} className='w-24 h-24 object-cover rounded-md' />
+                  }
+                  title={<span className='text-blue-500 text-base font-medium'>Ảnh đơn</span>}
+                  description={
+                    <div>
+                      <p className='text-sm text-gray-700'>{item.album_image_id}</p>
+                      <p className='text-sm text-gray-400'>{event.album_name}</p>
+                    </div>
+                  }
+                />
 
                 <div className='absolute bottom-2 right-2'>
-                  <p className='text-blue-500 font-bold'>{formatter(event.album_price ?? 0)}</p>
+                  <p className='text-blue-500 font-bold'>{formatter(price)}</p>
                 </div>
+              </List.Item>
+            )}
+            locale={{
+              emptyText: undefined,
+            }}
+          />
+        ) : null}
+        {key?.map((bib: string) => (
+          <div className='mb-4 bg-white rounded-lg shadow p-4 items-center relative'>
+            <div className='absolute top-2 right-2'>
+              <Popconfirm
+                title='Bạn có chắc chắn muốn xóa album này khỏi giỏ hàng?'
+                onConfirm={deleteAlbum}
+                okText='Có'
+                cancelText='Không'
+                className='bg-gray-200 rounded-full'
+              >
+                <Button type='text' style={{ color: '#344054' }} icon={<DeleteOutlined />} />
+              </Popconfirm>
+            </div>
+
+            <div className='flex items-center gap-4'>
+              {query && query[bib] && query[bib][0] && (
+                <img
+                  src={query[bib][0].album_image_url}
+                  className='w-24 h-24 object-cover rounded-md'
+                />
+              )}
+              <div className='flex flex-col'>
+                <span className='text-blue-500 text-base font-medium'>Album của {bib}</span>
+                {/* <p className='text-sm text-gray-700'>{item.album_image_id}</p> */}
+                <p className='text-sm text-gray-400'>{event.album_name}</p>
               </div>
-            ))}
-          </>
-        )}
+            </div>
+
+            <div className='absolute bottom-2 right-2'>
+              <p className='text-blue-500 font-bold'>{formatter(event.album_price ?? 0)}</p>
+            </div>
+          </div>
+        ))}
 
         {/* Khối tổng tiền + nút thanh toán */}
         <div className='bg-white rounded-lg shadow p-4 flex justify-between items-center'>
