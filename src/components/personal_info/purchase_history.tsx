@@ -124,7 +124,9 @@ export const PurchaseHistory: React.FC = () => {
               >
                 <div className='flex justify-between items-start'>
                   <div className='flex flex-col space-y-1'>
-                    <span className='font-semibold'>{tx.data[0].album_name}</span>
+                    <span className='font-semibold'>
+                      {tx.data[0]?.album_name || tx.album[Object.keys(tx.album)[0]][0].album_name}
+                    </span>
                     <div className='flex items-center justify-between'>
                       <span className='text-xs text-gray-500 pr-10'>{tx.order.name}</span>
                       <span className='text-xs text-gray-500'>
