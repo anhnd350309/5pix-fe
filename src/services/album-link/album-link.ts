@@ -32,8 +32,10 @@ import type {
 import type {
   AlbumLinkItemResponse,
   CreateAlbumLinkRequest,
+  DataResponseAlbumLinkItemResponse,
   DataResponseStr,
   GetAlbumLinkGetParams,
+  GetKeywordAlbumLinkGetKeywordGetParams,
   HTTPValidationError
 } from '../../schemas'
 import { defaultMutator } from '../../api/axiosInstance';
@@ -192,4 +194,92 @@ export const useBulkCreateAlbumLinkPost = <TError = HTTPValidationError,
 
       return useMutation(mutationOptions);
     }
+    /**
+ * ### API get keyword và album_id từ link
+ * @summary Get Keyword
+ */
+export const getKeywordAlbumLinkGetKeywordGet = (
+    params: GetKeywordAlbumLinkGetKeywordGetParams,
+ signal?: AbortSignal
+) => {
+      
+      
+      return defaultMutator<DataResponseAlbumLinkItemResponse>(
+      {url: `/album-link/get-keyword`, method: 'GET',
+        params, signal
+    },
+      );
+    }
+  
+
+export const getGetKeywordAlbumLinkGetKeywordGetQueryKey = (params: GetKeywordAlbumLinkGetKeywordGetParams,) => {
+    return [`/album-link/get-keyword`, ...(params ? [params]: [])] as const;
+    }
+
     
+export const getGetKeywordAlbumLinkGetKeywordGetQueryOptions = <TData = Awaited<ReturnType<typeof getKeywordAlbumLinkGetKeywordGet>>, TError = HTTPValidationError>(params: GetKeywordAlbumLinkGetKeywordGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getKeywordAlbumLinkGetKeywordGet>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetKeywordAlbumLinkGetKeywordGetQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getKeywordAlbumLinkGetKeywordGet>>> = ({ signal }) => getKeywordAlbumLinkGetKeywordGet(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getKeywordAlbumLinkGetKeywordGet>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type GetKeywordAlbumLinkGetKeywordGetQueryResult = NonNullable<Awaited<ReturnType<typeof getKeywordAlbumLinkGetKeywordGet>>>
+export type GetKeywordAlbumLinkGetKeywordGetQueryError = HTTPValidationError
+
+
+export function useGetKeywordAlbumLinkGetKeywordGet<TData = Awaited<ReturnType<typeof getKeywordAlbumLinkGetKeywordGet>>, TError = HTTPValidationError>(
+ params: GetKeywordAlbumLinkGetKeywordGetParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getKeywordAlbumLinkGetKeywordGet>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getKeywordAlbumLinkGetKeywordGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetKeywordAlbumLinkGetKeywordGet<TData = Awaited<ReturnType<typeof getKeywordAlbumLinkGetKeywordGet>>, TError = HTTPValidationError>(
+ params: GetKeywordAlbumLinkGetKeywordGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getKeywordAlbumLinkGetKeywordGet>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getKeywordAlbumLinkGetKeywordGet>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetKeywordAlbumLinkGetKeywordGet<TData = Awaited<ReturnType<typeof getKeywordAlbumLinkGetKeywordGet>>, TError = HTTPValidationError>(
+ params: GetKeywordAlbumLinkGetKeywordGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getKeywordAlbumLinkGetKeywordGet>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+/**
+ * @summary Get Keyword
+ */
+
+export function useGetKeywordAlbumLinkGetKeywordGet<TData = Awaited<ReturnType<typeof getKeywordAlbumLinkGetKeywordGet>>, TError = HTTPValidationError>(
+ params: GetKeywordAlbumLinkGetKeywordGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getKeywordAlbumLinkGetKeywordGet>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+
+  const queryOptions = getGetKeywordAlbumLinkGetKeywordGetQueryOptions(params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
