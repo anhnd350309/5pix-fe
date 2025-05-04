@@ -24,12 +24,17 @@ import { InferGetServerSidePropsType, GetServerSideProps } from 'next'
 import ImageModal from '@/components/common/ImageModal'
 import { useSession } from 'next-auth/react'
 import useCurrency from '@/hooks/useCurrency'
-import { createByLinkImageCollectionCreateByLinkPost } from '@/services/image-collection/image-collection'
+import {
+  addImageImageCollectionAddImagePost,
+  createByLinkImageCollectionCreateByLinkPost,
+} from '@/services/image-collection/image-collection'
+import { getKeywordAlbumLinkGetKeywordGet } from '@/services/album-link/album-link'
 type Repo = {
   event?: AlbumItemResponsePublic
   images: AlbumImageItemResponsePublic[]
   link?: string
   eventId: number
+  bibNum?: string
 }
 export const getServerSideProps = (async (context) => {
   const link = Array.isArray(context.params?.link) ? context.params?.link[0] : context.params?.link
@@ -50,12 +55,13 @@ export const getServerSideProps = (async (context) => {
   console.log('imgaaa', imagesData)
   const images = imagesData.data
   return {
-    props: { repo: { event, images, eventId: parseInt(eventId, 10), link } },
+    props: { repo: { event, images, eventId: parseInt(eventId, 10), link, bibNum } },
   }
 }) satisfies GetServerSideProps<{ repo: Repo }>
 const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const images = repo.images
   const event = repo.event
+  const bibNum = repo.bibNum
   const formatter = useCurrency('đ')
   // event.is_album_free = 0
   const {
@@ -73,7 +79,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
   const link = repo.link
   console.log(link)
   const { slug } = router.query
-  const bibNumber = searchParams.get('bib_number')
+  // const bibNumber = searchParams.get('bib_number')
   const [currentPage, setCurrentPage] = useState(1)
   const [curLoading, setCurLoading] = useState(false)
   const [isLoadingMore, setIsLoadingMore] = useState(false)
@@ -81,10 +87,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
   const [totalPages, setTotalPages] = useState(1)
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null)
   const [isModalVisibleImage, setIsModalVisibleImage] = useState(false)
-  const [bibNum, setBibNum] = useState<string>('')
-  if (bibNumber) {
-    setBibNum(bibNumber)
-  }
+
   let id = parseInt(slug as string, 0)
   if (isNaN(id)) {
     id = 0
@@ -157,9 +160,22 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
     }
   }
   const showPopup = async () => {
-    await createByLinkImageCollectionCreateByLinkPost({
-      album_link: typeof link === 'string' ? link : '',
-    }).then(() => router.push(`/events/${eventId}/checkout`))
+    await getKeywordAlbumLinkGetKeywordGet({
+      hash_text: link,
+    }).then((res) => {
+      if (res.data) {
+        console.log('res', res.data)
+        addImageImageCollectionAddImagePost({
+          album_id: res.data.album_id,
+          queries: [
+            {
+              keyword: res.data.keyword,
+              keyword_type: 'bib_number',
+            },
+          ],
+        }).then(() => router.push(`/events/${eventId}/checkout`))
+      }
+    })
   }
   return (
     <React.Fragment>
@@ -169,7 +185,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
           id={id}
           setShowTotal={setShowTotal}
           bibNum={bibNum}
-          setBibNum={setBibNum}
+          setBibNum={setShowTotal}
           setCurrentPage={setCurrentPage}
           type='link'
           setLoadedImgs={setLoadedImgs}
@@ -293,6 +309,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
         isFree={event?.is_album_free}
         albumId={event?.id || 0}
         price={event?.album_image_price}
+        albumPrice={event?.album_price}
         isBuyAll={true}
       />
     </React.Fragment>

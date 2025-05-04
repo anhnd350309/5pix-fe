@@ -16,6 +16,7 @@ interface ImageModalProps {
   isFree?: number
   albumId: number
   price?: number
+  albumPrice?: number
   fileSearch?: string
   isBuyAll?: boolean
 }
@@ -31,6 +32,7 @@ const ImageModal: React.FC<ImageModalProps> = ({
   isFree,
   albumId,
   price,
+  albumPrice,
   fileSearch,
   isBuyAll,
 }) => {
@@ -40,6 +42,7 @@ const ImageModal: React.FC<ImageModalProps> = ({
   const carouselRef = useRef<any>(null)
   const [isPopupVisible, setIsPopupVisible] = useState(false)
 
+  const [isBuyPhotobook, setIsBuyPhotobook] = React.useState(false)
   useEffect(() => {
     if (carouselRef.current) {
       carouselRef.current.goTo(selectedImageIndex, true)
@@ -137,6 +140,7 @@ const ImageModal: React.FC<ImageModalProps> = ({
     } catch (error) {
       console.error('Error adding to cart:', error)
     } finally {
+      setIsBuyPhotobook(true)
       setIsPopupVisible(true)
     }
   }
@@ -156,6 +160,7 @@ const ImageModal: React.FC<ImageModalProps> = ({
     } catch (error) {
       console.error('Error adding to cart:', error)
     } finally {
+      setIsBuyPhotobook(false)
       setIsPopupVisible(true)
     }
   }
@@ -284,6 +289,9 @@ const ImageModal: React.FC<ImageModalProps> = ({
         imgName={images[selectedImageIndex]?.image_name}
         albumId={albumId}
         price={price}
+        isBuyPhotobook={isBuyPhotobook}
+        bibNum={bibNum}
+        albumPrice={albumPrice}
       />
     </>
   )

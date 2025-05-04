@@ -11,6 +11,7 @@ const EventAdmin = () => {
   const { id } = router.query
   const [eventName, setEventName] = useState<string>('')
   const [event, setEvent] = useState<AlbumDetailResponse | undefined>(undefined)
+  const [searchKey, setSearchKey] = useState<string>('')
   useEffect(() => {
     const fetchEventName = async () => {
       if (id) {
@@ -34,14 +35,21 @@ const EventAdmin = () => {
 
     fetchEventName()
   }, [id])
+  useEffect(() => {
+    console.log('searchKey', searchKey)
+  }, [searchKey])
+  const triggerSearch = (key: string) => {
+    setSearchKey(key)
+  }
   return (
     <>
       <DetailEventFilter
         eventName={eventName}
         id={id ? parseInt(Array.isArray(id) ? id[0] : id, 10) : 0}
         event={event}
+        triggerSearch={triggerSearch}
       />
-      {id && <ListEventsDetailAdmin id={Array.isArray(id) ? id[0] : id} />}
+      {id && <ListEventsDetailAdmin id={Array.isArray(id) ? id[0] : id} searchKey={searchKey} />}
     </>
   )
 }

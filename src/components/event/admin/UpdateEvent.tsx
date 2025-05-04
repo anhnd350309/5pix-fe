@@ -4,6 +4,7 @@ import { AlbumCreateRequest, AlbumItemResponse, BodyUploadToGetCdnBasePost } fro
 import { uploadToGetCdnBasePost } from '@/services/base/base'
 import moment from 'moment'
 import { updateAlbumsAlbumIdPut } from '@/services/album/album'
+import { w } from '@faker-js/faker/dist/airline-BLb3y-7w'
 const { Option } = Select
 interface UpdateEventProps {
   onChange?: (value: string) => void
@@ -18,8 +19,10 @@ const UpdateEvent: React.FC<UpdateEventProps> = ({
   onChange,
 }) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null)
+  const waterMarkInputRef = useRef<HTMLInputElement | null>(null)
   const [form] = Form.useForm()
   const [url, setUrl] = useState(event?.album_image_url || '')
+  const [waterMark, setWaterMark] = useState(event?.watermark_image_url || '')
   const handleSubmit = (values: AlbumItemResponse) => {
     const updatedValues = {
       ...values,
@@ -49,6 +52,11 @@ const UpdateEvent: React.FC<UpdateEventProps> = ({
       fileInputRef.current.click()
     }
   }
+  const handleWaterMarkSelect = () => {
+    if (waterMarkInputRef.current) {
+      waterMarkInputRef.current.click()
+    }
+  }
   const handleInputChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
     if (file) {
@@ -66,7 +74,23 @@ const UpdateEvent: React.FC<UpdateEventProps> = ({
       }
     }
   }
-
+  const handleWaterMarkChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (file) {
+      const body: BodyUploadToGetCdnBasePost = {
+        file_data: file,
+      }
+      try {
+        const response = await uploadToGetCdnBasePost(body)
+        if (response.data) {
+          setWaterMark(response.data.url)
+          form.setFieldsValue({ watermark_image_url: response.data.url })
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  }
   return (
     <div className='p-4 flex flex-col gap-6'>
       <div>
@@ -133,10 +157,49 @@ const UpdateEvent: React.FC<UpdateEventProps> = ({
             className='bg-[#E4E7EC] flex gap-2 flex-col justify-center items-center'
             style={{ width: '300px', height: '300px' }}
           >
-            <Button size='large' className='bg-[#E4E7EC] border-2 border-black font-bold'>
-              + Water Mark
-            </Button>
-            <p>Kích thước tối ưu 1440x570px (Tối đa 3MB)</p>
+            {waterMark ? (
+              <div className='relative flex justify-center'>
+                <img
+                  loading='lazy'
+                  src={waterMark}
+                  alt='Uploaded'
+                  className='w-auto max-h-[300px] object-cover'
+                />
+                <button
+                  className='absolute top-2 right-2 bg-white rounded-full p-1 shadow-md'
+                  onClick={() => setWaterMark('')}
+                >
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    fill='none'
+                    viewBox='0 0 24 24'
+                    strokeWidth={2}
+                    stroke='currentColor'
+                    className='w-4 h-4 text-red-500'
+                  >
+                    <path strokeLinecap='round' strokeLinejoin='round' d='M6 18L18 6M6 6l12 12' />
+                  </svg>
+                </button>
+              </div>
+            ) : (
+              <>
+                <Button
+                  size='large'
+                  className='bg-[#E4E7EC] border-2 border-black font-bold'
+                  onClick={handleWaterMarkSelect}
+                >
+                  + Water Mark
+                </Button>
+                <input
+                  ref={waterMarkInputRef}
+                  type='file'
+                  accept='image/jpeg, image/jpg, image/png'
+                  onChange={handleWaterMarkChange}
+                  className='hidden'
+                />
+                <p>Kích thước tối ưu 1440x570px (Tối đa 3MB)</p>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -242,6 +305,7 @@ const UpdateEvent: React.FC<UpdateEventProps> = ({
           </Button>
         </div>
         <Form.Item name='album_image_url'></Form.Item>
+        <Form.Item name='watermark_image_url'></Form.Item>
       </Form>
     </div>
   )

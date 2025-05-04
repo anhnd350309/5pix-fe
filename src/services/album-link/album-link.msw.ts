@@ -22,12 +22,15 @@ import {
 } from 'msw'
 import type {
   AlbumLinkItemResponse,
+  DataResponseAlbumLinkItemResponse,
   DataResponseStr
 } from '../../schemas'
 
 export const getGetAlbumLinkGetResponseMock = (): AlbumLinkItemResponse[] => (Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, (_, i) => i + 1).map(() => ({album_id: faker.number.int({min: undefined, max: undefined}), hash_text: faker.string.alpha(20), keyword: faker.string.alpha(20)})))
 
 export const getBulkCreateAlbumLinkPostResponseMock = (overrideResponse: Partial< DataResponseStr > = {}): DataResponseStr => ({code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), data: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), ...overrideResponse})
+
+export const getGetKeywordAlbumLinkGetKeywordGetResponseMock = (overrideResponse: Partial< DataResponseAlbumLinkItemResponse > = {}): DataResponseAlbumLinkItemResponse => ({code: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), data: faker.helpers.arrayElement([{album_id: faker.number.int({min: undefined, max: undefined}), hash_text: faker.string.alpha(20), keyword: faker.string.alpha(20)}, undefined]), message: faker.helpers.arrayElement([faker.string.alpha(20), undefined]), ...overrideResponse})
 
 
 export const getGetAlbumLinkGetMockHandler = (overrideResponse?: AlbumLinkItemResponse[] | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<AlbumLinkItemResponse[]> | AlbumLinkItemResponse[])) => {
@@ -53,7 +56,20 @@ export const getBulkCreateAlbumLinkPostMockHandler = (overrideResponse?: DataRes
       })
   })
 }
+
+export const getGetKeywordAlbumLinkGetKeywordGetMockHandler = (overrideResponse?: DataResponseAlbumLinkItemResponse | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<DataResponseAlbumLinkItemResponse> | DataResponseAlbumLinkItemResponse)) => {
+  return http.get('*/album-link/get-keyword', async (info) => {await delay(1000);
+  
+    return new HttpResponse(JSON.stringify(overrideResponse !== undefined 
+            ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse) 
+            : getGetKeywordAlbumLinkGetKeywordGetResponseMock()),
+      { status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      })
+  })
+}
 export const getAlbumLinkMock = () => [
   getGetAlbumLinkGetMockHandler(),
-  getBulkCreateAlbumLinkPostMockHandler()
+  getBulkCreateAlbumLinkPostMockHandler(),
+  getGetKeywordAlbumLinkGetKeywordGetMockHandler()
 ]
