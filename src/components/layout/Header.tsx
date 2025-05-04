@@ -16,7 +16,7 @@ import {
   MenuProps,
 } from 'antd' // Import Dropdown, Menu và Modal
 import moment from 'moment'
-import { createMerchantsPost, getMeMerchantsGetMeGet } from '@/services/merchants/merchants'
+import { registerMerchantsPost, getMeMerchantsGetMeGet } from '@/services/merchants/merchants'
 import { MerchantType, MerchantYearsOfExperience } from '@/schemas'
 import SvgUser from '../icons/icons/User'
 import {
@@ -153,7 +153,7 @@ const Header = ({ bgColor }: { bgColor: string }) => {
       merchant_type: values.merchant_type as MerchantType, // Ensure correct type
       years_of_experience: values.years_of_experience as MerchantYearsOfExperience, // Ensure correct type
     }
-    createMerchantsPost(formData)
+    registerMerchantsPost(formData)
     // Handle form submission here
     // setIsModalVisible(false)
     setModalStep('success')
@@ -240,25 +240,6 @@ const Header = ({ bgColor }: { bgColor: string }) => {
             >
               Danh sách sự kiện
             </Link>
-            {/* <LinkScroll
-              activeClass='active'
-              to='pricing'
-              spy
-              smooth
-              duration={1000}
-              onSetActive={() => {
-                setActiveLink('pricing')
-              }}
-              className={`animation-hover mx-2 inline-block cursor-pointer px-4 py-2 relative${
-                activeLink === 'pricing'
-                  ? ' animation-active text-template-orange-500 '
-                  : ` hover:text-template-orange-500 ${
-                      bgColor === 'white' ? 'text-black' : 'text-white'
-                    }`
-              }`}
-            >
-              Về 5PIX
-            </LinkScroll> */}
 
             <Link
               href='https://5bib.com/'
