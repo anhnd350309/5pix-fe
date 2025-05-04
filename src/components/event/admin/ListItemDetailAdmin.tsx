@@ -177,14 +177,15 @@ const ListEventsDetailAdmin = ({ id, searchKey }: ListItemDetailAdminProps) => {
           </div>
         </div>
       )}
-      {/* <ImageModal
+      <ImageModal
         visible={isModalVisibleImage}
         onCancel={() => setIsModalVisibleImage(false)}
         images={loadedImgs}
         selectedImageIndex={selectedImageIndex || 0}
         setSelectedImageIndex={setSelectedImageIndex}
         albumId={Number(id)}
-      /> */}
+        isFree={1}
+      />
       <Modal
         title='Cập nhật metadata'
         open={isEditModalVisible}
