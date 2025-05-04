@@ -254,7 +254,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
       {event.album_slug && (
         <SEOHead templateTitle={event.album_name} image={event.album_image_url} />
       )}
-      <div className='space-y-5 mx-1 sm:mx-16 mt-4 px-4 xl:px-16 center pb-[40px]'>
+      <div className='space-y-5 mt-4 center pb-[40px]'>
         <BannerEvent
           event={event}
           id={id}
@@ -272,7 +272,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
         {curLoading ? (
           <Spin className='flex justify-center items-center h-24' />
         ) : (
-          <React.Fragment>
+          <div className=' mx-1 sm:mx-16 px-4 xl:px-16'>
             {showTotal && loadedImgs.length > 0 && (
               <span className='text-center'>
                 Tìm thấy {loadedImgs.length} ảnh của bạn, trong tổng số {event?.total_image} ảnh{' '}
@@ -342,7 +342,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
                 </div>
               )}
             </div>
-          </React.Fragment>
+          </div>
         )}
 
         {loadedImgs.length < (totalEvents ?? 0) && (
@@ -392,6 +392,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
         isFree={event.is_album_free}
         albumId={event.id}
         price={event.album_image_price}
+        albumPrice={event.album_price}
         fileSearch={fileName || ''}
         isBuyAll={isBuyAll}
       />

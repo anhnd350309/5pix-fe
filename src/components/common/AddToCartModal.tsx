@@ -12,6 +12,9 @@ interface AddToCartModalProps {
   albumId?: number
   imgName?: string
   price?: number
+  albumPrice?: number
+  bibNum?: string
+  isBuyPhotobook?: boolean
 }
 
 const AddToCartModal: React.FC<AddToCartModalProps> = ({
@@ -22,7 +25,11 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({
   albumId,
   imgName,
   price,
+  isBuyPhotobook,
+  bibNum,
+  albumPrice,
 }) => {
+  console.log('isBuyPhotobook', isBuyPhotobook)
   const formatter = useCurrency('đ')
   const [api, contextHolder] = notification.useNotification()
   const openNotificationWithIcon = (
@@ -58,14 +65,14 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({
           <div className='text-left space-y-4 mb-6'>
             <div className='flex justify-between'>
               <span className='inline-block max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap'>
-                {imgName}
+                {isBuyPhotobook !== true ? imgName : `Photobook của số bib ${bibNum}`}
               </span>
-              <span>{formatter(price || 0)}</span>
+              <span>{formatter((isBuyPhotobook !== true ? price : albumPrice) || 0)}</span>
             </div>
 
             <div className='border-t pt-4 flex justify-between font-bold text-base'>
               <span>Tổng</span>
-              <span>{formatter(price || 0)}</span>
+              <span>{formatter((isBuyPhotobook !== true ? price : albumPrice) || 0)}</span>
             </div>
           </div>
 

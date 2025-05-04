@@ -125,35 +125,38 @@ export const BannerEvent: React.FC<BannerEventProps> = ({
   }
 
   return (
-    <div className='bg-white flex flex-col items-start gap-8 mx-auto mb-20 rounded-lg max-w-4xl text-gray-800'>
+    <div className='bg-white flex flex-col items-start gap-8 mx-auto mb-20 rounded-lg text-gray-800 max-w-[100vw]'>
       {/* Banner */}
-      <div className='flex items-center gap-4 w-full'>
-        <div className='relative flex-1 w-full max-w-sm aspect-video'>
-          <Image
-            src={event.album_image_url}
-            alt={event.album_name}
-            fill
-            className='rounded-md object-cover'
-          />
-        </div>
-        <div className='flex flex-col flex-1 gap-2'>
-          <h1 className='font-bold text-xl sm:text-2xl'>{event.album_name}</h1>
-          <div className='sm:flex items-center gap-6 text-gray-800'>
-            <div className='flex items-center gap-1'>
+      <div className='relative w-[99vw] aspect-[16/6] overflow-hidden '>
+        <Image
+          src={event.album_image_url}
+          alt={event.album_name}
+          fill
+          className='object-cover object-center'
+          priority
+          style={{ objectFit: 'cover' }}
+        />
+
+        {/* Overlay nội dung */}
+        {/* <div className='absolute inset-0 bg-black/40 flex flex-col justify-center px-6 sm:px-16 text-white'>
+          <h1 className='font-bold text-2xl sm:text-4xl mb-2'>{event.album_name}</h1>
+          <div className='flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-6 text-sm sm:text-base'>
+            <div className='flex items-center gap-2'>
               <SvgDate width={16} />
               <span>{new Date(event.event_date || '').toLocaleDateString('en-GB')}</span>
             </div>
-            <div className='flex items-center gap-1'>
+            <div className='flex items-center gap-2'>
               <SvgImage width={16} />
               <span>{event.total_image?.toLocaleString()} Ảnh</span>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
+
       {!type && event.is_find_all_image === 1 && (
-        <div className='flex flex-col items-center space-y-4 sm:bg-white shadow p-2 rounded-full w-full'>
+        <div className='flex flex-col items-center space-y-4 sm:bg-white shadow p-2 rounded-full w-full  sm:mx-32  max-w-4xl'>
           <div className='flex sm:flex-row flex-col sm:justify-between gap-4 rounded-full w-full'>
-            <div className='bg-white border-l-2 rounded-full w-full sm:w-80'>
+            <div className='bg-white border-l-2 rounded-full w-full'>
               <Input
                 placeholder='Nhập số BIB'
                 value={bibNumber}
