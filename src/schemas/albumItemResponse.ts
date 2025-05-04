@@ -34,4 +34,5 @@ export interface AlbumItemResponse {
   is_highlight: number;
   total_image?: number;
   updated_at: string;
+  watermark_image_url?: string;
 }

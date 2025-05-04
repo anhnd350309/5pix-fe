@@ -133,7 +133,7 @@ export function useGetMerchantsGet<TData = Awaited<ReturnType<typeof getMerchant
 
 
 /**
- * ### API tạo Merchant cho người dùng hiện tại
+ * ### API đăng ký làm Merchant cho người dùng hiện tại
 
 **MerchantType:**
 - `INDIVIDUAL`: Cá nhân
@@ -145,9 +145,9 @@ export function useGetMerchantsGet<TData = Awaited<ReturnType<typeof getMerchant
 - `1-3`: Từ 1 đến 3 năm
 - `3-5`: Từ 3 đến 5 năm
 - `> 5`: Hơn 5 năm
- * @summary Create
+ * @summary Register
  */
-export const createMerchantsPost = (
+export const registerMerchantsPost = (
     merchantCreateRequest: MerchantCreateRequest,
  signal?: AbortSignal
 ) => {
@@ -163,18 +163,18 @@ export const createMerchantsPost = (
   
 
 
-export const getCreateMerchantsPostMutationOptions = <TError = HTTPValidationError,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createMerchantsPost>>, TError,{data: MerchantCreateRequest}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof createMerchantsPost>>, TError,{data: MerchantCreateRequest}, TContext> => {
+export const getRegisterMerchantsPostMutationOptions = <TError = HTTPValidationError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof registerMerchantsPost>>, TError,{data: MerchantCreateRequest}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof registerMerchantsPost>>, TError,{data: MerchantCreateRequest}, TContext> => {
 const {mutation: mutationOptions} = options ?? {};
 
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createMerchantsPost>>, {data: MerchantCreateRequest}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof registerMerchantsPost>>, {data: MerchantCreateRequest}> = (props) => {
           const {data} = props ?? {};
 
-          return  createMerchantsPost(data,)
+          return  registerMerchantsPost(data,)
         }
 
         
@@ -182,23 +182,23 @@ const {mutation: mutationOptions} = options ?? {};
 
   return  { mutationFn, ...mutationOptions }}
 
-    export type CreateMerchantsPostMutationResult = NonNullable<Awaited<ReturnType<typeof createMerchantsPost>>>
-    export type CreateMerchantsPostMutationBody = MerchantCreateRequest
-    export type CreateMerchantsPostMutationError = HTTPValidationError
+    export type RegisterMerchantsPostMutationResult = NonNullable<Awaited<ReturnType<typeof registerMerchantsPost>>>
+    export type RegisterMerchantsPostMutationBody = MerchantCreateRequest
+    export type RegisterMerchantsPostMutationError = HTTPValidationError
 
     /**
- * @summary Create
+ * @summary Register
  */
-export const useCreateMerchantsPost = <TError = HTTPValidationError,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createMerchantsPost>>, TError,{data: MerchantCreateRequest}, TContext>, }
+export const useRegisterMerchantsPost = <TError = HTTPValidationError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof registerMerchantsPost>>, TError,{data: MerchantCreateRequest}, TContext>, }
 ): UseMutationResult<
-        Awaited<ReturnType<typeof createMerchantsPost>>,
+        Awaited<ReturnType<typeof registerMerchantsPost>>,
         TError,
         {data: MerchantCreateRequest},
         TContext
       > => {
 
-      const mutationOptions = getCreateMerchantsPostMutationOptions(options);
+      const mutationOptions = getRegisterMerchantsPostMutationOptions(options);
 
       return useMutation(mutationOptions);
     }

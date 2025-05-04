@@ -27,4 +27,5 @@ export interface AlbumCreateRequest {
   is_find_by_face?: number;
   is_find_by_metadata?: number;
   is_highlight?: number;
+  watermark_image_url?: string;
 }
