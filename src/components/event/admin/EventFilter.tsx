@@ -20,11 +20,18 @@ interface DetailEventFilterProps {
   eventName: string
   id: number
   event?: AlbumDetailResponse
+  triggerSearch: (value: string) => void
 }
 
-const DetailEventFilter: React.FC<DetailEventFilterProps> = ({ eventName, id, event }) => {
+const DetailEventFilter: React.FC<DetailEventFilterProps> = ({
+  eventName,
+  id,
+  event,
+  triggerSearch,
+}) => {
   const [api, contextHolder] = notification.useNotification()
   const [isJsonModalVisible, setIsJsonModalVisible] = useState(false)
+  const [inputValue, setInputValue] = useState<string>('')
 
   const [eventD, setEventD] = useState<AlbumDetailResponse | undefined>(event)
   const openNotificationWithIcon = (
@@ -153,8 +160,18 @@ const DetailEventFilter: React.FC<DetailEventFilterProps> = ({ eventName, id, ev
         </div>
       </div>
       <div className='flex flex-col sm:flex-row items-center space-x-0 sm:space-x-2 space-y-2 sm:space-y-0 mb-4'>
-        <Input placeholder='Tên theo BIB/text' className='w-full sm:w-[40%]' />
-        <Button className='text-white bg-black font-inter font-bold text-[14px] leading-[20px] tracking-[-0.2%] w-full sm:w-auto'>
+        <Input
+          placeholder='Tên theo BIB/text'
+          className='w-full sm:w-[40%]'
+          onChange={(e) => setInputValue(e.target.value)}
+        />
+        <Button
+          onClick={() => {
+            console.log('inputValue', inputValue)
+            triggerSearch(inputValue)
+          }}
+          className='text-white bg-black font-inter font-bold text-[14px] leading-[20px] tracking-[-0.2%] w-full sm:w-auto'
+        >
           Tìm ảnh
         </Button>
         <Button className='bg-[#EDF4FF] text-blue-500 font-inter font-bold text-[14px] leading-[20px] tracking-[-0.2%] w-full sm:w-auto'>
