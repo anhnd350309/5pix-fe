@@ -148,7 +148,7 @@ const ListEventsDetailAdmin = ({ id, searchKey }: ListItemDetailAdminProps) => {
             <Button
               onClick={handleBackToPage1}
               disabled={currentPage === 1 || isLoadingMore}
-              className='bg-transparent hover:bg-blue-500 mb-8 border border-blue-500 rounded-full text-blue-500 hover:text-white flex items-center'
+              className='bg-transparent hover:bg-blue-600 mb-8 border border-blue-500 rounded-full text-blue-500 hover:text-white flex items-center'
             >
               {isLoadingMore ? <Spin className='mr-2' /> : 'Back to Page 1'}
             </Button>
@@ -157,7 +157,7 @@ const ListEventsDetailAdmin = ({ id, searchKey }: ListItemDetailAdminProps) => {
             <Button
               onClick={handlePreviousPage}
               disabled={currentPage === 1 || isLoadingMore}
-              className='bg-transparent hover:bg-blue-500 mb-8 border border-blue-500 rounded-full text-blue-500 hover:text-white flex items-center'
+              className='bg-transparent hover:bg-blue-600 mb-8 border border-blue-500 rounded-full text-blue-500 hover:text-white flex items-center'
             >
               {isLoadingMore ? <Spin className='mr-2' /> : 'Previous'}
             </Button>
@@ -165,7 +165,7 @@ const ListEventsDetailAdmin = ({ id, searchKey }: ListItemDetailAdminProps) => {
             <Button
               onClick={handleNextPage}
               disabled={currentPage === totalPages || isLoadingMore}
-              className='bg-transparent hover:bg-blue-500 mb-8 border border-blue-500 rounded-full text-blue-500 hover:text-white flex items-center'
+              className='bg-transparent hover:bg-blue-600 mb-8 border border-blue-500 rounded-full text-blue-500 hover:text-white flex items-center'
             >
               {isLoadingMore ? <Spin className='mr-2' /> : 'Next'}
             </Button>

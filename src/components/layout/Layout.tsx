@@ -18,7 +18,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         />
       )} */}
       <Header bgColor={bgColor} />
-      <div className='bg-gradient-to-b from-white to-[#E1F4FF]'>{children}</div>
+      <div className='bg-gradient-to-b from-white to-[#E1F4FF] font-sans'>{children}</div>
       <Footer />
     </>
   )

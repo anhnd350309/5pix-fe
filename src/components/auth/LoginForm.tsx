@@ -39,7 +39,7 @@ export const LoginForm: React.FC = () => {
   }
 
   return (
-    <div className='flex h-full items-center justify-center bg-gradient-to-b from-black to-blue-900'>
+    <div className='flex h-full items-center justify-center bg-gradient-to-b from-black to-blue-900 font-sans'>
       <div className='w-full max-w-md rounded-lg bg-white p-8 shadow-lg'>
         <div className='mb-6 text-center'>
           <img src='/assets/images/Logo.svg' alt='Logo' className='mx-auto h-12' />
@@ -52,9 +52,12 @@ export const LoginForm: React.FC = () => {
           initialValues={{ email: '', password: '', remember: true }}
           onFinish={onSubmit}
           autoComplete='off'
+          className='font-sans'
         >
           <Form.Item
-            label={<label className='text-sm font-medium text-gray-700'>Tên tài khoản</label>}
+            label={
+              <label className='text-base font-sans font-medium text-gray-700'>Tên tài khoản</label>
+            }
             name='email'
             rules={[
               { required: true, message: 'Vui lòng nhập tên tài khoản!' },
@@ -68,7 +71,9 @@ export const LoginForm: React.FC = () => {
           </Form.Item>
 
           <Form.Item
-            label={<label className='text-sm font-medium text-gray-700'>Mật khẩu</label>}
+            label={
+              <label className='text-base font-sans font-medium text-gray-700'>Mật khẩu</label>
+            }
             name='password'
             rules={[{ required: true, message: 'Vui lòng nhập mật khẩu!' }]}
           >
@@ -79,8 +84,8 @@ export const LoginForm: React.FC = () => {
           </Form.Item>
 
           <div className='mb-4 flex items-center justify-between'>
-            <Checkbox className='text-sm text-gray-600'>Lưu mật khẩu</Checkbox>
-            <Link href='/' className='text-sm text-blue-500 hover:underline'>
+            <Checkbox className='text-base font-sans text-gray-600'>Lưu mật khẩu</Checkbox>
+            <Link href='/' className='text-base font-sans text-blue-500 hover:underline'>
               Quên mật khẩu?
             </Link>
           </div>
@@ -101,13 +106,13 @@ export const LoginForm: React.FC = () => {
                 callbackUrl: redirectPath !== '/' ? `${redirectPath}` : `/${pathname}`,
               })
             }
-            className='flex w-full items-center justify-center rounded-lg border border-gray-300 py-3 text-sm font-medium text-gray-700 hover:bg-gray-100 focus:outline-none'
+            className='font-sans flex w-full items-center justify-center rounded-lg border border-gray-300 py-3 text-sm font-medium text-gray-700 hover:bg-gray-100 focus:outline-none'
           >
             <img src='/assets/icons/google.svg' alt='Google Logo' className='mr-2 h-5' />
             Đăng nhập bằng Google
           </button>
 
-          <div className='text-center text-sm text-gray-600 pt-3'>
+          <div className='text-center text-base font-sans text-gray-600 pt-3'>
             Chưa có tài khoản?{' '}
             <Link href='/auth/register' className='text-blue-500 hover:underline'>
               Đăng ký

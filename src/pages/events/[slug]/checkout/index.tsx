@@ -217,7 +217,7 @@ export default function CartPage({ repo }: InferGetServerSidePropsType<typeof ge
               </Popconfirm>
             </div>
 
-            <div className='flex items-center gap-4'>
+            <div className='flex items-center gap-4 font-sans'>
               {query && query[bib] && query[bib][0] && (
                 <img
                   src={query[bib][0].album_image_url}
@@ -242,7 +242,7 @@ export default function CartPage({ repo }: InferGetServerSidePropsType<typeof ge
           <div>
             <p className='text-sm text-gray-500'>Tổng tiền</p>
             <p className='text-xl font-bold text-blue-500'>{formatter(total)}</p>
-            <p className='text-xs text-gray-400 mt-1'>
+            <p className='text-sm text-gray-400 mt-1'>
               (Không có mã khuyến mại, bạn có thể áp dụng ở trang thanh toán)
             </p>
           </div>

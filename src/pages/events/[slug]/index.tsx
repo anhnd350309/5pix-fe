@@ -1,4 +1,4 @@
-import { Button, Card, Spin } from 'antd'
+import { Card, Spin } from 'antd'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 
@@ -21,6 +21,7 @@ import { useSession } from 'next-auth/react'
 import useCurrency from '@/hooks/useCurrency'
 import { getAlbumImagesGet } from '@/services/images/images'
 import { searchPubImagesGet, useSearchPubImagesGet } from '@/services/public-images/public-images'
+import { Button } from '@/components/ui/button'
 type Repo = {
   event?: AlbumItemResponsePublic
   images: AlbumImageItemResponsePublic[]
@@ -254,7 +255,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
       {event.album_slug && (
         <SEOHead templateTitle={event.album_name} image={event.album_image_url} />
       )}
-      <div className='space-y-5 mt-4 center pb-[40px]'>
+      <div className='space-y-5 mt-4 center pb-[40px] font-sans'>
         <BannerEvent
           event={event}
           id={id}
@@ -272,7 +273,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
         {curLoading ? (
           <Spin className='flex justify-center items-center h-24' />
         ) : (
-          <div className=' mx-1 sm:mx-16 px-4 xl:px-16'>
+          <div className=' mx-1 sm:mx-16 px-4 xl:px-16 relative -top-16'>
             {showTotal && loadedImgs.length > 0 && (
               <span className='text-center'>
                 Tìm thấy {loadedImgs.length} ảnh của bạn, trong tổng số {event?.total_image} ảnh{' '}
@@ -324,7 +325,9 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
                       padding: '16px',
                     }}
                   >
-                    <p>Tất cả ảnh của bạn định dạng kỹ thuật số (JPG) chỉ với</p>
+                    <p className='font-sans'>
+                      Tất cả ảnh của bạn định dạng kỹ thuật số (JPG) chỉ với
+                    </p>
                     <h3
                       style={{
                         margin: '16px 0',
@@ -335,7 +338,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
                     >
                       {formatter(event?.album_price ?? 0)}
                     </h3>
-                    <Button type='primary' shape='round' onClick={showPopup}>
+                    <Button onClick={showPopup} className='rounded-[20px] bg-blue-600 w-full'>
                       Kiểm tra giỏ hàng
                     </Button>
                   </Card>
@@ -351,7 +354,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
               <Button
                 onClick={handleBackToPage1}
                 disabled={currentPage === 1 || isLoadingMore}
-                className='bg-transparent hover:bg-blue-500 mb-8 border border-blue-500 rounded-full text-blue-500 hover:text-white flex items-center'
+                className='bg-transparent hover:bg-blue-600 mb-8 border border-blue-500 rounded-full text-blue-500 hover:text-white flex items-center'
               >
                 {isLoadingMore ? <Spin className='mr-2' /> : 'Back to Page 1'}
               </Button>
@@ -360,7 +363,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
               <Button
                 onClick={handlePreviousPage}
                 disabled={currentPage === 1 || isLoadingMore}
-                className='bg-transparent hover:bg-blue-500 mb-8 border border-blue-500 rounded-full text-blue-500 hover:text-white flex items-center'
+                className='bg-transparent hover:bg-blue-600 mb-8 border border-blue-500 rounded-full text-blue-500 hover:text-white flex items-center'
               >
                 {isLoadingMore ? <Spin className='mr-2' /> : 'Previous'}
               </Button>
@@ -368,7 +371,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
               <Button
                 onClick={handleNextPage}
                 disabled={currentPage === totalPages || isLoadingMore}
-                className='bg-transparent hover:bg-blue-500 mb-8 border border-blue-500 rounded-full text-blue-500 hover:text-white flex items-center'
+                className='bg-transparent hover:bg-blue-600 mb-8 border border-blue-500 rounded-full text-blue-500 hover:text-white flex items-center'
               >
                 {isLoadingMore ? <Spin className='mr-2' /> : 'Next'}
               </Button>

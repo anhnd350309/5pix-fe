@@ -51,7 +51,7 @@ export const PaymentMethodSelector = ({
                   <div className='flex-1 mr-3 flex flex-col'>
                     <p className='text-base font-medium'>{option.name}</p>
                     {option?.sub_label && (
-                      <p className='font-inter text-xs text-[#475467]'>{option?.sub_label}</p>
+                      <p className='font-sans text-xs text-[#475467]'>{option?.sub_label}</p>
                     )}
                     {/* {option?.sub_icon && (
                       <img src={option?.sub_icon} alt='sub_payment' className='w-20 h-5' />

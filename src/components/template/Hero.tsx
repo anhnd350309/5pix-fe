@@ -139,7 +139,10 @@ const Hero = () => {
   const displayItems = searchResults?.data || eventHighlights
 
   return (
-    <div className='flex flex-col space-y-5 sm:mx-16 mt-4 px-8 xl:px-16 center' id='about'>
+    <div
+      className='flex flex-col space-y-5 sm:mx-16 mt-4 px-8 xl:px-16 center font-sans'
+      id='about'
+    >
       <div className='flex flex-col justify-center items-center space-y-5 row-start-1'>
         <Carousel
           opts={{
@@ -152,7 +155,7 @@ const Hero = () => {
               stopOnInteraction: false, // khi user kéo tay không dừng lại
             }),
           ]}
-          className='w-full'
+          className='w-[90%] sm:w-full'
         >
           <CarouselContent>
             {[1, 2, 3].map((item, index) => (
@@ -207,7 +210,7 @@ const Hero = () => {
             {/*  </DialogContent>*/}
             {/*</Dialog>*/}
             <Button
-              className='flex items-center bg-blue-500 rounded-full w-full sm:w-[200px] text-white'
+              className='flex items-center bg-[#2563EB] rounded-full w-full sm:w-[200px] text-white'
               onClick={handleSubmit}
             >
               Tìm ảnh
@@ -218,11 +221,11 @@ const Hero = () => {
           opts={{
             align: 'start',
           }}
-          className='w-[80%]'
+          className='max-w-[90%] sm:max-w-[80%]'
         >
           <CarouselContent>
             {eventHighlights?.map((event) => (
-              <CarouselItem key={event.id} className='md:basis-1/1 lg:basis-[33.4%]'>
+              <CarouselItem key={event.id} className='md:basis-1/1 lg:basis-[33.4%] px-3'>
                 <div className='p-1'>
                   <Link
                     href={`/events/${event.album_slug ? normalizeString(event.album_slug) : event.id}`}
