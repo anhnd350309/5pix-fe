@@ -125,71 +125,60 @@ export const BannerEvent: React.FC<BannerEventProps> = ({
   }
 
   return (
-    <div className='bg-white flex flex-col items-start gap-8 mx-auto mb-20 rounded-lg text-gray-800 max-w-[100vw]'>
+    <div
+      className='bg-white flex flex-col items-start gap-8 mx-auto rounded-lg text-gray-800 max-w-[100vw] font-sans'
+      style={{ background: 'linear-gradient(to bottom, #FFFFFF, #E1F4FF)' }}
+    >
       {/* Banner */}
-      <div className='relative w-[99vw] aspect-[16/6] overflow-hidden '>
-        <Image
-          src={event.album_image_url}
-          alt={event.album_name}
-          fill
-          className='object-cover object-center'
-          priority
-          style={{ objectFit: 'cover' }}
-        />
-
-        {/* Overlay nội dung */}
-        {/* <div className='absolute inset-0 bg-black/40 flex flex-col justify-center px-6 sm:px-16 text-white'>
-          <h1 className='font-bold text-2xl sm:text-4xl mb-2'>{event.album_name}</h1>
-          <div className='flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-6 text-sm sm:text-base'>
-            <div className='flex items-center gap-2'>
-              <SvgDate width={16} />
-              <span>{new Date(event.event_date || '').toLocaleDateString('en-GB')}</span>
-            </div>
-            <div className='flex items-center gap-2'>
-              <SvgImage width={16} />
-              <span>{event.total_image?.toLocaleString()} Ảnh</span>
-            </div>
-          </div>
-        </div> */}
-      </div>
-
-      {!type && event.is_find_all_image === 1 && (
-        <div className='flex flex-col items-center space-y-4 sm:bg-white shadow p-2 rounded-full w-full  sm:mx-32  max-w-4xl'>
-          <div className='flex sm:flex-row flex-col sm:justify-between gap-4 rounded-full w-full'>
-            <div className='bg-white border-l-2 rounded-full w-full'>
-              <Input
-                placeholder='Nhập số BIB'
-                value={bibNumber}
-                onChange={(e) => setBibNumber(e.target.value)} // Update BIB state
-                className='!ml-0 border-none w-full sm:w-64 !important text-black'
-              />
-            </div>
-            <div className='flex gap-1 w-full sm:w-auto'>
-              <Button
-                onClick={handleSubmit}
-                className='flex items-center bg-blue-500 rounded-full w-3/4 sm:w-[200px] text-white'
-              >
-                <SvgSearch width={16} stroke='white' /> Tìm ảnh
-              </Button>
-              <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                {' '}
-                {/* Điều khiển mở dialog */}
-                <DialogTrigger asChild>
-                  <Button
-                    className='flex items-center bg-blue-100 rounded-full w-full sm:w-[220px] text-blue-600'
-                    onClick={() => setIsDialogOpen(true)} // Mở dialog khi nhấn nút
-                  >
-                    <SvgImage width={16} stroke='#2563EB' /> Tìm kiếm bằng hình ảnh
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className='sm:max-w-[700px]'>
-                  <UploadImageComponent onFileChange={handleFileChange} onDone={handleDone} />
-                </DialogContent>
-              </Dialog>
-            </div>
-          </div>
+      <div className='relative w-[99vw] h-full aspect-[16/6] overflow-hidden '>
+        <div className='relative h-full inset-0 bg-gradient-to-b from-transparent to-[#E1F4FF]'>
+          <img
+            src={event.album_image_url}
+            alt={event.album_name}
+            className='object-cover object-center h-full w-full'
+            style={{ objectFit: 'cover' }}
+          />
+          <div className='absolute bottom-0 w-full h-24 bg-gradient-to-b from-transparent to-[#FFFFFF]'></div>
         </div>
-      )}
+
+        {/* Search Overlay */}
+        {!type && event.is_find_all_image === 1 && (
+          <div className='absolute bottom-0 left-0 w-full py-20 bg-gradient-to-t from-[#FFFFFF] to-transparent'>
+            <div className='flex sm:flex-row flex-col sm:justify-between gap-4 rounded-full w-[60%] mx-auto'>
+              <div className='bg-white border-l-2 rounded-full w-full'>
+                <Input
+                  placeholder='Nhập số BIB'
+                  value={bibNumber}
+                  onChange={(e) => setBibNumber(e.target.value)}
+                  className='!ml-0 border-none w-full sm:w-64 !important text-black'
+                />
+              </div>
+              <div className='flex gap-1 w-full sm:w-auto'>
+                <Button
+                  onClick={handleSubmit}
+                  className='flex items-center bg-blue-600 rounded-full w-3/4 sm:w-[200px] text-white'
+                >
+                  <SvgSearch width={16} stroke='white' /> Tìm ảnh
+                </Button>
+                <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                  {' '}
+                  <DialogTrigger asChild>
+                    <Button
+                      className='flex items-center bg-blue-100 rounded-full w-full sm:w-[220px] text-blue-600'
+                      onClick={() => setIsDialogOpen(true)} // Mở dialog khi nhấn nút
+                    >
+                      <SvgImage width={16} stroke='#2563EB' /> Tìm kiếm bằng hình ảnh
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className='sm:max-w-[700px]'>
+                    <UploadImageComponent onFileChange={handleFileChange} onDone={handleDone} />
+                  </DialogContent>
+                </Dialog>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   )
 }

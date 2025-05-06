@@ -133,18 +133,18 @@ const DetailEventFilter: React.FC<DetailEventFilterProps> = ({
         <Link href='/'>Album ảnh</Link>
       </div>
       <div className='flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4'>
-        <h1 className='font-inter font-medium text-[24px] leading-[100%] tracking-[0%] mb-2 sm:mb-0'>
+        <h1 className='font-sans font-medium text-[24px] leading-[100%] tracking-[0%] mb-2 sm:mb-0'>
           {eventName}
         </h1>
         <div className='flex flex-col sm:flex-row items-center space-x-0 sm:space-x-2 space-y-2 sm:space-y-0'>
           <Button
-            className='bg-[#EDF4FF] text-blue-500 font-inter font-bold text-[14px] leading-[20px] tracking-[-0.2%] w-full sm:w-auto'
+            className='bg-[#EDF4FF] text-blue-500 font-sans font-bold text-[14px] leading-[20px] tracking-[-0.2%] w-full sm:w-auto'
             onClick={handleLoadAlbum}
           >
             Load album
           </Button>
           <Button
-            className='bg-[#EDF4FF] text-blue-500 font-inter font-bold text-[14px] leading-[20px] tracking-[-0.2%] w-full sm:w-auto'
+            className='bg-[#EDF4FF] text-blue-500 font-sans font-bold text-[14px] leading-[20px] tracking-[-0.2%] w-full sm:w-auto'
             onClick={handleIndexImage}
           >
             Xử lý ảnh và gửi duyệt
@@ -152,7 +152,7 @@ const DetailEventFilter: React.FC<DetailEventFilterProps> = ({
           <Dropdown overlay={menu}>
             <Button
               type='primary'
-              className='bg-[#2563EB] text-white w-full sm:w-[250px] flex justify-between font-inter font-bold text-[14px] leading-[20px] tracking-[-0.2%]'
+              className='bg-[#2563EB] text-white w-full sm:w-[250px] flex justify-between font-sans font-bold text-[14px] leading-[20px] tracking-[-0.2%]'
             >
               Tải ảnh lên <DownOutlined />
             </Button>
@@ -170,11 +170,11 @@ const DetailEventFilter: React.FC<DetailEventFilterProps> = ({
             console.log('inputValue', inputValue)
             triggerSearch(inputValue)
           }}
-          className='text-white bg-black font-inter font-bold text-[14px] leading-[20px] tracking-[-0.2%] w-full sm:w-auto'
+          className='text-white bg-black font-sans font-bold text-[14px] leading-[20px] tracking-[-0.2%] w-full sm:w-auto'
         >
           Tìm ảnh
         </Button>
-        <Button className='bg-[#EDF4FF] text-blue-500 font-inter font-bold text-[14px] leading-[20px] tracking-[-0.2%] w-full sm:w-auto'>
+        <Button className='bg-[#EDF4FF] text-blue-500 font-sans font-bold text-[14px] leading-[20px] tracking-[-0.2%] w-full sm:w-auto'>
           Tìm kiếm bằng hình ảnh
         </Button>
       </div>

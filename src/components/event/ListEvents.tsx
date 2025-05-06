@@ -52,7 +52,7 @@ export const ListEvents: React.FC = () => {
   }
   return (
     <div className='pb-8 flex flex-col items-center'>
-      <div className='grid gap-x-8 gap-y-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'>
+      <div className='grid gap-x-6 gap-y-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'>
         {loadedEvents?.map((event) => (
           <Link
             href={`/events/${event.album_slug ? normalizeString(event.album_slug) : event.id}`}
@@ -74,7 +74,7 @@ export const ListEvents: React.FC = () => {
           <Button
             onClick={handleLoadMore}
             disabled={isLoadingMore}
-            className='bg-transparent hover:bg-blue-500 mb-8 border border-blue-500 rounded-full text-blue-500 hover:text-white flex items-center'
+            className='bg-transparent hover:bg-blue-600 mb-8 border border-blue-500 rounded-full text-blue-500 hover:text-white flex items-center'
           >
             {isLoadingMore ? <Spin className='mr-2' /> : 'Xem thêm'}
           </Button>

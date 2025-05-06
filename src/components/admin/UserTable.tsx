@@ -153,34 +153,34 @@ const UserTable: React.FC<UserTableProps> = () => {
       <div className='relative'>
         <div className='flex justify-between items-center mb-4'>
           <div className='flex items-center space-x-2'>
-            <span className='font-inter font-bold text-[14px] leading-[20px] tracking-[-0.2%] text-blue-600'>
+            <span className='font-sans font-bold text-[14px] leading-[20px] tracking-[-0.2%] text-blue-600'>
               Information
             </span>
           </div>
         </div>
         <div className='p-6 grid grid-cols-2 gap-4 bg-white border border-gray-200 shadow-md rounded-lg'>
           <div className='flex flex-col space-y-2'>
-            <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-2'>
+            <p className='font-sans font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-2'>
               <strong>Họ và tên:</strong> {detailUser.full_name}
             </p>
-            <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-2'>
+            <p className='font-sans font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-2'>
               <strong>Ngày sinh:</strong> {detailUser.date_of_birth}
             </p>
-            <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-2'>
+            <p className='font-sans font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-2'>
               <strong>Email:</strong> {detailUser.email}
             </p>
-            <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-2'>
+            <p className='font-sans font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-2'>
               <strong>SDT:</strong> {detailUser.phone_number}
             </p>
-            <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-2'>
+            <p className='font-sans font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-2'>
               <strong>Loại hình đăng ký:</strong> {merchantTypeMapping[detailUser.merchant_type]}
             </p>
-            <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-2'>
+            <p className='font-sans font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-2'>
               <strong>Số năm kinh nghiệm:</strong> {detailUser.years_of_experience}
             </p>
           </div>
           <div className='flex flex-col space-y-2'>
-            <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-5'>
+            <p className='font-sans font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-5'>
               <strong className='col-span-2'>Link social media:</strong>
               <a
                 href={detailUser.social_media_link}
@@ -191,7 +191,7 @@ const UserTable: React.FC<UserTableProps> = () => {
                 {detailUser.social_media_link}
               </a>
             </p>
-            <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-5'>
+            <p className='font-sans font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-5'>
               <strong className='col-span-2'>Link thư mục demo:</strong>
               <a
                 href={detailUser.sample_photo_link}
@@ -202,11 +202,11 @@ const UserTable: React.FC<UserTableProps> = () => {
                 {detailUser.sample_photo_link}
               </a>
             </p>
-            <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-5'>
+            <p className='font-sans font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-5'>
               <strong className='col-span-2'>Các team từng tham gia:</strong>
               <div className='col-span-3'>{detailUser.events_attended}</div>
             </p>
-            <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-5'>
+            <p className='font-sans font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-5'>
               <strong className='col-span-2'>Trạng thái đơn hàng:</strong>
               <Tag
                 color={statusMapping[detailUser.merchant_active_status ?? 'unknown']?.color}

@@ -197,7 +197,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
           <Spin className='flex justify-center items-center h-24' />
         ) : (
           <React.Fragment>
-            <div className='flex flex-col xl:flex-row gap-4'>
+            <div className='flex flex-col xl:flex-row gap-4  relative -top-16'>
               <div className='flex-1'>
                 <div className='gap-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5  min-h-[300px] '>
                   {loadedImgs.length === 0 ? (
@@ -268,7 +268,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
               <Button
                 onClick={handleBackToPage1}
                 disabled={currentPage === 1 || isLoadingMore}
-                className='bg-transparent hover:bg-blue-500 mb-8 border border-blue-500 rounded-full text-blue-500 hover:text-white flex items-center'
+                className='bg-transparent hover:bg-blue-600 mb-8 border border-blue-500 rounded-full text-blue-500 hover:text-white flex items-center'
               >
                 {isLoadingMore ? <Spin className='mr-2' /> : 'Back to Page 1'}
               </Button>
@@ -277,7 +277,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
               <Button
                 onClick={handlePreviousPage}
                 disabled={currentPage === 1 || isLoadingMore}
-                className='bg-transparent hover:bg-blue-500 mb-8 border border-blue-500 rounded-full text-blue-500 hover:text-white flex items-center'
+                className='bg-transparent hover:bg-blue-600 mb-8 border border-blue-500 rounded-full text-blue-500 hover:text-white flex items-center'
               >
                 {isLoadingMore ? <Spin className='mr-2' /> : 'Previous'}
               </Button>
@@ -285,7 +285,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
               <Button
                 onClick={handleNextPage}
                 disabled={currentPage === totalPages || isLoadingMore}
-                className='bg-transparent hover:bg-blue-500 mb-8 border border-blue-500 rounded-full text-blue-500 hover:text-white flex items-center'
+                className='bg-transparent hover:bg-blue-600 mb-8 border border-blue-500 rounded-full text-blue-500 hover:text-white flex items-center'
               >
                 {isLoadingMore ? <Spin className='mr-2' /> : 'Next'}
               </Button>

@@ -192,7 +192,9 @@ const Header = ({ bgColor }: { bgColor: string }) => {
       >
         Bạn có chắc chắn muốn đăng xuất?
       </Modal>
-      <header className={`top-0 z-30 w-full bg-transparent transition-all pt-4`}>
+      <header
+        className={`top-0 z-30 w-full bg-transparent transition-all pt-4  text-[#1D2939] font-sans`}
+      >
         <nav className='container mx-auto grid grid-flow-col px-8 py-3 sm:py-4 xl:px-16 relative z-10'>
           <div className='col-start-1 col-end-2 flex items-center'>
             <Link href='/'>
@@ -207,16 +209,16 @@ const Header = ({ bgColor }: { bgColor: string }) => {
           </div>
           <ul
             className={`col-start-4 col-end-8 hidden items-center ${
-              bgColor === 'white' ? 'text-black' : 'text-white'
+              bgColor === 'white' ? 'text-[#1D2939]' : 'text-white'
             } lg:flex`}
           >
             <Link
               href='/'
-              className={`animation-hover mx-2 inline-block cursor-pointer px-4 py-2 relative${
+              className={`animation-hover mx-2 inline-block cursor-pointer px-4 py-2 relative font-reddit-sans font-normal ${
                 activeLink === 'about'
                   ? ' animation-active text-template-orange-500 '
                   : ` hover:text-template-orange-500 ${
-                      bgColor === 'white' ? 'text-black' : 'text-white'
+                      bgColor === 'white' ? 'text-[#1D2939]' : 'text-white'
                     }`
               }`}
               onClick={() => {
@@ -227,11 +229,11 @@ const Header = ({ bgColor }: { bgColor: string }) => {
             </Link>
             <Link
               href='/list_events'
-              className={`animation-hover mx-2 inline-block cursor-pointer px-4 py-2 relative${
+              className={`animation-hover mx-2 inline-block cursor-pointer px-4 py-2 relative font-reddit-sans font-normal ${
                 activeLink === 'feature'
                   ? ' animation-active text-template-orange-500 '
                   : ` hover:text-template-orange-500 ${
-                      bgColor === 'white' ? 'text-black' : 'text-white'
+                      bgColor === 'white' ? 'text-[#1D2939]' : 'text-white'
                     }`
               }`}
               onClick={() => {
@@ -243,11 +245,11 @@ const Header = ({ bgColor }: { bgColor: string }) => {
 
             <Link
               href='https://5bib.com/'
-              className={`animation-hover mx-2 inline-block cursor-pointer px-4 py-2 relative${
+              className={`animation-hover mx-2 inline-block cursor-pointer px-4 py-2 relative font-reddit-sans font-normal ${
                 activeLink === 'buyticket'
                   ? ' animation-active text-template-orange-500 '
                   : ` hover:text-template-orange-500 ${
-                      bgColor === 'white' ? 'text-black' : 'text-white'
+                      bgColor === 'white' ? 'text-[#1D2939]' : 'text-white'
                     }`
               }`}
               target='_blank'
@@ -267,11 +269,11 @@ const Header = ({ bgColor }: { bgColor: string }) => {
                 setActiveLink('preview')
               }}
               onClick={onClickMerchant}
-              className={`animation-hover mx-2 inline-block font-bold  cursor-pointer px-4 py-2 relative${
+              className={`animation-hover mx-2 inline-block font-bold  cursor-pointer px-4 py-2 relative font-reddit-sans ${
                 activeLink === 'preview'
                   ? ' animation-active text-template-orange-500 '
                   : ` hover:text-template-orange-500 ${
-                      bgColor === 'white' ? 'text-black' : 'text-white'
+                      bgColor === 'white' ? 'text-[#1D2939]' : 'text-white'
                     }`
               }`}
             >

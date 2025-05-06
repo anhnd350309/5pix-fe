@@ -166,20 +166,20 @@ const Orders = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>
                   <div>
                     <SvgCart width={28} />
                   </div>
-                  <div className='font-inter font-bold text-base text-gray-950'>
+                  <div className='font-sans font-bold text-base text-gray-950'>
                     Thông tin thanh toán
                   </div>
                 </div>
                 <div className='space-y-2'>
-                  <div className='flex flex-row items-center font-inter '>
+                  <div className='flex flex-row items-center font-sans '>
                     <div className='flex-1 text-[#667085]'>Thời gian giao dịch</div>
                     <div className='flex-end font-normal text-sm'>10/04/2025 16:54</div>
                   </div>
-                  <div className='flex flex-row items-center font-inter '>
+                  <div className='flex flex-row items-center font-sans '>
                     <div className='flex-1 text-[#667085]'>Phương thức thanh toán</div>
                     <div className='flex-end font-normal text-sm'>VNPAY - QR</div>
                   </div>
-                  <div className='flex flex-row items-center font-inter '>
+                  <div className='flex flex-row items-center font-sans '>
                     <div className='flex-1 text-[#667085]'>Trạng thái thanh toán</div>
                     {order?.internal_status === 'PAY_GATE_FAIL' ? (
                       <div className='flex-end font-bold text-sm' style={{ color: '#D92D20' }}>
@@ -193,8 +193,8 @@ const Orders = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>
                   </div>
                 </div>
                 <div className='pt-4 border-t border-t-[#E4E7EC] mt-4 mb-2'>
-                  <div className='flex flex-row items-center font-inter '>
-                    <div className='flex-1 font-inter font-bold text-base text-gray-950 '>
+                  <div className='flex flex-row items-center font-sans '>
+                    <div className='flex-1 font-sans font-bold text-base text-gray-950 '>
                       {'Tổng tiền thanh toán'}
                     </div>
                     <div className='flex-end font font-bold text-xl text-primary-600'>

@@ -11,7 +11,7 @@ interface EventCardProps {
 
 const EventCard: React.FC<EventCardProps> = ({ title, date, imageCount, imageUrl }) => {
   return (
-    <Card className='h-[225px] w-[350px]'>
+    <Card className='h-[225px] w-[350px] font-sans'>
       <CardHeader>
         <Image
           src={imageUrl || '/assets/images/template/event.jpg'}
@@ -22,7 +22,7 @@ const EventCard: React.FC<EventCardProps> = ({ title, date, imageCount, imageUrl
         />
       </CardHeader>
       <CardContent>
-        <CardTitle className='font-inter text-ellipsis truncate whitespace-nowrap overflow-hidden'>
+        <CardTitle className='font-sans text-ellipsis truncate whitespace-nowrap overflow-hidden font-bold uppercase'>
           {title}
         </CardTitle>
         <CardDescription>

@@ -111,7 +111,7 @@ const OrderTable: React.FC = () => {
       <div className='p-6 bg-white shadow-md rounded-lg border border-gray-200 relative'>
         <div className='flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4'>
           <div className='flex items-center space-x-2'>
-            <span className='font-inter font-bold text-[14px] leading-[20px] tracking-[-0.2%] text-blue-600'>
+            <span className='font-sans font-bold text-[14px] leading-[20px] tracking-[-0.2%] text-blue-600'>
               Information
             </span>
           </div>
@@ -119,22 +119,22 @@ const OrderTable: React.FC = () => {
 
         <div className='grid grid-cols-1 sm:grid-cols-5 gap-4 sm:gap-20 mb-6'>
           <div className='flex flex-col space-y-4 col-span-2'>
-            <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-2'>
+            <p className='font-sans font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-2'>
               <strong> Order ID:</strong> {record.id}
             </p>
-            <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-2'>
+            <p className='font-sans font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-2'>
               <strong>Order Creation Time:</strong> {record.created_at}
             </p>
-            <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-2'>
+            <p className='font-sans font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-2'>
               <strong>Payment Time:</strong> {record.updated_at}
             </p>
-            <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-2'>
+            <p className='font-sans font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-2'>
               <strong>Email:</strong> {record.owner_email}
             </p>
           </div>
 
           <div className='flex flex-col space-y-4 col-span-3'>
-            <p className='font-inter font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-5'>
+            <p className='font-sans font-medium text-[14px] leading-[20px] text-gray-600 grid grid-cols-5'>
               <strong className='col-span-2'>Order Status:</strong>
               <Tag color={statusOrderMapping[record.internal_status ?? 'unknown']?.color}>
                 {statusOrderMapping[record.internal_status ?? 'unknown']?.text || 'Không xác định'}

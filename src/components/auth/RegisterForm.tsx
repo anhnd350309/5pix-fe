@@ -30,7 +30,7 @@ export const RegisterForm: React.FC = () => {
   }
 
   return (
-    <div className='flex h-full items-center justify-center bg-gradient-to-b from-black to-blue-900'>
+    <div className='flex h-full items-center justify-center bg-gradient-to-b from-black to-blue-900 font-sans'>
       <div className='w-full max-w-md rounded-lg bg-white p-8 shadow-lg'>
         <div className='mb-6 text-center'>
           <img src='/assets/images/Logo.svg' alt='Logo' className='mx-auto h-12' />
