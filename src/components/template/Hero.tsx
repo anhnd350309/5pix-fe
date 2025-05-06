@@ -30,6 +30,8 @@ import EventCard from '../shared/EventCard'
 import { Spin } from 'antd'
 import { normalizeString } from '@/lib/utils'
 import Autoplay from 'embla-carousel-autoplay'
+import { SearchOutlined } from '@ant-design/icons'
+import SvgStar from '../icons/icons/Star'
 
 const Hero = () => {
   const { t } = useTranslation('common')
@@ -140,112 +142,95 @@ const Hero = () => {
 
   return (
     <div
-      className='flex flex-col space-y-5 sm:mx-16 mt-4 px-8 xl:px-16 center font-sans'
+      className='flex flex-col space-y-5 sm:mx-16 mt-4 px-8 xl:px-16 center font-sans justify-center items-center'
       id='about'
     >
-      <div className='flex flex-col justify-center items-center space-y-5 row-start-1'>
-        <Carousel
-          opts={{
-            align: 'center',
-            loop: true,
-          }}
-          plugins={[
-            Autoplay({
-              delay: 5000, // 3 giây chuyển ảnh
-              stopOnInteraction: false, // khi user kéo tay không dừng lại
-            }),
-          ]}
-          className='w-[90%] sm:w-full'
-        >
-          <CarouselContent>
-            {[1, 2, 3].map((item, index) => (
-              <CarouselItem key={index} className='flex justify-center'>
-                <img
-                  src={`/assets/images/main${item}.jpg`}
-                  alt={`Banner ${item}`}
-                  className='rounded-lg object-cover w-[90%] h-[400px] md:h-[500px]'
+      <div className='flex flex-col sm:flex-row h-fit justify-between items-start max-w-[99%] sm:max-w-[80%] gap-4'>
+        <div className='flex flex-col justify-start items-start space-y-5 w-full sm:w-1/2'>
+          <h1 className='text-4xl sm:text-5xl font-bold sm:mx-5 text-center sm:text-left'>
+            Nhiếp ảnh mang lại
+            <br /> trải nghiệm khác biệt
+          </h1>
+          <div className='flex flex-col space-y-4 w-full'>
+            <div className='flex flex-1  bg-white items-center justify-center w-full'>
+              <div className='flex rounded-full shadow  py-1 w-full mx-5'>
+                <Input
+                  placeholder='Tìm sự kiện, album'
+                  value={bibNumber}
+                  onChange={(e) => setBibNumber(e.target.value)}
+                  className='!ml-0 border-none w-full '
                 />
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
-        </Carousel>
-        <div className='flex sm:flex-row flex-col items-center sm:space-x-4 space-y-4 sm:space-y-0 sm:bg-white shadow p-2 rounded-full'>
-          <Select onValueChange={(value: string) => setAlbumId(value)}>
-            <SelectTrigger className='bg-white border-none rounded-full text-center !w-[300px]'>
-              <SelectValue placeholder='Tìm kiếm giải chạy' />
-              {/* <span className='text-gray-700'>Tìm kiếm giải chạy</span> */}
-            </SelectTrigger>
-            <SelectContent>
-              {events.map((event, index) => (
-                <SelectItem key={index} value={event.id.toString()}>
-                  {event.album_name}
-                </SelectItem>
-              ))}
-              {/* <SelectItem value='1'>Option 1</SelectItem>
-              <SelectItem value='2'>Option 2</SelectItem>
-              <SelectItem value='3'>Option 3</SelectItem> */}
-            </SelectContent>
-          </Select>
-          <div className='flex flex-1 w-full sm:w-auto'>
-            <div className='flex bg-white border-l-2 rounded-full sm:rounded w-full sm:w-64'>
-              <Input
-                placeholder='Nhập số BIB'
-                value={bibNumber}
-                onChange={(e) => setBibNumber(e.target.value)}
-                className='!ml-0 border-none w-full sm:w-48'
-              />
+                <Button
+                  className='flex items-center justify-center bg-[#2563EB] rounded-full text-white mx-2 w-36'
+                  onClick={handleSubmit}
+                >
+                  <SearchOutlined />
+                  Tìm kiếm
+                </Button>
+              </div>
             </div>
-            {/*<Dialog>*/}
-            {/*  <DialogTrigger asChild>*/}
-            {/*    <img*/}
-            {/*      src='/assets/icons/template/search_by_image.svg'*/}
-            {/*      className='mr-2 w-auto'*/}
-            {/*      alt=''*/}
-            {/*    />*/}
-            {/*  </DialogTrigger>*/}
-            {/*  <DialogContent className='sm:max-w-[700px]'>*/}
-            {/*    <UploadImageComponent onFileChange={handleFileChange} />*/}
-            {/*  </DialogContent>*/}
-            {/*</Dialog>*/}
-            <Button
-              className='flex items-center bg-[#2563EB] rounded-full w-full sm:w-[200px] text-white'
-              onClick={handleSubmit}
-            >
-              Tìm ảnh
-            </Button>
           </div>
         </div>
-        <Carousel
-          opts={{
-            align: 'start',
-          }}
-          className='max-w-[90%] sm:max-w-[80%]'
-        >
-          <CarouselContent>
-            {eventHighlights?.map((event) => (
-              <CarouselItem key={event.id} className='md:basis-1/1 lg:basis-[33.4%] px-3'>
-                <div className='p-1'>
-                  <Link
-                    href={`/events/${event.album_slug ? normalizeString(event.album_slug) : event.id}`}
-                  >
-                    <EventCard
-                      key={event.id}
-                      title={event.album_name}
-                      date={event.event_date}
-                      imageCount={event.total_image ?? 0}
-                      imageUrl={event.album_image_url}
-                    />
-                  </Link>
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
-        </Carousel>
+
+        <div className='w-full sm:w-1/2 px-10'>
+          <Carousel
+            opts={{
+              align: 'center',
+              loop: true,
+            }}
+            plugins={[
+              Autoplay({
+                delay: 5000, // 5 seconds
+                stopOnInteraction: false,
+              }),
+            ]}
+            className='w-full h-[250px]'
+          >
+            <CarouselContent className='h-full'>
+              {[1, 2, 3].map((item, index) => (
+                <CarouselItem key={index} className='flex justify-center h-full'>
+                  <img
+                    src={`/assets/images/main${item}.jpg`}
+                    alt={`Banner ${item}`}
+                    className='rounded-lg object-cover w-full h-[250px] '
+                  />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
+        </div>
       </div>
+      <Carousel
+        opts={{
+          align: 'start',
+        }}
+        className='max-w-[90%] '
+      >
+        <CarouselContent>
+          {eventHighlights?.map((event) => (
+            <CarouselItem key={event.id} className='md:basis-1/1 lg:basis-[33.4%] px-2'>
+              <div className='p-1 relative'>
+                <Link
+                  href={`/events/${event.album_slug ? normalizeString(event.album_slug) : event.id}`}
+                >
+                  <EventCard
+                    key={event.id}
+                    title={event.album_name}
+                    date={event.event_date}
+                    imageCount={event.total_image ?? 0}
+                    imageUrl={event.album_image_url}
+                  />
+                  <div className='absolute top-1 right-5'>
+                    <SvgStar width={40} />
+                  </div>
+                </Link>
+              </div>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        <CarouselPrevious />
+        <CarouselNext />
+      </Carousel>
       <h2 className='m-4 font-bold text-3xl text-center'>Danh sách sự kiện</h2>
       <ListEvents />
     </div>

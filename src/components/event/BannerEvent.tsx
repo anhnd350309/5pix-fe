@@ -130,15 +130,16 @@ export const BannerEvent: React.FC<BannerEventProps> = ({
       style={{ background: 'linear-gradient(to bottom, #FFFFFF, #E1F4FF)' }}
     >
       {/* Banner */}
-      <div className='relative w-[99vw] aspect-[16/6] overflow-hidden'>
-        <Image
-          src={event.album_image_url}
-          alt={event.album_name}
-          fill
-          className='object-cover object-center'
-          priority
-          style={{ objectFit: 'cover' }}
-        />
+      <div className='relative w-[99vw] h-full aspect-[16/6] overflow-hidden '>
+        <div className='relative h-full inset-0 bg-gradient-to-b from-transparent to-[#E1F4FF]'>
+          <img
+            src={event.album_image_url}
+            alt={event.album_name}
+            className='object-cover object-center h-full w-full'
+            style={{ objectFit: 'cover' }}
+          />
+          <div className='absolute bottom-0 w-full h-24 bg-gradient-to-b from-transparent to-[#FFFFFF]'></div>
+        </div>
 
         {/* Search Overlay */}
         {!type && event.is_find_all_image === 1 && (
@@ -148,7 +149,7 @@ export const BannerEvent: React.FC<BannerEventProps> = ({
                 <Input
                   placeholder='Nhập số BIB'
                   value={bibNumber}
-                  onChange={(e) => setBibNumber(e.target.value)} // Update BIB state
+                  onChange={(e) => setBibNumber(e.target.value)}
                   className='!ml-0 border-none w-full sm:w-64 !important text-black'
                 />
               </div>
@@ -161,7 +162,6 @@ export const BannerEvent: React.FC<BannerEventProps> = ({
                 </Button>
                 <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                   {' '}
-                  {/* Điều khiển mở dialog */}
                   <DialogTrigger asChild>
                     <Button
                       className='flex items-center bg-blue-100 rounded-full w-full sm:w-[220px] text-blue-600'
