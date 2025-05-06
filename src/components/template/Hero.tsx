@@ -12,13 +12,6 @@ import {
 } from '@/components/ui/carousel'
 import { Input } from '@/components/ui/input'
 import {
-  Select,
-  SelectTrigger,
-  SelectContent,
-  SelectItem,
-  SelectValue,
-} from '@/components/ui/select'
-import {
   AlbumItemResponsePublic,
   GetPubAlbumsGetParams,
   PageAlbumImageItemResponsePublic,
@@ -204,14 +197,15 @@ const Hero = () => {
         opts={{
           align: 'start',
         }}
-        className='max-w-[90%] '
+        className='md:max-w-[1130px] max-w-[93%] mx-auto'
       >
-        <CarouselContent>
+        <CarouselContent className='flex gap-5 p-0 mx-0'>
           {eventHighlights?.map((event) => (
-            <CarouselItem key={event.id} className='md:basis-1/1 lg:basis-[33.4%] px-2'>
-              <div className='p-1 relative'>
+            <CarouselItem key={event.id} className='lg:basis-[calc((100%-2rem)/3)] p-0'>
+              <div className=' relative w-[350px]'>
                 <Link
                   href={`/events/${event.album_slug ? normalizeString(event.album_slug) : event.id}`}
+                  className='h-[225px] w-[350px]'
                 >
                   <EventCard
                     key={event.id}
@@ -220,7 +214,7 @@ const Hero = () => {
                     imageCount={event.total_image ?? 0}
                     imageUrl={event.album_image_url}
                   />
-                  <div className='absolute top-1 right-5'>
+                  <div className='absolute top-0 right-10'>
                     <SvgStar width={40} />
                   </div>
                 </Link>
