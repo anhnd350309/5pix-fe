@@ -138,15 +138,15 @@ const Hero = () => {
       className='flex flex-col space-y-5 sm:mx-16 mt-4 px-8 xl:px-16 center font-sans justify-center items-center'
       id='about'
     >
-      <div className='flex flex-col sm:flex-row h-fit justify-between items-start max-w-[99%] sm:max-w-[80%] gap-4'>
+      <div className='flex flex-col sm:flex-row h-fit justify-between items-start md:max-w-[1130px] max-w-[93%]  gap-4'>
         <div className='flex flex-col justify-start items-start space-y-5 w-full sm:w-1/2'>
-          <h1 className='text-4xl sm:text-5xl font-bold sm:mx-5 text-center sm:text-left'>
+          <h1 className='text-4xl sm:text-5xl font-bold text-center sm:text-left'>
             Nhiếp ảnh mang lại
             <br /> trải nghiệm khác biệt
           </h1>
           <div className='flex flex-col space-y-4 w-full'>
             <div className='flex flex-1  bg-white items-center justify-center w-full'>
-              <div className='flex rounded-full shadow  py-1 w-full mx-5'>
+              <div className='flex rounded-full shadow  py-1 w-full '>
                 <Input
                   placeholder='Tìm sự kiện, album'
                   value={bibNumber}
@@ -165,7 +165,7 @@ const Hero = () => {
           </div>
         </div>
 
-        <div className='w-full sm:w-1/2 px-10'>
+        <div className='w-full sm:w-1/2 '>
           <Carousel
             opts={{
               align: 'center',
@@ -177,7 +177,7 @@ const Hero = () => {
                 stopOnInteraction: false,
               }),
             ]}
-            className='w-full h-[250px]'
+            className='w-full h-[216px]'
           >
             <CarouselContent className='h-full'>
               {[1, 2, 3].map((item, index) => (
@@ -185,7 +185,7 @@ const Hero = () => {
                   <img
                     src={`/assets/images/main${item}.jpg`}
                     alt={`Banner ${item}`}
-                    className='rounded-lg object-cover w-full h-[250px] '
+                    className='rounded-lg object-cover w-[512px] h-[216px] '
                   />
                 </CarouselItem>
               ))}
@@ -199,9 +199,9 @@ const Hero = () => {
         }}
         className='md:max-w-[1130px] max-w-[93%] mx-auto'
       >
-        <CarouselContent className='flex gap-5 p-0 mx-0'>
+        <CarouselContent className='flex gap-6 p-0 mx-0'>
           {eventHighlights?.map((event) => (
-            <CarouselItem key={event.id} className='lg:basis-[calc((100%-2rem)/3)] p-0'>
+            <CarouselItem key={event.id} className='lg:basis-[calc((99%-2rem)/3)] p-0 w-[350px]'>
               <div className=' relative w-[350px]'>
                 <Link
                   href={`/events/${event.album_slug ? normalizeString(event.album_slug) : event.id}`}

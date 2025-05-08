@@ -11,7 +11,7 @@ interface EventCardProps {
 
 const EventCard: React.FC<EventCardProps> = ({ title, date, imageCount, imageUrl }) => {
   return (
-    <Card className='h-[225px] w-[350px] font-sans'>
+    <Card className='h-[225px] w-[350px] font-sans border-none'>
       <CardHeader>
         <Image
           src={imageUrl || '/assets/images/template/event.jpg'}
@@ -22,10 +22,10 @@ const EventCard: React.FC<EventCardProps> = ({ title, date, imageCount, imageUrl
         />
       </CardHeader>
       <CardContent>
-        <CardTitle className='font-sans text-ellipsis truncate whitespace-nowrap overflow-hidden font-bold uppercase'>
+        <CardTitle className='font-sans text-ellipsis truncate whitespace-nowrap overflow-hidden font-bold uppercase leading-[1.5]'>
           {title}
         </CardTitle>
-        <CardDescription>
+        <CardDescription className='relative -top-2'>
           <div className='flex items-center gap-4'>
             <div className='flex items-center'>
               <Image
@@ -35,7 +35,9 @@ const EventCard: React.FC<EventCardProps> = ({ title, date, imageCount, imageUrl
                 height={30}
                 width={30}
               />
-              <span className='pl-1'>{new Date(date || '').toLocaleDateString('en-GB')}</span>
+              <span className='pl-1 font-bold text-xs'>
+                {new Date(date || '').toLocaleDateString('en-GB')}
+              </span>
             </div>
             <div className='flex items-center'>
               <Image
@@ -45,7 +47,7 @@ const EventCard: React.FC<EventCardProps> = ({ title, date, imageCount, imageUrl
                 height={30}
                 width={30}
               />
-              <span className='pl-1'>{imageCount} Ảnh</span>
+              <span className='pl-1 font-bold text-xs'>{imageCount} Ảnh</span>
             </div>
           </div>
         </CardDescription>
