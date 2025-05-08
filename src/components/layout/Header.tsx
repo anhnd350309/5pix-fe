@@ -193,9 +193,9 @@ const Header = ({ bgColor }: { bgColor: string }) => {
         Bạn có chắc chắn muốn đăng xuất?
       </Modal>
       <header
-        className={`top-0 z-30 w-full bg-transparent transition-all pt-4  text-[#1D2939] font-sans`}
+        className={`top-0 z-30 w-full bg-transparent transition-all  text-[#1D2939] font-sans`}
       >
-        <nav className='container mx-auto grid grid-flow-col px-8 py-3 sm:py-4 xl:px-16 relative z-10'>
+        <nav className='container mx-auto grid grid-flow-col px-8 py-3 xl:px-16 relative z-10'>
           <div className='col-start-1 col-end-2 flex items-center'>
             <Link href='/'>
               <Image

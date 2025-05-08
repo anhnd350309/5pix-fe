@@ -123,10 +123,42 @@ export const BannerEvent: React.FC<BannerEventProps> = ({
       // setBibNumber('')
     }
   }
-
+  const renderSearchForm = () => (
+    <div className='flex sm:flex-row flex-col sm:justify-between gap-4 rounded-full w-full sm:w-[60%] mx-auto'>
+      <div className='bg-white border-l-2 rounded-full w-full'>
+        <Input
+          placeholder='Nhập số BIB'
+          value={bibNumber}
+          onChange={(e) => setBibNumber(e.target.value)}
+          className='!ml-0 border-none w-full sm:w-64 !important text-black'
+        />
+      </div>
+      <div className='flex gap-1 w-full sm:w-auto'>
+        <Button
+          onClick={handleSubmit}
+          className='flex items-center bg-blue-600 rounded-full w-3/4 sm:w-[200px] text-white'
+        >
+          <SvgSearch width={16} stroke='white' /> Tìm ảnh
+        </Button>
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <DialogTrigger asChild>
+            <Button
+              className='flex items-center bg-blue-100 rounded-full w-full sm:w-[220px] text-blue-600'
+              onClick={() => setIsDialogOpen(true)}
+            >
+              <SvgImage width={16} stroke='#2563EB' /> Tìm kiếm bằng hình ảnh
+            </Button>
+          </DialogTrigger>
+          <DialogContent className='sm:max-w-[700px]'>
+            <UploadImageComponent onFileChange={handleFileChange} onDone={handleDone} />
+          </DialogContent>
+        </Dialog>
+      </div>
+    </div>
+  )
   return (
     <div
-      className='bg-white flex flex-col items-start gap-8 mx-auto rounded-lg text-gray-800 max-w-[100vw] font-sans'
+      className='bg-white flex flex-col items-start gap-6 mx-auto rounded-lg text-gray-800 max-w-[100vw] font-sans'
       style={{ background: 'linear-gradient(to bottom, #FFFFFF, #E1F4FF)' }}
     >
       {/* Banner */}
@@ -138,47 +170,19 @@ export const BannerEvent: React.FC<BannerEventProps> = ({
             className='object-cover object-center h-full w-full'
             style={{ objectFit: 'cover' }}
           />
-          <div className='absolute bottom-0 w-full h-24 bg-gradient-to-b from-transparent to-[#FFFFFF]'></div>
+          <div className='absolute bottom-0 w-full h-24 bg-gradient-to-b from-transparent to-[#FFFFFF] hidden sm:block'></div>
         </div>
 
-        {/* Search Overlay */}
         {!type && event.is_find_all_image === 1 && (
-          <div className='absolute bottom-0 left-0 w-full py-20 bg-gradient-to-t from-[#FFFFFF] to-transparent'>
-            <div className='flex sm:flex-row flex-col sm:justify-between gap-4 rounded-full w-[60%] mx-auto'>
-              <div className='bg-white border-l-2 rounded-full w-full'>
-                <Input
-                  placeholder='Nhập số BIB'
-                  value={bibNumber}
-                  onChange={(e) => setBibNumber(e.target.value)}
-                  className='!ml-0 border-none w-full sm:w-64 !important text-black'
-                />
-              </div>
-              <div className='flex gap-1 w-full sm:w-auto'>
-                <Button
-                  onClick={handleSubmit}
-                  className='flex items-center bg-blue-600 rounded-full w-3/4 sm:w-[200px] text-white'
-                >
-                  <SvgSearch width={16} stroke='white' /> Tìm ảnh
-                </Button>
-                <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                  {' '}
-                  <DialogTrigger asChild>
-                    <Button
-                      className='flex items-center bg-blue-100 rounded-full w-full sm:w-[220px] text-blue-600'
-                      onClick={() => setIsDialogOpen(true)} // Mở dialog khi nhấn nút
-                    >
-                      <SvgImage width={16} stroke='#2563EB' /> Tìm kiếm bằng hình ảnh
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className='sm:max-w-[700px]'>
-                    <UploadImageComponent onFileChange={handleFileChange} onDone={handleDone} />
-                  </DialogContent>
-                </Dialog>
-              </div>
-            </div>
+          <div className='absolute -bottom-10 sm:bottom-0 left-0 w-full py-20 bg-gradient-to-t from-[#FFFFFF] to-transparent hidden sm:block'>
+            {renderSearchForm()}
           </div>
         )}
       </div>
+
+      {!type && event.is_find_all_image === 1 && (
+        <div className='block sm:hidden w-full px-4'>{renderSearchForm()}</div>
+      )}
     </div>
   )
 }

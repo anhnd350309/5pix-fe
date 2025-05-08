@@ -9,9 +9,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Reddit Sans'], // Gán Inter làm font chính
-        inter: ['Inter', 'sans-serif'], // Alias cho Inter (nếu cần)
-        'reddit-sans': ['Reddit Sans'],
+        sans: ['"Reddit Sans"', 'sans-serif'],
+        inter: ['Inter', 'sans-serif'],
+        'reddit-sans': ['Reddit Sans', 'sans-serif'],
       },
       colors: {
         quoc: {

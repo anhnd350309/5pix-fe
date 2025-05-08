@@ -255,7 +255,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
       {event.album_slug && (
         <SEOHead templateTitle={event.album_name} image={event.album_image_url} />
       )}
-      <div className='space-y-5 mt-4 center pb-[40px] font-sans'>
+      <div className='space-y-5  center pb-[40px] font-sans'>
         <BannerEvent
           event={event}
           id={id}
@@ -273,7 +273,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
         {curLoading ? (
           <Spin className='flex justify-center items-center h-24' />
         ) : (
-          <div className=' mx-1 sm:mx-16 px-4 xl:px-16 relative -top-16'>
+          <div className=' mx-1 sm:mx-16 px-4 xl:px-16 relative sm:-top-16'>
             {showTotal && loadedImgs.length > 0 && (
               <span className='text-center'>
                 Tìm thấy {loadedImgs.length} ảnh của bạn, trong tổng số {event?.total_image} ảnh{' '}
