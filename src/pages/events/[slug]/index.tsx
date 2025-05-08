@@ -276,8 +276,8 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
           <div className=' mx-1 sm:mx-16 px-4 xl:px-16 relative sm:-top-16'>
             {showTotal && loadedImgs.length > 0 && (
               <span className='text-center'>
-                Tìm thấy {loadedImgs.length} ảnh của bạn, trong tổng số {event?.total_image} ảnh{' '}
-                {bibNum}
+                Tìm thấy {loadedImgs.length} ảnh của bạn, trong tổng số {event?.total_image} ảnh với
+                số bib {bibNum}
               </span>
             )}
             <div className='flex flex-col xl:flex-row gap-4'>

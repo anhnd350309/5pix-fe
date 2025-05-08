@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Input, Spin, Dropdown, Menu } from 'antd'
+import { Button, Input, Spin, Dropdown, Menu, message } from 'antd'
 import { EditOutlined, MoreOutlined, SearchOutlined } from '@ant-design/icons'
 import {
   Album5pixStatus,
@@ -9,7 +9,7 @@ import {
 } from '@/schemas'
 import Link from 'next/link'
 import EventCardAdmin from '@/components/shared/EvenCardAdmin'
-import { getAlbumsGet } from '@/services/album/album'
+import { approveAlbumAlbumsApproveAlbumPost, getAlbumsGet } from '@/services/album/album'
 import { useRouter } from 'next/router'
 
 interface AllEventsAdminProps {
@@ -18,6 +18,7 @@ interface AllEventsAdminProps {
   setCurrentPage: (page: any) => void
   reloadTrigger: number
   status?: string
+  type: string
 }
 
 const AllEventsAdmin: React.FC<AllEventsAdminProps> = ({
@@ -26,9 +27,11 @@ const AllEventsAdmin: React.FC<AllEventsAdminProps> = ({
   setCurrentPage,
   reloadTrigger,
   status,
+  type,
 }) => {
   const [loadedEvents, setLoadedEvents] = useState<AlbumItemResponse[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [isLoadingApprove, setIsLoadingApprove] = useState(false)
   const [isLoadingMore, setIsLoadingMore] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [totalEvents, setTotalEvents] = useState<number | null>(null)
@@ -38,28 +41,66 @@ const AllEventsAdmin: React.FC<AllEventsAdminProps> = ({
     page_size: 10,
     album_5pix_status: status as Album5pixStatus | undefined,
   }
+  const fetchEvents = async () => {
+    if (currentPage === 1) setIsLoading(true)
+    setError(null)
 
-  useEffect(() => {
-    const fetchEvents = async () => {
-      if (currentPage === 1) setIsLoading(true)
-      setError(null)
+    try {
+      const response = await getAlbumsGet(params)
+      const newEvents = response.data
 
-      try {
-        const response = await getAlbumsGet(params)
-        const newEvents = response.data
-        setLoadedEvents((prevEvents) => {
-          if (currentPage === 1) return newEvents
-          return [...prevEvents, ...newEvents]
-        })
-        setTotalEvents(response.metadata.total_items)
-      } catch (err: any) {
-        setError(err.message || 'Something went wrong')
-      } finally {
-        setIsLoading(false)
-        setIsLoadingMore(false)
-      }
+      console.log('Fetched events:', newEvents)
+      setLoadedEvents((prevEvents) => {
+        if (currentPage === 1) return newEvents
+        return [...prevEvents, ...newEvents]
+      })
+      setTotalEvents(response.metadata.total_items)
+    } catch (err: any) {
+      setError(err.message || 'Something went wrong')
+    } finally {
+      setIsLoading(false)
+      setIsLoadingMore(false)
     }
+  }
+  const rejectEvent = (id: number) => () => {
+    try {
+      setIsLoadingApprove(true)
+      approveAlbumAlbumsApproveAlbumPost({
+        album_id: id,
+        album_5pix_status: 'rejected',
+      }).then((res) => {
+        console.log('Event rejected:', res)
+        message.success('Đã từ chối album')
+        fetchEvents()
+      })
+    } catch (error) {
+      console.error('Error rejecting event:', error)
+      message.error(`Từ chối album không thành công, ${error}`)
+    } finally {
+      setIsLoadingApprove(false)
+    }
+  }
+  const approveEvent = (id: number) => () => {
+    try {
+      setIsLoadingApprove(true)
+      approveAlbumAlbumsApproveAlbumPost({
+        album_id: id,
+        album_5pix_status: 'approved',
+      }).then((res) => {
+        console.log('Event approved:', res)
 
+        message.success('Đã duyệt album')
+
+        fetchEvents()
+      })
+    } catch (error) {
+      console.error('Error rejecting event:', error)
+      message.error(`Duyệt album không thành công, ${error}`)
+    } finally {
+      setIsLoadingApprove(false)
+    }
+  }
+  useEffect(() => {
     fetchEvents()
   }, [currentPage, reloadTrigger])
 
@@ -92,6 +133,7 @@ const AllEventsAdmin: React.FC<AllEventsAdminProps> = ({
                 date={event.event_date}
                 imageCount={event.total_image ?? 0}
                 imageUrl={event.album_image_url}
+                status={event.album_5pix_status ?? ''}
               />
             </Link>
             <div className='absolute right-0 top-0 flex items-center gap-2 h-full p-4'>
@@ -119,7 +161,26 @@ const AllEventsAdmin: React.FC<AllEventsAdminProps> = ({
                   <MoreOutlined />
                 </Button>
               </Dropdown>
-
+              {event.album_5pix_status === 'waiting_for_approve' && type === 'admin' && (
+                <>
+                  <Button
+                    loading={isLoadingApprove}
+                    size='large'
+                    className='bg-white h-8 text-[#2563EB] border-[#2563EB] border-1 rounded-3xl font-bold w-full sm:w-auto hidden sm:inline-flex font-sans text-sm'
+                    onClick={rejectEvent(event.id)}
+                  >
+                    Từ chối
+                  </Button>
+                  <Button
+                    loading={isLoadingApprove}
+                    size='large'
+                    className='bg-white h-8 text-[#2563EB] border-[#2563EB] border-1 rounded-3xl font-bold w-full sm:w-auto hidden sm:inline-flex font-sans text-sm'
+                    onClick={approveEvent(event.id)}
+                  >
+                    Duyệt
+                  </Button>
+                </>
+              )}
               <Button
                 icon={<EditOutlined />}
                 size='large'

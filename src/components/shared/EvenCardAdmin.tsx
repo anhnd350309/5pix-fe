@@ -1,14 +1,23 @@
 import Image from 'next/image'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
+import { Tag } from 'antd'
+import { albumMapping } from '@/constants/mapping'
 
 interface EventCardProps {
   title?: string
   date?: string
   imageCount?: number
   imageUrl?: string
+  status: string
 }
 
-const EventCardAdmin: React.FC<EventCardProps> = ({ title, date, imageCount, imageUrl }) => {
+const EventCardAdmin: React.FC<EventCardProps> = ({
+  title,
+  date,
+  imageCount,
+  imageUrl,
+  status,
+}) => {
   return (
     <div>
       <Card className='h-full flex'>
@@ -47,6 +56,12 @@ const EventCardAdmin: React.FC<EventCardProps> = ({ title, date, imageCount, ima
                 />
                 <span className='pl-1'>{imageCount} Ảnh</span>
               </div>
+              <Tag
+                color={albumMapping[status ?? 'unknown']?.color}
+                className='w-fit col-span-3 rounded-full'
+              >
+                {albumMapping[status ?? 'unknown']?.text || 'Không xác định'}
+              </Tag>
             </div>
           </CardDescription>
         </CardContent>

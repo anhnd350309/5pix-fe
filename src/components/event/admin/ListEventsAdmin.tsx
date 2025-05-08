@@ -8,8 +8,10 @@ import { AlbumCreateRequest, AlbumItemResponse } from '@/schemas'
 import ToggleSwitch from './ToggleSwitch'
 import PriceConfig from './PriceConfig'
 import { createAlbumsPost } from '@/services/album/album'
-
-const ListEventsAdmin = () => {
+interface ListEventsAdminProps {
+  type: string
+}
+const ListEventsAdmin: React.FC<ListEventsAdminProps> = ({ type }) => {
   const [currentPage, setCurrentPage] = useState(1)
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [showModalUpdate, setShowModalUpdate] = useState(false)
@@ -68,6 +70,7 @@ const ListEventsAdmin = () => {
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
                 reloadTrigger={reloadAllEventsTrigger}
+                type={type}
               />
             ),
           },
@@ -81,6 +84,7 @@ const ListEventsAdmin = () => {
                 setCurrentPage={setCurrentPage}
                 reloadTrigger={reloadAllEventsTrigger}
                 status='approved'
+                type={type}
               />
             ),
           },
@@ -94,6 +98,7 @@ const ListEventsAdmin = () => {
                 setCurrentPage={setCurrentPage}
                 reloadTrigger={reloadAllEventsTrigger}
                 status='draft'
+                type={type}
               />
             ),
           },
@@ -107,6 +112,7 @@ const ListEventsAdmin = () => {
                 setCurrentPage={setCurrentPage}
                 reloadTrigger={reloadAllEventsTrigger}
                 status='waiting_for_approve'
+                type={type}
               />
             ),
           },
