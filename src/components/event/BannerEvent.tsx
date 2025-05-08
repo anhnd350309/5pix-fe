@@ -103,6 +103,7 @@ export const BannerEvent: React.FC<BannerEventProps> = ({
         setIsBuyAll(true)
       } else if (bibNumber) {
         setBibNumber(bibNumber)
+        setShowTotal(true)
         setIsBuyAll(true)
       } else {
         setShowTotal(false)

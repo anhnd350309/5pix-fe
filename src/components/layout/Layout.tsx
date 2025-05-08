@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 
 import Footer from './Footer'
 import Header from './Header'
+import ZaloChatWidget from '../common/ZaloChat'
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter()
@@ -19,6 +20,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       )} */}
       <Header bgColor={bgColor} />
       <div className='bg-gradient-to-b from-white to-[#E1F4FF] font-sans'>{children}</div>
+
+      <ZaloChatWidget />
       <Footer />
     </>
   )

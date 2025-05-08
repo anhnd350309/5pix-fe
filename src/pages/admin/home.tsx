@@ -19,7 +19,7 @@ const Home = (_props: InferGetStaticPropsType<typeof getStaticProps>) => {
 
   return (
     <>
-      <ListEventsAdmin />
+      <ListEventsAdmin type='admin' />
     </>
   )
 }
