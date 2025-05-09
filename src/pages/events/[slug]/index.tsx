@@ -1,4 +1,4 @@
-import { Card, Spin } from 'antd'
+import { Card, notification, Spin } from 'antd'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 
@@ -22,6 +22,7 @@ import useCurrency from '@/hooks/useCurrency'
 import { getAlbumImagesGet } from '@/services/images/images'
 import { searchPubImagesGet, useSearchPubImagesGet } from '@/services/public-images/public-images'
 import { Button } from '@/components/ui/button'
+import { addImageImageCollectionAddImagePost } from '@/services/image-collection/image-collection'
 type Repo = {
   event?: AlbumItemResponsePublic
   images: AlbumImageItemResponsePublic[]
@@ -97,6 +98,19 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
   const [isModalVisibleImage, setIsModalVisibleImage] = useState(false)
   const [bibNum, setBibNum] = useState<string>('')
   const [fileName, setFileName] = useState<string | null>('')
+
+  const [api, contextHolder] = notification.useNotification()
+  const openNotificationWithIcon = (
+    type: 'success' | 'info' | 'warning' | 'error',
+    message: string,
+    description?: string,
+  ) => {
+    api[type]({
+      message: message,
+      description: description,
+      placement: 'topRight',
+    })
+  }
   if (bibNumber) {
     setBibNum(bibNumber)
   }
@@ -105,10 +119,36 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
     id = 0
   }
   const [totalEvents, setTotalEvents] = useState<number | null>(null)
-  // useEffect(() => {
-  //   setTotalEvents(imagesData?.metadata.total_items ?? null)
-  //   setTotalPages(Math.ceil((imagesData?.metadata.total_items ?? 0) / 100))
-  // }, [imagesData])
+  const buyPhotobook = (albumId: number) => {
+    try {
+      addImageImageCollectionAddImagePost({
+        album_id: albumId,
+        queries: [
+          {
+            keyword: bibNum === '' ? (fileName ?? undefined) : bibNum,
+            keyword_type: 'bib_number',
+          },
+        ],
+      }).then((res) => {
+        if (res.id) {
+          openNotificationWithIcon('success', 'Thành công', 'Đã thêm photobook vào giỏ hàng.')
+        } else {
+          openNotificationWithIcon(
+            'error',
+            'Thất bại',
+            'Có lỗi xảy ra khi thêm photobook vào giỏ hàng.',
+          )
+          console.error('Error adding to cart:', res)
+        }
+      })
+    } catch (error) {
+      console.error('Error adding to cart:', error)
+    } finally {
+      setBibNum('')
+      setFileName(null)
+      setShowTotal(false)
+    }
+  }
   useEffect(() => {
     const fetchEvents = async () => {
       if (bibNum) {
@@ -252,6 +292,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
 
   return (
     <React.Fragment>
+      {contextHolder}
       {event.album_slug && (
         <SEOHead templateTitle={event.album_name} image={event.album_image_url} />
       )}
@@ -280,7 +321,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
                 số bib {bibNum}
               </span>
             )}
-            <div className='flex flex-col xl:flex-row gap-4'>
+            <div className='flex flex-col xl:flex-row gap-4 pt-4'>
               {/* Phần grid ảnh (giữ nguyên code của bạn) */}
               <div className='flex-1'>
                 <div className='gap-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5  min-h-[300px] '>
@@ -338,9 +379,18 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
                     >
                       {formatter(event?.album_price ?? 0)}
                     </h3>
-                    <Button onClick={showPopup} className='rounded-[20px] bg-blue-600 w-full'>
-                      Kiểm tra giỏ hàng
-                    </Button>
+                    {showTotal === true ? (
+                      <Button
+                        onClick={() => buyPhotobook(event.id)}
+                        className='rounded-[20px] bg-blue-600 w-full'
+                      >
+                        Mua photobook
+                      </Button>
+                    ) : (
+                      <Button onClick={showPopup} className='rounded-[20px] bg-blue-600 w-full'>
+                        Kiểm tra giỏ hàng
+                      </Button>
+                    )}
                   </Card>
                 </div>
               )}

@@ -66,8 +66,8 @@ const OrderTable: React.FC = () => {
     },
     {
       title: 'Username',
-      dataIndex: 'owner_email',
-      key: 'owner_email',
+      dataIndex: 'target_email',
+      key: 'target_email',
     },
     {
       title: 'Album',
