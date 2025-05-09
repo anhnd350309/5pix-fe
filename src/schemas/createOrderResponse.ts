@@ -26,5 +26,6 @@ export interface CreateOrderResponse {
   line_items?: LineResponse[];
   name?: string;
   owner_email?: string;
+  target_email?: string;
   updated_at?: string;
 }
