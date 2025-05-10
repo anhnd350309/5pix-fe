@@ -379,18 +379,17 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
                     >
                       {formatter(event?.album_price ?? 0)}
                     </h3>
-                    {showTotal === true ? (
+                    {showTotal === true && (
                       <Button
                         onClick={() => buyPhotobook(event.id)}
-                        className='rounded-[20px] bg-blue-600 w-full'
+                        className='rounded-[20px] bg-blue-600 w-full mb-2'
                       >
                         Mua photobook
                       </Button>
-                    ) : (
-                      <Button onClick={showPopup} className='rounded-[20px] bg-blue-600 w-full'>
-                        Kiểm tra giỏ hàng
-                      </Button>
                     )}
+                    <Button onClick={showPopup} className='rounded-[20px] bg-blue-600 w-full'>
+                      Kiểm tra giỏ hàng
+                    </Button>
                   </Card>
                 </div>
               )}
