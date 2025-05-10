@@ -3,6 +3,7 @@ import { Radio, Input, Button, Select, message, notification } from 'antd'
 import { AlbumCreateRequest, AlbumItemResponse } from '@/schemas'
 import { createAlbumsPost, updateAlbumsAlbumIdPut } from '@/services/album/album'
 import { useRouter } from 'next/router'
+import moment from 'moment'
 
 const { Option } = Select
 interface PriceConfigProps {
@@ -88,6 +89,7 @@ const PriceConfig = ({ event, setIsModalVisible, setCurrentPage, type }: PriceCo
 
     const payload: AlbumCreateRequest = {
       ...event,
+      event_date: moment(event.event_date).format('YYYY-MM-DD'),
       album_image_price: priceData.price as number,
       album_price: priceData.photobookPrice as number,
       is_album_free: priceData.paymentType === 'charge' ? 0 : 1,
