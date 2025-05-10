@@ -113,12 +113,13 @@ export const authOptions = (baseUrl: string): AuthOptions => ({
         token.accessToken = (user as any).accessToken
         token.role = (user as any).role
       }
+      console.log('JWT callback:', account)
       if (account?.provider === 'google') {
         try {
           const data = await googleCallbackLoginGoogleCallbackGet({
             id_token_params: account.id_token as string,
           })
-          console.log(data)
+          console.log('google', data)
           const googleData = data as { data: { access_token: string; user: { role: string } } }
           token.role = googleData.data.user.role
           token.accessToken = googleData.data.access_token
