@@ -114,13 +114,18 @@ export const authOptions = (baseUrl: string): AuthOptions => ({
         token.role = (user as any).role
       }
       if (account?.provider === 'google') {
-        const data = await googleCallbackLoginGoogleCallbackGet({
-          id_token_params: account.id_token as string,
-        })
-        console.log(data)
-        const googleData = data as { data: { access_token: string; user: { role: string } } }
-        token.role = googleData.data.user.role
-        token.accessToken = googleData.data.access_token
+        try {
+          const data = await googleCallbackLoginGoogleCallbackGet({
+            id_token_params: account.id_token as string,
+          })
+          console.log(data)
+          const googleData = data as { data: { access_token: string; user: { role: string } } }
+          token.role = googleData.data.user.role
+          token.accessToken = googleData.data.access_token
+        } catch (error: any) {
+          console.error('Google OAuth callback error:', error)
+          console.error('Google OAuth failed', error)
+        }
       }
       return token
     },
