@@ -81,11 +81,6 @@ export const authOptions = (baseUrl: string): AuthOptions => ({
     GoogleProvider({
       clientId: process.env.GOOGLE_ID!,
       clientSecret: process.env.GOOGLE_SECRET!,
-      authorization: {
-        params: {
-          redirect_uri: `${baseUrl}/api/auth/callback/google`,
-        },
-      },
     }),
     TwitterProvider({
       clientId: process.env.TWITTER_ID!,
