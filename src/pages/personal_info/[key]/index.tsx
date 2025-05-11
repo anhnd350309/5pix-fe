@@ -15,6 +15,7 @@ import { GetOwnedImagesImageCollectionOwnedImagesGetParams, OwnedImageResponse }
 import ImageViewer from '@/components/event/ImgViewer'
 import ImageModal from '@/components/common/ImageModal'
 import { useRouter } from 'next/router'
+import { detailPubAlbumsAlbumSlugGet } from '@/services/public-album/public-album'
 
 type MenuItem = Required<MenuProps>['items'][number]
 
@@ -54,7 +55,7 @@ const MyImages: React.FC = () => {
   const [error, setError] = useState<string | null>(null)
   const [groupedImages, setGroupedImages] = useState<Record<number, OwnedImageResponse[]>>({})
   const [expandedAlbumId, setExpandedAlbumId] = useState<number | null>(null)
-
+  const [albumNames, setAlbumNames] = useState<Record<number, string>>({})
   const toggleAlbum = (albumId: number) => {
     setExpandedAlbumId((prev) => (prev === albumId ? null : albumId))
   }
@@ -70,6 +71,22 @@ const MyImages: React.FC = () => {
     })
 
     return grouped
+  }
+  const fetchAlbumName = async (albumId: number) => {
+    try {
+      // Call API to get album name by ID
+      const response = await detailPubAlbumsAlbumSlugGet(String(albumId))
+      const album = response.data
+      if (album) {
+        setAlbumNames((prev) => ({ ...prev, [albumId]: album.album_name }))
+        return album.album_name
+      } else {
+        return `Album ${albumId}` // Default name if API fails
+      }
+    } catch (error) {
+      console.error('Failed to fetch album name:', error)
+      return `Album ${albumId}` // Default name if API fails
+    }
   }
   const fetchImages = async () => {
     setIsLoading(true)
@@ -87,6 +104,12 @@ const MyImages: React.FC = () => {
       setGroupedImages(groupImagesByAlbum(images))
       setTotalImages(response.metadata.total_items)
       setTotalPages(Math.ceil(response?.metadata.total_items / 100))
+      const albumIds = Array.from(new Set(images.map((image) => image.album_id)))
+      albumIds.forEach((albumId) => {
+        if (!albumNames[albumId]) {
+          fetchAlbumName(albumId)
+        }
+      })
     } catch (err: any) {
       setError(err.message || 'Something went wrong')
     } finally {
@@ -139,7 +162,9 @@ const MyImages: React.FC = () => {
                           className='flex justify-between items-center cursor-pointer'
                           onClick={() => toggleAlbum(Number(albumId))}
                         >
-                          <h3 className='text-lg font-semibold'>Album {albumId}</h3>
+                          <h3 className='text-lg font-semibold'>
+                            {albumNames[Number(albumId)] || `Album ${albumId}`}
+                          </h3>
                           <span>{expandedAlbumId === Number(albumId) ? '▲' : '▼'}</span>
                         </div>
 
