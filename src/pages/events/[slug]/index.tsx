@@ -25,6 +25,7 @@ import { searchPubImagesGet, useSearchPubImagesGet } from '@/services/public-ima
 import { Button } from '@/components/ui/button'
 import { addImageImageCollectionAddImagePost } from '@/services/image-collection/image-collection'
 import { ur } from '@faker-js/faker/.'
+import { set } from 'immer/dist/internal'
 type Repo = {
   event?: AlbumItemResponsePublic
   images: AlbumImageItemResponsePublic[]
@@ -251,6 +252,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
     } finally {
       setBibNum('')
       setFileName(null)
+      setUrlSearch(null)
       // setShowTotal(false)
       // fetchEvents()
     }

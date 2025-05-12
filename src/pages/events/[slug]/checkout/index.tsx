@@ -17,6 +17,7 @@ import {
 import { DeleteOutlined } from '@ant-design/icons'
 import { createOrderOrderCreateBuyCollectionPost } from '@/services/order/order'
 import useCurrency from '@/hooks/useCurrency'
+import { set } from 'react-hook-form'
 
 type Repo = {
   event?: AlbumItemResponsePublic
@@ -44,6 +45,7 @@ export default function CartPage({ repo }: InferGetServerSidePropsType<typeof ge
   const [total, setTotal] = useState<number>(0)
   const [loading, setLoading] = useState(false)
   const [collectionId, setCollectionId] = useState<number>(0)
+  const [dataQuery, setDataQuery] = useState<any>(null)
   const { event } = repo
   const formatter = useCurrency('đ')
   const fetchImage = async () => {
@@ -57,6 +59,7 @@ export default function CartPage({ repo }: InferGetServerSidePropsType<typeof ge
         order: 'desc',
       })
       console.log('data', data)
+      setDataQuery(data.data[0].image_queries)
       if (data.data[0].order_internal_status !== 'COMPLETE') {
         setPrice(data.data[0].album_image_price || 0)
         setTotal(data.data[0].estimate_price || 0)
@@ -82,17 +85,19 @@ export default function CartPage({ repo }: InferGetServerSidePropsType<typeof ge
     fetchImage()
   }, [])
   const router = useRouter()
-  const deleteAlbum = async () => {
+  const deleteAlbum = async (key: any) => {
     try {
       // const data = await getImageCollectionGet({
       //   album_id: event?.id,
       // })
+      // console.log(key, dataQuery[key])
+
       removeImageImageCollectionRemoveImageDelete({
         collection_id: collectionId,
         queries: [
           {
-            keyword: key[0],
-            keyword_type: 'bib_number',
+            keyword: dataQuery.find((item: any) => item.keyword === key)?.keyword,
+            keyword_type: dataQuery.find((item: any) => item.keyword === key)?.keyword_type,
           },
         ],
       }).then((res) => {
@@ -203,12 +208,12 @@ export default function CartPage({ repo }: InferGetServerSidePropsType<typeof ge
             }}
           />
         ) : null}
-        {key?.map((bib: string) => (
+        {key?.map((bib: string, index) => (
           <div className='mb-4 bg-white rounded-lg shadow p-4 items-center relative'>
             <div className='absolute top-2 right-2'>
               <Popconfirm
                 title='Bạn có chắc chắn muốn xóa album này khỏi giỏ hàng?'
-                onConfirm={deleteAlbum}
+                onConfirm={() => deleteAlbum(bib)}
                 okText='Có'
                 cancelText='Không'
                 className='bg-gray-200 rounded-full'
