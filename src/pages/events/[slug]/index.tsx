@@ -121,6 +121,99 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
   if (isNaN(id)) {
     id = 0
   }
+  const fetchEvents = async () => {
+    if (bibNum) {
+      try {
+        if (slug) {
+          const params = {
+            album_id: id,
+            slug: Array.isArray(slug) ? slug[0] : slug,
+            bib_number: bibNum,
+            page_size: 100,
+            page: currentPage,
+            sort_by: 'id',
+            order: 'desc',
+          }
+
+          setShowTotal(true)
+          setCurLoading(true)
+          const newImgs = await searchPubImagesGet(params)
+          if (event.is_find_all_image === 1) {
+            setLoadedImgs(newImgs.data)
+            setTotalEvents(newImgs?.metadata.total_items ?? null)
+            setTotalPages(Math.ceil(newImgs?.metadata.total_items / 100))
+          }
+        }
+      } catch (err: any) {
+        console.log(err)
+      } finally {
+        setCurLoading(false)
+        setIsLoadingMore(false)
+      }
+    } else if (file) {
+      if (currentPage === 1) setCurLoading(true)
+      // setError(null)
+
+      try {
+        if (id || slug) {
+          const body: BodySearchPubImagesPost = {
+            avatar_file: file,
+          }
+          const params: SearchPubImagesPostParams = {
+            album_id: id,
+            slug: slug as string,
+            page: currentPage,
+            page_size: 100,
+            sort_by: 'id',
+            order: 'desc',
+          }
+          const newImgs = await searchPubImagesGet(params)
+          if (event.is_find_all_image === 1) {
+            setLoadedImgs(newImgs.data)
+            setTotalEvents(newImgs?.metadata.total_items ?? null)
+            setTotalPages(Math.ceil(newImgs?.metadata.total_items / 100))
+          }
+        }
+      } catch (err: any) {
+        // setError(err.message || 'Something went wrong')
+        console.log(err)
+      } finally {
+        setCurLoading(false)
+        setIsLoadingMore(false)
+      }
+    } else {
+      if (currentPage === 1) setCurLoading(true)
+      // setError(null)
+
+      try {
+        if (id || slug) {
+          const body: BodySearchPubImagesPost = {
+            avatar_file: '',
+          }
+          const params: SearchPubImagesPostParams = {
+            album_id: id,
+            slug: slug as string,
+            page: currentPage,
+            page_size: 100,
+            sort_by: 'id',
+            order: 'desc',
+          }
+          const newImgs = await searchPubImagesGet(params)
+          if (event.is_find_all_image === 1) {
+            setLoadedImgs(newImgs.data)
+            setTotalEvents(newImgs?.metadata.total_items ?? null)
+            setTotalPages(Math.ceil(newImgs?.metadata.total_items / 100))
+          }
+        }
+      } catch (err: any) {
+        // setError(err.message || 'Something went wrong')
+        console.log(err)
+      } finally {
+        setCurLoading(false)
+        setIsLoadingMore(false)
+      }
+    }
+  }
   const [totalEvents, setTotalEvents] = useState<number | null>(null)
   const buyPhotobook = (albumId: number) => {
     try {
@@ -132,9 +225,9 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
           keyword_type: 'bib_number',
         })
       }
-      if (fileName !== null) {
+      if (fileName !== '' && fileName !== null) {
         query.push({
-          keyword: fileName,
+          keyword: fileName ?? undefined,
           keyword_type: 'image_name',
         })
       }
@@ -158,103 +251,11 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
     } finally {
       setBibNum('')
       setFileName(null)
-      setShowTotal(false)
+      // setShowTotal(false)
+      // fetchEvents()
     }
   }
   useEffect(() => {
-    const fetchEvents = async () => {
-      if (bibNum) {
-        try {
-          if (slug) {
-            const params = {
-              album_id: id,
-              slug: Array.isArray(slug) ? slug[0] : slug,
-              bib_number: bibNum,
-              page_size: 100,
-              page: currentPage,
-              sort_by: 'id',
-              order: 'desc',
-            }
-
-            setShowTotal(true)
-            setCurLoading(true)
-            const newImgs = await searchPubImagesGet(params)
-            if (event.is_find_all_image === 1) {
-              setLoadedImgs(newImgs.data)
-              setTotalEvents(newImgs?.metadata.total_items ?? null)
-              setTotalPages(Math.ceil(newImgs?.metadata.total_items / 100))
-            }
-          }
-        } catch (err: any) {
-          console.log(err)
-        } finally {
-          setCurLoading(false)
-          setIsLoadingMore(false)
-        }
-      } else if (file) {
-        if (currentPage === 1) setCurLoading(true)
-        // setError(null)
-
-        try {
-          if (id || slug) {
-            const body: BodySearchPubImagesPost = {
-              avatar_file: file,
-            }
-            const params: SearchPubImagesPostParams = {
-              album_id: id,
-              slug: slug as string,
-              page: currentPage,
-              page_size: 100,
-              sort_by: 'id',
-              order: 'desc',
-            }
-            const newImgs = await searchPubImagesGet(params)
-            if (event.is_find_all_image === 1) {
-              setLoadedImgs(newImgs.data)
-              setTotalEvents(newImgs?.metadata.total_items ?? null)
-              setTotalPages(Math.ceil(newImgs?.metadata.total_items / 100))
-            }
-          }
-        } catch (err: any) {
-          // setError(err.message || 'Something went wrong')
-          console.log(err)
-        } finally {
-          setCurLoading(false)
-          setIsLoadingMore(false)
-        }
-      } else {
-        if (currentPage === 1) setCurLoading(true)
-        // setError(null)
-
-        try {
-          if (id || slug) {
-            const body: BodySearchPubImagesPost = {
-              avatar_file: '',
-            }
-            const params: SearchPubImagesPostParams = {
-              album_id: id,
-              slug: slug as string,
-              page: currentPage,
-              page_size: 100,
-              sort_by: 'id',
-              order: 'desc',
-            }
-            const newImgs = await searchPubImagesGet(params)
-            if (event.is_find_all_image === 1) {
-              setLoadedImgs(newImgs.data)
-              setTotalEvents(newImgs?.metadata.total_items ?? null)
-              setTotalPages(Math.ceil(newImgs?.metadata.total_items / 100))
-            }
-          }
-        } catch (err: any) {
-          // setError(err.message || 'Something went wrong')
-          console.log(err)
-        } finally {
-          setCurLoading(false)
-          setIsLoadingMore(false)
-        }
-      }
-    }
     if (file) {
       console.log('file', file, currentPage)
     }
