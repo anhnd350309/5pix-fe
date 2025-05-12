@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { PaymentMethodSelector } from '@/components/credit/PaymentMethodSelector'
 import Cart from '@/components/credit/Cart'
 import CheckoutInfo from '@/components/common/CheckOut'
-import { Button, Result } from 'antd'
+import { Button, Card, Checkbox, Col, Form, Input, Result, Row, Select } from 'antd'
 import { getImageCollectionCollectionItemGet } from '@/services/image-collection/image-collection'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { getServerSession } from 'next-auth'
@@ -15,9 +15,10 @@ import {
 } from '@/schemas'
 import { detailPubAlbumsAlbumSlugGet } from '@/services/public-album/public-album'
 import { getPaymentVnpayGetPaymentGet } from '@/services/vnpay-ipn/vnpay-ipn'
-import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons'
+import { CheckCircleOutlined, CloseCircleOutlined, UserOutlined } from '@ant-design/icons'
 import SvgCart from '@/components/icons/icons/Cart'
 import { format } from 'path'
+const { Option } = Select
 import useCurrency from '@/hooks/useCurrency'
 type Repo = {
   order: CreateOrderResponse
@@ -70,6 +71,11 @@ const Orders = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>
   const [albums, setAlbums] = useState<CollectionImageWithQueryResponseImageQueries>(
     order.line_items[0].image_queries || {},
   )
+  const [form] = Form.useForm()
+
+  const onFinish = (values: any) => {
+    console.log('Form values:', values)
+  }
   const totalPrice = order.line_items[0].line_price
   useEffect(() => {
     try {
@@ -90,6 +96,8 @@ const Orders = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>
     }
   }, [])
   const handlePayment = async () => {
+    form.submit()
+
     await getPaymentVnpayGetPaymentGet({
       order_id: order.id,
       return_url: `${window.location.origin}/payment/callback`,
@@ -138,6 +146,114 @@ const Orders = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>
                 <CloseCircleOutlined className='text-5xl' />
                 <h2 className='text-xl font-sans font-bold'>Thanh toán thất bại</h2>
               </div>
+            )}
+            {(order?.internal_status === 'NEW' ||
+              order?.internal_status === 'WAIT_FOR_PAYMENT') && (
+              <Card
+                title={
+                  <span>
+                    <UserOutlined /> Thông tin người mua
+                  </span>
+                }
+                style={{ maxWidth: 768 }}
+              >
+                <Form
+                  form={form}
+                  layout='horizontal'
+                  onFinish={onFinish}
+                  initialValues={{
+                    countryCode: '+84',
+                    agreeDigital: true,
+                    agreeTerms: true,
+                  }}
+                >
+                  <Form.Item
+                    label='Họ và tên đệm'
+                    name='lastName'
+                    rules={[{ required: true, message: 'Vui lòng nhập họ và tên đệm' }]}
+                    labelCol={{ span: 8, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
+                    wrapperCol={{ span: 14 }}
+                  >
+                    <Input />
+                  </Form.Item>
+
+                  <Form.Item
+                    label='Tên'
+                    name='firstName'
+                    rules={[{ required: true, message: 'Vui lòng nhập tên' }]}
+                    labelCol={{ span: 8, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
+                    wrapperCol={{ span: 14 }}
+                  >
+                    <Input />
+                  </Form.Item>
+
+                  <Form.Item
+                    label='Email'
+                    name='email'
+                    rules={[
+                      { required: true, message: 'Vui lòng nhập email' },
+                      { type: 'email', message: 'Email không hợp lệ' },
+                    ]}
+                    labelCol={{ span: 8, style: { wordBreak: 'break-word', whiteSpace: 'normal' } }}
+                    wrapperCol={{ span: 14 }}
+                  >
+                    <Input />
+                  </Form.Item>
+
+                  <Form.Item
+                    name='phone'
+                    label='Số điện thoại'
+                    rules={[{ required: true, message: 'Vui lòng nhập số điện thoại' }]}
+                    labelCol={{
+                      span: 8,
+                      style: { wordBreak: 'break-word', whiteSpace: 'normal' },
+                    }}
+                    wrapperCol={{ span: 14 }}
+                  >
+                    <Input />
+                  </Form.Item>
+
+                  <Form.Item
+                    name='agreeDigital'
+                    valuePropName='checked'
+                    rules={[
+                      {
+                        validator: (_, value) =>
+                          value
+                            ? Promise.resolve()
+                            : Promise.reject('Bạn phải đồng ý với thỏa thuận nội dung số'),
+                      },
+                    ]}
+                  >
+                    <Checkbox>
+                      Tôi đồng ý với việc thực hiện thỏa thuận về nội dung số (ví dụ như việc cung
+                      cấp các liên kết tải xuống hình ảnh / video) một cách rõ ràng trước khi thời
+                      hạn rút lui kết thúc. Tôi hiểu rằng tôi sẽ không còn quyền hợp pháp để rút lui
+                      đối với nội dung số khi hợp đồng được thực hiện
+                    </Checkbox>
+                  </Form.Item>
+
+                  <Form.Item
+                    name='agreeTerms'
+                    valuePropName='checked'
+                    rules={[
+                      {
+                        validator: (_, value) =>
+                          value
+                            ? Promise.resolve()
+                            : Promise.reject('Bạn phải đồng ý với điều khoản sử dụng'),
+                      },
+                    ]}
+                  >
+                    <Checkbox>
+                      Tôi đã đọc và đồng ý với{' '}
+                      <a href='/terms' target='_blank' rel='noopener noreferrer'>
+                        Điều khoản sử dụng của 5PIX
+                      </a>
+                    </Checkbox>
+                  </Form.Item>
+                </Form>
+              </Card>
             )}
             <CheckoutInfo
               isLoading={isLoading}
