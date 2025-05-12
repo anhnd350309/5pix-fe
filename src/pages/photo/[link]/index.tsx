@@ -72,7 +72,6 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
   } = useSearchByAlbumLinkPubImagesSearchByLinkPost()
   const [showTotal, setShowTotal] = useState(false)
   const [file, setFile] = useState<File | null>(null)
-  console.log('even neeeeee', event)
   const searchParams = useSearchParams()
   const router = useRouter()
   const eventId = repo.eventId

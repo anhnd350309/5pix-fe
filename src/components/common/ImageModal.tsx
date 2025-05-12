@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react'
 import { Modal, Carousel, Button, Card, notification } from 'antd'
 import { DownloadOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons'
-import { AlbumImageItemResponse, AlbumImageItemResponsePublic } from '@/schemas'
+import { AlbumImageItemResponse, AlbumImageItemResponsePublic, ImageQueryDTO } from '@/schemas'
 import { useRouter } from 'next/router'
 import AddToCartModal from './AddToCartModal'
 import { addImageImageCollectionAddImagePost } from '@/services/image-collection/image-collection'
@@ -36,7 +36,6 @@ const ImageModal: React.FC<ImageModalProps> = ({
   fileSearch,
   isBuyAll,
 }) => {
-  console.log(fileSearch, bibNum)
   if (isFree === null) isFree = 1
   const router = useRouter()
   const carouselRef = useRef<any>(null)
@@ -117,14 +116,22 @@ const ImageModal: React.FC<ImageModalProps> = ({
   }
   const buyPhotobook = () => {
     try {
+      const query: ImageQueryDTO[] = []
+      if (bibNum !== '') {
+        query.push({
+          keyword: bibNum,
+          keyword_type: 'bib_number',
+        })
+      }
+      if (fileSearch !== '' && fileSearch !== null) {
+        query.push({
+          keyword: fileSearch ?? undefined,
+          keyword_type: 'image_name',
+        })
+      }
       addImageImageCollectionAddImagePost({
         album_id: albumId,
-        queries: [
-          {
-            keyword: bibNum === '' ? fileSearch : bibNum,
-            keyword_type: 'bib_number',
-          },
-        ],
+        queries: query,
       }).then((res) => {
         if (res.id) {
           openNotificationWithIcon('success', 'Thành công', 'Đã thêm photobook vào giỏ hàng.')
@@ -134,7 +141,6 @@ const ImageModal: React.FC<ImageModalProps> = ({
             'Thất bại',
             'Có lỗi xảy ra khi thêm photobook vào giỏ hàng.',
           )
-          console.error('Error adding to cart:', res)
         }
       })
     } catch (error) {
@@ -154,7 +160,6 @@ const ImageModal: React.FC<ImageModalProps> = ({
           openNotificationWithIcon('success', 'Thành công', 'Đã thêm ảnh vào giỏ hàng.')
         } else {
           openNotificationWithIcon('error', 'Thất bại', 'Có lỗi xảy ra khi thêm ảnh vào giỏ hàng.')
-          console.error('Error adding to cart:', res)
         }
       })
     } catch (error) {
@@ -292,6 +297,7 @@ const ImageModal: React.FC<ImageModalProps> = ({
         isBuyPhotobook={isBuyPhotobook}
         bibNum={bibNum}
         albumPrice={albumPrice}
+        fileSearch={fileSearch}
       />
     </>
   )

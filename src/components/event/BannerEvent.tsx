@@ -16,6 +16,7 @@ import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import UploadImageComponent from '@/components/common/UploadImageComponent'
 import { searchPubImagesGet } from '@/services/public-images/public-images'
 import { uploadToGetCdnBasePost } from '@/services/base/base'
+import { Spin } from 'antd'
 
 export interface BannerEventProps {
   event: AlbumItemResponsePublic
@@ -52,7 +53,8 @@ export const BannerEvent: React.FC<BannerEventProps> = ({
 }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
-  console.log(event.is_find_all_image)
+  const [loading, setIsLoading] = useState(false)
+  const [searching, setIsSearching] = useState(false)
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
     if (file) {
@@ -61,17 +63,16 @@ export const BannerEvent: React.FC<BannerEventProps> = ({
         file_data: file,
       }
       try {
-        console.log('file')
+        setIsLoading(true)
         const response = await uploadToGetCdnBasePost(body, { image_for_search: 1 })
         if (response.data) {
           setFileName(response.data.file_name)
           setUrlSearch(response.data.url)
-          console.log('search file', response.data)
-          // setUrl(response.data.url)
-          // form.setFieldsValue({ album_image_url: response.data.url })
         }
       } catch (error) {
         console.log(error)
+      } finally {
+        setIsLoading(false)
       }
     }
   }
@@ -82,10 +83,6 @@ export const BannerEvent: React.FC<BannerEventProps> = ({
   }
 
   const handleSubmit = async () => {
-    // if (!selectedFile && !bibNumber) {
-    //   alert('Please enter a BIB number or upload an image!')
-    //   return
-    // }
     setCurrentPage(1)
     const body = {}
     const params: SearchPubImagesPostParams = {
@@ -112,8 +109,7 @@ export const BannerEvent: React.FC<BannerEventProps> = ({
       } else {
         setShowTotal(false)
       }
-
-      console.log('parammmmm', params, fileName)
+      setIsSearching(true)
       const newImgs = await searchPubImagesGet(params)
       if (event.is_find_all_image === 1) {
         setLoadedImgs(newImgs.data)
@@ -121,9 +117,9 @@ export const BannerEvent: React.FC<BannerEventProps> = ({
         setTotalPages(Math.ceil(newImgs?.metadata.total_items / 100))
       }
     } catch (error) {
-      console.log('Error:', error)
       alert(`An error occurred. Please try again.${error}`)
     } finally {
+      setIsSearching(false)
     }
   }
   const renderSearchForm = () => (
@@ -133,7 +129,7 @@ export const BannerEvent: React.FC<BannerEventProps> = ({
           placeholder='Nhập số BIB'
           value={bibNumber}
           onChange={(e) => setBibNumber(e.target.value)}
-          className='!ml-0 border-none w-full sm:w-64 !important text-black'
+          className='!ml-0 border-none !w-full sm:w-64 !important text-black'
         />
       </div>
       <div className='flex gap-1 w-full sm:w-auto'>
@@ -141,7 +137,8 @@ export const BannerEvent: React.FC<BannerEventProps> = ({
           onClick={handleSubmit}
           className='flex items-center bg-blue-600 rounded-full w-3/4 sm:w-[200px] text-white'
         >
-          <SvgSearch width={16} stroke='white' /> Tìm ảnh
+          {searching ? <Spin className='' /> : <SvgSearch width={16} stroke='white' />}
+          Tìm ảnh
         </Button>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
@@ -153,7 +150,11 @@ export const BannerEvent: React.FC<BannerEventProps> = ({
             </Button>
           </DialogTrigger>
           <DialogContent className='sm:max-w-[700px]'>
-            <UploadImageComponent onFileChange={handleFileChange} onDone={handleDone} />
+            <UploadImageComponent
+              onFileChange={handleFileChange}
+              onDone={handleDone}
+              loading={loading}
+            />
           </DialogContent>
         </Dialog>
       </div>
