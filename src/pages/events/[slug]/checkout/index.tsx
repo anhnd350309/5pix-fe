@@ -47,6 +47,7 @@ export default function CartPage({ repo }: InferGetServerSidePropsType<typeof ge
   const [collectionId, setCollectionId] = useState<number>(0)
   const [dataQuery, setDataQuery] = useState<any>(null)
   const { event } = repo
+  const [deletingId, setDeletingId] = useState<number | null>(null)
   const formatter = useCurrency('đ')
   const fetchImage = async () => {
     try {
@@ -60,9 +61,9 @@ export default function CartPage({ repo }: InferGetServerSidePropsType<typeof ge
       })
       console.log('data', data)
       setDataQuery(data.data[0].image_queries)
+      setTotal(data.data[0].estimate_price || 0)
       if (data.data[0].order_internal_status !== 'COMPLETE') {
         setPrice(data.data[0].album_image_price || 0)
-        setTotal(data.data[0].estimate_price || 0)
         setCollectionId(data.data[0].id)
         const collection = await getImageCollectionCollectionItemGet({
           collection_id: data.data[0].id,
@@ -70,10 +71,7 @@ export default function CartPage({ repo }: InferGetServerSidePropsType<typeof ge
         setItem(collection.images || [])
         setQuery(collection.image_queries)
         setKey(collection.image_queries ? Object.keys(collection.image_queries) : [])
-        setAlbumPrice(
-          (data.data[0].album_image_price ?? 0) *
-            (collection.image_queries?.[Object.keys(collection.image_queries)[0]]?.length ?? 0),
-        )
+        setAlbumPrice(data.data[0].album_price ?? 0)
       }
     } catch (error) {
       console.error('Error fetching data:', error)
@@ -110,7 +108,10 @@ export default function CartPage({ repo }: InferGetServerSidePropsType<typeof ge
     } catch (error) {
       console.error('Error removing from cart:', error)
     } finally {
-      fetchImage()
+      setTotal((prev) => prev - albumPrice)
+      setTimeout(() => {
+        fetchImage()
+      }, 500)
     }
   }
   const confirm = async (itemId?: number) => {
@@ -118,6 +119,7 @@ export default function CartPage({ repo }: InferGetServerSidePropsType<typeof ge
       // const data = await getImageCollectionGet({
       //   album_id: event?.id,
       // })
+      setDeletingId(itemId || null)
       removeImageImageCollectionRemoveImageDelete({
         collection_id: collectionId,
         image_ids: [itemId || 0],
@@ -131,6 +133,8 @@ export default function CartPage({ repo }: InferGetServerSidePropsType<typeof ge
     } catch (error) {
       console.error('Error removing from cart:', error)
     } finally {
+      setDeletingId(null)
+      setTotal((prev) => prev - price)
       fetchImage()
     }
   }
@@ -182,7 +186,12 @@ export default function CartPage({ repo }: InferGetServerSidePropsType<typeof ge
                     cancelText='Không'
                     className='bg-gray-200 rounded-full'
                   >
-                    <Button type='text' style={{ color: '#344054' }} icon={<DeleteOutlined />} />
+                    <Button
+                      loading={deletingId === item.album_image_id}
+                      type='text'
+                      style={{ color: '#344054' }}
+                      icon={<DeleteOutlined />}
+                    />
                   </Popconfirm>
                 </div>
                 <List.Item.Meta

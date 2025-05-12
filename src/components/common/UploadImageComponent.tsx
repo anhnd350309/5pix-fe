@@ -4,9 +4,14 @@ import React, { useRef, useState } from 'react'
 interface UploadImageComponentProps {
   onFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void
   onDone: () => void
+  loading?: boolean
 }
 
-const UploadImageComponent: React.FC<UploadImageComponentProps> = ({ onFileChange, onDone }) => {
+const UploadImageComponent: React.FC<UploadImageComponentProps> = ({
+  onFileChange,
+  onDone,
+  loading,
+}) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const [dragging, setDragging] = useState(false)
   const [imageSrc, setImageSrc] = useState<string | null>(null) // Lưu trữ ảnh đã chọn
@@ -128,7 +133,11 @@ const UploadImageComponent: React.FC<UploadImageComponentProps> = ({ onFileChang
                   </div>
                 </div> */}
               </div>
-              <Button className='w-28 bg-[#2563EB] rounded-full' onClick={handleDone}>
+              <Button
+                className='w-28 bg-[#2563EB] rounded-full'
+                onClick={handleDone}
+                disabled={loading}
+              >
                 Hoàn thành
               </Button>
             </div>

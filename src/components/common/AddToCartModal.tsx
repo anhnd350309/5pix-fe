@@ -15,6 +15,7 @@ interface AddToCartModalProps {
   albumPrice?: number
   bibNum?: string
   isBuyPhotobook?: boolean
+  fileSearch?: string
 }
 
 const AddToCartModal: React.FC<AddToCartModalProps> = ({
@@ -28,8 +29,8 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({
   isBuyPhotobook,
   bibNum,
   albumPrice,
+  fileSearch,
 }) => {
-  console.log('isBuyPhotobook', isBuyPhotobook)
   const formatter = useCurrency('đ')
   const [api, contextHolder] = notification.useNotification()
   const openNotificationWithIcon = (
@@ -63,11 +64,34 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({
           <h2 className='text-xl font-semibold mb-6'>Thêm vào giỏ hàng của bạn</h2>
 
           <div className='text-left space-y-4 mb-6'>
-            <div className='flex justify-between'>
-              <span className='inline-block max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap'>
-                {isBuyPhotobook !== true ? imgName : `Photobook của số bib ${bibNum}`}
-              </span>
-              <span>{formatter((isBuyPhotobook !== true ? price : albumPrice) || 0)}</span>
+            <div className='flex flex-col justify-between'>
+              {isBuyPhotobook !== true ? (
+                <div className='flex justify-between'>
+                  <span className='inline-block max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap'>
+                    {imgName}
+                  </span>
+                  <span>{formatter(price || 0)}</span>
+                </div>
+              ) : (
+                <>
+                  {bibNum && (
+                    <div className='flex justify-between'>
+                      <span className='inline-block max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap'>
+                        Photobook của số bib {bibNum}
+                      </span>
+                      <span>{formatter(albumPrice || 0)}</span>
+                    </div>
+                  )}
+                  {fileSearch && (
+                    <div className='flex justify-between'>
+                      <span className='inline-block max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap'>
+                        Photobook từ ảnh {fileSearch}
+                      </span>
+                      <span>{formatter(albumPrice || 0)}</span>
+                    </div>
+                  )}
+                </>
+              )}
             </div>
 
             <div className='border-t pt-4 flex justify-between font-bold text-base'>

@@ -74,8 +74,6 @@ export const getServerSideProps = (async (context) => {
 const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const event = repo.event
   const formatter = useCurrency('đ')
-  // event.is_album_free = 0
-  console.log('even neeeeee', event)
   const searchParams = useSearchParams()
   const router = useRouter()
   const { slug } = router.query
