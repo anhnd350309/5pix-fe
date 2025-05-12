@@ -25,6 +25,7 @@ export interface BannerEventProps {
   setBibNum: any
   fileName?: string
   setFileName?: any
+  setUrlSearch?: any
   setCurrentPage?: any
   type?: string
   setLoadedImgs: any
@@ -47,6 +48,7 @@ export const BannerEvent: React.FC<BannerEventProps> = ({
   setTotalEvents,
   setTotalPages,
   setIsBuyAll,
+  setUrlSearch,
 }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
@@ -59,10 +61,12 @@ export const BannerEvent: React.FC<BannerEventProps> = ({
         file_data: file,
       }
       try {
+        console.log('file')
         const response = await uploadToGetCdnBasePost(body, { image_for_search: 1 })
         if (response.data) {
           setFileName(response.data.file_name)
-          console.log(response.data.file_name)
+          setUrlSearch(response.data.url)
+          console.log('search file', response.data)
           // setUrl(response.data.url)
           // form.setFieldsValue({ album_image_url: response.data.url })
         }
@@ -120,8 +124,6 @@ export const BannerEvent: React.FC<BannerEventProps> = ({
       console.log('Error:', error)
       alert(`An error occurred. Please try again.${error}`)
     } finally {
-      setFileName('')
-      // setBibNumber('')
     }
   }
   const renderSearchForm = () => (

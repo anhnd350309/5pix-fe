@@ -19,4 +19,6 @@ export interface CreateOrderRequest {
   collection_id?: number;
   credit_amount?: number;
   image_queries?: ImageQueryDTO[];
+  note?: string;
+  payment_information?: string;
 }

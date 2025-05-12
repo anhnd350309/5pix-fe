@@ -10,6 +10,7 @@ import {
   AlbumImageItemResponsePublic,
   AlbumItemResponsePublic,
   BodySearchPubImagesPost,
+  ImageQueryDTO,
   ImageSearchType,
   SearchPubImagesPostParams,
 } from '@/schemas'
@@ -23,6 +24,7 @@ import { getAlbumImagesGet } from '@/services/images/images'
 import { searchPubImagesGet, useSearchPubImagesGet } from '@/services/public-images/public-images'
 import { Button } from '@/components/ui/button'
 import { addImageImageCollectionAddImagePost } from '@/services/image-collection/image-collection'
+import { ur } from '@faker-js/faker/.'
 type Repo = {
   event?: AlbumItemResponsePublic
   images: AlbumImageItemResponsePublic[]
@@ -98,6 +100,7 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
   const [isModalVisibleImage, setIsModalVisibleImage] = useState(false)
   const [bibNum, setBibNum] = useState<string>('')
   const [fileName, setFileName] = useState<string | null>('')
+  const [urlSearch, setUrlSearch] = useState<string | null>('')
 
   const [api, contextHolder] = notification.useNotification()
   const openNotificationWithIcon = (
@@ -121,14 +124,23 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
   const [totalEvents, setTotalEvents] = useState<number | null>(null)
   const buyPhotobook = (albumId: number) => {
     try {
+      console.log('bibnum', bibNum, fileName)
+      const query: ImageQueryDTO[] = []
+      if (bibNum !== '') {
+        query.push({
+          keyword: bibNum,
+          keyword_type: 'bib_number',
+        })
+      }
+      if (fileName !== null) {
+        query.push({
+          keyword: fileName,
+          keyword_type: 'image_name',
+        })
+      }
       addImageImageCollectionAddImagePost({
         album_id: albumId,
-        queries: [
-          {
-            keyword: bibNum === '' ? (fileName ?? undefined) : bibNum,
-            keyword_type: 'bib_number',
-          },
-        ],
+        queries: query,
       }).then((res) => {
         if (res.id) {
           openNotificationWithIcon('success', 'Thành công', 'Đã thêm photobook vào giỏ hàng.')
@@ -310,16 +322,36 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
           fileName={fileName || ''}
           setFileName={setFileName}
           setIsBuyAll={setIsBuyAll}
+          setUrlSearch={setUrlSearch}
         />
         {curLoading ? (
           <Spin className='flex justify-center items-center h-24' />
         ) : (
           <div className=' mx-1 sm:mx-16 px-4 xl:px-16 relative sm:-top-16'>
             {showTotal && loadedImgs.length > 0 && (
-              <span className='text-center'>
-                Tìm thấy {loadedImgs.length} ảnh của bạn, trong tổng số {event?.total_image} ảnh với
-                số bib {bibNum}
-              </span>
+              <>
+                <span className='text-center'>
+                  Tìm thấy {loadedImgs.length} ảnh của bạn, trong tổng số {event?.total_image} ảnh
+                </span>
+                {urlSearch && (
+                  <div className='flex items-center justify-start'>
+                    <img
+                      src={urlSearch}
+                      alt='Ảnh của bạn'
+                      className='max-h-40 rounded-md object-contain'
+                    />
+                    <Button
+                      onClick={() => {
+                        setFileName('')
+                        setUrlSearch('')
+                      }}
+                      className='ml-2 rounded-full bg-red-500 text-white hover:bg-red-700'
+                    >
+                      X
+                    </Button>
+                  </div>
+                )}
+              </>
             )}
             <div className='flex flex-col xl:flex-row gap-4 pt-4'>
               {/* Phần grid ảnh (giữ nguyên code của bạn) */}

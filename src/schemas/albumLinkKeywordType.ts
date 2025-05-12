@@ -22,4 +22,5 @@ export type AlbumLinkKeywordType = typeof AlbumLinkKeywordType[keyof typeof Albu
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AlbumLinkKeywordType = {
   bib_number: 'bib_number',
+  image_name: 'image_name',
 } as const;
