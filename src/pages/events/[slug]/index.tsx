@@ -335,11 +335,11 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
                   Tìm thấy {loadedImgs.length} ảnh của bạn, trong tổng số {event?.total_image} ảnh
                 </span>
                 {urlSearch && (
-                  <div className='flex items-center justify-start'>
+                  <div className='flex items-center justify-start  py-4'>
                     <img
                       src={urlSearch}
                       alt='Ảnh của bạn'
-                      className='max-h-40 rounded-md object-contain'
+                      className='max-h-40  object-contain rounded-[20px]'
                     />
                     <Button
                       onClick={() => {

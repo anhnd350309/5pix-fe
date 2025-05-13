@@ -12,6 +12,7 @@ const EventAdmin = () => {
   const [eventName, setEventName] = useState<string>('')
   const [event, setEvent] = useState<AlbumDetailResponse | undefined>(undefined)
   const [searchKey, setSearchKey] = useState<string>('')
+  const [imgName, setImgName] = useState<string>('')
   useEffect(() => {
     const fetchEventName = async () => {
       if (id) {
@@ -38,8 +39,11 @@ const EventAdmin = () => {
   useEffect(() => {
     console.log('searchKey', searchKey)
   }, [searchKey])
-  const triggerSearch = (key: string) => {
+  const triggerSearchBib = (key: string) => {
     setSearchKey(key)
+  }
+  const triggerSearchImg = (key: string) => {
+    setImgName(key)
   }
   return (
     <>
@@ -47,9 +51,16 @@ const EventAdmin = () => {
         eventName={eventName}
         id={id ? parseInt(Array.isArray(id) ? id[0] : id, 10) : 0}
         event={event}
-        triggerSearch={triggerSearch}
+        triggerSearchBib={triggerSearchBib}
+        triggerSearchImg={triggerSearchImg}
       />
-      {id && <ListEventsDetailAdmin id={Array.isArray(id) ? id[0] : id} searchKey={searchKey} />}
+      {id && (
+        <ListEventsDetailAdmin
+          id={Array.isArray(id) ? id[0] : id}
+          searchKey={searchKey}
+          imgName={imgName}
+        />
+      )}
     </>
   )
 }
