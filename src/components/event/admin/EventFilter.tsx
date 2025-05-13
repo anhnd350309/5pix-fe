@@ -13,26 +13,39 @@ import {
   indexImageAlbumsAlbumIdIndexImagePost,
   loadImageAlbumsAlbumIdLoadImagePost,
 } from '@/services/album/album'
-import { AlbumDetailResponse } from '@/schemas'
+import {
+  AlbumDetailResponse,
+  BodyUploadToGetCdnBasePost,
+  SearchPubImagesPostParams,
+} from '@/schemas'
 import JsonDetailModal from '@/components/common/JsonDetailModal'
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
+import UploadImageComponent from '@/components/common/UploadImageComponent'
+import SvgImage from '@/components/icons/icons/Image'
+import { uploadToGetCdnBasePost } from '@/services/base/base'
 
 interface DetailEventFilterProps {
   eventName: string
   id: number
   event?: AlbumDetailResponse
-  triggerSearch: (value: string) => void
+  triggerSearchBib: (value: string) => void
+  triggerSearchImg: (value: string) => void
 }
 
 const DetailEventFilter: React.FC<DetailEventFilterProps> = ({
   eventName,
   id,
   event,
-  triggerSearch,
+  triggerSearchBib,
+  triggerSearchImg,
 }) => {
   const [api, contextHolder] = notification.useNotification()
   const [isJsonModalVisible, setIsJsonModalVisible] = useState(false)
   const [inputValue, setInputValue] = useState<string>('')
-
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [fileName, setFileName] = useState<string | null>('')
+  const [loading, setIsLoading] = useState(false)
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [eventD, setEventD] = useState<AlbumDetailResponse | undefined>(event)
   const openNotificationWithIcon = (
     type: 'success' | 'info' | 'warning' | 'error',
@@ -78,6 +91,35 @@ const DetailEventFilter: React.FC<DetailEventFilterProps> = ({
       </Menu.Item>
     </Menu>
   )
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (file) {
+      setSelectedFile(file)
+      const body: BodyUploadToGetCdnBasePost = {
+        file_data: file,
+      }
+      try {
+        setIsLoading(true)
+        const response = await uploadToGetCdnBasePost(body, { image_for_search: 1 })
+        if (response.data) {
+          setFileName(response.data.file_name)
+          // setUrlSearch(response.data.url)
+
+          console.log('response.data', response.data)
+        }
+      } catch (error) {
+        console.log(error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+  }
+
+  const handleDone = () => {
+    setIsDialogOpen(false)
+    triggerSearchImg?.(fileName ?? 'hehe')
+    console.log('selectedFile', fileName)
+  }
   const handleLoadAlbum = () => {
     loadImageAlbumsAlbumIdLoadImagePost(id).then((res) => {
       if (res?.code === '000') {
@@ -168,7 +210,7 @@ const DetailEventFilter: React.FC<DetailEventFilterProps> = ({
         <Button
           onClick={() => {
             console.log('inputValue', inputValue)
-            triggerSearch(inputValue)
+            triggerSearchBib(inputValue)
           }}
           className='text-white bg-black font-sans font-bold text-[14px] leading-[20px] tracking-[-0.2%] w-full sm:w-auto'
         >
@@ -177,6 +219,23 @@ const DetailEventFilter: React.FC<DetailEventFilterProps> = ({
         <Button className='bg-[#EDF4FF] text-blue-500 font-sans font-bold text-[14px] leading-[20px] tracking-[-0.2%] w-full sm:w-auto'>
           Tìm kiếm bằng hình ảnh
         </Button>
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <DialogTrigger asChild>
+            <Button
+              className='flex items-center bg-blue-100 rounded-full w-full sm:w-[220px] text-blue-600'
+              onClick={() => setIsDialogOpen(true)}
+            >
+              <SvgImage width={16} stroke='#2563EB' /> Tìm kiếm bằng hình ảnh
+            </Button>
+          </DialogTrigger>
+          <DialogContent className='sm:max-w-[700px]'>
+            <UploadImageComponent
+              onFileChange={handleFileChange}
+              onDone={handleDone}
+              loading={loading}
+            />
+          </DialogContent>
+        </Dialog>
       </div>
       <div className='bg-white shadow-lg rounded-xl p-6 w-full text-center relative'>
         <Button

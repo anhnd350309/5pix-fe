@@ -33,17 +33,28 @@ const EventAdmin = () => {
 
     fetchEventName()
   }, [id])
-  const triggerSearch = (key: string) => {
+  const triggerSearchBib = (key: string) => {
     setSearchKey(key)
+  }
+  const [imgName, setImgName] = useState<string>('')
+  const triggerSearchImg = (key: string) => {
+    setImgName(key)
   }
   return (
     <>
       <DetailEventFilter
         eventName={eventName}
         id={id ? parseInt(Array.isArray(id) ? id[0] : id, 10) : 0}
-        triggerSearch={triggerSearch}
+        triggerSearchBib={triggerSearchBib}
+        triggerSearchImg={triggerSearchImg}
       />
-      {id && <ListEventsDetailAdmin id={Array.isArray(id) ? id[0] : id} searchKey={searchKey} />}
+      {id && (
+        <ListEventsDetailAdmin
+          id={Array.isArray(id) ? id[0] : id}
+          searchKey={searchKey}
+          imgName={imgName}
+        />
+      )}
     </>
   )
 }

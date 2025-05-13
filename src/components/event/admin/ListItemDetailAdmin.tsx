@@ -14,9 +14,10 @@ import { EyeInvisibleOutlined, EyeOutlined, LinkOutlined } from '@ant-design/ico
 export interface ListItemDetailAdminProps {
   id: number | string
   searchKey: string
+  imgName: string
 }
 
-const ListEventsDetailAdmin = ({ id, searchKey }: ListItemDetailAdminProps) => {
+const ListEventsDetailAdmin = ({ id, searchKey, imgName }: ListItemDetailAdminProps) => {
   console.log('id', searchKey)
   const [currentPage, setCurrentPage] = useState(1)
   const [loadedImgs, setLoadedImgs] = useState<AlbumImageItemResponse[]>([])
@@ -39,6 +40,7 @@ const ListEventsDetailAdmin = ({ id, searchKey }: ListItemDetailAdminProps) => {
           sort_by: 'id',
           order: 'desc',
           ...(searchKey !== '' && { bib_number: searchKey }),
+          ...(imgName !== '' && { image_name: imgName }),
         })
 
         setLoadedImgs(imgs.data)
@@ -51,8 +53,9 @@ const ListEventsDetailAdmin = ({ id, searchKey }: ListItemDetailAdminProps) => {
       }
     }
     console.log('searchKey', searchKey)
+    console.log('searchImg', imgName)
     fetchImages()
-  }, [id, currentPage, searchKey])
+  }, [id, currentPage, searchKey, imgName])
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {
