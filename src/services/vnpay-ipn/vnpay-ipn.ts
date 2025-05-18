@@ -28,7 +28,8 @@ import type {
 import type {
   GetPaymentVnpayGetPaymentGetParams,
   HTTPValidationError,
-  VnpayDto
+  VnpayDto,
+  VnpayDtoWithOrder
 } from '../../schemas'
 import { defaultMutator } from '../../api/axiosInstance';
 
@@ -135,7 +136,7 @@ export const checkQueryParamsVnpayCheckGet = (
 ) => {
       
       
-      return defaultMutator<VnpayDto>(
+      return defaultMutator<VnpayDtoWithOrder>(
       {url: `/vnpay/check`, method: 'GET', signal
     },
       );

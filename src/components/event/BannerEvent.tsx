@@ -124,13 +124,21 @@ export const BannerEvent: React.FC<BannerEventProps> = ({
   }
   const renderSearchForm = () => (
     <div className='flex sm:flex-row flex-col sm:justify-between gap-4 rounded-full w-full sm:w-[60%] mx-auto'>
-      <div className='bg-white border-l-2 rounded-full w-full'>
+      <div className='bg-white border-l-2 rounded-full w-full flex flex-row items-center'>
         <Input
           placeholder='Nhập số BIB'
           value={bibNumber}
           onChange={(e) => setBibNumber(e.target.value)}
-          className='!ml-0 border-none !w-full sm:w-64 !important text-black'
+          className='!ml-0 border-none !w-full text-black '
         />
+        {bibNumber && (
+          <button
+            onClick={() => setBibNumber('')}
+            className=' bg-gray-300 rounded-full w-6 h-6 flex items-center justify-center mr-1'
+          >
+            X
+          </button>
+        )}
       </div>
       <div className='flex gap-1 w-full sm:w-auto'>
         <Button

@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button'
 
 export default function PaymentSuccessPage() {
   const router = useRouter()
-
+  const { order_id } = router.query
   return (
     <div className=' flex flex-col justify-center items-center bg-green-50 p-4'>
       <div className='bg-white shadow-md rounded-2xl p-8 text-center max-w-md w-full'>
@@ -18,10 +18,16 @@ export default function PaymentSuccessPage() {
           Về trang chủ
         </Button>
         <Button
-          onClick={() => router.push('/personal_info')}
+          onClick={() => {
+            if (!order_id) {
+              router.push('/personal_info')
+              return
+            }
+            router.replace(`/orders/${order_id}`)
+          }}
           className='bg-green-600 hover:bg-green-700 w-full mb-4'
         >
-          Quay lại danh sách đơn hàng
+          Quay lại đơn hàng
         </Button>
         <Button
           onClick={() => router.push('/personal_info/images')}

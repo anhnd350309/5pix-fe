@@ -248,9 +248,6 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
     } catch (error) {
       console.error('Error adding to cart:', error)
     } finally {
-      setBibNum('')
-      setFileName(null)
-      setUrlSearch(null)
       // setShowTotal(false)
       // fetchEvents()
     }
@@ -331,9 +328,6 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
           <div className=' mx-1 sm:mx-16 px-4 xl:px-16 relative sm:-top-16'>
             {showTotal && loadedImgs.length > 0 && (
               <>
-                <span className='text-center'>
-                  Tìm thấy {loadedImgs.length} ảnh của bạn, trong tổng số {event?.total_image} ảnh
-                </span>
                 {urlSearch && (
                   <div className='flex items-center justify-start  py-4'>
                     <img
@@ -377,8 +371,8 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
                   )}
                 </div>
               </div>
-              {event.is_album_free === 0 && (
-                <div className='w-fit'>
+              {event.is_album_free === 0 && showTotal && loadedImgs.length > 0 && (
+                <div className='w-full fixed bottom-0 left-0 z-50 bg-white p-4 border-t border-gray-200 sm:static sm:w-fit sm:p-0 sm:border-none h-fit'>
                   <Card
                     title='Photobook'
                     headStyle={{
@@ -390,17 +384,18 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
                       textAlign: 'center',
                     }}
                     style={{
-                      width: 200,
+                      width: '100%',
                       borderRadius: 8,
                       overflow: 'hidden',
                       border: '1px solid #d9d9d9',
+                      margin: '0 auto', // Center the card
                     }}
                     bodyStyle={{
                       padding: '16px',
                     }}
                   >
                     <p className='font-sans'>
-                      Tất cả ảnh của bạn định dạng kỹ thuật số (JPG) chỉ với
+                      Tìm thấy {loadedImgs.length} ảnh của bạn. Tải ngay chỉ với
                     </p>
                     <h3
                       style={{
@@ -415,12 +410,15 @@ const Event = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>)
                     {showTotal === true && (
                       <Button
                         onClick={() => buyPhotobook(event.id)}
-                        className='rounded-[20px] bg-blue-600 w-full mb-2'
+                        className='rounded-[20px] bg-blue-600 w-full mb-2 hover:bg-blue-600 '
                       >
                         Mua photobook
                       </Button>
                     )}
-                    <Button onClick={showPopup} className='rounded-[20px] bg-blue-600 w-full'>
+                    <Button
+                      onClick={showPopup}
+                      className='rounded-[20px] bg-orange-50  w-full text-blue-600 hover:bg-orange-50'
+                    >
                       Kiểm tra giỏ hàng
                     </Button>
                   </Card>
