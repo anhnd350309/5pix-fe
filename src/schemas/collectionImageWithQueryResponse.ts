@@ -12,10 +12,12 @@
         
  * OpenAPI spec version: 0.1.0
  */
+import type { CollectionImageWithQueryResponseByImgQueriesAlbumImages } from './collectionImageWithQueryResponseByImgQueriesAlbumImages';
 import type { CollectionImageWithQueryResponseImageQueries } from './collectionImageWithQueryResponseImageQueries';
 import type { ItemResponse } from './itemResponse';
 
 export interface CollectionImageWithQueryResponse {
+  by_img_queries_album_images?: CollectionImageWithQueryResponseByImgQueriesAlbumImages;
   image_queries?: CollectionImageWithQueryResponseImageQueries;
   images?: ItemResponse[];
 }

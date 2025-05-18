@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button'
 
 export default function PaymentFailurePage() {
   const router = useRouter()
-
+  const { order_id } = router.query
   return (
     <div className='flex flex-col justify-center items-center bg-red-50 p-4'>
       <div className='bg-white shadow-md rounded-2xl p-8 text-center max-w-md w-full'>
@@ -18,10 +18,16 @@ export default function PaymentFailurePage() {
           Về trang chủ
         </Button>
         <Button
-          onClick={() => router.push('/personal_info')}
+          onClick={() => {
+            if (!order_id) {
+              router.push('/personal_info')
+              return
+            }
+            router.replace(`/orders/${order_id}`)
+          }}
           className='bg-red-600 hover:bg-red-700 w-full'
         >
-          Quay lại danh sách đơn hàng
+          Quay lại đơn hàng
         </Button>
       </div>
     </div>

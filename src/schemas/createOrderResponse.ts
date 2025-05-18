@@ -26,6 +26,8 @@ export interface CreateOrderResponse {
   line_items?: LineResponse[];
   name?: string;
   owner_email?: string;
+  payment_information?: string;
+  payment_ref?: string;
   target_email?: string;
   updated_at?: string;
 }

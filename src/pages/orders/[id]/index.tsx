@@ -97,7 +97,7 @@ const Orders = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>
   }, [])
   const handlePayment = async () => {
     form.submit()
-
+    console.log('form', JSON.stringify(form.getFieldsValue()))
     await getPaymentVnpayGetPaymentGet({
       order_id: order.id,
       return_url: `${window.location.origin}/payment/callback`,
