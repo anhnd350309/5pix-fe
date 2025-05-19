@@ -38,7 +38,9 @@ import type {
   HTTPValidationError,
   ListOrdersOrderListGetParams,
   MerchantListOrdersOrderMerchantListGetParams,
-  PageCreateOrderResponse
+  PageCreateOrderResponse,
+  UserEditOrderOrderEditPutParams,
+  UserEditOrderRequest
 } from '../../schemas'
 import { defaultMutator } from '../../api/axiosInstance';
 
@@ -399,3 +401,64 @@ export function useMerchantListOrdersOrderMerchantListGet<TData = Awaited<Return
 
 
 
+/**
+ * ### Update thông tin đơn hàng , chủ yếu là sửa owner email và status
+ * @summary User Edit Order
+ */
+export const userEditOrderOrderEditPut = (
+    userEditOrderRequest: UserEditOrderRequest,
+    params: UserEditOrderOrderEditPutParams,
+ ) => {
+      
+      
+      return defaultMutator<CreateOrderResponse>(
+      {url: `/order/edit`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: userEditOrderRequest,
+        params
+    },
+      );
+    }
+  
+
+
+export const getUserEditOrderOrderEditPutMutationOptions = <TError = HTTPValidationError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof userEditOrderOrderEditPut>>, TError,{data: UserEditOrderRequest;params: UserEditOrderOrderEditPutParams}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof userEditOrderOrderEditPut>>, TError,{data: UserEditOrderRequest;params: UserEditOrderOrderEditPutParams}, TContext> => {
+const {mutation: mutationOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof userEditOrderOrderEditPut>>, {data: UserEditOrderRequest;params: UserEditOrderOrderEditPutParams}> = (props) => {
+          const {data,params} = props ?? {};
+
+          return  userEditOrderOrderEditPut(data,params,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UserEditOrderOrderEditPutMutationResult = NonNullable<Awaited<ReturnType<typeof userEditOrderOrderEditPut>>>
+    export type UserEditOrderOrderEditPutMutationBody = UserEditOrderRequest
+    export type UserEditOrderOrderEditPutMutationError = HTTPValidationError
+
+    /**
+ * @summary User Edit Order
+ */
+export const useUserEditOrderOrderEditPut = <TError = HTTPValidationError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof userEditOrderOrderEditPut>>, TError,{data: UserEditOrderRequest;params: UserEditOrderOrderEditPutParams}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof userEditOrderOrderEditPut>>,
+        TError,
+        {data: UserEditOrderRequest;params: UserEditOrderOrderEditPutParams},
+        TContext
+      > => {
+
+      const mutationOptions = getUserEditOrderOrderEditPutMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
