@@ -20,6 +20,7 @@ import SvgCart from '@/components/icons/icons/Cart'
 import { format } from 'path'
 const { Option } = Select
 import useCurrency from '@/hooks/useCurrency'
+import { userEditOrderOrderEditPut } from '@/services/order/order'
 type Repo = {
   order: CreateOrderResponse
 }
@@ -98,22 +99,28 @@ const Orders = ({ repo }: InferGetServerSidePropsType<typeof getServerSideProps>
   const handlePayment = async () => {
     form.submit()
     console.log('form', JSON.stringify(form.getFieldsValue()))
-    await getPaymentVnpayGetPaymentGet({
-      order_id: order.id,
-      return_url: `${window.location.origin}/payment/callback`,
-    })
-      .then((res) => {
-        if (res.RspCode === '00') {
-          if (res.Message) {
-            window.location.href = res.Message
-          } else {
-            console.error('Error: Message is undefined')
+    await userEditOrderOrderEditPut(
+      { payment_information: JSON.stringify(form.getFieldsValue()) },
+      { order_id: order.id },
+    ).then(async (res) => {
+      console.log('res', res)
+      await getPaymentVnpayGetPaymentGet({
+        order_id: order.id,
+        return_url: `${window.location.origin}/payment/callback`,
+      })
+        .then((res) => {
+          if (res.RspCode === '00') {
+            if (res.Message) {
+              window.location.href = res.Message
+            } else {
+              console.error('Error: Message is undefined')
+            }
           }
-        }
-      })
-      .catch((error) => {
-        console.error('Error fetching payment data:', error)
-      })
+        })
+        .catch((error) => {
+          console.error('Error fetching payment data:', error)
+        })
+    })
   }
   return (
     <div className='relative'>
